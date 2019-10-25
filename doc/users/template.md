@@ -17,58 +17,13 @@ pre.example {
 </style>
 
 # Template
+{: .no_toc}
 
 Scriggo mette a disposizione un avanzato sistema di template, la cui sintassi riprende quella di Go.
 
-## Indice
 
-  * [Introduzione](#introduzione)
-  * [Mostrare valori nel template](#mostrare-valori-nel-template)
-  * [Espressioni](#espressioni)
-    + [Espressioni numeriche](#espressioni-numeriche)
-      - [Tipo int](#tipo-int)
-      - [Tipo float64](#tipo-float64)
-    + [Stringhe](#stringhe)
-    + [Booleani](#booleani)
-    + [Slice](#slice)
-    + [Map](#map)
-  * [Variabili](#variabili)
-    + [Dichiarazione di variabili tramite var](#dichiarazione-di-variabili-tramite-var)
-    + [Assegnamento di un nuovo valore](#assegnamento-di-un-nuovo-valore)
-  * [Controllo di flusso](#controllo-di-flusso)
-    + [Istruzione if](#istruzione-if)
-      - [If else](#if-else)
-    + [Istruzione for](#istruzione-for)
-      - [break in un for](#break-in-un-for)
-      - [continue in un for](#continue-in-un-for)
-      - [for .. range](#for--range)
-      - [for ; ; ;](#for------)
-    + [Istruzione switch](#istruzione-switch)
-      - [break in uno switch](#break-in-uno-switch)
-      - [fallthrough in uno switch](#fallthrough-in-uno-switch)
-  * [Macro](#macro)
-    + [Macro con argomenti](#macro-con-argomenti)
-  * [Template su file multipli](#template-su-file-multipli)
-    + [Istruzione include](#istruzione-include)
-    + [Istruzione import](#istruzione-import)
-    + [Istruzione extends](#istruzione-extends)
-  * [Builtin](#builtin)
-    + [len](#len)
-  * [Avanzate](#avanzate)
-    + [Chiamata di funzioni dal template](#chiamata-di-funzioni-dal-template)
-    + [Commenti](#commenti)
-    + [Builtin panic](#builtin-panic)
-    + [Controllo degli errori nel template in Scriggo](#controllo-degli-errori-nel-template-in-scriggo)
-    + [Scorciatoie per l'assegnamento](#scorciatoie-per-l-assegnamento)
-    + [Accenni alle costanti](#accenni-alle-costanti)
-    + [Array](#array)
-    + [Controllo sul rendering](#controllo-sul-rendering)
-      - [Differenza tra HTML e string](#differenza-tra-html-e-string)
-    + [Concorrenza](#concorrenza)
-      - [Istruzione go](#istruzione-go)
-      - [Istruzione select](#istruzione-select)
-    + [Istruzione defer](#istruzione-defer)
-      - [Builtin recover](#builtin-recover)
+1. TOC
+{:toc}
 
 **TODO: questo documento è attualmente WIP, pertanto contiene errori, imprecisioni, omissioni e sezioni da rimuovere**
 
