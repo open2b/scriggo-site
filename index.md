@@ -23,19 +23,20 @@ For users who use Scriggo in an embedded context.
 
 - [Syntax of the Scriggo scripts]() covers the differences between a _Scriggo script_ and a standard Go program.
 
-## For developers want to use Scriggo
+## For developers who wants to embed Scriggo in their application
 
 If you want to develope an application that uses Scriggo, this is the right section for you.
 It covers the Scriggo APIs and the `scriggo` command line tool.
 
 - [The Scriggo cookbook]() contains a list of ready-to-use recipes that use Scriggo.
 - [godoc.org/scriggo]() the Scriggo APIs documentation, hosted on godoc.org.
+- [The scriggo command line tool]() introduces and describes the use of the command `scriggo`.
 
 ## For developers of Scriggo
 
 For developers who want to develope Scriggo.
 Covers the Scriggo internals, as well as the repository structure.
 
+- [Scriggo internals](doc/developers/internals.md) makes an overview of the internals of Scriggo.
 - [The Scriggo Virtual Machine](/doc/developers/vm.md)
-- [Overview of the Scriggo repository]()
 
