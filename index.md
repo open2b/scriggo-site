@@ -4,8 +4,42 @@
 
 ## What is Scriggo?
 
-
 Scriggo is a fast embedded Go language interpreter.
+
+## Supported syntaxes
+
+Scriggo can support three different kinds of syntaxes.
+
+The first (and the best known) is the **program syntax**, which is exactly the same syntax used by Go.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("I'm Scriggo!")
+}
+```
+
+a syntax similar to programs is the **script syntax**, which is a lightweight version of the program syntax, particulary useful
+in every context where it's important to avoid boilerplate:
+
+```go
+// This is a full and valid script!
+fmt.Println("I'm Scriggo!")
+```
+
+the third syntax is the **template syntax**, that looks like that:
+
+{% raw %}
+```
+{% name := "Scriggo" %}
+{% for i := 0; i < 20 ; i++ %}
+    Welcome to the {{ name }} template!
+{% end for %}
+```
+{% endraw %}
 
 # Documentation
 
