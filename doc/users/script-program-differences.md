@@ -1,4 +1,8 @@
 # Differences between a Scriggo script and a program
+{: .no_toc}
+
+1. TOC
+{:toc}
 
 One of the supported syntaxes of Scriggo is the **script** mode.
 
