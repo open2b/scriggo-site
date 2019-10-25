@@ -1,6 +1,6 @@
 # Scriggo
 
-<img src="images/logo.png" alt="logo" style="width:70%;">
+<!-- <img src="images/logo.png" alt="logo" style="width:70%;"> -->
 
 ## What is Scriggo?
 
