@@ -17,9 +17,15 @@ pre.example {
 }
 </style> -->
 
+
 # Scriggo Virtual Machine
+{: .no_toc}
 
 La macchina virtuale di Scriggo è una macchina virtuale a registri che esegue il bytecode generato dal compilatore di Scriggo a partire da un programma, uno script o un template di Scriggo. 
+
+
+1. TOC
+{:toc}
 
 ## Registri
 
