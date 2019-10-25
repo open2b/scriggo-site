@@ -708,7 +708,14 @@ In questo caso, se la lettura del file non è andata a buon fine, la variabile `
 
 ### Scorciatoie per l'assegnamento
 
-**TODO: ++, --, += etc..**
+Codice | Descrizione
+-------|-------------
+`{% a++ %}` | Incrementa `a` di 1
+`{% a-- %}` | Decrementa `a` di 1
+`{% a += b %}` | Incrementa `a` di `b`
+`{% a -= b %}` | Decrementa `a` di `b`
+
+> Sono disponibili ulteriori forme di assegnamento; a tal proposito si rimanda a [Go Specs - Assegnamenti](https://golang.org/ref/spec#Assignments).
 
 ### Accenni alle costanti
 
