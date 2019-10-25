@@ -31,18 +31,20 @@ Let's take a look at the entire process.
 
 The lexer reads a source code and outputs a list of _tokens_.
 
+![lexer](/images/lexer.png)
 
-For example, given the following source code:
 
-```
-a := 45 + f()
-```
-
-the lexer returns the tokens: `a`, `:=`, `45`, `+`, `f`, `(`, `)`.
+The lexer recognizes all the tokens used by Go plus the ones specific for the template, as `{%`, `%}`, `macro` etc.. To get an overview of the Scriggo template syntax see [the Scriggo Template](/doc/users/template.html).
 
 #### The parser
 
 The **parser** takes the the list of tokens returned by the **lexer** and generates an AST (Abstract Syntax Tree).
+
+![parser](/images/parser.png)
+
+In the parser we can se the first main difference between the _programs_, the _scripts_ and the _templates_.
+For example, the AST representing a program is composed by a tree, that contains a package, that contains a list of declarations.
+On the other hand, a script or a template is a tree that holds a list of statements, and does not contain a package.
 
 #### The type checker
 
@@ -52,12 +54,20 @@ The **type checker** performs several operations on the AST given by the **parse
 1. make a type check
 1. transform the AST, preparing it for the emission
 
+![typechecker](/images/typechecker.png)
+
+The type checker is the first part of the compiler where the Scriggo code get in touch with the _host_; the declarations passed at compilation time are injected into the AST as _predefined values_.
+
 #### The emitter
 
 The *emitter* takes the AST and _emits_ the code that will be intepreted by the virtual machine.
 
+![emitter](/images/emitter.png)
+
+Since the virtual machine knows nothing about programs, template and scripts, the emitter to make them converge into a list of instructions. For instance, the `show` statement in the templates (that renders a value) is emitted as a function call to a function that takes a writer and an expression as arguments.
+
 ### The virtual machine
 
-The Scriggo virtual machine takes the output of the Scriggo compiler and executes it. For a detailed explanation of the virtual machine and to see the set of instructions that it uses, see the section [Virtual Machine](/doc/developers/vm.md).
+The Scriggo virtual machine takes the output of the Scriggo compiler and executes it. For a detailed explanation of the virtual machine and to see the set of instructions that it uses, see the section [Virtual Machine](/doc/developers/vm.html).
 
 {% endraw %}
