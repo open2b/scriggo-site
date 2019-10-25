@@ -1,20 +1,25 @@
+{% raw %}
 <!-- TODO: uniformare {% end .. %} -->
 
 <style>
-    pre.example hr {
-        border-width: 3px;
-        margin-top: 25px;
-    }
-    pre.example {
-        border-style: solid;
-        border-width: 2px;
-        border-radius: 2px;
-        border-color: #A8E6FF;
-        background-color: #ECFAFF;
-    }
+pre.example hr {
+    border-width: 3px;
+    margin-top: 25px;
+}
+pre.example {
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 2px;
+    border-color: #A8E6FF;
+    background-color: #ECFAFF;
+}
 </style>
 
-# Template in Scriggo
+# Template
+
+Scriggo mette a disposizione un avanzato sistema di template, la cui sintassi riprende quella di Go.
+
+## Indice
 
   * [Introduzione](#introduzione)
   * [Mostrare valori nel template](#mostrare-valori-nel-template)
@@ -828,3 +833,5 @@ Si rimanda quindi alla documentazione di quest'ultima:
 - [Blog di Go - Defer, Panic and Recover](https://blog.golang.org/defer-panic-and-recover)
 - [Effective Go - Recover](https://golang.org/doc/effective_go.html#recover)
 - [Specifiche di Go - Gestione dei panic](https://golang.org/ref/spec#Handling_panics)
+
+{% endraw %}
