@@ -9,7 +9,7 @@ The script uses the same syntax of the programs (that is the same syntax of Go),
 3. First-level function declarations can be made using the package level function declaration syntax of Go, but the semantic is unchanged.
 
 
-Let's see some examples. Note that all the following codes are valid scripts.
+Let's see some examples.
 
 ## A simple example
 
@@ -22,7 +22,7 @@ Note that the `package` clause, just like the `func main() { .. }` declaration i
 
 ## Function declarations
 
-Now let's see an example that includes function declarations:
+Now let's see a more complex example that includes a function declaration:
 
 ```go
 func SayHello(lang string) {
@@ -38,13 +38,25 @@ func SayHello(lang string) {
     }
 }
 
-SayHello("en")
-SayHello("it")
+for _, lang := range []string{"en", "it", "es", "jp"} {
+    SayHello(lang)
+}
 ```
 
 the function declaration `func SayHello(..` is internally handled as `SayHello := func(..`.
 
-As you may have guessed, a function that is still not declared cannot be called.
+As you may have guessed, a function that is still not declared cannot be called, so *the functions must be declared before they are used*.
+
+```go
+
+Answer() // <- ERROR!
+
+func Answer() int {
+    return 42
+}
+
+Answer() // 42
+```
 
 ## Imports in scripts
 
@@ -52,8 +64,9 @@ A script can import other packages with the same syntax used by a program.
 
 ```go
 import "fmt"
+import . "math"
 
-fmt.Println("Ohoho!")
+fmt.Println("Ohoho! " + MaxInt8)
 ```
 
 ## Equivalent program for a script
