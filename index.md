@@ -1,5 +1,7 @@
 <img src="images/logo.png" alt="logo" style="width:70%;">
 
+Prova [doc/template.md](doc/template.md)
+
 <!-- ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/open2b/open2b.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
