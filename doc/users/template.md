@@ -1,4 +1,3 @@
-{% include /navbar.html %}
 {% raw %}
 <!-- TODO: uniformare {% end .. %} -->
 
