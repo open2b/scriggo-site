@@ -33,7 +33,7 @@ fmt.Println("I'm Scriggo!")
 the third syntax is the **template syntax**, that looks like that:
 
 {% raw %}
-```
+```go
 {% name := "Scriggo" %}
 {% for i := 0; i < 20 ; i++ %}
     Welcome to the {{ name }} template!
@@ -55,7 +55,7 @@ For designers who want to work with the Scriggo template.
 
 For users who use Scriggo in an embedded context.
 
-- [Syntax of the Scriggo scripts]() covers the differences between a _Scriggo script_ and a standard Go program.
+- [Scriggo scripts vs Scriggo programs](/doc/users/script-program-differences.html) covers the differences between a _Scriggo script_ and a standard Go program.
 
 ## For developers who wants to embed Scriggo in their application
 
