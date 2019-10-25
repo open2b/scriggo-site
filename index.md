@@ -2,7 +2,7 @@
 
 ## A fast embedded Go language interpreter 
 
-<img src="images/logo.png" alt="logo" style="width:40%"></img>
+<img src="images/logo.png" alt="logo" style="width:70%;">
 
 <!-- ## Welcome to GitHub Pages
 
