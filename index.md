@@ -45,28 +45,28 @@ the third syntax is the **template syntax**, that looks like that:
 
 Here you can find some useful resources that cover from the first steps with Scriggo as user to the most advanced details on the Scriggo internal implementation.
 
-## For designers
+## Write Scriggo templates
 
 For designers who want to work with the Scriggo template.
 
 - [The Scriggo template](/doc/users/template.md) covers the usage of the Scriggo template starting from the simplest pages.
 
-## For users of Scriggo
+## Write Scriggo scripts and programs
 
-For users who use Scriggo in an embedded context.
+For users who use Scriggo in an embedded context or through an interpreter.
 
 - [Scriggo scripts vs Scriggo programs](/doc/users/script-program-differences.html) covers the differences between a _Scriggo script_ and a standard Go program.
 
-## For developers who wants to embed Scriggo in their application
+## Embed Scriggo in your application
 
 If you want to develope an application that uses Scriggo, this is the right section for you.
 It covers the Scriggo APIs and the `scriggo` command line tool.
 
-- [The Scriggo cookbook]() contains a list of ready-to-use recipes that use Scriggo.
+- [Get started embedding Scriggo]()
 - [godoc.org/scriggo]() the Scriggo APIs documentation, hosted on godoc.org.
 - [The scriggo command line tool]() introduces and describes the use of the command `scriggo`.
 
-## For developers of Scriggo
+## Internals of Scriggo
 
 For developers who want to develope Scriggo.
 Covers the Scriggo internals, as well as the repository structure.
