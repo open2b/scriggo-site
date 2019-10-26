@@ -113,21 +113,21 @@ Si noti che in questo caso il secondo operando è la costante `3` e non il regis
 The `Add` instructions sum the operands addressed by `i1` and `i2` (or `f1` and `f2`) and stores the result in `i3` (or `f3`).
 
 ```go
-Syntax:  Add   i1 i2 i3   ; Function:  i3 = i1 + i2
-         Add   f1 f2 f3   ;            f3 = f1 + f2
-         Add8  i1 i2 i3   ;            i3 = i1 + i2
-         Add16 i1 i2 i3   ;            i3 = i1 + i2
-         Add32 i1 i2 i3   ;            i3 = i1 + i2
-         Add32 f1 f2 f3   ;            f3 = f1 + f2
+Syntax:  Add   i1 i2 i3   ; description: i3 = i1 + i2
+         Add   f1 f2 f3   ;              f3 = f1 + f2
+         Add8  i1 i2 i3   ;              i3 = i1 + i2
+         Add16 i1 i2 i3   ;              i3 = i1 + i2
+         Add32 i1 i2 i3   ;              i3 = i1 + i2
+         Add32 f1 f2 f3   ;              f3 = f1 + f2
 ```
 The second operand can be an integer constant `c` between -127 and 126:
 ```go
-Syntax:  Add   i1 c i3   ; Function:  i3 = i1 + c
-         Add   f1 c f3   ;            f3 = f1 + c
-         Add8  i1 c i3   ;            i3 = i1 + c
-         Add16 i1 c i3   ;            i3 = i1 + c
-         Add32 i1 c i3   ;            i3 = i1 + c
-         Add32 f1 c f3   ;            f3 = f1 + c
+Syntax:  Add   i1 c i3   ; description: i3 = i1 + c
+         Add   f1 c f3   ;              f3 = f1 + c
+         Add8  i1 c i3   ;              i3 = i1 + c
+         Add16 i1 c i3   ;              i3 = i1 + c
+         Add32 i1 c i3   ;              i3 = i1 + c
+         Add32 f1 c f3   ;              f3 = f1 + c
 ```
 
 ### Addr
@@ -135,8 +135,8 @@ Syntax:  Add   i1 c i3   ; Function:  i3 = i1 + c
 The instruction `Addr` takes the address of a slice element, array element, struct field or pointer to struct field and store the value in `dst`. 
 
 ```go
-Syntax:  Addr src i dst   ; Function:  dst = &src[i1]
-         Addr src i dst   ;            dst = &src.f   // i is the index of the field src.f
+Syntax:  Addr src i dst   ; description: dst = &src[i1]
+         Addr src i dst   ;              dst = &src.f   // i is the index of the field src.f
 ```
 
 ### Alloc
@@ -144,8 +144,8 @@ Syntax:  Addr src i dst   ; Function:  dst = &src[i1]
 The instruction `Alloc` allocates the memory used by the next instruction or allocates a fixed bytes of memory. If the memory is not limited, `Alloc` is a no-op.
 
 ```go
-Syntax:  Alloc     ; Function: allocates memory used by the next instruction
-         Alloc n   ;           allocates n bytes of memory
+Syntax:  Alloc     ; description: allocates memory used by the next instruction
+         Alloc n   ;              allocates n bytes of memory
 ```
 Allocation of memory is necessary only to control the memory usage during the execution. The compiler adds `Alloc` instructions if the `LimitMemorySize` option is used when loading a program, script or template.
 
@@ -154,7 +154,7 @@ Allocation of memory is necessary only to control the memory usage during the ex
 The instruction `And` computes the bitwise AND of the two operands addressed by i1 and i2 and stores the result in the i3 operand.
 
 ```go
-Syntax:  And i1 i2 i3  ; Function: i3 = i1 & i2
+Syntax:  And i1 i2 i3  ; description: i3 = i1 & i2
 ```
 
 ### AndNot
@@ -162,7 +162,7 @@ Syntax:  And i1 i2 i3  ; Function: i3 = i1 & i2
 The instruction `AndNot` computes the AND NOT (bit clear) of the two operands addressed by i1 and i2 and stores the result in the i3 operand.
 
 ```go
-Syntax:  And i1 i2 i3  ; Function: i3 = i1 &^ i2
+Syntax:  And i1 i2 i3  ; description: i3 = i1 &^ i2
 ```
 
 ### Append
@@ -172,7 +172,7 @@ The instruction `Append` appends `length` values to the slice in the register `d
 `start` and `length` are integer constant between 1 and 126.
 
 ```go
-Syntax:  Append start length dst  ; Function: dst = append(dst, regs[start:start+length]...)
+Syntax:  Append start length dst  ; description: dst = append(dst, regs[start:start+length]...)
 ```
 
 ### AppendSlice
@@ -180,7 +180,7 @@ Syntax:  Append start length dst  ; Function: dst = append(dst, regs[start:start
 The instruction `AppendSlice` appends the slice in the register `src` to the slice in the register `dst` and store the resulting slice in the register `dst`. The two slices have the same type.  
 
 ```go
-Syntax:  AppendSlice src dst  ; Function: dst = append(dst, src...)
+Syntax:  AppendSlice src dst  ; description: dst = append(dst, src...)
 ```
 
 ### Assert
@@ -188,7 +188,7 @@ Syntax:  AppendSlice src dst  ; Function: dst = append(dst, src...)
 The instruction `Assert` does the type assertion `s.(T)` where `s` is the value of the general register at index `src` and `T` is the type in the type register at index `typ`.
 
 ```go
-Syntax:  Assert src typ dst  ; Function: dst, ok = s.(T)
+Syntax:  Assert src typ dst  ; description: dst, ok = s.(T)
 ```
 
 If the type assertion successes, it stores the the resulting value into the register at index `dst` (the register type depends on the type `T`), sets the VM field `ok` to `true` and skips the next instruction.
@@ -204,7 +204,7 @@ TODO: to be removed?
 The instruction `Break` breaks a previous executed `Range` instruction at label `label`.
 
 ```go
-Syntax:  Break label  ; Function: break label
+Syntax:  Break label  ; description: break label
 ```
 
 ### Call
@@ -212,7 +212,7 @@ Syntax:  Break label  ; Function: break label
 The instruction `Call` calls the function at `current.Functions[f]` where `current` is the current executed function. 
 
 ```go
-Syntax:  Call f  ; Function: f(...)
+Syntax:  Call f  ; description: f(...)
 ```
 
 The instruction `Call` is 8 bytes long and the last 4 bytes stores... (TODO)
@@ -230,7 +230,7 @@ TODO
 The instruction `Cap` gets the cap of the slice at the general register `src` and stores it in the integer register `dst`. 
 
 ```go
-Syntax:  Cap src dst  ; Function: dst = cap(src)
+Syntax:  Cap src dst  ; description: dst = cap(src)
 ```
 
 ### Case
@@ -242,7 +242,7 @@ TODO
 The instruction `Close` closes the channel at the general register `ch`. Closing a closed channel or a `nil` channel causes a run-time panic.  
 
 ```go
-Syntax:  Close ch  ; Function: close(ch)
+Syntax:  Close ch  ; description: close(ch)
 ```
 
 ### Complex64
@@ -250,7 +250,7 @@ Syntax:  Close ch  ; Function: close(ch)
 The instruction `Complex64` assembles a `complex64` value from the `float32` values in the float registers `re` and `im` and stores the resulting complex in the general register `cmpx`.
 
 ```go
-Syntax:  Complex64 re im cmpx  ; Function: cmpx = complex(re, im)
+Syntax:  Complex64 re im cmpx  ; description: cmpx = complex(re, im)
 ```
 
 ### Complex128
@@ -258,7 +258,7 @@ Syntax:  Complex64 re im cmpx  ; Function: cmpx = complex(re, im)
 The instruction `Complex128` assembles a `complex128` value from the `float64` values in the float registers `re` and `im` and stores the resulting complex in the general register `cmpx`.
 
 ```go
-Syntax:  Complex128 re im cmpx  ; Function: cmpx = complex(re, im)
+Syntax:  Complex128 re im cmpx  ; description: cmpx = complex(re, im)
 ```
 
 ### Continue
@@ -266,7 +266,7 @@ Syntax:  Complex128 re im cmpx  ; Function: cmpx = complex(re, im)
 The instruction `Continue` begins the next iteration of the previous executed `Range` instruction at label `label`.  
  
 ```go
-Syntax:  Continue label  ; Function: continue label
+Syntax:  Continue label  ; description: continue label
 ```
 
 ### ConvertGeneral
@@ -274,7 +274,7 @@ Syntax:  Continue label  ; Function: continue label
 The instruction `ConvertGeneral` converts the value at general register `src` to the type `T` at `current.Types[typ]`, where `current` is the current running function. The converted value is stored in the general register `dst` or, if the converted value is a string, in the string register `dst`.     
 
 ```go
-Syntax:  ConvertGeneral src typ dst ; Function: dst = T(src)
+Syntax:  ConvertGeneral src typ dst ; description: dst = T(src)
 ```
 
 ### ConvertInt
@@ -282,7 +282,7 @@ Syntax:  ConvertGeneral src typ dst ; Function: dst = T(src)
 The instruction `ConvertInt` converts the signed integer value at int register `src` to the type `T` at `current.Types[typ]`, where `current` is the current running function. The converted value is stored in the int, float or string register `dst` depending of the type `T`.     
 
 ```go
-Syntax:  ConvertInt src typ dst ; Function: dst = T(src)
+Syntax:  ConvertInt src typ dst ; description: dst = T(src)
 ```
 
 ### ConvertUint
@@ -290,7 +290,7 @@ Syntax:  ConvertInt src typ dst ; Function: dst = T(src)
 The instruction `ConvertInt` converts the unsigned integer value at int register `src` to the type `T` at `current.Types[typ]`, where `current` is the current running function. The converted value is stored in the int, float or string register `dst` depending of the type `T`.     
 
 ```go
-Syntax:  ConvertUint src typ dst ; Function: dst = T(src)
+Syntax:  ConvertUint src typ dst ; description: dst = T(src)
 ```
 
 ### ConvertFloat
@@ -298,7 +298,7 @@ Syntax:  ConvertUint src typ dst ; Function: dst = T(src)
 The instruction `ConvertFloat` converts the floating point value at float register `src` to the type `T` at `current.Types[typ]`, where `current` is the current running function. The converted value is stored in the int or float register `dst` depending of the type `T`.     
 
 ```go
-Syntax:  ConvertFloat src typ dst ; Function: dst = T(src)
+Syntax:  ConvertFloat src typ dst ; description: dst = T(src)
 ```
 
 ### ConvertString
@@ -306,7 +306,7 @@ Syntax:  ConvertFloat src typ dst ; Function: dst = T(src)
 The instruction `ConvertString` converts the string value at string register `src` to the type `T` at `current.Types[typ]`, where `current` is the current running function. The converted value is stored in the general register `dst`.
 
 ```go
-Syntax:  ConvertString src typ dst ; Function: dst = T(src)
+Syntax:  ConvertString src typ dst ; description: dst = T(src)
 ```
 
 ### Concat
@@ -314,7 +314,7 @@ Syntax:  ConvertString src typ dst ; Function: dst = T(src)
 The instruction `Concat` concatenates the string values at string registers `src1` and `src2` and stores the resulting string at register `dst`.
 
 ```go
-Syntax:  Concat src1 src2 dst ; Function: dst = src1 + src2
+Syntax:  Concat src1 src2 dst ; description: dst = src1 + src2
 ```
 
 ### Copy
@@ -322,7 +322,7 @@ Syntax:  Concat src1 src2 dst ; Function: dst = src1 + src2
 The instruction `Copy` copies the elements of the slice at general register `src` to the slice at general register `dst`. If `n` is not zero, `Copy` store in the integer register `n` the number of elements copied.         
 
 ```go
-Syntax:  Copy src n dst ; Function: n = copy(dst, src)
+Syntax:  Copy src n dst ; description: n = copy(dst, src)
 ```
 
 ### Defer
@@ -330,7 +330,7 @@ Syntax:  Copy src n dst ; Function: n = copy(dst, src)
 The instruction `Defer` defers the execution of the function at general register `f`.         
 
 ```go
-Syntax:  Defer f ; Function: defer f() { ... }
+Syntax:  Defer f ; description: defer f() { ... }
 ```
 
 TODO: to be completed.
@@ -340,7 +340,7 @@ TODO: to be completed.
 The instruction `Delete` removes the element with key in the general register `k` from the map in the general register `m`.
 
 ```go
-  Syntax:  Delete m k; Function: delete(m, k)
+  Syntax:  Delete m k; description: delete(m, k)
 ```
 
 ### Div, Div8, Div16, Div32
@@ -348,21 +348,21 @@ The instruction `Delete` removes the element with key in the general register `k
 The `Div` instructions divide the operands at int registers `i1` and `i2` ( or float register `f1` and `f2` ) and stores the result in the int register `i3` ( or float register `f3` ). Dividing by zero causes a run-time error.
 
 ```go
-Syntax:  Div   i1 i2 i3   ; Function:  i3 = i1 / i2
-         Div   f1 f2 f3   ;            i3 = i1 / i2
-         Div8  i1 i2 i3   ;            i3 = i1 / i2
-         Div16 i1 i2 i3   ;            i3 = i1 / i2
-         Div32 i1 i2 i3   ;            i3 = i1 / i2
-         Div32 f1 f2 f3   ;            f3 = f1 / f2
+Syntax:  Div   i1 i2 i3   ; description: i3 = i1 / i2
+         Div   f1 f2 f3   ;              i3 = i1 / i2
+         Div8  i1 i2 i3   ;              i3 = i1 / i2
+         Div16 i1 i2 i3   ;              i3 = i1 / i2
+         Div32 i1 i2 i3   ;              i3 = i1 / i2
+         Div32 f1 f2 f3   ;              f3 = f1 / f2
 ```
 The second operand can be an integer constant `c` between -127 and 126, excluding 0.
 ```go
-Syntax:  Div   i1 c i3   ; Function:  i3 = i1 / c
-         Div   f1 c f3   ;            f3 = f1 / c
-         Div8  i1 c i3   ;            i3 = i1 / c
-         Div16 i1 c i3   ;            i3 = i1 / c
-         Div32 i1 c i3   ;            i3 = i1 / c
-         Div32 f1 c f3   ;            f3 = f1 / c
+Syntax:  Div   i1 c i3   ; description: i3 = i1 / c
+         Div   f1 c f3   ;              f3 = f1 / c
+         Div8  i1 c i3   ;              i3 = i1 / c
+         Div16 i1 c i3   ;              i3 = i1 / c
+         Div32 i1 c i3   ;              i3 = i1 / c
+         Div32 f1 c f3   ;              f3 = f1 / c
 ```
 
 ### DivU, DivU8, DivU16, DivU32
@@ -370,17 +370,17 @@ Syntax:  Div   i1 c i3   ; Function:  i3 = i1 / c
 The `DivU` instructions divide the unsigned integer operands at int registers `i1` and `i2` and stores the result in the int register `i3`. Dividing by zero causes a run-time error.   
 
 ```go
-Syntax:  DivU   i1 i2 i3   ; Function:  i3 = i1 / i2
-         DivU8  i1 i2 i3   ;            i3 = i1 / i2
-         DivU16 i1 i2 i3   ;            i3 = i1 / i2
-         DivU32 i1 i2 i3   ;            i3 = i1 / i2
+Syntax:  DivU   i1 i2 i3   ; description: i3 = i1 / i2
+         DivU8  i1 i2 i3   ;              i3 = i1 / i2
+         DivU16 i1 i2 i3   ;              i3 = i1 / i2
+         DivU32 i1 i2 i3   ;              i3 = i1 / i2
 ```
 The second operand can be an integer constant `c` between 1 and 256:
 ```go
-Syntax:  DivU   i1 c i3   ; Function:  i3 = i1 / c
-         DivU8  i1 c i3   ;            i3 = i1 / c
-         DivU16 i1 c i3   ;            i3 = i1 / c
-         DivU32 i1 c i3   ;            i3 = i1 / c
+Syntax:  DivU   i1 c i3   ; description: i3 = i1 / c
+         DivU8  i1 c i3   ;              i3 = i1 / c
+         DivU16 i1 c i3   ;              i3 = i1 / c
+         DivU32 i1 c i3   ;              i3 = i1 / c
 ```
 
 ### Field
@@ -388,7 +388,7 @@ Syntax:  DivU   i1 c i3   ; Function:  i3 = i1 / c
 The instruction `Field` gets the value the field at index `idx` of the pointer to struct in the global register `src` and stores the value into the register `dst` which type depends on the field's type.
 
 ```go
-  Syntax:  Field src idx dst; Function: dst = src.F // where F is the field at index idx
+  Syntax:  Field src idx dst; description: dst = src.F // where F is the field at index idx
 ```
 
 {% endraw %}
