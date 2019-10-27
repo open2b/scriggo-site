@@ -231,7 +231,7 @@ Syntax:  Cap s c ; description: c = cap(s)
 
 ### Case
 
-The instruction `Case` adds a new case to the cases that can be chosen by a subsequent `Select` statement.
+The instruction `Case` defines a new case that can be chosen by a subsequent `Select` statement.
 
 If the statement `Select` chooses a `Send` case, it sends the value addressed by `v` to the channel `ch`.
 If the statement `Select` chooses a `Recv` case, it receives from the channel addressed by `ch` and stores the value in `v`.
@@ -669,7 +669,7 @@ Syntax:  RightShift a n b   ; description: b = a >> n
 
 ### Select 
 
-The instruction `Select` chooses a case from one of the cases previously added by a `Case` instruction and jumps to instruction that follows the chosen `Case`. 
+The instruction `Select` chooses a case from one of the cases defined by previously executed `Case` instructions, executes a send or receive depending on the case, clears all the cases previously defined and jumps to instruction that follows the chosen `Case` instruction.   
 
 ```go
 Syntax:  Select ; description: select
