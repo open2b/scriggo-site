@@ -184,10 +184,6 @@ If the type assertion successes, it stores the the resulting value into the regi
 
 If the type assertion fails, sets the VM field `ok` to `false` and, if the next instruction is a `Panic`, does a run-time panic. TODO: document the `Panic` operand.     
 
-### Bind
-
-TODO: to be removed?
-
 ### Break
 
 The instruction `Break` breaks a previous executed `Range` instruction at label `label`.
