@@ -631,10 +631,10 @@ The `Rem` instructions compute the remainder of the operands addressed by `a` an
 The second operand `b` can be an integer constant between 1 and 256:
 
 ```go
-Syntax:  Rem   a b c ; description: c = a / b // for int, int64 and float64
-         Rem8  a b c ;              c = a / b // for int8
-         Rem16 a b c ;              c = a / b // for int32
-         Rem32 a b c ;              c = a / b // for int32 and float32
+Syntax:  Rem   a b c ; description: c = a % b // for int and int64
+         Rem8  a b c ;              c = a % b // for int8
+         Rem16 a b c ;              c = a % b // for int32
+         Rem32 a b c ;              c = a % b // for int32
 ```
 
 ### RemU, RemU8, RemU16, RemU32
@@ -644,10 +644,10 @@ The `RemU` instructions compute the remainder of the operands addressed by `a` a
 The second operand `b` can be an integer constant between 1 and 256:
 
 ```go
-Syntax:  RemU   a b c ; description: c = a / b // for uint and unt64
-         RemU8  a b c ;              c = a / b // for uint8
-         RemU16 a b c ;              c = a / b // for uint32
-         RemU32 a b c ;              c = a / b // for uint32
+Syntax:  RemU   a b c ; description: c = a % b // for uint and unt64
+         RemU8  a b c ;              c = a % b // for uint8
+         RemU16 a b c ;              c = a % b // for uint32
+         RemU32 a b c ;              c = a % b // for uint32
 ```
 
 ### Return 
