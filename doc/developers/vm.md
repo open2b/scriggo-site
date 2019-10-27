@@ -107,7 +107,7 @@ Note that in this case the second operand is the constant `3` and not the regist
 
 ### Add, Add8, Add16 and Add32
 
-The `Add` instructions sum the operands addressed by `a` and `b` and stores the result in `c`.
+The `Add` instructions sum the operands addressed by `a` and `b` and store the result in `c`.
 
 The second operand `b` can be an integer constant between -127 and 126:
 
@@ -283,7 +283,7 @@ Syntax:  Continue label ; description: continue label
 
 ### Convert, ConvertU
 
-The `Convert` instructions convert the value addressed by `x` to a value of type `T` and stores it in `v`.
+The `Convert` instructions convert the value addressed by `x` to a value of type `T` and store it in `v`.
 
 `ConvertU` is like `Convert` but converts unsigned integer values.
 
@@ -328,7 +328,7 @@ The instruction `Delete` removes from the map addressed by `m` the element with 
 
 ### Div, Div8, Div16, Div32
 
-The `Div` instructions divide the operands addressed by `a` and `b` and stores the result in `c`.
+The `Div` instructions divide the operands addressed by `a` and `b` and store the result in `c`.
 
 The second operand `b` can be an integer constant between 1 and 256:
 
@@ -507,7 +507,7 @@ Syntax:  Move s d ; description: d = s
 
 ### Mul, Mul8, Mul16, Mul32
 
-The `Mul` instructions multiply the operands addressed by `a` and `b` and stores the result in `c`.
+The `Mul` instructions multiply the operands addressed by `a` and `b` and store the result in `c`.
 
 The second operand `b` can be an integer constant between -127 and 126:
 
@@ -630,7 +630,7 @@ Recover DownTheStack v
 
 ### Rem, Rem8, Rem16, Rem32
 
-The `Rem` instructions compute the remainder of the operands addressed by `a` and `b` and stores the result in `c`. The operands are floating point or signed integers. For the remainder on unsigned integers see `RemU` instructions. 
+The `Rem` instructions compute the remainder of the operands addressed by `a` and `b` and store the result in `c`. The operands are floating point or signed integers. For the remainder on unsigned integers see `RemU` instructions. 
 
 The second operand `b` can be an integer constant between 1 and 256:
 
@@ -643,7 +643,7 @@ Syntax:  Rem   a b c ; description: c = a / b // for int, int64 and float64
 
 ### RemU, RemU8, RemU16, RemU32
 
-The `RemU` instructions compute the remainder of the operands addressed by `a` and `b` and stores the result in `c`. The operands are unsigned integers. For the remainder on floating point and signed integers see `Rem` instructions. 
+The `RemU` instructions compute the remainder of the operands addressed by `a` and `b` and store the result in `c`. The operands are unsigned integers. For the remainder on floating point and signed integers see `Rem` instructions. 
 
 The second operand `b` can be an integer constant between 1 and 256:
 
@@ -664,7 +664,7 @@ Syntax:  Return ; description: return
 
 ### RightShift and RightShiftU 
 
-The `RightShift` instructions compute the right shift of the operand addressed by `a` with shift count `n` and stores the result in `c`. `RightShift` operates on signed integers and `RightShiftU` on unsigned integers. 
+The `RightShift` instructions compute the right shift of the operand addressed by `a` with shift count `n` and store the result in `c`. `RightShift` operates on signed integers and `RightShiftU` on unsigned integers. 
 
 ```go
 Syntax:  RightShift a n c   ; description: c = a >> n
@@ -765,7 +765,7 @@ Syntax:  Slice src low high dst     ; description: dst = src[low:high]
 
 ### Sub, Sub8, Sub16 and Sub32
 
-The `Sub` instructions subtract the operand addressed by `b` from the operand addressed by `a` and stores the result in `c`.
+The `Sub` instructions subtract the operand addressed by `b` from the operand addressed by `a` and store the result in `c`.
 
 `b` can be an integer constant between -127 and 126:
 
@@ -778,7 +778,7 @@ Syntax:  Sub   a b c ; description: c = a - b // for int, int64 and float64
 
 ### SubInv, SubInv8, SubInv16 and SubInv32
 
-The `SubInv` instructions subtract the operand addressed by `a` from the operand addressed by `b` and stores the result in `c`.
+The `SubInv` instructions subtract the operand addressed by `a` from the operand addressed by `b` and store the result in `c`.
 
 `b` can be an integer constant between -127 and 126:
 
