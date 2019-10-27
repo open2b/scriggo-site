@@ -198,13 +198,24 @@ Syntax:  Break label ; description: break label
 
 ### Call
 
-The instruction `Call` calls the function addresses by `f`. The operand `f` is an index in the `Functions` slice of the current running function. 
+The instruction `Call` calls the function `fn` with arguments references by `i`, `f`, `s` and `g`. 
+
+1. `i` is the first integer register from which to read integer arguments.
+2. `f` is the first floating point register from which to read floating point arguments.
+3. `s` is the first string register from which to read string arguments.
+4. `g` is the first general register from which to read all the other arguments.
+
+`i`, `f`, `s` and `g` may be the empty identifier if there are no such arguments.
 
 ```go
-Syntax:  Call f ; description: f(...)
+Syntax:  Call fn i f s g ; description: fn(...)
 ```
 
-The instruction `Call` is 8 bytes long and the last 4 bytes stores... (TODO)
+Example:
+
+```go
+Call fmt.Printf _ _ s2 g1
+```
 
 ### CallIndirect
 
@@ -216,7 +227,7 @@ TODO
 
 ### Cap
 
-The instruction `Cap` gets the cap of the slice addresses by `s` and stores it in `c`. 
+The instruction `Cap` gets the cap of the slice or channel addresses by `s` and stores it in `c`. 
 
 ```go
 Syntax:  Cap s c ; description: c = cap(s)
@@ -224,7 +235,19 @@ Syntax:  Cap s c ; description: c = cap(s)
 
 ### Case
 
-TODO
+The instruction `Case` adds a new case to the cases that can be chosen by a subsequent `Select` statement.
+
+If the statement `Select` chooses a `Send` case, it sends the value addressed by `v` to the channel `ch`.
+If the statement `Select` chooses a `Recv` case, it receives from the channel addressed by `ch` and stores the value in `v`.
+If the statement `Select` chooses a `Default` case, it does nothing.
+
+See the [Select](#select) instruction for how to use `Case` with `Select`.
+
+```go
+Syntax:  Case Send v ch ; description: case ch <- v:
+         Case Recv ch v ; description: case v = <-ch:
+         Case Default   ; description: default:
+``` 
 
 ### Close
 
@@ -236,18 +259,18 @@ Syntax:  Close ch ; description: close(ch)
 
 ### Complex64
 
-The instruction `Complex64` assembles a `complex64` value from the `float32` values addressed by `re` and `im` and stores the resulting complex in `cmpx`.
+The instruction `Complex64` assembles a `complex64` value from the `float32` values addressed by `re` and `im` and stores the resulting complex in `c`.
 
 ```go
-Syntax:  Complex64 re im cmpx ; description: cmpx = complex(re, im)
+Syntax:  Complex64 re im c ; description: c = complex(re, im)
 ```
 
 ### Complex128
 
-The instruction `Complex128` assembles a `complex128` value from the `float64` values addressed by `re` and `im` and stores the resulting complex in `cmpx`.
+The instruction `Complex128` assembles a `complex128` value from the `float64` values addressed by `re` and `im` and stores the resulting complex in `c`.
 
 ```go
-Syntax:  Complex128 re im cmpx ; description: cmpx = complex(re, im)
+Syntax:  Complex128 re im c ; description: c = complex(re, im)
 ```
 
 ### Continue
@@ -300,7 +323,7 @@ TODO: to be completed.
 The instruction `Delete` removes from the map addressed by `m` the element with key addressed by `k`.
 
 ```go
-  Syntax:  Delete m k; description: delete(m, k)
+  Syntax:  Delete m k ; description: delete(m, k)
 ```
 
 ### Div, Div8, Div16, Div32
@@ -321,7 +344,461 @@ Syntax:  Div   a b c ; description: c = a / b // for int, int64 and float64
 The instruction `Field` gets from the struct pointer referred by `s` the field at the index referred by `i` and stores its value in `v`.
 
 ```go
-  Syntax:  Field s i v; description: v = s.f // where f is the field of s at index i
+  Syntax:  Field s i v ; description: v = s.f // where f is the field of s at index i
+```
+
+### Func
+
+TODO.
+
+### GetFunc
+
+The instruction `GetFunc` gets (TODO).
+
+```go
+  Syntax:  GetFunc p i c ; description:
+```
+
+### GetVar
+
+The instruction `GetVar` gets (TODO).
+
+```go
+  Syntax:  GetVar i c ; description:
+```
+
+### Go
+
+The instruction `Go` runs the following `Call` or `CallIndirect` instruction in a new goroutine.
+
+```go
+  Syntax:  Go ; description: go
+```
+
+Example:
+
+```go
+Go
+Call fn i f s g
+```
+
+### Goto
+
+The instruction `Goto` transfers control to the instruction with the corresponding label within the same function.
+
+```go
+  Syntax:  Goto label ; description: goto label
+```
+
+### If and IfU
+
+The `If` instructions skip the next instruction if the condition is `true`. The instruction `IfU` is used for unsigned integers.
+
+```go
+  Syntax:  If a Not                 ; description: if !a
+           If a Nil                 ;              if a == nil
+           If a NotNil              ;              if a != nil
+           If a InternerfaceNil     ;              if a == nil // where a has an interface type
+           If a InternerfaceNotNil  ;              if a != nil // where a has an interface type
+           If a Equal b             ;              if a == b
+           If a NotEqual b          ;              if a != b
+           If a Less b              ;              if a < b
+           If a LessOrEqual b       ;              if a <= b
+           If a Greater b           ;              if a > b
+           If a GreaterOrEqual b    ;              if a >= b
+           If a EqualLen b          ;              if len(a) == len(b)
+           If a NotEqualLen b       ;              if len(a) != len(b)
+           If a LessLen b           ;              if len(a) < len(b)
+           If a LessOrEqualLen b    ;              if len(a) <= len(b)
+           If a GreaterLen b        ;              if len(a) > len(b)
+           If a GreaterOrEqualLen b ;              if len(a) >= len(b)
+           If OK                    ;              if vm.ok
+           If NotOK                 ;              if !vm.ok
+
+           IfU a Less b             ;              if a < b
+           IfU a LessOrEqual b      ;              if a <= b
+           IfU a Greater b          ;              if a > b
+           IfU a GreaterOrEqual b   ;              if a >= b
+```
+
+### Index
+
+The instruction `Index` gets, from the slice or string referred by `s`, the element at the index referred by `i` and stores its value in `v`.
+
+```go
+  Syntax:  Index s i v ; description: v = s[i]
+```
+
+### LeftShift
+
+The instruction `LeftShift` computes the left shift of the operand addressed by `a` with shift count `n` and stores the result in `c`.
+
+```go
+Syntax:  LeftShift a n c  ; description: c = a << n
+```
+
+### Len
+
+The instruction `Len` gets the length of the slice, string or channel addressed by `s` and stores it in `c`. 
+
+```go
+Syntax:  Len s n ; description: n = len(s)
+```
+
+### LoadData
+
+The instruction `LoadData` loads a slice of bytes from `vm.fn.Data` at index `i` and stores it in `dst`. 
+
+```go
+Syntax:  LoadData i dst ; description: dst = vm.fn.Data[i]
+```
+
+### LoadNumber
+
+The instruction `LoadNumber` loads an integer from `vm.fn.Int` or a float from `vm.fn.Float` at index `i` and stores it in `dst`. 
+
+```go
+Syntax:  LoadNumber i dst ; description: dst = vm.fn.Int[i]   // when dst is a int register
+                                         dst = vm.fn.Float[i] // when dst is a float register
+```
+
+### MakeChan
+
+The instruction `MakeChan` makes a channel with type `T` and buffer size addressed by `s` and stores it in `d`.
+
+```go
+Syntax:  MakeChan T s d ; description: d = make(T, s)
+```
+
+### MakeMap
+
+The instruction `MakeMap` makes a map with type `T` and size addressed by `s` and stores it in `d`.
+
+```go
+Syntax:  MakeMap T s d ; description: d = make(T, s)
+```
+### MakeSlice
+
+The instruction `MakeSlice` makes a slice with type `T`, length addressed by `s`, cap addressed by `c` and stores it in `d`.
+
+```go
+Syntax:  MakeSlice T s c d ; description: d = make(T, s, c)
+```
+
+### MapIndex
+
+The instruction `MapIndex` gets from the map addressed by `m` the element with key addressed by `k` and stores its value in `v`.
+
+```go
+  Syntax:  MapIndex m k v ; description: v = m[k]
+```
+
+### MethodValue
+
+TODO
+
+### Move
+
+The instruction `Move` copies the value addressed by `s` to `d`.
+
+```go
+Syntax:  Move s d ; description: d = s
+```
+
+### Mul, Mul8, Mul16, Mul32
+
+The `Mul` instructions multiply the operands addressed by `a` and `b` and stores the result in `c`.
+
+The second operand `b` can be an integer constant between -127 and 126:
+
+```go
+Syntax:  Mul   a b c ; description: c = a * b // for int, int64 and float64
+         Mul8  a b c ;              c = a * b // for int8
+         Mul16 a b c ;              c = a * b // for int32
+         Mul32 a b c ;              c = a * b // for int32 and float32
+```
+
+### New
+
+The instruction `New` allocates storage for a variable of type `T` and stores a pointer to this variable in `v`.
+
+```go
+Syntax:  New T v ; description: v = new(T)
+```
+
+### Or
+
+The instruction `Or` computes the bitwise OR of the operands addressed by `a` and `b` and stores the result in `c`.
+
+```go
+Syntax:  Or a b c  ; description: c = a | b
+```
+
+### Panic
+
+The instruction `Panic` panics with the value addressed by `v`.
+
+```go
+Syntax:  Panic v ; description: panic(v)
+```
+
+### Print
+
+The instruction `Print` formats the operand addressed by `a` as does the built-in `print` and writes the result to standard error.  
+
+```go
+Syntax:  Print a ; description: print(a)
+```
+
+### Range
+
+The instruction `Range` does an iteration through the entries of a slice, string, map or channel.
+1. For a slice, the iteration is on the slice addressed by `s` and the instruction `Range` stores the iteration index in `i` and the element in `e`.     
+2. For a string, the iteration is on the string addressed by `s` and the instruction `Range` stores the iteration index in `i` and the rune in `r`.
+3. For a map, the iteration is on the map addressed by `m` and the instruction `Range` stores the key in `k` and the value in `v`.
+4. For a channel, the iteration is on the values received on the channel addressed by `ch` and the instruction `Range` stores the value in `v`.
+
+The instruction that follow `Range` is executed only when there are no more values ​​to iterate over, during the iteration this instruction is skipped. 
+
+The second and third operands can be the blank identifier.
+
+```go
+Syntax:  Range s i e ; description: for i, e = range s // for a slice
+         Range s i r ; description: for i, r = range s // for a string 
+         Range m k v ; description: for k, v = range m // for a map 
+         Range ch v  ; description: for v = range ch   // for a channel
+```
+
+The instruction `Range` is used in combination to the instructions `Goto`, `Continue` and `Break` to implements a `for range` statement.
+
+For example a range over the first five elements of a slice:
+
+```go
+for i, e := range s {
+    if i == 5 {
+        break
+    }
+    print(i)
+    print(e)
+}
+return
+```
+
+could be compiled to bytecode:
+
+```go
+1: Range g2 i1 s7
+   Goto 3
+   If i1 Equal 5
+   Goto 2
+   Break 1
+2: Print i1
+   Print s7
+   Continue 1
+3: Return
+```
+
+### RealImag
+
+The instruction `RealImag` extracts the real and imaginary parts of the complex number addressed by `c` and stores the real part in `re` and the imaginary part in `im`.
+
+```go
+Syntax:  RealImag c re im ; description: re, im = real(c), imag(c)
+```
+
+### Receive
+
+The instruction `Receive` receive a value from the channel addressed by `ch` and stores the value in `v`. Also it sets `vm.ok` to `true` if the value received was delivered by a successful send operation, or `false` if a zero value was stored in `v` because the channel is closed and empty. 
+
+```go
+Syntax:  Receive ch v ; description: v, vm.ok = <-ch
+```
+
+### Recover
+
+The instruction `Recover` recovers a panicking goroutine and stores in `v` the value passed to the call of panic. If the goroutine is not panicking or `Recover` was not executed directly by a deferred function it stores `nil` in `v`. `v` can be the blank identifier.
+
+```go
+Syntax:  Recover v ; description: v = recover()
+```
+
+As a special case, compiling the statement `defer recover()` the following bytecode line is generated:
+
+```go
+Recover DownTheStack v
+```
+
+### Rem, Rem8, Rem16, Rem32
+
+The `Rem` instructions compute the remainder of the operands addressed by `a` and `b` and stores the result in `c`. The operands are floating point or signed integers. For the remainder on unsigned integers see `RemU` instructions. 
+
+The second operand `b` can be an integer constant between 1 and 256:
+
+```go
+Syntax:  Rem   a b c ; description: c = a / b // for int, int64 and float64
+         Rem8  a b c ;              c = a / b // for int8
+         Rem16 a b c ;              c = a / b // for int32
+         Rem32 a b c ;              c = a / b // for int32 and float32
+```
+
+### RemU, RemU8, RemU16, RemU32
+
+The `RemU` instructions compute the remainder of the operands addressed by `a` and `b` and stores the result in `c`. The operands are unsigned integers. For the remainder on floating point and signed integers see `Rem` instructions. 
+
+The second operand `b` can be an integer constant between 1 and 256:
+
+```go
+Syntax:  RemU   a b c ; description: c = a / b // for uint and unt64
+         RemU8  a b c ;              c = a / b // for uint8
+         RemU16 a b c ;              c = a / b // for uint32
+         RemU32 a b c ;              c = a / b // for uint32
+```
+
+### Return 
+
+The instruction `Return` returns from the current running function. Any functions deferred with the `Defer` instruction in the current function are executed before returning.
+
+```go
+Syntax:  Return ; description: return
+```
+
+### RightShift and RightShiftU 
+
+The `RightShift` instructions compute the right shift of the operand addressed by `a` with shift count `n` and stores the result in `c`. `RightShift` operates on signed integers and `RightShiftU` on unsigned integers. 
+
+```go
+Syntax:  RightShift a n c   ; description: c = a >> n
+         RightShiftU a n c  ; description: c = a >> n
+```
+
+### Select 
+
+The instruction `Select` chooses a case from one of the cases previously added by a `Case` instruction and jumps to instruction that follows the chosen `Case`. 
+
+```go
+Syntax:  Select ; description: select
+```
+
+The instruction `Select` is used in combination to the instruction `Case` to implements a `select` statement.
+
+For example the select:
+
+```go
+select {
+case a <-tick:
+	print(a)
+case b <-boom:
+	print(b)
+default:
+	print(3)
+}
+return
+```
+
+could be compiled to bytecode:
+
+```go
+   Case Recv i5 g2  ; case a <-tick:
+   Goto 1
+   Case Recv s3 g1  ; case b <-boom:
+   Goto 2
+   Case Default     ; default
+   Goto 3
+   Select           ; select
+1: Print i5         ; print(a)
+   Goto 4
+2: Print s3         ; print(b)
+   Goto 4
+3: Print 3          ; print(3)
+   Goto 4
+4: Return           ; return
+```
+
+### Send
+
+The instruction `Send` sends the value addressed by `v` on the channel `ch`. 
+
+```go
+Syntax:  Send v ch ; description: ch <- v
+```
+
+### SetField
+
+The instruction `SetField` stores the value addressed by `v` into the field with index `i` of the struct addressed by `s`.
+
+```go
+Syntax:  SetField v i s ; description: s.f = v // where f is the field of s at index i
+```
+
+### SetMap
+
+The instruction `SetMap` sets the value of the map addressed by `m` and indexed by the key `k` with the value addressed by `v`.
+
+```go
+Syntax:  SetMap m v k ; description: m[k] = v
+```
+
+### SetSlice
+
+The instruction `SetSlice` sets the value of the slice addressed by `s` at the index `i` with the value addressed by `v`.
+
+```go
+Syntax:  SetSlice s v i ; description: s[i] = v
+```
+
+### SetVar
+
+The instruction `SetVar` sets the value of the global or closure variable at index `i` with the value addressed by `v`.
+
+```go
+Syntax:  SetVar v i ; description: vars[i] = v
+```
+
+### Slice
+
+The instruction `Slice` slices the slice or the string addressed by `src` and stores the resulting slice or string into `dst`. The values addressed by `low`, `high` and `max` are the low, high and max indices. `max` is optional for slices and it is never present for strings.
+
+```go
+Syntax:  Slice src low high dst     ; description: dst = src[low:high]
+         Slice src low high max dst ;              dst = src[low:high:max]
+```
+
+### Sub, Sub8, Sub16 and Sub32
+
+The `Sub` instructions subtract the operand addressed by `b` from the operand addressed by `a` and stores the result in `c`.
+
+`b` can be an integer constant between -127 and 126:
+
+```go
+Syntax:  Sub   a b c ; description: c = a - b // for int, int64 and float64
+         Sub8  a b c ;              c = a - b // for int8
+         Sub16 a b c ;              c = a - b // for int32
+         Sub32 a b c ;              c = a - b // for int32 and float32
+```
+
+### SubInv, SubInv8, SubInv16 and SubInv32
+
+The `SubInv` instructions subtract the operand addressed by `a` from the operand addressed by `b` and stores the result in `c`.
+
+`b` can be an integer constant between -127 and 126:
+
+```go
+Syntax:  Sub   a b c ; description: c = b - a // for int, int64 and float64
+         Sub8  a b c ;              c = b - a // for int8
+         Sub16 a b c ;              c = b - a // for int32
+         Sub32 a b c ;              c = b - a // for int32 and float32
+```
+
+### TailCall
+
+TODO
+
+### Typify
+
+The instruction `Typify` gets the value addressed by `src`, convert it to type `T` and stores the resulting value into `dst`.
+
+```go
+Syntax:  Typify T src dst ; description: var dst T = src
 ```
 
 {% endraw %}
