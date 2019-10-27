@@ -112,10 +112,10 @@ The `Add` instructions sum the operands addressed by `a` and `b` and store the r
 The second operand `b` can be an integer constant between -127 and 126:
 
 ```go
-Syntax:  Add   a b c ; description: c = a + b // for int, int64 and float64
-         Add8  a b c ;              c = a + b // for int8
-         Add16 a b c ;              c = a + b // for int32
-         Add32 a b c ;              c = a + b // for int32 and float32
+Syntax:  Add   a b c ; description: c = a + b // for int, int64, uint, uint64 and float64
+         Add8  a b c ;              c = a + b // for int8 and uint8
+         Add16 a b c ;              c = a + b // for int16 and uint16
+         Add32 a b c ;              c = a + b // for int32, uint32 and float32
 ```
 
 ### Addr
@@ -329,10 +329,10 @@ The `Div` instructions divide the operands addressed by `a` and `b` and store th
 The second operand `b` can be an integer constant between 1 and 256:
 
 ```go
-Syntax:  Div   a b c ; description: c = a / b // for int, int64 and float64
-         Div8  a b c ;              c = a / b // for int8
-         Div16 a b c ;              c = a / b // for int32
-         Div32 a b c ;              c = a / b // for int32 and float32
+Syntax:  Div   a b c ; description: c = a / b // for int, int64, uint, uint64 and float64
+         Div8  a b c ;              c = a / b // for int8 and uint8
+         Div16 a b c ;              c = a / b // for int16 and uint16
+         Div32 a b c ;              c = a / b // for int32, uint32 and float32
 ```
 
 ### Field
@@ -508,10 +508,10 @@ The `Mul` instructions multiply the operands addressed by `a` and `b` and store 
 The second operand `b` can be an integer constant between -127 and 126:
 
 ```go
-Syntax:  Mul   a b c ; description: c = a * b // for int, int64 and float64
-         Mul8  a b c ;              c = a * b // for int8
-         Mul16 a b c ;              c = a * b // for int32
-         Mul32 a b c ;              c = a * b // for int32 and float32
+Syntax:  Mul   a b c ; description: c = a * b // for int, int64, uint, uint64 and float64
+         Mul8  a b c ;              c = a * b // for int8 and uint8
+         Mul16 a b c ;              c = a * b // for int16 and uint16
+         Mul32 a b c ;              c = a * b // for int32, uint32 and float32
 ```
 
 ### New
@@ -633,7 +633,7 @@ The second operand `b` can be an integer constant between 1 and 256:
 ```go
 Syntax:  Rem   a b c ; description: c = a % b // for int and int64
          Rem8  a b c ;              c = a % b // for int8
-         Rem16 a b c ;              c = a % b // for int32
+         Rem16 a b c ;              c = a % b // for int16
          Rem32 a b c ;              c = a % b // for int32
 ```
 
@@ -646,7 +646,7 @@ The second operand `b` can be an integer constant between 1 and 256:
 ```go
 Syntax:  RemU   a b c ; description: c = a % b // for uint and unt64
          RemU8  a b c ;              c = a % b // for uint8
-         RemU16 a b c ;              c = a % b // for uint32
+         RemU16 a b c ;              c = a % b // for uint16
          RemU32 a b c ;              c = a % b // for uint32
 ```
 
@@ -766,10 +766,10 @@ The `Sub` instructions subtract the operand addressed by `b` from the operand ad
 `b` can be an integer constant between -127 and 126:
 
 ```go
-Syntax:  Sub   a b c ; description: c = a - b // for int, int64 and float64
-         Sub8  a b c ;              c = a - b // for int8
-         Sub16 a b c ;              c = a - b // for int32
-         Sub32 a b c ;              c = a - b // for int32 and float32
+Syntax:  Sub   a b c ; description: c = a - b // for int, int64, uint, uint64 and float64
+         Sub8  a b c ;              c = a - b // for int8 and uint8
+         Sub16 a b c ;              c = a - b // for int16 and uint16
+         Sub32 a b c ;              c = a - b // for int32, uint32 and float32
 ```
 
 ### SubInv, SubInv8, SubInv16 and SubInv32
@@ -779,10 +779,10 @@ The `SubInv` instructions subtract the operand addressed by `a` from the operand
 `b` can be an integer constant between -127 and 126:
 
 ```go
-Syntax:  Sub   a b c ; description: c = b - a // for int, int64 and float64
-         Sub8  a b c ;              c = b - a // for int8
-         Sub16 a b c ;              c = b - a // for int32
-         Sub32 a b c ;              c = b - a // for int32 and float32
+Syntax:  Sub   a b c ; description: c = b - a // for int, int64, uint, uint64 and float64
+         Sub8  a b c ;              c = b - a // for int8 and uint8
+         Sub16 a b c ;              c = b - a // for int16 and uint16
+         Sub32 a b c ;              c = b - a // for int32, uint32 and float32
 ```
 
 ### TailCall
