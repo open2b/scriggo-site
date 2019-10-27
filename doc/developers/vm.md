@@ -427,15 +427,15 @@ The instruction `Index` gets, from the slice or string referred by `s`, the elem
 
 ### LeftShift
 
-The instruction `LeftShift` computes the left shift of the operand addressed by `a` with shift count `n` and stores the result in `c`.
+The instruction `LeftShift` computes the left shift of the operand addressed by `a` with shift count `n` and stores the result in `b`.
 
 ```go
-Syntax:  LeftShift a n c  ; description: c = a << n
+Syntax:  LeftShift a n b  ; description: b = a << n
 ```
 
 ### Len
 
-The instruction `Len` gets the length of the slice, string or channel addressed by `s` and stores it in `c`. 
+The instruction `Len` gets the length of the slice, string or channel addressed by `s` and stores it in `n`. 
 
 ```go
 Syntax:  Len s n ; description: n = len(s)
@@ -460,25 +460,25 @@ Syntax:  LoadNumber i dst ; description: dst = vm.fn.Int[i]   // when dst is a i
 
 ### MakeChan
 
-The instruction `MakeChan` makes a channel with type `T` and buffer size addressed by `s` and stores it in `d`.
+The instruction `MakeChan` makes a channel with type `T` and buffer size addressed by `s` and stores it in `ch`.
 
 ```go
-Syntax:  MakeChan T s d ; description: d = make(T, s)
+Syntax:  MakeChan T s ch ; description: ch = make(T, s)
 ```
 
 ### MakeMap
 
-The instruction `MakeMap` makes a map with type `T` and size addressed by `s` and stores it in `d`.
+The instruction `MakeMap` makes a map with type `T` and size addressed by `s` and stores it in `m`.
 
 ```go
-Syntax:  MakeMap T s d ; description: d = make(T, s)
+Syntax:  MakeMap T s m ; description: m = make(T, s)
 ```
 ### MakeSlice
 
-The instruction `MakeSlice` makes a slice with type `T`, length addressed by `s`, cap addressed by `c` and stores it in `d`.
+The instruction `MakeSlice` makes a slice with type `T`, length addressed by `n`, cap addressed by `c` and stores it in `s`.
 
 ```go
-Syntax:  MakeSlice T s c d ; description: d = make(T, s, c)
+Syntax:  MakeSlice T n c s ; description: s = make(T, n, c)
 ```
 
 ### MapIndex
@@ -540,10 +540,10 @@ Syntax:  Panic v ; description: panic(v)
 
 ### Print
 
-The instruction `Print` formats the operand addressed by `a` as does the built-in `print` and writes the result to standard error.  
+The instruction `Print` formats the operand addressed by `v` as does the built-in `print` and writes the result to standard error.  
 
 ```go
-Syntax:  Print a ; description: print(a)
+Syntax:  Print v ; description: print(v)
 ```
 
 ### Range
@@ -660,11 +660,11 @@ Syntax:  Return ; description: return
 
 ### RightShift and RightShiftU 
 
-The `RightShift` instructions compute the right shift of the operand addressed by `a` with shift count `n` and store the result in `c`. `RightShift` operates on signed integers and `RightShiftU` on unsigned integers. 
+The `RightShift` instructions compute the right shift of the operand addressed by `a` with shift count `n` and store the result in `b`. `RightShift` operates on signed integers and `RightShiftU` on unsigned integers. 
 
 ```go
-Syntax:  RightShift a n c   ; description: c = a >> n
-         RightShiftU a n c  ; description: c = a >> n
+Syntax:  RightShift a n b   ; description: b = a >> n
+         RightShiftU a n b  ; description: b = a >> n
 ```
 
 ### Select 
@@ -752,11 +752,11 @@ Syntax:  SetVar v i ; description: vars[i] = v
 
 ### Slice
 
-The instruction `Slice` slices the slice or the string addressed by `src` and stores the resulting slice or string into `dst`. The values addressed by `low`, `high` and `max` are the low, high and max indices. `max` is optional for slices and it is never present for strings.
+The instruction `Slice` slices the slice or the string addressed by `s1` and stores the resulting slice or string into `s2`. The values addressed by `low`, `high` and `max` are the low, high and max indices. `max` is optional for slices and it is never present for strings.
 
 ```go
-Syntax:  Slice src low high dst     ; description: dst = src[low:high]
-         Slice src low high max dst ;              dst = src[low:high:max]
+Syntax:  Slice s1 low high s2     ; description: s2 = s1[low:high]
+         Slice s1 low high max s2 ;              s2 = s1[low:high:max]
 ```
 
 ### Sub, Sub8, Sub16 and Sub32
@@ -791,10 +791,10 @@ TODO
 
 ### Typify
 
-The instruction `Typify` gets the value addressed by `src`, convert it to type `T` and stores the resulting value into `dst`.
+The instruction `Typify` gets the value addressed by `v1`, convert it to type `T` and stores the resulting value into `v2`.
 
 ```go
-Syntax:  Typify T src dst ; description: var dst T = src
+Syntax:  Typify T v1 v2 ; description: var v2 T = v1
 ```
 
 {% endraw %}
