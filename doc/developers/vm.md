@@ -723,7 +723,7 @@ Syntax:  Send v ch ; description: ch <- v
 The instruction `SetField` stores the value addressed by `v` into the field with index `i` of the struct addressed by `s`.
 
 ```go
-Syntax:  SetField v i s ; description: s.f = v // where f is the field of s at index i
+Syntax:  SetField v s i ; description: s.f = v // where f is the field of s at index i
 ```
 
 ### SetMap
@@ -731,7 +731,7 @@ Syntax:  SetField v i s ; description: s.f = v // where f is the field of s at i
 The instruction `SetMap` sets the value of the map addressed by `m` and indexed by the key `k` with the value addressed by `v`.
 
 ```go
-Syntax:  SetMap m v k ; description: m[k] = v
+Syntax:  SetMap v m k ; description: m[k] = v
 ```
 
 ### SetSlice
@@ -739,7 +739,7 @@ Syntax:  SetMap m v k ; description: m[k] = v
 The instruction `SetSlice` sets the value of the slice addressed by `s` at the index `i` with the value addressed by `v`.
 
 ```go
-Syntax:  SetSlice s v i ; description: s[i] = v
+Syntax:  SetSlice v s i ; description: s[i] = v
 ```
 
 ### SetVar
