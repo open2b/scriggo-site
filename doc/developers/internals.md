@@ -58,6 +58,8 @@ The **type checker** performs several operations on the AST given by the **parse
 
 The type checker is the first part of the compiler where the Scriggo code get in touch with the _host_; the declarations passed at compilation time are injected into the AST as _predefined values_.
 
+Before starting with the type checking a _dependency analysis_ is performed on the AST. This analysis has two main purposes: the first is to catch any _initialization loop_, the second is to find an order for the declarations.
+
 #### The emitter
 
 The *emitter* takes the AST and _emits_ the code that will be intepreted by the virtual machine.
@@ -65,6 +67,9 @@ The *emitter* takes the AST and _emits_ the code that will be intepreted by the 
 ![emitter](/images/emitter.png)
 
 Since the virtual machine knows nothing about programs, template and scripts, the emitter to make them converge into a list of instructions. For instance, the `show` statement in the templates (that renders a value) is emitted as a function call to a function that takes a writer and an expression as arguments.
+
+The emitter relies on the **builder**, that knows the internal implementation of the virtual machine and exposes some utility function to the emitter hiding as much as possible the internals details.
+Note that, without the use of the builder, the emission of instructions for the virtual machine would be very complex.
 
 ### The virtual machine
 
