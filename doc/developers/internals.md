@@ -10,7 +10,7 @@
 Scriggo is composed by two main parts:
 
 - the **compiler**
-- the **virtual machine**
+- the **runtime**
 
 The **compiler**, in turn, is composed by:
 
@@ -18,6 +18,8 @@ The **compiler**, in turn, is composed by:
 - the **parser**
 - the **type checker**
 - the **emitter**
+
+The **runtime** is implemented on the **Scriggo virtual machine**.
 
 ![internals_overview](/images/internals_overview.png)
 
@@ -80,8 +82,9 @@ Since the virtual machine knows nothing about programs, template and scripts, th
 The emitter relies on the **builder**, that knows the internal implementation of the virtual machine and exposes some utility function to the emitter hiding as much as possible the internals details.
 Note that, without the use of the builder, the emission of instructions for the virtual machine would be very complex.
 
-### The virtual machine
+### The runtime
 
-The Scriggo virtual machine takes the output of the Scriggo compiler and executes it. For a detailed explanation of the virtual machine and to see the set of instructions that it uses, see the section [Virtual Machine](/doc/developers/vm.html).
+The runtime of Scriggo executes the byte code using its internal virtual machine.
+For a detailed explanation of the virtual machine and to see the set of instructions that it uses, see the section [Virtual Machine](/doc/developers/vm.html).
 
 {% endraw %}
