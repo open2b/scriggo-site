@@ -391,13 +391,14 @@ The instruction `Goto` transfers control to the instruction with the correspondi
 The instruction `If` checks its condition and skips the next instruction if it is satisfied.
 
 ```go
-  Syntax:  If a Not                 ; description: if !a
+  Syntax:  If a                     ; description: if a
+           If Not a                 ; description: if !a
 
-           If a Nil                 ;              if a == nil
-           If a NotNil              ;              if a != nil
+           If Nil a                 ;              if a == nil
+           If NotNil a              ;              if a != nil
 
-           If a InterfaceNil        ;              if a == nil // where a has an interface type
-           If a InterfaceNotNil     ;              if a != nil // where a has an interface type
+           If NilInterface a        ;              if a == nil // where a has an interface type
+           If NotNilInterface a     ;              if a != nil // where a has an interface type
 
            If a Equal b             ;              if a == b
            If a NotEqual b          ;              if a != b
@@ -683,7 +684,7 @@ The instruction `Select` chooses a case from one of the cases defined by previou
 Syntax:  Select ; description: select
 ```
 
-The instruction `Select` is used in combination to the instruction `Case` to implements a `select` statement.
+The instruction `Select` is used in combination to the instruction [Case](#case) to implements a `select` statement.
 
 For example the select:
 
