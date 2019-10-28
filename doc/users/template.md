@@ -608,7 +608,7 @@ Nel sistema di template in Scriggo vengono fornite delle dichiarazioni **builtin
 
 ## Argomenti avanzati
 
-### Chiamata di funzioni dal template
+### Chiamata di funzioni
 
 Dal template è possibile effettuare chiamate alle funzioni.
 
@@ -685,7 +685,7 @@ Testo da mostrare..
 PANIC: si è verificato un errore: Il file non può essere letto
 </pre>
 
-### Controllo degli errori nel template in Scriggo
+### Gestione degli errori
 
 Il template in Scriggo prevede un controllo degli errori uguale a quello utilizzato in Go.
 
@@ -706,7 +706,7 @@ In questo caso, se la lettura del file non è andata a buon fine, la variabile `
 
 > Per approfondire vedi [Effective Go - Gestione degli errori](https://golang.org/doc/effective_go.html#errors).
 
-### Scorciatoie per l'assegnamento
+### Assegnamento - Scorciatoie
 
 Codice | Descrizione
 -------|-------------
@@ -717,7 +717,7 @@ Codice | Descrizione
 
 > Sono disponibili ulteriori forme di assegnamento; a tal proposito si rimanda a [Go Specs - Assegnamenti](https://golang.org/ref/spec#Assignments).
 
-### Accenni alle costanti
+### Costanti
 
 Il template di Scriggo supporta la dichiarazione delle costanti:
 
