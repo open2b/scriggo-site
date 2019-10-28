@@ -653,7 +653,7 @@ The `RemU` instructions compute the remainder of the operands addressed by `a` a
 The second operand `b` can be an integer constant between 1 and 256:
 
 ```go
-Syntax:  RemU   a b c ; description: c = a % b // for uint and unt64
+Syntax:  RemU   a b c ; description: c = a % b // for uint and uint64
          RemU8  a b c ;              c = a % b // for uint8
          RemU16 a b c ;              c = a % b // for uint16
          RemU32 a b c ;              c = a % b // for uint32
