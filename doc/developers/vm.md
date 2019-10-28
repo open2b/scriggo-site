@@ -536,7 +536,7 @@ Syntax:  New T v ; description: v = new(T)
 The instruction `Or` computes the bitwise OR of the operands addressed by `a` and `b` and stores the result in `c`.
 
 ```go
-Syntax:  Or a b c  ; description: c = a | b
+Syntax:  Or a b c ; description: c = a | b
 ```
 
 ### Panic
@@ -672,8 +672,8 @@ Syntax:  Return ; description: return
 The `RightShift` instructions compute the right shift of the operand addressed by `a` with shift count `n` and store the result in `b`. `RightShift` operates on signed integers and `RightShiftU` on unsigned integers. 
 
 ```go
-Syntax:  RightShift a n b   ; description: b = a >> n
-         RightShiftU a n b  ; description: b = a >> n
+Syntax:  RightShift  a n b ; description: b = a >> n
+         RightShiftU a n b ; description: b = a >> n
 ```
 
 ### Select 
