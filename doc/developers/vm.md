@@ -386,35 +386,43 @@ The instruction `Goto` transfers control to the instruction with the correspondi
   Syntax:  Goto label ; description: goto label
 ```
 
-### If and IfU
+### If
 
-The `If` instructions skip the next instruction if the condition is `true`. The instruction `IfU` is used for unsigned integers.
+The instruction `If` checks its condition and skips the next instruction if it is satisfied.
 
 ```go
   Syntax:  If a Not                 ; description: if !a
+
            If a Nil                 ;              if a == nil
            If a NotNil              ;              if a != nil
-           If a InternerfaceNil     ;              if a == nil // where a has an interface type
-           If a InternerfaceNotNil  ;              if a != nil // where a has an interface type
+
+           If a InterfaceNil        ;              if a == nil // where a has an interface type
+           If a InterfaceNotNil     ;              if a != nil // where a has an interface type
+
            If a Equal b             ;              if a == b
            If a NotEqual b          ;              if a != b
+
+           // for signed integers and floating-point values:
            If a Less b              ;              if a < b
            If a LessOrEqual b       ;              if a <= b
            If a Greater b           ;              if a > b
            If a GreaterOrEqual b    ;              if a >= b
+
+           // for unsigned integers:
+           If a LessU b             ;              if a < b 
+           If a LessOrEqualU b      ;              if a <= b
+           If a GreaterU b          ;              if a > b
+           If a GreaterOrEqualU b   ;              if a >= b
+
            If a EqualLen b          ;              if len(a) == len(b)
            If a NotEqualLen b       ;              if len(a) != len(b)
            If a LessLen b           ;              if len(a) < len(b)
            If a LessOrEqualLen b    ;              if len(a) <= len(b)
            If a GreaterLen b        ;              if len(a) > len(b)
            If a GreaterOrEqualLen b ;              if len(a) >= len(b)
+
            If OK                    ;              if vm.ok
            If NotOK                 ;              if !vm.ok
-
-           IfU a Less b             ;              if a < b
-           IfU a LessOrEqual b      ;              if a <= b
-           IfU a Greater b          ;              if a > b
-           IfU a GreaterOrEqual b   ;              if a >= b
 ```
 
 ### Index
