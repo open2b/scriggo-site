@@ -719,7 +719,14 @@ Codice | Descrizione
 
 ### Accenni alle costanti
 
-**TODO**
+Il template di Scriggo supporta la dichiarazione delle costanti:
+
+```go
+{% const C1 = 1 %}
+{% const C2 int = 2 %}
+```
+
+La sintassi per la dichiarazione delle costanti corrisponde a quella di Go.
 
 ### Array
 
