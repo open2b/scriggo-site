@@ -60,6 +60,15 @@ The type checker is the first part of the compiler where the Scriggo code get in
 
 Before starting with the type checking a _dependency analysis_ is performed on the AST. This analysis has two main purposes: the first is to catch any _initialization loop_, the second is to find an order for the declarations.
 
+The source code of the type checker can be found in the `internal/compiler` package:
+
+- [checker.go]() declares the type `typechecker` and some of its methods.
+- [checker_assignment.go]() declares functions to perform the type checking of declarations and assignment.
+- [checker_dependencies.go]() makes a dependency analysis on the given AST.
+- [checker_package.go]() makes a type checking on a package.
+- [checker_expressions.go]() performs the type checking of the expressions.
+- [checker_statements.go]() declares functions to type check the statements; for example it exports the method `checkNodes`.
+
 #### The emitter
 
 The *emitter* takes the AST and _emits_ the code that will be intepreted by the virtual machine.
