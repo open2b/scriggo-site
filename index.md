@@ -1,7 +1,5 @@
 # Scriggo
 
-<!-- <img src="images/logo.png" alt="logo" style="width:70%;"> -->
-
 ## What is Scriggo?
 
 Scriggo is a fast embedded Go language interpreter.
@@ -40,6 +38,12 @@ the third syntax is the **template syntax**, that looks like that:
 {% end for %}
 ```
 {% endraw %}
+
+## How fast is Scriggo?
+
+The execution of Scriggo ... TODO
+
+See the [benchmarks]() for a comparison between Scriggo and other technologies.
 
 # Documentation
 
