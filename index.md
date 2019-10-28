@@ -66,7 +66,7 @@ For users who use Scriggo in an embedded context or through an interpreter.
 If you want to develope an application that uses Scriggo, this is the right section for you.
 It covers the Scriggo APIs and the `scriggo` command line tool.
 
-- [Get started embedding Scriggo]()
+- [Get started embedding Scriggo](/doc/users/get-started-embedding.html)
 - [godoc.org/scriggo]() the Scriggo APIs documentation, hosted on godoc.org.
 - [The scriggo command line tool]() introduces and describes the use of the command `scriggo`.
 
