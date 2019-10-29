@@ -392,7 +392,7 @@ The instruction `If` checks its condition and skips the next instruction if it i
 
 ```go
   Syntax:  If a                     ; description: if a
-           If Not a                 ; description: if !a
+           If Not a                 ;              if !a
 
            If Nil a                 ;              if a == nil
            If NotNil a              ;              if a != nil
@@ -415,12 +415,12 @@ The instruction `If` checks its condition and skips the next instruction if it i
            If a GreaterU b          ;              if a > b
            If a GreaterOrEqualU b   ;              if a >= b
 
-           If a EqualLen b          ;              if len(a) == len(b)
-           If a NotEqualLen b       ;              if len(a) != len(b)
-           If a LessLen b           ;              if len(a) < len(b)
-           If a LessOrEqualLen b    ;              if len(a) <= len(b)
-           If a GreaterLen b        ;              if len(a) > len(b)
-           If a GreaterOrEqualLen b ;              if len(a) >= len(b)
+           If a EqualLen b          ;              if len(a) == b
+           If a NotEqualLen b       ;              if len(a) != b
+           If a LessLen b           ;              if len(a) < b
+           If a LessOrEqualLen b    ;              if len(a) <= b
+           If a GreaterLen b        ;              if len(a) > b
+           If a GreaterOrEqualLen b ;              if len(a) >= b
 
            If OK                    ;              if vm.ok
            If NotOK                 ;              if !vm.ok
