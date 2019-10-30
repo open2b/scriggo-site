@@ -156,12 +156,14 @@ Syntax:  And a b c ; description: c = a &^ b
 
 ### Append
 
-The instruction `Append` appends `length` values to the slice addressed by `s` and store the resulting slice in `s`. The appended values are the values starting from the register at index `start` and ending to the register at index `start+length-1`. The type of the values register depends on the type of the slice element.
-
-`start` and `length` are integer constant between 1 and 126.
+The instruction `Append` appends values to the slice addressed by `s` and store the resulting slice in `s`. The appended values are the values in the registers starting from the register `start` and ending to the register `end`. The registers with the values to append are consecutive and its type depends on the type of the slice's element.
 
 ```go
-Syntax:  Append start length s ; description: s = append(s, regs[start:start+length]...)
+Syntax:  Append start end s ; description: s = append(s, start, ..., end)
+```
+
+```go
+Example:  Append s3 s5 g2 ; append the values in the s3, s4 and s5 registers 
 ```
 
 ### AppendSlice
