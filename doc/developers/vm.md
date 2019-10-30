@@ -377,17 +377,17 @@ The instruction `Field` gets from the struct pointer referred by `s` the field a
 The instruction `Func` combines a function literal declaration with a load of the function (a closure to be precise) into `fn`.
 
 ```go
-  Syntax:  Func fn ; description: fn = func(...) { ... }
-              <function body>
+Syntax:  Func fn ; description: fn = func(...) { ... }
+             <function body>
 ``` 
 
 ```go
-  Example: Move 2 i1
-           Func g3
-               Move 2 i3
-               Add i1 1 i2
-               Return
-           Call (g3) i1 _ _ _
+Example: Move 2 i1
+         Func g3
+             Move 2 i3
+             Add i1 1 i2
+             Return
+         Call (g3) i1 _ _ _
 ```
 
 See the [LoadFunc](#loadfunc) instruction for how to load a non-literal function.
@@ -397,7 +397,7 @@ See the [LoadFunc](#loadfunc) instruction for how to load a non-literal function
 The instruction `GetVar` gets (TODO).
 
 ```go
-  Syntax:  GetVar i c ; description:
+Syntax:  GetVar i c ; description:
 ```
 
 ### Go
@@ -405,7 +405,7 @@ The instruction `GetVar` gets (TODO).
 The instruction `Go` runs the following `Call` or `CallIndirect` instruction in a new goroutine.
 
 ```go
-  Syntax:  Go ; description: go
+Syntax:  Go ; description: go
 ```
 
 Example:
@@ -420,7 +420,7 @@ Call Serve i2 _ s1 _
 The instruction `Goto` transfers control to the instruction with the corresponding label within the same function.
 
 ```go
-  Syntax:  Goto label ; description: goto label
+Syntax:  Goto label ; description: goto label
 ```
 
 ### If
@@ -428,39 +428,39 @@ The instruction `Goto` transfers control to the instruction with the correspondi
 The instruction `If` checks its condition and skips the next instruction if it is satisfied.
 
 ```go
-  Syntax:  If a                     ; description: if a
-           If Not a                 ;              if !a
+Syntax:  If a                     ; description: if a
+         If Not a                 ;              if !a
 
-           If Nil a                 ;              if a == nil
-           If NotNil a              ;              if a != nil
+         If Nil a                 ;              if a == nil
+         If NotNil a              ;              if a != nil
 
-           If NilInterface a        ;              if a == nil // where a has an interface type
-           If NotNilInterface a     ;              if a != nil // where a has an interface type
+         If NilInterface a        ;              if a == nil // where a has an interface type
+         If NotNilInterface a     ;              if a != nil // where a has an interface type
 
-           If a Equal b             ;              if a == b
-           If a NotEqual b          ;              if a != b
+         If a Equal b             ;              if a == b
+         If a NotEqual b          ;              if a != b
 
-           // for signed integers and floating-point values:
-           If a Less b              ;              if a < b
-           If a LessOrEqual b       ;              if a <= b
-           If a Greater b           ;              if a > b
-           If a GreaterOrEqual b    ;              if a >= b
+         // for signed integers and floating-point values:
+         If a Less b              ;              if a < b
+         If a LessOrEqual b       ;              if a <= b
+         If a Greater b           ;              if a > b
+         If a GreaterOrEqual b    ;              if a >= b
 
-           // for unsigned integers:
-           If a LessU b             ;              if a < b 
-           If a LessOrEqualU b      ;              if a <= b
-           If a GreaterU b          ;              if a > b
-           If a GreaterOrEqualU b   ;              if a >= b
+         // for unsigned integers:
+         If a LessU b             ;              if a < b 
+         If a LessOrEqualU b      ;              if a <= b
+         If a GreaterU b          ;              if a > b
+         If a GreaterOrEqualU b   ;              if a >= b
 
-           If a EqualLen b          ;              if len(a) == b
-           If a NotEqualLen b       ;              if len(a) != b
-           If a LessLen b           ;              if len(a) < b
-           If a LessOrEqualLen b    ;              if len(a) <= b
-           If a GreaterLen b        ;              if len(a) > b
-           If a GreaterOrEqualLen b ;              if len(a) >= b
+         If a EqualLen b          ;              if len(a) == b
+         If a NotEqualLen b       ;              if len(a) != b
+         If a LessLen b           ;              if len(a) < b
+         If a LessOrEqualLen b    ;              if len(a) <= b
+         If a GreaterLen b        ;              if len(a) > b
+         If a GreaterOrEqualLen b ;              if len(a) >= b
 
-           If OK                    ;              if vm.ok
-           If NotOK                 ;              if !vm.ok
+         If OK                    ;              if vm.ok
+         If NotOK                 ;              if !vm.ok
 ```
 
 ### Index
@@ -468,7 +468,7 @@ The instruction `If` checks its condition and skips the next instruction if it i
 The instruction `Index` gets, from the slice or string referred by `s`, the element at the index referred by `i` and stores its value in `v`.
 
 ```go
-  Syntax:  Index s i v ; description: v = s[i]
+Syntax:  Index s i v ; description: v = s[i]
 ```
 
 ### LeftShift
@@ -500,11 +500,11 @@ Syntax:  LoadData i dst ; description: dst = vm.fn.Data[i]
 The instruction `LoadFunc` loads the function with name `name` into `fn`.
 
 ```go
-  Syntax:  LoadFunc name fn ; description: fn = name
+Syntax:  LoadFunc name fn ; description: fn = name
 ```
 
 ```go
-  Example: LoadFunc strings.HasPrefix g2
+Example: LoadFunc strings.HasPrefix g2
            Call (g2) i1 _ s3 _
 ```
 
@@ -547,7 +547,7 @@ Syntax:  MakeSlice T n c s ; description: s = make(T, n, c)
 The instruction `MapIndex` gets from the map addressed by `m` the element with key addressed by `k` and stores its value in `v`.
 
 ```go
-  Syntax:  MapIndex m k v ; description: v = m[k]
+Syntax:  MapIndex m k v ; description: v = m[k]
 ```
 
 ### MethodValue
