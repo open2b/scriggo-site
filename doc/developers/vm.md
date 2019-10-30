@@ -194,32 +194,61 @@ Syntax:  Break label ; description: break label
 
 ### Call
 
-The instruction `Call` calls the function `fn` with arguments references by `i`, `f`, `s` and `g`. 
+The instruction `Call` calls the function with name `name` or the function addressed by `fn` with arguments addressed by `i`, `f`, `s` and `g`.
 
-1. `i` is the first integer register from which to read integer arguments.
-2. `f` is the first floating point register from which to read floating point arguments.
-3. `s` is the first string register from which to read string arguments.
-4. `g` is the first general register from which to read all the other arguments.
+1. `i` is the first integer register of the integer parameters.
+2. `f` is the first floating point register of the floating point parameters.
+3. `s` is the first string register of the string parameters.
+4. `g` is the first general register of the other parameters.
 
-`i`, `f`, `s` and `g` may be the empty identifier if there are no such arguments.
-
-```go
-Syntax:  Call fn i f s g ; description: fn(...)
-```
-
-Example:
+`i`, `f`, `s` and `g` may be the blank identifier if there are no such arguments.
 
 ```go
-Call fmt.Printf _ _ s2 g1
+Syntax:  Call name i f s g ; description: name(...)
+         Call (fn) i f s g ;              fn(...)
 ```
 
-### CallIndirect
+```go
+Example: Call fmt.Printf _ _ s3 g2
+         Call (g8) i2 _ s4 _
+```
 
-TODO
+In a function call, consecutive registers are used to store the return values and the arguments to the function. For example for a call to the function `sum`:
 
-### CallPredefined
+```go
+func sum(a, b int) int {
+    return a + b
+}
+```
 
-TODO
+three consecutive integer register are used for the parameters. The first is reserved for the return parameter, the second and third for the parameters `a` and `b`. So the following example:
+
+```go
+s := sum(1, 2)
+print(s)
+```
+could be compiled to:
+```go
+Move 1 i6          ; store a into the register i6
+Move 2 i7          ; store b into the register i7
+Call sum i5 _ _ _  ; call sum
+Print i5           ; print the return value stored in the register i5 
+```
+where the register `i5` is reserved for the return parameter, the registers `i6` and `i7` respectively for the parameters `a` and `b`.
+
+This little more complex example:
+```go
+split := strings.SplitN("a,b,c", ",", 2)
+n := len(split)
+```
+could be compiled to:
+```go
+Move "a,b,c" s5                 ; store the string to split into s5
+Move "," s6                     ; store the separator into s6
+Move 2 i3                       ; store the count into i3
+Call strings.SplitN i3 _ s5 g2  ; call strings.SplitN
+Len g2 i2                       ; get the length of the returned slice
+```
 
 ### Cap
 
@@ -345,15 +374,23 @@ The instruction `Field` gets from the struct pointer referred by `s` the field a
 
 ### Func
 
-TODO.
-
-### GetFunc
-
-The instruction `GetFunc` gets (TODO).
+The instruction `Func` combines a function literal declaration with a load of the function (a closure to be precise) into `fn`.
 
 ```go
-  Syntax:  GetFunc p i c ; description:
+  Syntax:  Func fn ; description: fn = func(...) { ... }
+              <function body>
+``` 
+
+```go
+  Example: Move 2 i1
+           Func g3
+               Move 2 i3
+               Add i1 1 i2
+               Return
+           Call (g3) i1 _ _ _
 ```
+
+See the [LoadFunc](#loadfunc) instruction for how to load a non-literal function.
 
 ### GetVar
 
@@ -375,7 +412,7 @@ Example:
 
 ```go
 Go
-Call fn i f s g
+Call Serve i2 _ s1 _
 ```
 
 ### Goto
@@ -457,6 +494,21 @@ The instruction `LoadData` loads a slice of bytes from `vm.fn.Data` at index `i`
 ```go
 Syntax:  LoadData i dst ; description: dst = vm.fn.Data[i]
 ```
+
+### LoadFunc
+
+The instruction `LoadFunc` loads the function with name `name` into `fn`.
+
+```go
+  Syntax:  LoadFunc name fn ; description: fn = name
+```
+
+```go
+  Example: LoadFunc strings.HasPrefix g2
+           Call (g2) i1 _ s3 _
+```
+
+See the [Func](#func) instruction for how to declare and load a function literal.
 
 ### LoadNumber
 
