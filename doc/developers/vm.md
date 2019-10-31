@@ -168,7 +168,7 @@ Example:  Append s3 s5 g2 ; append the values in the s3, s4 and s5 registers
 
 ### AppendSlice
 
-The instruction `AppendSlice` appends the slice addressed by `s1` to the slice addressed by `s2` and store the resulting slice in `s2`.  
+The instruction `AppendSlice` appends the slice addressed by `s1` to the slice addressed by `s2` and stores the resulting slice in `s2`.  
 
 ```go
 Syntax:  AppendSlice s1 s2 ; description: s2 = append(s2, s1...)
