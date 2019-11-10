@@ -536,9 +536,10 @@ The instruction `MakeMap` makes a map with type `T` and size addressed by `s` an
 ```go
 Syntax:  MakeMap T s m ; description: m = make(T, s)
 ```
+
 ### MakeSlice
 
-The instruction `MakeSlice` makes a slice with type `T`, length addressed by `n`, cap addressed by `c` and stores it in `s`.
+The instruction `MakeSlice` makes a slice with element type `T`, length addressed by `n`, cap addressed by `c` and stores it in `s`.
 
 ```go
 Syntax:  MakeSlice T n c s ; description: s = make(T, n, c)
