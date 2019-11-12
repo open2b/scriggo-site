@@ -402,6 +402,14 @@ The instruction `GetVar` gets (TODO).
 Syntax:  GetVar i c ; description:
 ```
 
+### GetVarAddr
+
+The instruction `GetVarAddr` gets (TODO).
+
+```go
+Syntax:  GetVarAddr i c ; description:
+```
+
 ### Go
 
 The instruction `Go` runs the following `Call` or `CallIndirect` instruction in a new goroutine.
