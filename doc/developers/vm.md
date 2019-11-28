@@ -328,7 +328,7 @@ Example: ConvertNumber i7 Int32 Uint i4
 
 ### ConvertSlice
 
-The instruction `ConvertSlice` explicitly converts the slice of bytes or runes addressed by `x` to a value of type `string` and store it in `y`.
+The instruction `ConvertSlice` explicitly converts the slice of bytes or runes addressed by `x` to a value of type `string` and stores it in `y`.
 
 ```go
 Syntax:  ConvertSlice x y ; description: y = string(x)
