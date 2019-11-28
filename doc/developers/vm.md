@@ -308,15 +308,38 @@ The instruction `Continue` begins the next iteration of the previous executed `R
 Syntax:  Continue label ; description: continue label
 ```
 
-### Convert, ConvertU
+### ConvertNumber
 
-The `Convert` instructions convert the value addressed by `x` to a value of type `T` and store it in `v`.
-
-`ConvertU` is like `Convert` but converts unsigned integer values.
+The instruction `ConvertNumber` explicitly converts the numeric operand addressed by `x` from the kind `xKind` to the kind `yKind` and stores it in `y`.
 
 ```go
-Syntax:  Convert  x T v ; description: v = T(x)
-         ConvertU x T v ;              v = T(x)
+Syntax:  ConvertNumber x xKind yKind y
+```
+
+`xKind` and `yKind` can be `Int`, `Int8`, `Int16`, `Int32`, `Uint`, `Uint8`, `Uint16`, `Uint32`, `Float32`, `Float64`, `Complex64` or `Complex128`. `yKind` can also be `String` if `xKind` is a integer kind. 
+
+```go
+Example: ConvertNumber i7 Int32 Uint i4 
+         ConvertNumber f2 Float64 Float32 f6
+         ConvertNumber g5 Complex128 Complex64 g4
+         ConvertNumber f11 Float32 Complex128 g2
+         ConvertNumber i3 Int String s7
+```
+
+### ConvertSlice
+
+The instruction `ConvertSlice` explicitly converts the slice of bytes or runes addressed by `x` to a value of type `string` and store it in `y`.
+
+```go
+Syntax:  ConvertSlice x y ; description: y = string(x)
+```
+
+### ConvertString
+
+The instruction `ConvertString` explicitly converts the string operand addressed by `x` to a slice of bytes or runes value of type `T` and stores it in `y`.
+
+```go
+Syntax:  ConvertString x T y ; description: y = T(x)
 ```
 
 ### Concat
