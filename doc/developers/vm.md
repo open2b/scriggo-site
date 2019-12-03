@@ -461,8 +461,8 @@ Syntax:  Goto label ; description: goto label
 The instruction `If` checks its condition and skips the next instruction if it is satisfied.
 
 ```go
-Syntax:  If a                     ; description: if a
-         If Not a                 ;              if !a
+Syntax:  If Zero a                ; description: if a == 0
+         If NotZero a             ;              if a != 0
 
          If Nil a                 ;              if a == nil
          If NotNil a              ;              if a != nil
