@@ -472,18 +472,10 @@ Syntax:  If Zero a                ; description: if a == 0
 
          If a Equal b             ;              if a == b
          If a NotEqual b          ;              if a != b
-
-         // for signed integers and floating-point values:
          If a Less b              ;              if a < b
          If a LessOrEqual b       ;              if a <= b
          If a Greater b           ;              if a > b
          If a GreaterOrEqual b    ;              if a >= b
-
-         // for unsigned integers:
-         If a LessU b             ;              if a < b 
-         If a LessOrEqualU b      ;              if a <= b
-         If a GreaterU b          ;              if a > b
-         If a GreaterOrEqualU b   ;              if a >= b
 
          If a EqualLen b          ;              if len(a) == b
          If a NotEqualLen b       ;              if len(a) != b
