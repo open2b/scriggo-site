@@ -125,14 +125,14 @@ The `Add` instructions sum the operands addressed by `b` and `c` and store the r
 The first operand `b` can be an integer constant, between -127 and 126 for signed types and between 0 and 255 for unsigned types.
 
 ```go
-Syntax:  Add8   b c ; description: c += b    // for int8
-         Add16  b c ;              c += b    // for int16
-         Add32  b c ;              c += b    // for int32 and float32
-         Add64  b c ;              c += b    // for int64 and float64
-         AddU8  b c ;              c += b    // for uint8
-         AddU16 b c ;              c += b    // for uint16
-         AddU32 b c ;              c += b    // for uint32
-         AddU64 b c ;              c += b    // for uint64
+Syntax:  Add8   b c ; description: c += b  // for int8
+         Add16  b c ;              c += b  // for int16
+         Add32  b c ;              c += b  // for int32 and float32
+         Add64  b c ;              c += b  // for int64 and float64
+         AddU8  b c ;              c += b  // for uint8
+         AddU16 b c ;              c += b  // for uint16
+         AddU32 b c ;              c += b  // for uint32
+         AddU64 b c ;              c += b  // for uint64
 ```
 
 See also the [Add](#add) instruction for a three-operand instruction on `int` and `float64` types.
