@@ -107,35 +107,23 @@ Note that in this case the second operand is the constant `3` and not the regist
 
 ### Add
 
-The instruction `Add` sums the `int` or `float64` operands addressed by `a` and `b` and store the result in `c`.
+The `Add` instructions sums two integers or two floats. The first form of `Add` sums the operands addressed by `a` and `b` and stores the result in `c`, the type of operands is `int` or `float64`.
 
-The second operand `b` can be an integer constant between -127 and 126:
+The second form of `Add` adds the operand addressed by `b` and `c` and stores the result in `c`. `type` is the type of the operands.
 
-```go
-Syntax:  Add a b c ; description: c = a + b // for int and float64
-```
-
-For other types see the following instructions.
-
-
-### Add8, Add16, Add32, Add64, AddU8, AddU16, AddU32 and AddU64
-
-The `Add` instructions sum the operands addressed by `b` and `c` and store the result in `c`.
-
-The first operand `b` can be an integer constant, between -127 and 126 for signed types and between 0 and 255 for unsigned types.
+The operand `b` can be an integer constant, between -127 and 126 for signed types and between 0 and 255 for unsigned types.
 
 ```go
-Syntax:  Add8   b c ; description: c += b  // for int8
-         Add16  b c ;              c += b  // for int16
-         Add32  b c ;              c += b  // for int32 and float32
-         Add64  b c ;              c += b  // for int64 and float64
-         AddU8  b c ;              c += b  // for uint8
-         AddU16 b c ;              c += b  // for uint16
-         AddU32 b c ;              c += b  // for uint32
-         AddU64 b c ;              c += b  // for uint64
+Syntax:  Add a b c    ; description: c = a + b // int and float64 types
+         Add type b c ; description: c += b
 ```
 
-See also the [Add](#add) instruction for a three-operand instruction on `int` and `float64` types.
+```go  
+Example:  Add i12 8 i7
+          Add f2 f9 f5
+          Add uint8 i2 i6
+          Add float32 50 f2
+```
 
 ### Addr
 
