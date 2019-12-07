@@ -833,40 +833,40 @@ The instruction `SetVar` sets the value of the global or closure variable at ind
 Syntax:  SetVar v i ; description: vars[i] = v
 ```
 
-### ShiftLeft
+### Shl
 
-The instruction `ShiftLeft` computes the left shift of an integer. The first form of `ShiftLeft` computes the left shift of the operands addressed by `a` with shift count `n` and stores the result in `c`, the type of operands `a` and `c` is `int`.
+The instruction `Shl` computes the left shift of an integer. The first form of `Shl` computes the left shift of the operands addressed by `a` with shift count `n` and stores the result in `c`, the type of operands `a` and `c` is `int`.
 
-The second form of `ShiftLeft` computes the left shift of the operand addressed by `c` with shift count `n` and stores the result in `c`. `type` is the type of `c`.
-
-`n` can be an integer constant between 0 and 255.
-
-```go
-Syntax:  ShiftLeft a n c    ; description: c = a << n // int type
-         ShiftLeft type n c ; description: c <<= n
-```
-
-```go
-Example:  ShiftLeft i3 5 i2
-          ShiftLeft uint16 i5 i6
-```
-
-### ShiftRight
-
-The instruction `ShiftRight` computes the right shift of an integer. The first form of `ShiftRight` computes the right shift of the operands addressed by `a` with shift count `n` and stores the result in `c`, the type of operands `a` and `c` is `int`.
-
-The second form of `ShiftRight` computes the right shift of the operand addressed by `c` with shift count `n` and stores the result in `c`. `type` is the type of `c`.
+The second form of `Shl` computes the left shift of the operand addressed by `c` with shift count `n` and stores the result in `c`. `type` is the type of `c`.
 
 `n` can be an integer constant between 0 and 255.
 
 ```go
-Syntax:  ShiftRight a n c    ; description: c = a >> n // int type
-         ShiftRight type n c ; description: c >>= n
+Syntax:  Shl a n c    ; description: c = a << n // int type
+         Shl type n c ; description: c <<= n
 ```
 
 ```go
-Example:  ShiftRight i7 2 i3
-          ShiftRight int8 i9 i3
+Example:  Shl i3 5 i2
+          Shl uint16 i5 i6
+```
+
+### Shr
+
+The instruction `Shr` computes the right shift of an integer. The first form of `Shr` computes the right shift of the operands addressed by `a` with shift count `n` and stores the result in `c`, the type of operands `a` and `c` is `int`.
+
+The second form of `Shr` computes the right shift of the operand addressed by `c` with shift count `n` and stores the result in `c`. `type` is the type of `c`.
+
+`n` can be an integer constant between 0 and 255.
+
+```go
+Syntax:  Shr a n c    ; description: c = a >> n // int type
+         Shr type n c ; description: c >>= n
+```
+
+```go
+Example:  Shr i7 2 i3
+          Shr int8 i9 i3
 ```
 
 ### Slice
