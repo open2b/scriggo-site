@@ -900,7 +900,7 @@ Example:  Sub i3 i9 i2
 
 ### SubInv
 
-The instruction `SubInv` subtracts two integers or two floats. The first form of `SubInv` subtracts the constant `a` from the operand addressed by `b` and stores the result in `c`, the type of operands is `int` or `float64`.
+The instruction `SubInv` subtracts two integers or two floats. The first form of `SubInv` subtracts the operand addressed by `a` from the operand addressed by `b` and stores the result in `c`, the type of operands is `int` or `float64`.
 
 The second form of `SubInv` subtracts the constant addressed by `b` from the operand addressed by `c` and stores the result in `c`. `type` is the type of the operands.
 
