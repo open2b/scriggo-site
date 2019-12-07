@@ -107,9 +107,11 @@ Note that in this case the second operand is the constant `3` and not the regist
 
 ### Add
 
-The instruction `Add` sums two integers or two floats. The first form of `Add` sums the operands addressed by `a` and `b` and stores the result in `c`, the type of operands is `int` or `float64`.
+The instruction `Add` sums two integers or two floats. `Add` has two forms.
 
-The second form of `Add` adds the operand addressed by `b` and `c` and stores the result in `c`. `type` is the type of the operands.
+The first form sums the operands addressed by `a` and `b` and stores the result in `c`, the type of operands is `int` or `float64`.
+
+The second form adds the operand addressed by `b` and `c` and stores the result in `c`. `type` is the type of the operands.
 
 `b` can be an integer constant between 0 and 255.
 
@@ -385,9 +387,11 @@ The instruction `Delete` removes from the map addressed by `m` the element with 
 
 ### Div
 
-The instruction `Div` divides two integers or two floats. The first form of `Div` divides the operands addressed by `a` and the operand addressed by `b` and stores the result in `c`, the type of operands is `int` or `float64`.
+The instruction `Div` divides two integers or two floats. `Div` has two forms.
 
-The second form of `Div` divides the operand addressed by `c` and the operand addressed by `b` and stores the result in `c`. `type` is the type of the operands.
+The first form divides the operands addressed by `a` and the operand addressed by `b` and stores the result in `c`, the type of operands is `int` or `float64`.
+
+The second form divides the operand addressed by `c` and the operand addressed by `b` and stores the result in `c`. `type` is the type of the operands.
 
 `b` can be an integer constant between -127 and 126, excluding zero.
 
@@ -596,9 +600,11 @@ Syntax:  Move s d ; description: d = s
 
 ### Mul
 
-The instruction `Mul` multiplies two integers or two floats. The first form of `Mul` multiplies the operands addressed by `a` and the operand addressed by `b` and stores the result in `c`, the type of operands is `int` or `float64`.
+The instruction `Mul` multiplies two integers or two floats. `Div` has two forms.
 
-The second form of `Mul` multiplies the operand addressed by `c` and the operand addressed by `b` and stores the result in `c`. `type` is the type of the operands.
+The first form multiplies the operands addressed by `a` and the operand addressed by `b` and stores the result in `c`, the type of operands is `int` or `float64`.
+
+The second form multiplies the operand addressed by `c` and the operand addressed by `b` and stores the result in `c`. `type` is the type of the operands.
 
 `b` can be an integer constant between -127 and 126.
 
@@ -726,9 +732,11 @@ Recover DownTheStack v
 
 ### Rem
 
-The instruction `Rem` computes the remainder of two integers. The first form of `Rem` computes the remainder of the operands addressed by `a` and the operand addressed by `b` and stores the result in `c`, the type of operands is `int`.
+The instruction `Rem` computes the remainder of two integers. `Rem` has two forms.
 
-The second form of `Rem` computes the remainder of the operand addressed by `c` and the operand addressed by `b` and stores the result in `c`. `type` is the type of the operands.
+The first form computes the remainder of the operands addressed by `a` and the operand addressed by `b` and stores the result in `c`, the type of operands is `int`.
+
+The second form computes the remainder of the operand addressed by `c` and the operand addressed by `b` and stores the result in `c`. `type` is the type of the operands.
 
 `b` can be an integer constant between 1 and 255.
 
@@ -835,9 +843,11 @@ Syntax:  SetVar v i ; description: vars[i] = v
 
 ### Shl
 
-The instruction `Shl` computes the left shift of an integer. The first form of `Shl` computes the left shift of the operands addressed by `a` with shift count `n` and stores the result in `c`, the type of operands `a` and `c` is `int`.
+The instruction `Shl` computes the left shift of an integer. `Shl` has two forms.
 
-The second form of `Shl` computes the left shift of the operand addressed by `c` with shift count `n` and stores the result in `c`. `type` is the type of `c`.
+The first form computes the left shift of the operands addressed by `a` with shift count `n` and stores the result in `c`, the type of operands `a` and `c` is `int`.
+
+The second form computes the left shift of the operand addressed by `c` with shift count `n` and stores the result in `c`. `type` is the type of `c`.
 
 `n` can be an integer constant between 0 and 255.
 
@@ -853,9 +863,11 @@ Example:  Shl i3 5 i2
 
 ### Shr
 
-The instruction `Shr` computes the right shift of an integer. The first form of `Shr` computes the right shift of the operands addressed by `a` with shift count `n` and stores the result in `c`, the type of operands `a` and `c` is `int`.
+The instruction `Shr` computes the right shift of an integer. `Shr` has two forms.
 
-The second form of `Shr` computes the right shift of the operand addressed by `c` with shift count `n` and stores the result in `c`. `type` is the type of `c`.
+The first form computes the right shift of the operands addressed by `a` with shift count `n` and stores the result in `c`, the type of operands `a` and `c` is `int`.
+
+The second form computes the right shift of the operand addressed by `c` with shift count `n` and stores the result in `c`. `type` is the type of `c`.
 
 `n` can be an integer constant between 0 and 255.
 
@@ -880,9 +892,11 @@ Syntax:  Slice s1 low high s2     ; description: s2 = s1[low:high]
 
 ### Sub
 
-The instruction `Sub` subtracts two integers or two floats. The first form of `Sub` subtracts the operands addressed by `b` from the operand addressed by `a` and stores the result in `c`, the type of operands is `int` or `float64`.
+The instruction `Sub` subtracts two integers or two floats. `Sub` has two forms.
 
-The second form of `Sub` subtracts the operand addressed by `b` from the operand addressed by `c` and stores the result in `c`. `type` is the type of the operands.
+The first form subtracts the operands addressed by `b` from the operand addressed by `a` and stores the result in `c`, the type of operands is `int` or `float64`.
+
+The second form subtracts the operand addressed by `b` from the operand addressed by `c` and stores the result in `c`. `type` is the type of the operands.
 
 `b` can be an integer constant between 0 and 255.
 
@@ -900,9 +914,11 @@ Example:  Sub i3 i9 i2
 
 ### SubInv
 
-The instruction `SubInv` subtracts two integers or two floats. The first form of `SubInv` subtracts the operand addressed by `a` from the operand addressed by `b` and stores the result in `c`, the type of operands is `int` or `float64`.
+The instruction `SubInv` subtracts two integers or two floats. `SubInv` has two forms.
 
-The second form of `SubInv` subtracts the constant addressed by `b` from the operand addressed by `c` and stores the result in `c`. `type` is the type of the operands.
+The first form subtracts the operand addressed by `a` from the operand addressed by `b` and stores the result in `c`, the type of operands is `int` or `float64`.
+
+The second form subtracts the constant addressed by `b` from the operand addressed by `c` and stores the result in `c`. `type` is the type of the operands.
 
 The operand `b` is an integer constant between -127 and 126.
 
