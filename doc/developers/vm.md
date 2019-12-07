@@ -28,12 +28,12 @@ The Scriggo virtual machine is a register virtual machine that executes the byte
 
 ## Registers
 
-The virtual machine has 500 registers divided into the four groups **int**, **float**, **string** and **generic**:
+The virtual machine has the following registers for each executing function:
 
-* `i1`, `i2`, ..., `i125`: 125 register of type `int64`
-* `f1`, `f2`, ..., `f125`: 125 register of type `float64`
-* `s1`, `s2`, ..., `s125`: 125 register of type `string`
-* `g1`, `g2`, ..., `g125`: 125 register of type `interface{}`
+* 125 integer registers: `i1`, `i2`, ..., `i125`
+* 125 floating-point registers: `f1`, `f2`, ..., `f125`
+* 125 string registers: `s1`, `s2`, ..., `s125`
+* 125 general registers: `g1`, `g2`, ..., `g125`
 
 Local variables with basic type an integer or boolean type are stored in the int registers:
 ```go
@@ -107,11 +107,11 @@ Note that in this case the second operand is the constant `3` and not the regist
 
 ### Add
 
-The `Add` instructions sums two integers or two floats. The first form of `Add` sums the operands addressed by `a` and `b` and stores the result in `c`, the type of operands is `int` or `float64`.
+The instruction `Add` sums two integers or two floats. The first form of `Add` sums the operands addressed by `a` and `b` and stores the result in `c`, the type of operands is `int` or `float64`.
 
 The second form of `Add` adds the operand addressed by `b` and `c` and stores the result in `c`. `type` is the type of the operands.
 
-The operand `b` can be an integer constant, between -127 and 126 for signed types and between 0 and 255 for unsigned types.
+`b` can be an integer constant between 0 and 255.
 
 ```go
 Syntax:  Add a b c    ; description: c = a + b // int and float64 types
@@ -383,17 +383,24 @@ The instruction `Delete` removes from the map addressed by `m` the element with 
   Syntax:  Delete m k ; description: delete(m, k)
 ```
 
-### Div, Div8, Div16, Div32
+### Div
 
-The `Div` instructions divide the operands addressed by `a` and `b` and store the result in `c`.
+The instruction `Div` divides two integers or two floats. The first form of `Div` divides the operands addressed by `a` and the operand addressed by `b` and stores the result in `c`, the type of operands is `int` or `float64`.
 
-The second operand `b` can be an integer constant between 1 and 256:
+The second form of `Div` divides the operand addressed by `c` and the operand addressed by `b` and stores the result in `c`. `type` is the type of the operands.
+
+`b` can be an integer constant between -127 and 126, excluding zero.
 
 ```go
-Syntax:  Div   a b c ; description: c = a / b // for int, int64, uint, uint64 and float64
-         Div8  a b c ;              c = a / b // for int8 and uint8
-         Div16 a b c ;              c = a / b // for int16 and uint16
-         Div32 a b c ;              c = a / b // for int32, uint32 and float32
+Syntax:  Div a b c    ; description: c = a / b // int and float64 types
+         Div type b c ; description: c /= b
+```
+
+```go
+Example:  Div i10 4 i7
+          Div f3 f4 f5
+          Div int8 -6 i3
+          Div float64 f2 f1
 ```
 
 ### Field
@@ -503,14 +510,6 @@ The instruction `Index` gets, from the slice or string referred by `s`, the elem
 Syntax:  Index s i v ; description: v = s[i]
 ```
 
-### LeftShift
-
-The instruction `LeftShift` computes the left shift of the operand addressed by `a` with shift count `n` and stores the result in `b`.
-
-```go
-Syntax:  LeftShift a n b  ; description: b = a << n
-```
-
 ### Len
 
 The instruction `Len` gets the length of the slice, string or channel addressed by `s` and stores it in `n`. 
@@ -595,17 +594,24 @@ The instruction `Move` copies the value addressed by `s` to `d`.
 Syntax:  Move s d ; description: d = s
 ```
 
-### Mul, Mul8, Mul16, Mul32
+### Mul
 
-The `Mul` instructions multiply the operands addressed by `a` and `b` and store the result in `c`.
+The instruction `Mul` multiplies two integers or two floats. The first form of `Mul` multiplies the operands addressed by `a` and the operand addressed by `b` and stores the result in `c`, the type of operands is `int` or `float64`.
 
-The second operand `b` can be an integer constant between -127 and 126:
+The second form of `Mul` multiplies the operand addressed by `c` and the operand addressed by `b` and stores the result in `c`. `type` is the type of the operands.
+
+`b` can be an integer constant between -127 and 126.
 
 ```go
-Syntax:  Mul   a b c ; description: c = a * b // for int, int64, uint, uint64 and float64
-         Mul8  a b c ;              c = a * b // for int8 and uint8
-         Mul16 a b c ;              c = a * b // for int16 and uint16
-         Mul32 a b c ;              c = a * b // for int32, uint32 and float32
+Syntax:  Mul a b c    ; description: c = a * b // int and float64 types
+         Mul type b c ; description: c *= b
+```
+
+```go
+Example:  Mul i2 i4 i3
+          Mul f9 12 f2
+          Mul uint16 i3 i1
+          Mul float32 f5 f6
 ```
 
 ### New
@@ -718,30 +724,22 @@ As a special case, compiling the statement `defer recover()` the following bytec
 Recover DownTheStack v
 ```
 
-### Rem, Rem8, Rem16, Rem32
+### Rem
 
-The `Rem` instructions compute the remainder of the operands addressed by `a` and `b` and store the result in `c`. The operands are floating point or signed integers. For the remainder on unsigned integers see `RemU` instructions. 
+The instruction `Rem` computes the remainder of two integers. The first form of `Rem` computes the remainder of the operands addressed by `a` and the operand addressed by `b` and stores the result in `c`, the type of operands is `int`.
 
-The second operand `b` can be an integer constant between 1 and 256:
+The second form of `Rem` computes the remainder of the operand addressed by `c` and the operand addressed by `b` and stores the result in `c`. `type` is the type of the operands.
+
+`b` can be an integer constant between 1 and 255.
 
 ```go
-Syntax:  Rem   a b c ; description: c = a % b // for int and int64
-         Rem8  a b c ;              c = a % b // for int8
-         Rem16 a b c ;              c = a % b // for int16
-         Rem32 a b c ;              c = a % b // for int32
+Syntax:  Rem a b c    ; description: c = a % b // int type
+         Rem type b c ; description: c %= b
 ```
 
-### RemU, RemU8, RemU16, RemU32
-
-The `RemU` instructions compute the remainder of the operands addressed by `a` and `b` and store the result in `c`. The operands are unsigned integers. For the remainder on floating point and signed integers see `Rem` instructions. 
-
-The second operand `b` can be an integer constant between 1 and 256:
-
 ```go
-Syntax:  RemU   a b c ; description: c = a % b // for uint and uint64
-         RemU8  a b c ;              c = a % b // for uint8
-         RemU16 a b c ;              c = a % b // for uint16
-         RemU32 a b c ;              c = a % b // for uint32
+Example:  Rem i10 12 i2
+          Rem uint32 i7 i8
 ```
 
 ### Return 
@@ -750,15 +748,6 @@ The instruction `Return` returns from the current running function. Any function
 
 ```go
 Syntax:  Return ; description: return
-```
-
-### RightShift and RightShiftU 
-
-The `RightShift` instructions compute the right shift of the operand addressed by `a` with shift count `n` and store the result in `b`. `RightShift` operates on signed integers and `RightShiftU` on unsigned integers. 
-
-```go
-Syntax:  RightShift  a n b ; description: b = a >> n
-         RightShiftU a n b ; description: b = a >> n
 ```
 
 ### Select 
@@ -844,6 +833,42 @@ The instruction `SetVar` sets the value of the global or closure variable at ind
 Syntax:  SetVar v i ; description: vars[i] = v
 ```
 
+### ShiftLeft
+
+The instruction `ShiftLeft` computes the left shift of an integer. The first form of `ShiftLeft` computes the left shift of the operands addressed by `a` with shift count `n` and stores the result in `c`, the type of operands `a` and `c` is `int`.
+
+The second form of `ShiftLeft` computes the left shift of the operand addressed by `c` with shift count `n` and stores the result in `c`. `type` is the type of `c`.
+
+`n` can be an integer constant between 0 and 255.
+
+```go
+Syntax:  ShiftLeft a n c    ; description: c = a << n // int type
+         ShiftLeft type n c ; description: c <<= n
+```
+
+```go
+Example:  ShiftLeft i3 5 i2
+          ShiftLeft uint16 i5 i6
+```
+
+### ShiftRight
+
+The instruction `ShiftRight` computes the right shift of an integer. The first form of `ShiftRight` computes the right shift of the operands addressed by `a` with shift count `n` and stores the result in `c`, the type of operands `a` and `c` is `int`.
+
+The second form of `ShiftRight` computes the right shift of the operand addressed by `c` with shift count `n` and stores the result in `c`. `type` is the type of `c`.
+
+`n` can be an integer constant between 0 and 255.
+
+```go
+Syntax:  ShiftRight a n c    ; description: c = a >> n // int type
+         ShiftRight type n c ; description: c >>= n
+```
+
+```go
+Example:  ShiftRight i7 2 i3
+          ShiftRight int8 i9 i3
+```
+
 ### Slice
 
 The instruction `Slice` slices the slice or the string addressed by `s1` and stores the resulting slice or string into `s2`. The values addressed by `low`, `high` and `max` are the low, high and max indices. `max` is optional for slices and it is never present for strings.
@@ -853,30 +878,44 @@ Syntax:  Slice s1 low high s2     ; description: s2 = s1[low:high]
          Slice s1 low high max s2 ;              s2 = s1[low:high:max]
 ```
 
-### Sub, Sub8, Sub16 and Sub32
+### Sub
 
-The `Sub` instructions subtract the operand addressed by `b` from the operand addressed by `a` and store the result in `c`.
+The instruction `Sub` subtracts two integers or two floats. The first form of `Sub` subtracts the operands addressed by `b` from the operand addressed by `a` and stores the result in `c`, the type of operands is `int` or `float64`.
 
-`b` can be an integer constant between -127 and 126:
+The second form of `Sub` subtracts the operand addressed by `b` from the operand addressed by `c` and stores the result in `c`. `type` is the type of the operands.
+
+`b` can be an integer constant between 0 and 255.
 
 ```go
-Syntax:  Sub   a b c ; description: c = a - b // for int, int64, uint, uint64 and float64
-         Sub8  a b c ;              c = a - b // for int8 and uint8
-         Sub16 a b c ;              c = a - b // for int16 and uint16
-         Sub32 a b c ;              c = a - b // for int32, uint32 and float32
+Syntax:  Sub a b c    ; description: c = a - b // int and float64 types
+         Sub type b c ; description: c -= b
 ```
 
-### SubInv, SubInv8, SubInv16 and SubInv32
+```go
+Example:  Sub i3 i9 i2
+          Sub f8 23 f2
+          Sub int64 i7 i1
+          Sub float64 f14 f21
+```
 
-The `SubInv` instructions subtract the operand addressed by `a` from the operand addressed by `b` and store the result in `c`.
+### SubInv
 
-`b` can be an integer constant between -127 and 126:
+The instruction `SubInv` subtracts two integers or two floats. The first form of `SubInv` subtracts the constant `a` from the operand addressed by `b` and stores the result in `c`, the type of operands is `int` or `float64`.
+
+The second form of `SubInv` subtracts the constant addressed by `b` from the operand addressed by `c` and stores the result in `c`. `type` is the type of the operands.
+
+The operand `b` is an integer constant between -127 and 126.
 
 ```go
-Syntax:  Sub   a b c ; description: c = b - a // for int, int64, uint, uint64 and float64
-         Sub8  a b c ;              c = b - a // for int8 and uint8
-         Sub16 a b c ;              c = b - a // for int16 and uint16
-         Sub32 a b c ;              c = b - a // for int32, uint32 and float32
+Syntax:  SubInv a b c    ; description: c = b - a // int and float64 types
+         SubInv type b c ; description: c = b - c
+```
+
+```go  
+Example:  SubInv i3 i9 i2
+          SubInv f8 -23 f2
+          SubInv int64 i7 i1
+          SubInv float64 f14 f21
 ```
 
 ### TailCall
