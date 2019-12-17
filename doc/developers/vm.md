@@ -946,4 +946,12 @@ The instruction `Typify` gets the value addressed by `v1`, convert it to type `T
 Syntax:  Typify T v1 v2 ; description: var v2 T = v1
 ```
 
+### Xor
+
+The instruction `Xor` computes the bitwise XOR of the operands addressed by `a` and `b` and stores the result in `c`.
+
+```go
+Syntax:  Xor a b c  ; description: c = a ^ b
+```
+
 {% endraw %}
