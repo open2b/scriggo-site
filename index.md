@@ -20,11 +20,11 @@ func main() {
 }
 ```
 
-a syntax similar to programs is the **script syntax**, which is a lightweight version of the program syntax, particulary useful
-in every context where it's important to avoid boilerplate:
+a program can also be compiled and executed with the _package-less_ option,
+which is useful in every context where it's important to avoid boilerplate:
 
 ```go
-// This is a full and valid script!
+// This is a full and valid package-less Scriggo program!
 fmt.Println("I'm Scriggo!")
 ```
 
@@ -55,11 +55,11 @@ For designers who want to work with the Scriggo template.
 
 - [The Scriggo template](/doc/users/template.md) covers the usage of the Scriggo template starting from the simplest pages.
 
-## Write Scriggo scripts and programs
+## Write Scriggo programs
 
 For users who use Scriggo in an embedded context or through an interpreter.
 
-- [Scriggo scripts vs Scriggo programs](/doc/users/script-program-differences.html) covers the differences between a _Scriggo script_ and a standard Go program.
+- [The package-less option](/doc/users/package-less-option.html) covers the differences in the program syntax when the _package-less_option_ is on.
 
 ## Embed Scriggo in your application
 
