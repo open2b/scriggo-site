@@ -1,3 +1,7 @@
+---
+layout: article
+---
+
 {% raw %}
 # Internals
 {: .no_toc}
@@ -25,7 +29,7 @@ The **runtime** is implemented on the **Scriggo virtual machine**.
 
 ### The compiler
 
-The Scriggo compiles takes a source code and generates some byte code ready to be executed by the Scriggo virtual machine.
+The Scriggo compiler takes a source code and generates some bytecode ready to be executed by the virtual machine.
 
 Let's take a look at the entire process.
 
@@ -36,7 +40,7 @@ The lexer reads a source code and outputs a list of _tokens_.
 ![lexer](/images/lexer.png)
 
 
-The lexer recognizes all the tokens used by Go plus the ones specific for the template, as `{%`, `%}`, `macro` etc.. To get an overview of the Scriggo template syntax see [the Scriggo Template](/doc/users/template.html).
+The lexer recognizes all the tokens used by Go plus the ones specific for the template, as `{%`, `%}`, `macro` etc.. To get an overview of the Scriggo template syntax see [the Scriggo Template](/doc/template).
 
 #### The parser
 
@@ -85,6 +89,6 @@ Note that, without the use of the builder, the emission of instructions for the 
 ### The runtime
 
 The runtime of Scriggo executes the byte code using its internal virtual machine.
-For a detailed explanation of the virtual machine and to see the set of instructions that it uses, see the section [Virtual Machine](/doc/developers/vm.html).
+For a detailed explanation of the virtual machine and to see the set of the bytecode instructions that it uses, see the section [Bytecode](bytecode).
 
 {% endraw %}

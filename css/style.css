@@ -1,0 +1,77 @@
+
+*, *:before, *:after { box-sizing: border-box; }
+
+body { background: #0a1922; font-family: muli,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; line-height: 1.45; margin: 0; }
+
+a { text-decoration: none; }
+p { color: #555; line-height: 1.5; }
+li { line-height: 1.65; }
+
+nav.top { align-items: center; background: #0a1922; display: flex; justify-content: flex-start; flex-wrap: wrap; padding: 2rem 0; width: 100%; }
+nav.top .logo { color: #ebb951; font-size: 1.6rem; font-weight: bold; margin-left: 2em; }
+nav.top ul { display: inline-block; list-style-type: none; margin: 0 .5em; vertical-align: middle; }
+nav.top li { display: inline-block; padding: 0 1rem; }
+nav.top ul a { color: #fff; }
+nav.top ul a:hover { color: #fcd804; }
+
+.content { margin: 0 20px; }
+
+.cols-2 { display: flex; flex-wrap: wrap; }
+.cols-2 > div { padding: 2em 5rem; width: 50%; }
+
+.index a { color: #fff; }
+
+.index nav.top .logo { color: #fff; cursor: default; pointer-events: none; }
+
+.index header { margin: 1.6rem; }
+.index header section { margin: 0 auto; text-align: center; width: 55%; }
+.index header h1 { color: #ebb951; cursor: default; font-size: 7rem; font-weight: 800; margin-top: 0; margin-bottom: 2rem; }
+.index header h2 { color: #fff; font-size: 2.6em; font-weight: 200; line-height: 1.2em; margin: 2.2rem auto; }
+.index header h3 { color: #aaa; font-size: 1.4em; font-weight: 200; letter-spacing: .02rem; line-height: 1.5em; margin: .5rem; }
+.index header .button { background: linear-gradient(to right, #00fcd5, #00c6ff); border-radius: 3px; color: #333; cursor: pointer; display: inline-block; font-size: 1em; font-weight: bold; margin-top: 2rem; text-transform: uppercase; padding: .6rem 1.5rem .4em 1.5em; }
+
+.index .why { color: #fff; margin: 4rem; margin-bottom: 2rem; }
+.index .why h2 { color: #ebb951; font-size: 1.8rem; font-weight: normal; }
+.index .why p { color: #f6f6f6; font-size: 1.3rem; font-weight: 200; line-height: 1.9rem; }
+
+.benchmark { color: #fff; float: left; padding: 2rem 1rem 5rem 9rem; width: 50%; }
+.benchmark h2 { font-size: 2rem; font-weight: normal; margin-bottom: .5rem; }
+.benchmark h2 + p { color: #ddd; margin-bottom: 3rem; margin-top: .5rem; }
+.benchmark div p { font-size: 1.1rem; margin-bottom: 5px; margin-top: 24px; }
+.benchmark div p a { color: #ccc; opacity: .999; }
+.benchmark div p span { color: #aaa; font-size: 1rem; padding-left: 1rem; }
+.benchmark .bar { background: linear-gradient(to right, #00fcd5, #00c6ff); height: 11px; }
+.benchmark .bar-scriggo { opacity: 1; width: 12.79%; }
+.benchmark .bar-tengo { opacity: .6935; width: 18.44%; }
+.benchmark .bar-gopher-lua { opacity: .4542; width: 28.16%; }
+.benchmark .bar-go-lua { opacity: .4480; width: 28.1654%; }
+.benchmark .bar-yaegi { opacity: .1200; width: 100%; }
+
+.benchmark .bar-go { opacity: 1; width: 1.99%; }
+.benchmark .bar-ruby { opacity: 1; width: 40.40%; }
+.benchmark .bar-scriggo-2 { opacity: 1; width: 77.15%; }
+.benchmark .bar-python { opacity: .6935; width: 100%; }
+
+.article article { background: #fff; min-height: 100vh; }
+.article article > .wrap { display: flex; font-size: 1.1rem; margin: 0 auto; max-width: 1024px; }
+.article article > .wrap > :first-child { width: 20%; }
+.article article > .wrap > :last-child { width: 80%; }
+.article aside ul { list-style-type: none; margin-top: 3rem; }
+.article aside li { white-space: nowrap; }
+.article aside ul a { display: block; font-size: 1.1rem; padding: 0.5rem; }
+.article aside ul a, .article aside ul a:visited { color: #333; }
+.article aside ul a:hover { background: #ebb951; }
+.article .content a, .article .content a:visited { color: #5f943d; }
+.article h1 { color: #0a1922; font-size: 3rem; }
+.article p + h1 { font-size: 2.2rem; margin-top: -.7em; }
+.article h2 { color: #0a1922; font-size: 2rem; }
+.article h3 { color: #0a1922; }
+.article pre { background: #f9f6f1; border-radius: 3px; padding: 1rem; }
+.article code { background: #f9f6f1; border-radius: 2px; color: #523f18; padding: .2rem .5rem; }
+.article pre code { padding: 0; }
+.article blockquote { background: #f9f9f9; border-left: 5px solid #ebb951; border-radius: 3px; margin: 0; padding: .5rem 1rem; }
+.article blockquote > p + div pre { background: transparent; margin: 0; padding-left: 0; padding-top: 0; }
+.article blockquote div + p { margin-top: 0; }
+.article img { max-width: 100%; }
+
+#what-is-scriggo + p { color: #777; font-size: 1.2em; font-weight: bold; }

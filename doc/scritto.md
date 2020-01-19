@@ -1,3 +1,7 @@
+---
+layout: article
+---
+
 {% raw %}
 <!-- TODO: uniformare {% end .. %} -->
 
@@ -15,26 +19,25 @@ pre.example {
 }
 </style>
 
-# Template
+# Scritto templates
 {: .no_toc}
 
-Scriggo mette a disposizione un avanzato sistema di template, la cui sintassi riprende quella di Go.
-
+Scritto is a modern and powerful template language with the <a href="https://golang.org/">Go language</a> as template scripting language.
 
 1. TOC
 {:toc}
 
 **TODO: questo documento è attualmente WIP, pertanto contiene errori, imprecisioni, omissioni e sezioni da rimuovere**
 
-## Introduzione
+## Introduction
 
-**TODO: aggiungere un introduzione.**
+**TODO: add an introduction.**
 
-Gli esempi verranno mostrati in questo modo:
+Examples will be shown this way:
 
 <pre class="example">
-Sorgente del template
-<hr>Risultato mostrato dal template
+Template's source
+<hr>Result shown by the template
 </pre>
 
 > NOTA: per una questione di leggibilità, alcuni esempi potrebbero contenere degli _a capo_ o degli spazi che non verrebbero in realtà renderizzati, o viceversa, vengono nascoste delle spaziature che invece sono presenti nel template mostrato da Scriggo. Per approfondire la questione degli spazi si veda la sezione [Avanzato - Rendering del testo]()
@@ -59,18 +62,18 @@ Di per sè utilizzare un sistema di template che riscriva il testo così com'è 
 
 Si pensi, ad esempio, ad una sezione di una pagina HTML che deve essere mostrata solo in determinate condizioni; oppure si pensi ad calendario che deve essere mostrato in maniera differente in base al giorno. -->
 
-## Mostrare valori nel template
+## Show value in the template
 
-Per mostrare un valore si utilizza `{{ .. }}`; ciò che si trova tra i `{{` e `}}` viene mostrato nel template.
+To show a value use the show instruction `{{ ... }}`; the expression included between `{{` and `}}` will be evaluated and displayed.
 
 <pre class="example">
 {{ "Hello" }}, {{ "World!" }}
 <hr>Hello, World!
 </pre>
 
-## Espressioni
+## Expressions
 
-Ad ogni espressione è necessariamente associato un _tipo_. Il tipo definisce il contesto ed il significato di un'espressione. 
+Each expression has a type. The type defines the context and meaning of an expression. 
 
 ### Espressioni numeriche
 

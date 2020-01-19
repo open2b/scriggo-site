@@ -1,5 +1,3 @@
-# TODO: this page needs a revision
-
 # Differences between a Scriggo script and a program
 {: .no_toc}
 

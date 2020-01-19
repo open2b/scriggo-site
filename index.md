@@ -1,3 +1,7 @@
+---
+layout: home
+---
+
 # Scriggo
 
 ## What is Scriggo?
@@ -20,11 +24,11 @@ func main() {
 }
 ```
 
-a program can also be compiled and executed with the _package-less_ option,
-which is useful in every context where it's important to avoid boilerplate:
+a syntax similar to programs is the **script syntax**, which is a lightweight version of the program syntax, particulary useful
+in every context where it's important to avoid boilerplate:
 
 ```go
-// This is a full and valid package-less Scriggo program!
+// This is a full and valid script!
 fmt.Println("I'm Scriggo!")
 ```
 
@@ -53,13 +57,13 @@ Here you can find some useful resources that cover from the first steps with Scr
 
 For designers who want to work with the Scriggo template.
 
-- [The Scriggo template](/doc/users/template.md) covers the usage of the Scriggo template starting from the simplest pages.
+- [The Scriggo template](/doc/template.md) covers the usage of the Scriggo template starting from the simplest pages.
 
-## Write Scriggo programs
+## Write Scriggo scripts and programs
 
 For users who use Scriggo in an embedded context or through an interpreter.
 
-- [The package-less option](/doc/users/package-less-option.html) covers the differences in the program syntax when the _package-less_option_ is on.
+- [Scriggo scripts vs Scriggo programs](/doc/users/script-program-differences.html) covers the differences between a _Scriggo script_ and a standard Go program.
 
 ## Embed Scriggo in your application
 
@@ -75,6 +79,6 @@ It covers the Scriggo APIs and the `scriggo` command line tool.
 For developers who want to develope Scriggo.
 Covers the Scriggo internals, as well as the repository structure.
 
-- [Scriggo internals](doc/developers/internals.md) makes an overview of the internals of Scriggo.
+- [Scriggo internals](doc/internals.md) makes an overview of the internals of Scriggo.
 - [The Scriggo Virtual Machine](/doc/developers/vm.md)
 
