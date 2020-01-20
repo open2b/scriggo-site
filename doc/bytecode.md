@@ -163,12 +163,12 @@ Syntax:  And a b c  ; description: c = a & b
 The instruction `AndNot` computes the AND NOT (bit clear) of the operands addressed by `a` and `b` and stores the result in `c`.
 
 ```go
-Syntax:  And a b c ; description: c = a &^ b
+Syntax:  AndNot a b c ; description: c = a &^ b
 ```
 
 ### Append
 
-The instruction `Append` appends values to the slice addressed by `s` and store the resulting slice in `s`. The appended values are the values in the registers starting from the register `start` and ending to the register `end`. The registers with the values to append are consecutive and its type depends on the type of the slice's element.
+The instruction `Append` appends values to the slice addressed by `s` and store the resulting slice in `s`. The appended values are the values in the registers starting from the register `start` and ending to the register `end`. The registers with the values to append are consecutive and their type depends on the type of the slice's element.
 
 ```go
 Syntax:  Append start end s ; description: s = append(s, start, ..., end)
@@ -691,7 +691,7 @@ Syntax:  Range s i e ; description: for i, e = range s // for a slice
          Range ch v  ; description: for v = range ch   // for a channel
 ```
 
-The instruction `Range` is used in combination to the instructions `Goto`, `Continue` and `Break` to implements a `for range` statement.
+The instruction `Range` is used in combination to the instructions `Goto`, `Continue` and `Break` to implement a `for range` statement.
 
 For example a range over the first five elements of a slice:
 
@@ -786,7 +786,7 @@ The instruction `Select` selects a case from one of the cases defined by previou
 Syntax:  Select ; description: select
 ```
 
-The instruction `Select` is used in combination to the instruction [Case](#case) to implements a `select` statement.
+The instruction `Select` is used in combination to the instruction [Case](#case) to implement a `select` statement.
 
 For example the select statement:
 
