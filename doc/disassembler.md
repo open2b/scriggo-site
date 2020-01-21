@@ -71,6 +71,22 @@ var e *S
 
 In addition to the registers for called functions, there is special boolean `ok` flag used by `Assert`, `Receive` and `If` instructions.
 
+## Package clause
+
+The clause `Package` begins a disassembled code and defines the package to which the code belongs.
+
+```go
+Syntax:  Package name ; description: package name
+```
+
+## Import declaration
+
+The declaration `Import` states that the disassembled package uses exported identifiers of the imported package.   
+
+```go
+Syntax:  Import pkg ; description: import "pkg"
+```
+
 ## Instructions
 
 There are 68 bytecode instructions:
