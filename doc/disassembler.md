@@ -6,15 +6,15 @@ layout: article
 
 # Disassembler
 
-When Scriggo runs a program or template, first compiles it into bytecode and then runs it on a Scriggo virtual machine.
+When Scriggo runs a program or template, first compiles it into machine code and then runs it on a Scriggo virtual machine.
 
-## How disassemble bytecode
+## How disassemble
 
 {: .no_toc}
 
-To disassemble a program or template to bytecode you can:
+To disassemble a program or a template you can:
 
-* with the scriggo command, use the `-S` option to print the program's bytecode to the standard output:
+* with the scriggo command, use the `-S` option to print the program's assembler to the standard output:
 
     ```
     $ scriggo -S program.go
@@ -87,9 +87,11 @@ The declaration `Import` states that the disassembled package uses exported iden
 Syntax:  Import pkg ; description: import "pkg"
 ```
 
-## Instructions
+## Assembler instructions
 
-There are 68 bytecode instructions:
+The Scriggo assembler is an abstraction above the virtual machine instructions. Some assembler instructions have a direct representation in a virtual machine instruction but some do not.
+
+There are 68 assembler instructions:
 
 {::options toc_levels="3" /}
 
@@ -694,7 +696,7 @@ for i, e := range s {
 return
 ```
 
-could be compiled to bytecode:
+could be compiled to assembler:
 
 ```go
 1: Range g2 i1 s7
@@ -732,7 +734,7 @@ The instruction `Recover` recovers a panicking goroutine and stores in `v` the v
 Syntax:  Recover v ; description: v = recover()
 ```
 
-As a special case, compiling the statement `defer recover()` the following bytecode line is generated:
+As a special case, compiling the statement `defer recover()` the following assembler line is generated:
 
 ```go
 Recover DownTheStack v
@@ -790,7 +792,7 @@ default:
 return
 ```
 
-could be compiled to this bytecode:
+could be compiled to this assembler:
 
 ```go
    Case Recv i5 g2  ; case a <-tick:
