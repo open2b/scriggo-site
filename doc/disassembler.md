@@ -14,7 +14,7 @@ When Scriggo runs a program or template, first compiles it into machine code and
 
 To disassemble a program or a template you can:
 
-* with the scriggo command, use the `-S` option to print the program's assembler to the standard output:
+* with the scriggo command, use the `-S` option to print the program's assembly to the standard output:
 
     ```
     $ scriggo -S program.go
@@ -87,11 +87,11 @@ The declaration `Import` states that the disassembled package uses exported iden
 Syntax:  Import pkg ; description: import "pkg"
 ```
 
-## Assembler instructions
+## Assembly instructions
 
-The Scriggo assembler is an abstraction above the virtual machine instructions. Some assembler instructions have a direct representation in a virtual machine instruction but some do not.
+The Scriggo assembly is an abstraction above the virtual machine instructions. Some assembly instructions have a direct representation in a virtual machine instruction but some do not.
 
-There are 68 assembler instructions:
+There are 68 assembly instructions:
 
 {::options toc_levels="3" /}
 
@@ -696,7 +696,7 @@ for i, e := range s {
 return
 ```
 
-could be compiled to assembler:
+could be compiled to assembly:
 
 ```go
 1: Range g2 i1 s7
@@ -734,7 +734,7 @@ The instruction `Recover` recovers a panicking goroutine and stores in `v` the v
 Syntax:  Recover v ; description: v = recover()
 ```
 
-As a special case, compiling the statement `defer recover()` the following assembler line is generated:
+As a special case, compiling the statement `defer recover()` the following assembly line is generated:
 
 ```go
 Recover DownTheStack v
@@ -792,7 +792,7 @@ default:
 return
 ```
 
-could be compiled to this assembler:
+could be compiled to this assembly:
 
 ```go
    Case Recv i5 g2  ; case a <-tick:
