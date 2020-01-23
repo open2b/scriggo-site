@@ -6,7 +6,7 @@ layout: article
 
 # Disassembler
 
-When Scriggo runs a program or template, first compiles it into machine code and then runs it on a Scriggo virtual machine.
+When Scriggo runs a program or template, first compiles it into virtual machine code and then runs it on a Scriggo virtual machine.
 
 ## How disassemble
 
