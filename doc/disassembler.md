@@ -8,11 +8,13 @@ layout: article
 
 When Scriggo runs a program or template, first compiles it into virtual machine code and then runs it on a Scriggo virtual machine.
 
-## How disassemble
+## How to disassemble
 
 {: .no_toc}
 
 To disassemble a program or a template you can:
+
+* in the [Scriggo Playground](https://play.scriggo.com/) click on the `Disassemble` button to show the disassembled program.
 
 * with the scriggo command, use the `-S` option to print the program's assembly to the standard output:
 
@@ -23,11 +25,8 @@ To disassemble a program or a template you can:
 * with the scriggo package, call the method `Disassemble` on the value returned by the `Load` method to disassemble a named package to a writer:
 
     ```
-    program, err = scriggo.Load(...)
     program.Disassemble(w, "main")
-    ```
-
-* in the [Scriggo Playground](https://play.scriggo.com/) click on the `Disassemble` button to show the disassembled program. 
+    ``` 
 
 ## Registers
 
@@ -84,7 +83,7 @@ Syntax:  Package name ; description: package name
 The declaration `Import` states that the disassembled package uses exported identifiers of the imported package.   
 
 ```go
-Syntax:  Import pkg ; description: import "pkg"
+Syntax:  Import "pkg" ; description: import "pkg"
 ```
 
 ## Assembly instructions
