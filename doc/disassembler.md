@@ -639,7 +639,7 @@ Syntax:  New T v ; description: v = new(T)
 
 ### NotZero
 
-The instruction `NotZero` reports whether the value addressed by the register `b` is not a zero value; if so, then stores `1` in the integer register `c`, otherwise stores `0`.
+The instruction `NotZero` checks if the value addressed by the register `b` is not a zero value; if so, then stores `1` in the integer register `c`, otherwise stores `0`.
 
 As a special case, if the value addressed by `b` has type interface and it is
 not `nil` then its dynamic value is taken.
@@ -984,7 +984,7 @@ Syntax:  Xor a b c ; description: c = a ^ b
 
 ### Zero
 
-The instruction `Zero` reports whether the value addressed by the register `b` is a zero value; if so, then stores `1` in the integer register `c`, otherwise stores `0`.
+The instruction `Zero` checks if the value addressed by the register `b` is a zero value; if so, then stores `1` in the integer register `c`, otherwise stores `0`.
 
 As a special case, if the value addressed by `b` has type interface and it is
 not `nil` then its dynamic value is taken.
