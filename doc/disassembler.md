@@ -637,6 +637,25 @@ The instruction `New` allocates storage for a variable of type `T` and stores a 
 Syntax:  New T v ; description: v = new(T)
 ```
 
+### NotZero
+
+The instruction `NotZero` reports whether the value addressed by the register `b` is not a zero value; if so, then stores `1` in the integer register `c`, otherwise stores `0`.
+
+As a special case, if the value addressed by `b` has type interface and it is
+not `nil` then its dynamic value is taken.
+
+```
+Syntax: NotZero b c ; description: c = 1 if b is not the zero value for its type
+                                   c = 0 otherwise
+```
+
+```
+Example:  NotZero i1 i2
+          NotZero s1 i3
+```
+
+See also the [Zero](#zero) instruction.
+
 ### Or
 
 The instruction `Or` computes the bitwise OR of the operands addressed by `a` and `b` and stores the result in `c`.
@@ -962,5 +981,24 @@ The instruction `Xor` computes the bitwise XOR of the operands addressed by `a` 
 ```go
 Syntax:  Xor a b c ; description: c = a ^ b
 ```
+
+### Zero
+
+The instruction `Zero` reports whether the value addressed by the register `b` is a zero value; if so, then stores `1` in the integer register `c`, otherwise stores `0`.
+
+As a special case, if the value addressed by `b` has type interface and it is
+not `nil` then its dynamic value is taken.
+
+```
+Syntax: Zero b c ; description: c = 1 if b is the zero value for its type
+                                c = 0 otherwise
+```
+
+```
+Example:  Zero i1 i2
+          Zero s1 i3
+```
+
+See also the [NotZero](#notzero) instruction.
 
 {% endraw %}
