@@ -157,36 +157,34 @@ See <a href="/doc/package-importers">package importers</a> for more details.
 
 ## Use Scriggo in templates
 
-Scriggo supports the Scritto template language.
-
-<b>Scritto</b> is a template language with inheritance, macros, includes, imports and autoescaping but most of all
+The Scriggo template language supports inheritance, macros, includes, imports and autoescaping but most of all
 it uses the Go language as the template scripting language. 
 
-Templates in Scritto can be written with plain text, HTML, CSS and JavaScript.
+Scriggo templates can be written with plain text, HTML, CSS and JavaScript.
 
 Open a terminal and create a new directory for the application: 
 
 ```
-$ mkdir hello-scritto
-$ cd hello-scritto
+$ mkdir hello-template
+$ cd hello-template
 ```
 
 Initialize a Go module in the previous created directory:
 
 ```
-$ go mod init hello-scritto
+$ go mod init hello-template
 ```
 
 Create a file `main.go` with the following source code:
 
 {% raw %}
 ```go
-// Load and render a Scritto template on the standard output.
+// Load and render a Scriggo template on the standard output.
 package main
 
 import (
     "os"
-    "github.com/open2b/scritto"
+    "github.com/open2b/scriggo/template"
 )
 
 func main() {
@@ -204,16 +202,16 @@ func main() {
     `)
 
     // reader knows how to read template files.
-    reader := scritto.MapReader{"index.html" : src}
+    reader := template.MapReader{"index.html" : src}
     
     // Load the template.
-    template, err := scritto.Load("index.html", reader, nil, scritto.ContextHTML, nil)
+    tmpl, err := template.Load("index.html", reader, nil, template.LanguageHTML, nil)
     if err != nil {
         panic(err)
     }
  
     // Render the template on the standard output.
-    err = template.Render(os.Stdout, nil, nil)
+    err = tmpl.Render(os.Stdout, nil, nil)
     if err != nil {
         panic(err)
     }
@@ -223,7 +221,7 @@ func main() {
 {% endraw %}
 {% raw %}
 
-Build the application directly from the `hello-scritto` directory.
+Build the application directly from the `hello-template` directory.
 
 ```
 $ go build
@@ -232,7 +230,7 @@ $ go build
 Execute the application:
 
 ```
-$ ./hello-scritto
+$ ./hello-template
 
     <!DOCTYPE html>
     <html>
@@ -244,13 +242,10 @@ $ ./hello-scritto
  
 ```
 
-The previous program uses the <b>scritto</b> package, not <em>scriggo</em>. The <b>scritto</b> package is build on
-Scriggo and has an easy to use interface to load and render Scritto templates with useful builtins.
-
-See the <a href="/doc/scritto">Scritto template language</a> for more details.
+See the <a href="/doc/template">Scriggo template language</a> for more details.
 
 <!--
-The following is a more complex example of the <b>Scritto</b> language:
+The following is a more complex example of a Scriggo template:
 
 {% raw %}
 ```html

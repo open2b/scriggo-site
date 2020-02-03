@@ -177,15 +177,15 @@ Syntax:  AppendSlice s1 s2 ; description: s2 = append(s2, s1...)
 
 ### Assert
 
-The instruction `Assert` does the type assertion `x.(T)`. The operand `T` is the index of the `Types` slice of the current running function.
+The instruction `Assert` asserts that the value addressed by `x` is not `nil` and it is of type `T`.
 
 ```go
 Syntax:  Assert x T v ; description: v, ok = x.(T)
 ```
 
-If the type assertion successes, it stores the the resulting value into the register `v` (the register type depends on the type `T`), sets the `ok` flag to `true` and skips the next instruction.
+If the type assertion holds, it stores the the resulting value into the register `v` (the register type depends on the type `T`), sets the `ok` flag to `true` and skips the next instruction.
 
-If the type assertion fails, sets the `ok` flag to `false` and, if the next instruction is a `Panic`, does a run-time panic. TODO: document the `Panic` operand.     
+If the type assertion is false, it sets the `ok` flag to `false` and, if the next instruction is a `Panic`, does a run-time panic. TODO: document the `Panic` operand.     
 
 ### Break
 

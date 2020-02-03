@@ -10,6 +10,8 @@ Scriggo has a command line interface, the `scriggo` command, that allows to:
 * build scriggo commands with specific packages
 * generate a package loader for an existing application
 
+It is a single binary executable with no external dependencies. It includes the entire Go library in a executable that when compressed is only 5 megabyte.
+
 If your use of the Scriggo command is not limited to run programs, before you start you must <a href="https://golang.org/dl/">download and install Go</a>.
 
 See <a href="/doc/install">install Scriggo command</a> to install the `scriggo` command using precompiled binaries or compiling from source.
