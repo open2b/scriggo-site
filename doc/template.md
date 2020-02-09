@@ -20,7 +20,7 @@ template scripting language.
       {% end %}
     </ul>
     {% include "pagination.html" %}
-    {% show banners.Banner() %}
+    {% show Banner() %}
 {% end %}
 ```
 
