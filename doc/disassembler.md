@@ -546,6 +546,14 @@ Syntax:  LoadNumber i dst ; description: dst = vm.fn.Int[i]   // when dst is a i
                                          dst = vm.fn.Float[i] // when dst is a float register
 ```
 
+### MakeArray
+
+The instruction `MakeArray` makes an array with type `T` and stores it in `v`.
+
+```go
+Syntax: MakeArray T v ; description: var v T
+```
+
 ### MakeChan
 
 The instruction `MakeChan` makes a channel with type `T` and buffer size addressed by `s` and stores it in `ch`.
@@ -568,6 +576,14 @@ The instruction `MakeSlice` makes a slice with element type `T`, length addresse
 
 ```go
 Syntax:  MakeSlice T n c s ; description: s = make(T, n, c)
+```
+
+### MakeStruct
+
+The instruction `MakeStruct` makes a struct with type `T` and stores it in `v`.
+
+```go
+Syntax: MakeStruct T v ; description: var v T
 ```
 
 ### MapIndex
