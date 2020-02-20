@@ -657,8 +657,11 @@ Syntax:  New T v ; description: v = new(T)
 
 The instruction `NotZero` checks if the value addressed by the register `b` is not a zero value; if so, then stores `1` in the integer register `c`, otherwise stores `0`.
 
-As a special case, if the value addressed by `b` has type interface and it is
-not `nil` then its dynamic value is taken.
+As special cases, if the value addressed by `b` is an empty slice or an empty
+channel the instruction `NotZero` stores `0`.
+
+Moreover, if the value addressed by `b` has type interface and it is not `nil`,
+the instruction `NotZero` evaluates its dynamic value.
 
 ```
 Syntax: NotZero b c ; description: c = 1 if b is not the zero value for its type
@@ -1002,8 +1005,11 @@ Syntax:  Xor a b c ; description: c = a ^ b
 
 The instruction `Zero` checks if the value addressed by the register `b` is a zero value; if so, then stores `1` in the integer register `c`, otherwise stores `0`.
 
-As a special case, if the value addressed by `b` has type interface and it is
-not `nil` then its dynamic value is taken.
+As special cases, if the value addressed by `b` is an empty slice or an empty
+channel the instruction `Zero` stores `1`.
+
+Moreover, if the value addressed by `b` has type interface and it is not `nil`,
+the instruction `Zero` evaluates its dynamic value.
 
 ```
 Syntax: Zero b c ; description: c = 1 if b is the zero value for its type
