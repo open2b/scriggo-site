@@ -548,10 +548,10 @@ Syntax:  LoadNumber i dst ; description: dst = vm.fn.Int[i]   // when dst is a i
 
 ### MakeArray
 
-The instruction `MakeArray` makes an array with type `T` and stores it in `v`.
+The instruction `MakeArray` makes an array with type `T` and stores it in `a`.
 
 ```go
-Syntax: MakeArray T v ; description: var v T
+Syntax: MakeArray T a ; description: var a T
 ```
 
 ### MakeChan
@@ -580,10 +580,10 @@ Syntax:  MakeSlice T n c s ; description: s = make(T, n, c)
 
 ### MakeStruct
 
-The instruction `MakeStruct` makes a struct with type `T` and stores it in `v`.
+The instruction `MakeStruct` makes a struct with type `T` and stores it in `s`.
 
 ```go
-Syntax: MakeStruct T v ; description: var v T
+Syntax: MakeStruct T s ; description: var s T
 ```
 
 ### MapIndex
