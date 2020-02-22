@@ -137,7 +137,7 @@ Syntax:  Alloc   ; description: allocates the memory used by the next instructio
          Alloc n ;              allocates n bytes of memory
 ```
 
-Allocation of memory is necessary only to control the memory usage during the execution. The compiler adds `Alloc` instructions if the `LimitMemorySize` option is used when loading a program, script or template.
+Allocation of memory is necessary only to control the memory usage during the execution. The compiler adds `Alloc` instructions if the `LimitMemorySize` option is used when loading a program or template.
 
 ### And
 
