@@ -128,17 +128,6 @@ Syntax:  Addr s i p ; description: p = &s[i]
          Addr s i p ;              p = &s.f // where f if the field of s at index i
 ```
 
-### Alloc
-
-The instruction `Alloc` allocates the memory used by the next instruction or allocates a fixed bytes of memory. If the memory is not limited, `Alloc` is a no-op.
-
-```go
-Syntax:  Alloc   ; description: allocates the memory used by the next instruction
-         Alloc n ;              allocates n bytes of memory
-```
-
-Allocation of memory is necessary only to control the memory usage during the execution. The compiler adds `Alloc` instructions if the `LimitMemorySize` option is used when loading a program or template.
-
 ### And
 
 The instruction `And` computes the bitwise AND of the operands addressed by `a` and `b` and stores the result in `c`.
@@ -796,6 +785,17 @@ Syntax:  Rem a b c    ; description: c = a % b // int type
 Example:  Rem i10 12 i2
           Rem uint32 i7 i8
 ```
+
+### Reserve
+
+The instruction `Reserve` reserves memory used by the next instruction or reserves a fixed bytes of memory. If the memory is not limited, `Reserve` is a no-op.
+
+```go
+Syntax:  Reserve   ; description: reserves the memory used by the next instruction
+         Reserve n ;              reserves n bytes of memory
+```
+
+The compiler adds `Reserve` instructions if the `LimitMemorySize` option is used when loading a program or template.
 
 ### Return 
 
