@@ -201,11 +201,11 @@ func main() {
     </html>
     `)
 
-    // reader knows how to read template files.
-    reader := template.MapReader{"index.html" : src}
-    
+    // files is used to read the template files.
+    files := template.MapReader{"index.html" : src}
+
     // Load the template.
-    tmpl, err := template.Load("index.html", reader, nil, template.LanguageHTML, nil)
+    tmpl, err := template.Load("index.html", files, nil, template.LanguageHTML, nil)
     if err != nil {
         panic(err)
     }
