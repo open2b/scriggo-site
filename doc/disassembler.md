@@ -597,7 +597,7 @@ Syntax:  Move s d ; description: d = s
 
 ### Mul
 
-The instruction `Mul` multiplies two integers or two floats. `Div` has two forms.
+The instruction `Mul` multiplies two integers or two floats. `Mul` has two forms.
 
 The first form multiplies the operands addressed by `a` and the operand addressed by `b` and stores the result in `c`, the type of operands is `int` or `float64`.
 
