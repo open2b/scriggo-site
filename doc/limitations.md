@@ -49,6 +49,8 @@ see the list of [missing features on Github](https://github.com/open2b/scriggo/l
     Scriggo interpreter/execution environment.
     Also see the commands `scriggo embed` and `scriggo build`.
 
+* types are not garbage collected. See issue [golang/go#28783](https://github.com/golang/go/issues/28783).
+
 * the debugger [delve](https://github.com/go-delve/delve) is not compatible with Scriggo; currently there are
     no debuggers available for Scriggo.
 
