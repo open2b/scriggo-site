@@ -24,7 +24,7 @@ template scripting language.
 {% end %}
 ```
 
-Scriggo Template's files can be written in plain text, HTML, CSS or JavaScript.
+Scriggo Template's files can be written in plain text, HTML, CSS, JavaScript and JSON.
 
 ## Expressions
 
