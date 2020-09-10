@@ -19,7 +19,7 @@ template scripting language.
       <li><a href="{{ product.URL }}">{{ product.Name }}</a></li>
       {% end %}
     </ul>
-    {% include "pagination.html" %}
+    {% show "pagination.html" %}
     {% show Banner() %}
 {% end %}
 ```
@@ -236,16 +236,16 @@ The statement `show` is used to call a macro:
 {% show image("picture.jpg", 400, 500) %}
 ```
 
-### include
+### Partials
 
-The statement `include` includes a file. Including a file corresponds to replace the statement `include` with the content
-of the included file. The name of the included file can be a relative or an absolute path.
-
-Example:
+Partials are template files whose contents can be shown in other files with a `show` statement:
 
 ```
-{% include "inc/column.html" %}
+{% show "partials/footer.html" %}
 ```
+
+The name of the partial file can be a relative or an absolute path. The partial file does not inherit the variables
+declared in the file in which it is shown.
 
 ### import
 
