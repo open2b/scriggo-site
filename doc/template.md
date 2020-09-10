@@ -7,7 +7,7 @@ layout: article
 # Scriggo Template
 
 Scriggo Template is a modern and powerful template engine for Go, supporting inheritance,
-macros, includes, imports and autoescaping but most of all it uses the Go language as the
+macros, partials, imports and autoescaping but most of all it uses the Go language as the
 template scripting language. 
 
 ```
@@ -94,8 +94,8 @@ Example:
 {% end for %}
 ```
 
-In addiction, Scriggo Template supports five new statements that are used for template layouts: `extends`, `import`,
-`include`, `macro` and `show`.
+In addiction, Scriggo Template supports four new statements that are used for template layouts: `extends`, `import`,
+`macro` and `show`.
 
 ### Functions
 
