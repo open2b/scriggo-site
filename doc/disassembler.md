@@ -460,31 +460,36 @@ Syntax:  Goto label ; description: goto label
 The instruction `If` checks its condition and skips the next instruction if it is satisfied.
 
 ```go
-Syntax:  If Zero a              ; description: if a == 0
-         If NotZero a           ;              if a != 0
+Syntax:  If Zero a                 ; description: if a == 0
+         If NotZero a              ;              if a != 0
 
-         If Nil a               ;              if a == nil
-         If NotNil a            ;              if a != nil
+         If Nil a                  ;              if a == nil
+         If NotNil a               ;              if a != nil
 
-         If NilInterface a      ;              if a == nil // where a has an interface type
-         If NotNilInterface a   ;              if a != nil // where a has an interface type
+         If NilInterface a         ;              if a == nil // a has an interface type
+         If NotNilInterface a      ;              if a != nil // a has an interface type
 
-         If a Equal b           ;              if a == b
-         If a NotEqual b        ;              if a != b
-         If a Less b            ;              if a < b
-         If a LessEqual b       ;              if a <= b
-         If a Greater b         ;              if a > b
-         If a GreaterEqual b    ;              if a >= b
+         If a Equal b              ;              if a == b
+         If a NotEqual b           ;              if a != b
+         If a Less b               ;              if a < b
+         If a LessEqual b          ;              if a <= b
+         If a Greater b            ;              if a > b
+         If a GreaterEqual b       ;              if a >= b
 
-         If a LenEqual b        ;              if len(a) == b
-         If a LenNotEqual b     ;              if len(a) != b
-         If a LenLess b         ;              if len(a) < b
-         If a LenLessEqual b    ;              if len(a) <= b
-         If a LenGreater b      ;              if len(a) > b
-         If a LenGreaterEqual b ;              if len(a) >= b
+         If a LenEqual b           ;              if len(a) == b
+         If a LenNotEqual b        ;              if len(a) != b
+         If a LenLess b            ;              if len(a) < b
+         If a LenLessEqual b       ;              if len(a) <= b
+         If a LenGreater b         ;              if len(a) > b
+         If a LenGreaterEqual b    ;              if len(a) >= b
 
-         If OK                  ;              if ok  // ok is the ok flag
-         If NotOK               ;              if !ok // ok is the ok flag
+         If a ContainsElement b    ;              if a contains b // as element
+         If a ContainsKey b        ;              if a contains b // as key
+         If a ContainsSubstring b  ;              if a contains b // as substring
+         If a ContainsRune b       ;              if a contains b // as code point
+
+         If OK                     ;              if ok  // ok is the ok flag
+         If NotOK                  ;              if !ok // ok is the ok flag
 ```
 
 ### Index
