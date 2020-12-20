@@ -90,7 +90,7 @@ Syntax:  Import "pkg" ; description: import "pkg"
 
 The Scriggo assembly is an abstraction above the virtual machine instructions. Some assembly instructions have a direct representation in a virtual machine instruction but some do not.
 
-There are 72 assembly instructions:
+There are 70 assembly instructions:
 
 {::options toc_levels="3" /}
 
@@ -508,14 +508,6 @@ The instruction `Len` gets the length of the slice, string or channel addressed 
 Syntax:  Len s n ; description: n = len(s)
 ```
 
-### LoadData
-
-The instruction `LoadData` loads a slice of bytes from `vm.fn.Data` at index `i` and stores it in `dst`. 
-
-```go
-Syntax:  LoadData i dst ; description: dst = vm.fn.Data[i]
-```
-
 ### LoadFunc
 
 The instruction `LoadFunc` loads the function with name `name` into `fn`.
@@ -790,17 +782,6 @@ Syntax:  Rem a b c    ; description: c = a % b // int type
 Example:  Rem i10 12 i2
           Rem uint32 i7 i8
 ```
-
-### Reserve
-
-The instruction `Reserve` reserves memory used by the next instruction or reserves a fixed bytes of memory. If the memory is not limited, `Reserve` is a no-op.
-
-```go
-Syntax:  Reserve   ; description: reserves the memory used by the next instruction
-         Reserve n ;              reserves n bytes of memory
-```
-
-The compiler adds `Reserve` instructions if the `LimitMemorySize` option is used when loading a program or template.
 
 ### Return 
 
