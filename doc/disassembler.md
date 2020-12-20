@@ -894,6 +894,15 @@ Example:  Shl i3 5 i2
           Shl uint16 i5 i6
 ```
 
+### Show
+
+The instruction `Show` formats the value addresses by `v` based on the context `ctx` and writes the result to the template out writer.
+
+
+```go
+Syntax:  Show T v ctx; description: out.Write(format(v, ctx))
+```
+
 ### Shr
 
 The instruction `Shr` computes the right shift of an integer. `Shr` has two forms.
@@ -970,6 +979,15 @@ Example:  SubInv i3 i9 i2
 ### TailCall
 
 TODO
+
+### Text
+
+The instruction `Text` writes the text data at index `i` to the template out writer.
+
+
+```go
+Syntax:  Text i ; description: out.Write(text[i])
+```
 
 ### Typify
 
