@@ -90,7 +90,7 @@ Syntax:  Import "pkg" ; description: import "pkg"
 
 The Scriggo assembly is an abstraction above the virtual machine instructions. Some assembly instructions have a direct representation in a virtual machine instruction but some do not.
 
-There are 70 assembly instructions:
+There are 72 assembly instructions:
 
 {::options toc_levels="3" /}
 
