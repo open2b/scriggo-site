@@ -1,6 +1,7 @@
----
-layout: article
----
+{% extends "/layouts/article.html" %}
+{% macro Title %}Scriggofile{% end %}
+{% Article %}
+
 # Scriggofile
 
 A Scriggofile is a text file with a specific format used by the `scriggo` command.

@@ -1,12 +1,17 @@
+{% extends "/layouts/article.html" %}
+{% macro Title %}Get Started{% end %}
+{% Article %}
+
 # Get started
-{: .no_toc}
 
 This documentation will help you get started with Scriggo.
 
-1. TOC
-{:toc}
+<ol id="markdown-toc">
+  <li><a href="#download-and-install">Download and install</a></li>
+  <li><a href="#your-first-scriggo-application">Your first Scriggo application</a></li>
+</ol>
 
-# Download and install
+## Download and install
 
 Open a terminal and run:
 
@@ -14,7 +19,7 @@ Open a terminal and run:
 go get github.com/open2b/scriggo/cmd/scriggo
 ```
 
-# Your first Scriggo application
+## Your first Scriggo application
 
 This section will help you create your first application that embeds Scriggo.
 

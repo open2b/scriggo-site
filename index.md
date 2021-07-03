@@ -1,6 +1,5 @@
----
-layout: home
----
+{% extends "layouts/home.html" %}
+{% Article %}
 
 # Scriggo
 
@@ -41,7 +40,7 @@ the third syntax is the **template syntax**, that looks like that:
     Welcome to the {{ name }} template!
 {% end for %}
 ```
-{% endraw %}
+{% end raw %}
 
 ## How fast is Scriggo?
 

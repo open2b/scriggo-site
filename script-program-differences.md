@@ -1,8 +1,16 @@
-# Differences between a Scriggo script and a program
-{: .no_toc}
+{% extends "/layouts/article.html" %}
+{% macro Title %}Differences between a Scriggo script and a program{% end %}
+{% Article %}
 
-1. TOC
-{:toc}
+# Differences between a Scriggo script and a program
+
+<ol>
+  <li><a href="#a-simple-example">A simple example</a></li>
+  <li><a href="#function-declarations" id="markdown-toc-function-declarations">Function declarations</a></li>
+  <li><a href="#imports-in-scripts">Imports in scripts</a></li>
+  <li><a href="#equivalent-program-for-a-script" id="markdown-toc-equivalent-program-for-a-script">Equivalent program for a script</a></li>
+<  li><a href="#package-level-declarations-in-scripts">Package level declarations in scripts</a></li>
+</ol>
 
 One of the supported syntaxes of Scriggo is the **script** mode.
 

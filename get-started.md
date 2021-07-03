@@ -1,6 +1,7 @@
----
-layout: article
----
+{% extends "/layouts/article.html" %}
+{% macro Title %}Get Started{% end %}
+{% Article %}
+
 # Get Started
 
 In this get started you will learn how to run Go programs with the command line `scriggo` interpreter and will learn how
@@ -218,8 +219,7 @@ func main() {
 
 }
 ```
-{% endraw %}
-{% raw %}
+{% end raw %}
 
 Build the application directly from the `hello-template` directory.
 
@@ -242,12 +242,12 @@ $ ./hello-template
  
 ```
 
-See the <a href="/doc/template">Scriggo template language</a> for more details.
+See the <a href="/template">Scriggo template language</a> for more details.
 
-<!--
+{#
 The following is a more complex example of a Scriggo template:
 
-{% raw %}
+{% raw code %}
 ```html
 {% extends "layout.html" %}
 {% import "banners.html" %}
@@ -264,6 +264,6 @@ The following is a more complex example of a Scriggo template:
 {% end %}
 </html>
  ```
-{% endraw %}
+{% end raw code %}
 
--->
+#}

@@ -1,6 +1,6 @@
----
-layout: article
----
+{% extends "/layouts/article.html" %}
+{% macro Title %}Limitations{% end %}
+{% Article %}
 
 {% raw %}
 
@@ -68,5 +68,4 @@ performances:
 * 256 floating-point values per function
 * 256 general values per function
 
-
-{% endraw %}
+{% end raw %}

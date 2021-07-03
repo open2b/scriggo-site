@@ -1,8 +1,8 @@
----
-layout: article
----
+{% extends "/layouts/article.html" %}
+{% macro Title %}Scripts{% end %}
+{% Article %}
 
-{% raw %}
+{% raw code %}
 
 # Scriggo Template
 
@@ -322,4 +322,4 @@ Example:
 #}
 ```
 
-{% endraw %}
+{% end raw code %}

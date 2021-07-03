@@ -1,6 +1,7 @@
----
-layout: article
----
+{% extends "/layouts/article.html" %}
+{% macro Title %}Get Started{% end %}
+{% Article %}
+
 Get Started
 # How to use the `scriggo` command to create an interpreter
 
