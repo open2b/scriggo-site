@@ -1,6 +1,7 @@
----
-layout: article
----
+{% extends "/layouts/article.html" %}
+{% macro Title %}Scripts{% end %}
+{% Article %}
+
 # Scripts
 
 Scripts a scripting language based on Go but with the following differences that make them more suitable for a scripting context:

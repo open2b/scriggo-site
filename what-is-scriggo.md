@@ -1,6 +1,7 @@
----
-layout: article
----
+{% extends "/layouts/article.html" %}
+{% macro Title %}What is Scriggo{% end %} 
+{% Article %}
+
 # What is Scriggo
 
 Scriggo is the fast open-source Go runtime to embed the Go language as a scripting language in any application written in Go.

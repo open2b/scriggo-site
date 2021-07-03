@@ -1,6 +1,7 @@
----
-layout: article
----
+{% extends "/layouts/article.html" %}
+{% macro Title %}Scriggo command{% end %}
+{% Article %}
+
 # Scriggo command
 
 Scriggo has a command line interface, the `scriggo` command, that allows to:

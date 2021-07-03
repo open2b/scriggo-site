@@ -1,6 +1,7 @@
----
-layout: article
----
+{% extends "/layouts/article.html" %}
+{% macro Title %}Install Scriggo{% end %}
+{% Article %}
+
 # Install Scriggo
 
 Before installing the Scriggo command, <a href="https://golang.org/dl/">download and install Go</a>.

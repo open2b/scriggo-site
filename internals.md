@@ -1,8 +1,8 @@
----
-layout: article
----
+{% extends "/layouts/article.html" %}
+{% macro Title %}Get Started{% end %}
+{% Article %}
 
-{% raw %}
+{% raw code %}
 # Internals
 {: .no_toc}
 
@@ -91,4 +91,4 @@ Note that, without the use of the builder, the emission of instructions for the 
 The runtime of Scriggo executes the byte code using its internal virtual machine.
 For a detailed explanation of the virtual machine and to see the set of the bytecode instructions that it uses, see the section [Bytecode](bytecode).
 
-{% endraw %}
+{% end raw code %}

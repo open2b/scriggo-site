@@ -2,11 +2,11 @@
 <html lang="en" class="article">
 <head>
     <meta charset="utf-8">
-    <title>{{ page.title }}</title>
+    <title>{{ Title() default "" }}</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-{% include nav.html %}
+{{ render "/partials/nav.html" }}
 <article>
     <div class="wrap">
         <aside>
@@ -26,7 +26,7 @@
             </nav>
         </aside>
         <div class="content">
-            {{ content }}
+            {{ Article() }}
         </div>
     </div>
 </article>
