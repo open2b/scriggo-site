@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <meta charset="utf-8">
+    <title>Get Started</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/">Scriggo</a>
+    <ul>
+        <li><a href="/news">News</a></li>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/use-cases">Use Cases</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="what-is-scriggo">What is Scriggo</a></li>
+                <li><a href="get-started">Get Started</a></li>
+                <li><a href="install">Install Scriggo</a></li>
+                <li><a href="scriggo-command">Scriggo command</a></li>
+                <li><a href="scriggofile">API</a></li>
+                <li><a href="template">Template</a></li>
+                <li><a href="scriggofile">Scriggofile</a></li>
+                <li><a href="internals">Internals</a></li>
+                <li><a href="disassembler">Disassembler</a></li>
+                <li><a href="limitations">Limitations</a></li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <p>Get Started</p>
+<h1 id="how-to-use-the-scriggo-command-to-create-an-interpreter">How to use the <code>scriggo</code> command to create an interpreter</h1>
+<p>In this second part of get started we will learn how create an interpreter with the <code>scriggo</code> command. An interpreter is a standalone program that can execute Go programs, scripts and templates without requiring Go installed.</p>
+<p>It required 10 minutes to be completed.</p>
+<h2 id="install-the-scriggo-command">Install the <code>scriggo</code> command</h2>
+<p>Open a terminal and execute:</p>
+<pre><code>$ go install github.com/open2b/scriggo/cmd/scriggo
+</code></pre>
+<p>Go will install the <code>scriggo</code> command in the <code>bin</code> subdirectory of the Go path.</p>
+<p>To know what is the Go path, execute the command:</p>
+<pre><code>$ go env GOPATH
+</code></pre>
+<p>For convenience, add the Go path's <code>bin</code> subdirectory to your <code>PATH</code>:</p>
+<pre><code>$ export PATH=$PATH:$(go env GOPATH)/bin
+</code></pre>
+<p>Test if the <code>scriggo</code> command can be executed:</p>
+<pre><code>$ scriggo version
+</code></pre>
+<h2 id="scriggofile">Scriggofile</h2>
+
+        </div>
+    </div>
+</article>
+<footer>
+    &copy; to me
+</footer>
+</body>
+</html>

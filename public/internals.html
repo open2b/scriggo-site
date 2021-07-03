@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <meta charset="utf-8">
+    <title>Get Started</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/">Scriggo</a>
+    <ul>
+        <li><a href="/news">News</a></li>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/use-cases">Use Cases</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="what-is-scriggo">What is Scriggo</a></li>
+                <li><a href="get-started">Get Started</a></li>
+                <li><a href="install">Install Scriggo</a></li>
+                <li><a href="scriggo-command">Scriggo command</a></li>
+                <li><a href="scriggofile">API</a></li>
+                <li><a href="template">Template</a></li>
+                <li><a href="scriggofile">Scriggofile</a></li>
+                <li><a href="internals">Internals</a></li>
+                <li><a href="disassembler">Disassembler</a></li>
+                <li><a href="limitations">Limitations</a></li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="internals">Internals</h1>
+<p>{: .no_toc}</p>
+<ol>
+<li>TOC
+{:toc}</li>
+</ol>
+<h2 id="an-overview-of-the-scriggo-implementation">An overview of the Scriggo implementation</h2>
+<p>Scriggo is composed by two main parts:</p>
+<ul>
+<li>the <strong>compiler</strong></li>
+<li>the <strong>runtime</strong></li>
+</ul>
+<p>The <strong>compiler</strong>, in turn, is composed by:</p>
+<ul>
+<li>the <strong>lexer</strong></li>
+<li>the <strong>parser</strong></li>
+<li>the <strong>type checker</strong></li>
+<li>the <strong>emitter</strong></li>
+</ul>
+<p>The <strong>runtime</strong> is implemented on the <strong>Scriggo virtual machine</strong>.</p>
+<p><img src="/images/internals_overview.png" alt="internals_overview"></p>
+<h3 id="the-compiler">The compiler</h3>
+<p>The Scriggo compiler takes a source code and generates some bytecode ready to be executed by the virtual machine.</p>
+<p>Let's take a look at the entire process.</p>
+<h4 id="the-lexer">The lexer</h4>
+<p>The lexer reads a source code and outputs a list of <em>tokens</em>.</p>
+<p><img src="/images/lexer.png" alt="lexer"></p>
+<p>The lexer recognizes all the tokens used by Go plus the ones specific for the template, as <code>{%</code>, <code>%}</code>, <code>macro</code> etc.. To get an overview of the Scriggo template syntax see <a href="/doc/template">the Scriggo Template</a>.</p>
+<h4 id="the-parser">The parser</h4>
+<p>The <strong>parser</strong> takes the the list of tokens returned by the <strong>lexer</strong> and generates an AST (Abstract Syntax Tree).</p>
+<p><img src="/images/parser.png" alt="parser"></p>
+<p>In the parser we can se the first main difference between the <em>programs</em>, the <em>scripts</em> and the <em>templates</em>.
+For example, the AST representing a program is composed by a tree, that contains a package, that contains a list of declarations.
+On the other hand, a script or a template is a tree that holds a list of statements, and does not contain a package.</p>
+<h4 id="the-type-checker">The type checker</h4>
+<p>The <strong>type checker</strong> performs several operations on the AST given by the <strong>parser</strong>:</p>
+<ol>
+<li>reorders the declarations, if necessary</li>
+<li>make a type check</li>
+<li>transform the AST, preparing it for the emission</li>
+</ol>
+<p><img src="/images/typechecker.png" alt="typechecker"></p>
+<p>The type checker is the first part of the compiler where the Scriggo code get in touch with the <em>host</em>; the declarations passed at compilation time are injected into the AST as <em>predefined values</em>.</p>
+<p>Before starting with the type checking a <em>dependency analysis</em> is performed on the AST. This analysis has two main purposes: the first is to catch any <em>initialization loop</em>, the second is to find an order for the declarations.</p>
+<p>The source code of the type checker can be found in the <code>internal/compiler</code> package:</p>
+<ul>
+<li><a href="">checker.go</a> declares the type <code>typechecker</code> and some of its methods.</li>
+<li><a href="">checker_assignment.go</a> declares functions to perform the type checking of declarations and assignment.</li>
+<li><a href="">checker_dependencies.go</a> makes a dependency analysis on the given AST.</li>
+<li><a href="">checker_package.go</a> makes a type checking on a package.</li>
+<li><a href="">checker_expressions.go</a> performs the type checking of the expressions.</li>
+<li><a href="">checker_statements.go</a> declares functions to type check the statements; for example it exports the method <code>checkNodes</code>.</li>
+</ul>
+<h4 id="the-emitter">The emitter</h4>
+<p>The <em>emitter</em> takes the AST and <em>emits</em> the code that will be intepreted by the virtual machine.</p>
+<p><img src="/images/emitter.png" alt="emitter"></p>
+<p>Since the virtual machine knows nothing about programs, template and scripts, the emitter to make them converge into a list of instructions. For instance, the <code>show</code> statement in the templates (that renders a value) is emitted as a function call to a function that takes a writer and an expression as arguments.</p>
+<p>The emitter relies on the <strong>builder</strong>, that knows the internal implementation of the virtual machine and exposes some utility function to the emitter hiding as much as possible the internals details.
+Note that, without the use of the builder, the emission of instructions for the virtual machine would be very complex.</p>
+<h3 id="the-runtime">The runtime</h3>
+<p>The runtime of Scriggo executes the byte code using its internal virtual machine.
+For a detailed explanation of the virtual machine and to see the set of the bytecode instructions that it uses, see the section <a href="bytecode">Bytecode</a>.</p>
+
+        </div>
+    </div>
+</article>
+<footer>
+    &copy; to me
+</footer>
+</body>
+</html>

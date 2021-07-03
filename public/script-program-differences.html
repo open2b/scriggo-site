@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <meta charset="utf-8">
+    <title>Differences between a Scriggo script and a program</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/">Scriggo</a>
+    <ul>
+        <li><a href="/news">News</a></li>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/use-cases">Use Cases</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="what-is-scriggo">What is Scriggo</a></li>
+                <li><a href="get-started">Get Started</a></li>
+                <li><a href="install">Install Scriggo</a></li>
+                <li><a href="scriggo-command">Scriggo command</a></li>
+                <li><a href="scriggofile">API</a></li>
+                <li><a href="template">Template</a></li>
+                <li><a href="scriggofile">Scriggofile</a></li>
+                <li><a href="internals">Internals</a></li>
+                <li><a href="disassembler">Disassembler</a></li>
+                <li><a href="limitations">Limitations</a></li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="differences-between-a-scriggo-script-and-a-program">Differences between a Scriggo script and a program</h1>
+<ol>
+  <li><a href="#a-simple-example">A simple example</a></li>
+  <li><a href="#function-declarations" id="markdown-toc-function-declarations">Function declarations</a></li>
+  <li><a href="#imports-in-scripts">Imports in scripts</a></li>
+  <li><a href="#equivalent-program-for-a-script" id="markdown-toc-equivalent-program-for-a-script">Equivalent program for a script</a></li>
+<  li><a href="#package-level-declarations-in-scripts">Package level declarations in scripts</a></li>
+</ol>
+<p>One of the supported syntaxes of Scriggo is the <strong>script</strong> mode.</p>
+<p>The script uses the same syntax of the programs (that is the same syntax of Go), with some exceptions:</p>
+<ol>
+<li>The package name must not be included: the package is always <code>main</code>.</li>
+<li>The function main must not be declared: every statement included in a script is implicitly declared in the main function (except for imports, see below).</li>
+<li>First-level function declarations can be made using the package level function declaration syntax of Go, but the semantic is unchanged.</li>
+</ol>
+<p>Let's see some examples.</p>
+<h2 id="a-simple-example">A simple example</h2>
+<pre><code class="language-go">println(&quot;hello&quot;)
+</code></pre>
+<p>this script prints <code>hello</code> on the standard error using the <code>println</code> builtin.
+Note that the <code>package</code> clause, just like the <code>func main() { .. }</code> declaration is absent. They are implicit.</p>
+<h2 id="function-declarations">Function declarations</h2>
+<p>Now let's see a more complex example that includes a function declaration:</p>
+<pre><code class="language-go">func SayHello(lang string) {
+    switch lang {
+        case &quot;italiano&quot;:
+        println(&quot;Ciao!&quot;)
+        case &quot;english&quot;:
+        println(&quot;Hello!&quot;)
+        case &quot;español&quot;:
+        println(&quot;¡Hola!&quot;)
+        default:
+        println(&quot;Still studying &quot; + lang + &quot;...&quot;)
+    }
+}
+
+for _, lang := range []string{&quot;en&quot;, &quot;it&quot;, &quot;es&quot;, &quot;jp&quot;} {
+    SayHello(lang)
+}
+</code></pre>
+<p>the function declaration <code>func SayHello(..</code> is internally handled as <code>SayHello := func(..</code>.</p>
+<p>As you may have guessed, a function that is still not declared cannot be called, so <em>the functions must be declared before they are used</em>.</p>
+<pre><code class="language-go">
+Answer() // &lt;- ERROR!
+
+func Answer() int {
+    return 42
+}
+
+Answer() // 42
+</code></pre>
+<h2 id="imports-in-scripts">Imports in scripts</h2>
+<p>A script can import other packages with the same syntax used by a program.</p>
+<pre><code class="language-go">import &quot;fmt&quot;
+import . &quot;math&quot;
+
+fmt.Println(&quot;Ohoho! &quot; + MaxInt8)
+</code></pre>
+<h2 id="equivalent-program-for-a-script">Equivalent program for a script</h2>
+<p>More in general, you can consider scripts as a subset of programs; so, a script can always be translated into the equivalent program:</p>
+<pre><code class="language-go">// [ SCRIPT IMPORTS ]
+
+package main
+
+func main() {
+
+    // [ SCRIPT SOURCE CODE ]
+
+}
+</code></pre>
+<h2 id="package-level-declarations-in-scripts">Package level declarations in scripts</h2>
+<p>Given that a script can only define the content of the body of the function <code>main</code>, you may be wondering: how can I declare and use package level declarations?
+The answer is that package level declarations are handled by the host application that compiles and runs the script.</p>
+<p>Among other things, the host is responsible of:</p>
+<ul>
+<li>choose what are the importable packages</li>
+<li>choose what are the package level declarations</li>
+<li>limit the use of some statement or the amount of available memory/time</li>
+</ul>
+<p>To sum up, in scripts:</p>
+<ul>
+<li>it's not possible to declare package level declarations</li>
+<li>the available package level declarations and importable packages depends on who makes the script compile/run</li>
+</ul>
+
+        </div>
+    </div>
+</article>
+<footer>
+    &copy; to me
+</footer>
+</body>
+</html>

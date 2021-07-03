@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <meta charset="utf-8">
+    <title>Get Started</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/">Scriggo</a>
+    <ul>
+        <li><a href="/news">News</a></li>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/use-cases">Use Cases</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="what-is-scriggo">What is Scriggo</a></li>
+                <li><a href="get-started">Get Started</a></li>
+                <li><a href="install">Install Scriggo</a></li>
+                <li><a href="scriggo-command">Scriggo command</a></li>
+                <li><a href="scriggofile">API</a></li>
+                <li><a href="template">Template</a></li>
+                <li><a href="scriggofile">Scriggofile</a></li>
+                <li><a href="internals">Internals</a></li>
+                <li><a href="disassembler">Disassembler</a></li>
+                <li><a href="limitations">Limitations</a></li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="get-started">Get Started</h1>
+<p>In this get started you will learn how to run Go programs with the command line <code>scriggo</code> interpreter and will learn how
+to start using Scriggo in applications and templates.</p>
+<p>It requires 10 minutes to be completed.</p>
+<h2 id="run-a-go-program">Run a Go program</h2>
+<p>The <code>scriggo</code> command is a standalone interpreter that executes Go programs without requiring other software installed.</p>
+<p>Before you start working with Scriggo, <a href="/doc/install">install the Scriggo command</a> using precompiled binaries or compiling from source.</p>
+<p>To run a Go program, as the following example:</p>
+<pre><code class="language-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    fmt.Println(&quot;Hello, World!&quot;)    
+}
+</code></pre>
+<p>you can give the file of the program as the first argument to the <code>scriggo</code> command:</p>
+<pre><code>$ scriggo hello.go
+Hello, World!
+</code></pre>
+<p>As an alternative you can add a shebang to the file:</p>
+<pre><code class="language-go">#!/usr/bin/env scriggo
+
+package main
+
+import &quot;fmt&quot;
+
+func main() {
+    fmt.Println(&quot;Hello, World!&quot;)    
+}
+</code></pre>
+<p>and make the program's file executable:</p>
+<pre><code>$ chmod u+x hello.go
+</code></pre>
+<p>Then execute the program:</p>
+<pre><code>$ ./hello.go
+Hello, World!
+</code></pre>
+<p>A program executed by the <code>scriggo</code> command can have access only to packages, variables, constants, functions and types
+that has been explicitly compiled in the <code>scriggo</code> command.</p>
+<p>See <a href="/doc/scriggo-command">scriggo command</a> for more details.</p>
+<h2 id="use-scriggo-in-applications">Use Scriggo in applications</h2>
+<p>Before you start using Scriggo in a Go application you must <a href="https://golang.org/dl/">download and install Go</a>.</p>
+<p>Open a terminal and create a new directory for the application:</p>
+<pre><code>$ mkdir hello
+$ cd hello
+</code></pre>
+<p>Initialize a Go module in the previous created directory:</p>
+<pre><code>$ go mod init hello
+</code></pre>
+<p>Create a file <code>main.go</code> with the following source code:</p>
+<pre><code class="language-go">package main
+
+import (
+    &quot;github.com/open2b/scriggo&quot;
+)
+
+func main() {
+
+    // src is the source code of the program to run.
+    src := strings.NewReader(`
+        package main
+
+        func main() {
+            println(&quot;Hello, World!&quot;)
+        }
+    `)
+
+    // Load the program.
+    program, err := scriggo.Load(src, nil, nil)
+    if err != nil {
+        panic(err)
+    }
+ 
+    // Run the program.
+    _, err = program.Run(nil)
+    if err != nil {
+        panic(err)
+    }
+
+}
+</code></pre>
+<p>Build the application directly from the <code>hello</code> directory.</p>
+<pre><code>$ go build
+</code></pre>
+<p>Execute the application:</p>
+<pre><code>$ ./hello
+Hello, World!
+</code></pre>
+<blockquote>
+<p>On Windows execute the application with the following command:</p>
+<pre><code>$ hello.exe
+Hello, World!
+</code></pre>
+</blockquote>
+<h3 id="import-packages">Import packages</h3>
+<p>The program executed by Scriggo in the previous example:</p>
+<pre><code class="language-go">package main
+
+func main() {
+    println(&quot;Hello, World!&quot;)
+}
+</code></pre>
+<p>does not import packages and uses the builtin <code>println</code> to print the string on the standard error.</p>
+<p>A program executed by Scriggo can have access only to packages, variables, constants, functions and types that are
+explicitly provided through a package importer.</p>
+<p>See <a href="/doc/package-importers">package importers</a> for more details.</p>
+<h2 id="use-scriggo-in-templates">Use Scriggo in templates</h2>
+<p>The Scriggo template language supports inheritance, macros, includes, imports and autoescaping but most of all
+it uses the Go language as the template scripting language.</p>
+<p>Scriggo templates can be written with plain text, HTML, CSS and JavaScript.</p>
+<p>Open a terminal and create a new directory for the application:</p>
+<pre><code>$ mkdir hello-template
+$ cd hello-template
+</code></pre>
+<p>Initialize a Go module in the previous created directory:</p>
+<pre><code>$ go mod init hello-template
+</code></pre>
+<p>Create a file <code>main.go</code> with the following source code:</p>
+<pre><code class="language-go">// Load and render a Scriggo template on the standard output.
+package main
+
+import (
+    &quot;os&quot;
+    &quot;github.com/open2b/scriggo/template&quot;
+)
+
+func main() {
+
+    // src is the source code of the template file to render.
+    src := []byte(`
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;Hello&lt;/head&gt; 
+    &lt;body&gt;
+        {% who := &quot;World&quot; %}
+        Hello, {{ who }}!
+    &lt;/body&gt;
+    &lt;/html&gt;
+    `)
+
+    // files is used to read the template files.
+    files := template.MapReader{&quot;index.html&quot; : src}
+
+    // Load the template.
+    tmpl, err := template.Load(&quot;index.html&quot;, files, nil, template.LanguageHTML, nil)
+    if err != nil {
+        panic(err)
+    }
+ 
+    // Render the template on the standard output.
+    err = tmpl.Render(os.Stdout, nil, nil)
+    if err != nil {
+        panic(err)
+    }
+
+}
+</code></pre>
+<p>Build the application directly from the <code>hello-template</code> directory.</p>
+<pre><code>$ go build
+</code></pre>
+<p>Execute the application:</p>
+<pre><code>$ ./hello-template
+
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;Hello&lt;/head&gt; 
+    &lt;body&gt;
+        Hello, World!
+    &lt;/body&gt;
+    &lt;/html&gt;
+ 
+</code></pre>
+<p>See the <a href="/template">Scriggo template language</a> for more details.</p>
+
+        </div>
+    </div>
+</article>
+<footer>
+    &copy; to me
+</footer>
+</body>
+</html>

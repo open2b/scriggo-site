@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <meta charset="utf-8">
+    <title>Scripts</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/">Scriggo</a>
+    <ul>
+        <li><a href="/news">News</a></li>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/use-cases">Use Cases</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="what-is-scriggo">What is Scriggo</a></li>
+                <li><a href="get-started">Get Started</a></li>
+                <li><a href="install">Install Scriggo</a></li>
+                <li><a href="scriggo-command">Scriggo command</a></li>
+                <li><a href="scriggofile">API</a></li>
+                <li><a href="template">Template</a></li>
+                <li><a href="scriggofile">Scriggofile</a></li>
+                <li><a href="internals">Internals</a></li>
+                <li><a href="disassembler">Disassembler</a></li>
+                <li><a href="limitations">Limitations</a></li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="scriggo-template">Scriggo Template</h1>
+<p>Scriggo Template is a modern and powerful template engine for Go, supporting inheritance,
+macros, partials, imports and autoescaping but most of all it uses the Go language as the
+template scripting language.</p>
+<pre><code>{% extends &quot;layout.html&quot; %}
+{% import &quot;banners.html&quot; %}
+{% macro Body %}
+    &lt;ul&gt;
+      {% for _, product := range products %}
+      &lt;li&gt;&lt;a href=&quot;{{ product.URL }}&quot;&gt;{{ product.Name }}&lt;/a&gt;&lt;/li&gt;
+      {% end %}
+    &lt;/ul&gt;
+    {% show &quot;pagination.html&quot; %}
+    {% show Banner() %}
+{% end %}
+</code></pre>
+<p>Scriggo Template's files can be written in plain text, HTML, CSS, JavaScript and JSON.</p>
+<h2 id="expressions">Expressions</h2>
+<p>Scriggo Template supports all Go language expressions. To evaluate an expression and render its result, put the expression between <code>{{</code> and <code>}}</code>:</p>
+<pre><code>{{ expression }}
+</code></pre>
+<p>Examples:</p>
+<pre><code>{{ page.Title }}
+
+{{ len(products) }}
+
+{{ capitalize(name) }}
+
+{{ n + 2 }}
+
+{{ &lt;-ch }}
+
+{{ func(i int) { return i + i }(7) }}  
+
+{{ map[string]int{ &quot;a&quot; : 2, &quot;b&quot; : 7 } }} 
+</code></pre>
+<p><code>{{ }}</code> escapes the printed value based on its context.</p>
+<h2 id="statements">Statements</h2>
+<p>Scriggo Template supports almost all Go language statements. A statement is delimited between <code>{%</code> and <code>%}</code>:</p>
+<pre><code>{% statement %}
+</code></pre>
+<p>Examples:</p>
+<pre><code>{% var a = 5 %}
+
+{% a = 7 %}
+
+{% a, ok = b.(int) %}
+
+{% defer func() { } %}
+
+{% go func() { } %}  
+</code></pre>
+<p><code>if</code>, <code>switch</code>, <code>select</code> and <code>for</code> statements require a closing <code>end</code>.</p>
+<p>Example:</p>
+<pre><code>{% if n &gt; 5 %} n is greater than 5 {% end %}  
+</code></pre>
+<p><code>end</code> can be followed by the statement's name that it closes.</p>
+<p>Example:</p>
+<pre><code>{% for i, product := range products %}
+  {{ i }}. {{ product.Name }}
+{% end for %}
+</code></pre>
+<p>In addiction, Scriggo Template supports four new statements that are used for template layouts: <code>extends</code>, <code>import</code>,
+<code>macro</code> and <code>show</code>.</p>
+<h3 id="functions">Functions</h3>
+<p>Function declarations are by design not supported by Scriggo Template, use instead what is more appropriate between a macro:</p>
+<pre><code>{% macro image(url string) %}&lt;img src=&quot;{{ url }}&quot;&gt;{% end %}
+</code></pre>
+<p>and a function literal:</p>
+<pre><code>{% inc := func(i int) int { return i + 1 } %}
+</code></pre>
+<h2 id="simpler-syntax">Simpler syntax</h2>
+<p>Scriggo Template also supports a simpler and relaxed syntax for a gentle introduction to templates.</p>
+<p>The <code>for</code> <code>range</code> statement:</p>
+<pre><code>{% for _, product := range products %}
+</code></pre>
+<p>can be written simply as:</p>
+<pre><code>{% for product in products %}
+</code></pre>
+<p>Furthermore the condition of the <code>if</code> statement can have any type. If it valuates to the zero value of its type, it is false, otherwise it is true.</p>
+<p>So the following statements:</p>
+<pre><code>{% if price &gt; 0 %} ... {% end %}
+{% if producer != nil %} ... {% end %}
+</code></pre>
+<p>can be written simply as:</p>
+<pre><code>{% if price %} ... {% end %}
+{% if producer %} ... {% end %}
+</code></pre>
+<p>As a special case, if the condition has an interface type, the condition is false if the interface is <code>nil</code> or its dynamic
+value is the zero value for its type.</p>
+<p>Finally there are tree new operators: <code>and</code>, <code>or</code> and <code>not</code>. They are relaxed forms of the <code>&amp;&amp;</code>, <code>||</code> and <code>!</code> operators
+where the operands, as the <code>if</code> condition, can have any type.</p>
+<p>So the statement:</p>
+<pre><code>{% if discount &gt; 0 &amp;&amp; banners != nil %} ... {% end %}
+</code></pre>
+<p>can be written simply as:</p>
+<pre><code>{% if discount and banners %} ... {% end %}
+</code></pre>
+<h3 id="extends">extends</h3>
+<p>The statement <code>extends</code> extends a template file from another one, the parent, implementing template inheritance.
+A parent file contains calls to macros declared in the extended files.</p>
+<p>Example:</p>
+<pre><code>{# parent.html #}
+{% show Banners %}
+</code></pre>
+<pre><code>{% extends &quot;parent.html&quot; %}
+{% macro Banner %} ... {% end %}
+</code></pre>
+<p>This is a more complete example of a parent file:</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;{% show Title %}&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  {% show Header %}
+  &lt;div&gt;
+    {% show Column %}
+    {% show Body %}
+  &lt;/div&gt;
+  {% show Footer %}
+&lt;/body&gt;
+&lt;/head&gt;
+</code></pre>
+<p>and an extended file:</p>
+<pre><code>{% extends &quot;layout.html&quot; %}
+{% macro Title %}Awesome article{% end %}
+{% macro Header %}
+  ...
+{% end %}
+{% macro Body %}
+  ...
+{% end %}
+{% macro Footer %}
+  ...
+{% end %}
+</code></pre>
+<h3 id="macro">macro</h3>
+<p>The statement <code>macro</code> defines a macro, which is a way to repeat frequently-used template code. A macro can have
+parameters, like a function, but no return values. A macro without parameters can be declared and called without the parentheses.</p>
+<p>Examples:</p>
+<pre><code>{% macro title %}A wonderful book{% end %}
+
+{% macro image(url string, width, height int) %}
+  &lt;img src=&quot;{{ url }}&quot; width=&quot;{{ width }}&quot; height=&quot;{{ height }}&quot;&gt;
+{% end %}
+</code></pre>
+<p>The statement <code>show</code> is used to call a macro:</p>
+<pre><code>{% show name %}
+ 
+{% show image(&quot;picture.jpg&quot;, 400, 500) %}
+</code></pre>
+<h3 id="partials">Partials</h3>
+<p>Partials are template files whose contents can be shown in other files with a <code>show</code> statement:</p>
+<pre><code>{% show &quot;partials/footer.html&quot; %}
+</code></pre>
+<p>The name of the partial file can be a relative or an absolute path. The partial file does not inherit the variables
+declared in the file in which it is shown.</p>
+<h3 id="import">import</h3>
+<p>The statement <code>import</code> imports the exported declarations in a file in the current file scope. The exported declarations
+are the macro, variable, constant and type declarations with the first letter of the declaration's name in uppercase.</p>
+<p>An import name the path, relative or absolute, of the imported file and can name an identifier to be used as prefix for access the declarations:</p>
+<pre><code>{% import &quot;path&quot; %}
+{% import prefix &quot;path&quot; %}
+</code></pre>
+<p>Examples:</p>
+<pre><code>{% import &quot;elements.html&quot; %}
+{% show Banners %}
+</code></pre>
+<pre><code>{% import elems &quot;elements.html&quot; %}
+{% show elems.Banners %}
+</code></pre>
+<p>Import statements can be only at the beginning of a file and can be preceded only by an extends statement.</p>
+<p>Examples:</p>
+<pre><code>{% import &quot;catalog.html&quot; %}
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Catalog&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  {% show Products %}
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<pre><code>{% extends &quot;layout.html&quot; %}
+{% import elems &quot;elements.html&quot; %}
+
+{% macro Header %}
+  &lt;div&gt;{% show elems.Banners %}&lt;/div&gt;
+{% end %}
+
+{% macro Body %}
+  ...
+{% end %}
+</code></pre>
+<h3 id="comments">Comments</h3>
+<p>Text between <code>{#</code> and <code>#}</code> is a comment and it is discarded during the rendering.</p>
+<pre><code>{# comment #}
+</code></pre>
+<p>Example:</p>
+<pre><code>{# show the user's name #}
+{{ user.FirstName }} {{ user.LastName }}
+
+{# this code requires a review: 
+  {% for _, user := range users %}
+     ...
+  {% end %}
+#}
+</code></pre>
+
+        </div>
+    </div>
+</article>
+<footer>
+    &copy; to me
+</footer>
+</body>
+</html>

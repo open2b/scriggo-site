@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <meta charset="utf-8">
+    <title>Scriggo command</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/">Scriggo</a>
+    <ul>
+        <li><a href="/news">News</a></li>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/use-cases">Use Cases</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="what-is-scriggo">What is Scriggo</a></li>
+                <li><a href="get-started">Get Started</a></li>
+                <li><a href="install">Install Scriggo</a></li>
+                <li><a href="scriggo-command">Scriggo command</a></li>
+                <li><a href="scriggofile">API</a></li>
+                <li><a href="template">Template</a></li>
+                <li><a href="scriggofile">Scriggofile</a></li>
+                <li><a href="internals">Internals</a></li>
+                <li><a href="disassembler">Disassembler</a></li>
+                <li><a href="limitations">Limitations</a></li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="scriggo-command">Scriggo command</h1>
+<p>Scriggo has a command line interface, the <code>scriggo</code> command, that allows to:</p>
+<ul>
+<li>run Go programs</li>
+<li>add and remove importable packages</li>
+<li>build scriggo commands with specific packages</li>
+<li>generate a package loader for an existing application</li>
+</ul>
+<p>It is a single binary executable with no external dependencies. It includes the entire Go library in a executable that when compressed is only 5 megabyte.</p>
+<p>If your use of the Scriggo command is not limited to run programs, before you start you must <a href="https://golang.org/dl/">download and install Go</a>.</p>
+<p>See <a href="/doc/install">install Scriggo command</a> to install the <code>scriggo</code> command using precompiled binaries or compiling from source.</p>
+<h3 id="get-help-from-command-line">Get help from command line</h3>
+<p>To get help from the command line run the following command:</p>
+<pre><code>$ scriggo help
+</code></pre>
+<h2 id="run-go-programs">Run Go programs</h2>
+<p>A Scriggo command is a standalone interpreter and consequently, to run programs, does not require Go installed. You can give the
+file of the program as the first argument to the <code>scriggo</code> command:</p>
+<pre><code>$ scriggo file [arguments...]
+</code></pre>
+<p>where <code>file</code> is the Go program file to run and <code>arguments</code> are the arguments that are passed to the executed program as
+<code>os.Arg[1]</code>, <code>os.Arg[2]</code> ecc...</p>
+<p>The exit status of the <code>scriggo</code> command is the exit status of the executed program.</p>
+<p>If the name of the file could be interpreted as a <code>scriggo</code> subcommand, use <code>--</code> as in:</p>
+<pre><code>$ scriggo -- file [arguments...]
+</code></pre>
+<h3 id="shebang">Shebang</h3>
+<p>The file to execute can have a shebang as first line as in:</p>
+<pre><code class="language-go">#!/usr/bin/env scriggo
+
+package main
+
+func main() {
+    println(&quot;Hello, World!&quot;)    
+}
+</code></pre>
+<blockquote>
+  <p>Shebang is not allowed by the <a href="https://golang.org/ref/spec">Go specification</a>,
+  but Scriggo runs Go program files starting with a shebang because is extremely
+  useful when Go programs are not compiled to binary but interpreted as Scriggo does.</p>
+</blockquote>  
+<p>To raise an error if the file has a shebang, use the <span style="white-space:nowrap"><code>-strict</code></span> option:</p>
+<pre><code>$ scriggo -strict file [arguments...]
+</code></pre>
+<h2 id="add-and-remove-importable-packages">Add and remove importable packages</h2>
+<p>An executed program can import only packages that have been explicitly compiled in a <code>scriggo</code> command. To list all the
+packages compiled in a <code>scriggo</code> command run from command line:</p>
+<pre><code>$ scriggo list packages
+</code></pre>
+<p>It will prints to the standard output all the packages compiled in the executed <code>scriggo</code> command and that can be imported in a Go program.</p>
+<p>To add or remove a package use the Rebuild command. The basic Rebuild command takes this form:</p>
+<pre><code>$ scriggo rebuild [add|remove] path[@version]
+</code></pre>
+<p>It creates the rebuilded Scriggo command in the current directory with the name <code>scriggo</code> or <code>scriggo.exe</code>, overwriting
+an existing file with the same name.</p>
+<h3 id="add-packages">Add packages</h3>
+<p>To add packages use the <code>scriggo rebuild add</code> command:</p>
+<pre><code>$ scriggo rebuild add [-force] path[@version]
+</code></pre>
+<p>where <code>path</code> is the import path of the package and <code>version</code> is the version of the package's module. If the argument
+<code>version</code> is missing, the version is the latest. You can give more packages as argument. For example to add the package
+<code>foo</code> with version <code>v1.3</code> and the latest version of the package <code>bar</code> run from command line:</p>
+<pre><code>$ scriggo rebuild add foo@v1.3 bar
+</code></pre>
+<p>If a package already exists with a different version, it will be updated at the new version. If more packages exist
+for the same module an error occurs. To force the update of all the packages of the same module to the given version use
+the <code>-force</code> option, but the packages of the same module listed as argument must have the same version.</p>
+<p>For packages of the Go standard library don't give the version because the version is implicitly the version of Go.
+To add almost all the packages of the Go standard library use <code>stdlib</code> as package argument.</p>
+<h3 id="remove-packages">Remove packages</h3>
+<p>To remove packages use the <code>scriggo rebuild remove</code> command:</p>
+<pre><code>$ scriggo rebuild remove paths
+</code></pre>
+<p>where <code>paths</code> are the import paths of the packages to remove. For example to remove packages <code>foo</code> and <code>bar</code> run from command line:</p>
+<pre><code>$ scriggo rebuild remove foo bar
+</code></pre>
+<h2 id="build-scriggo-commands">Build Scriggo commands</h2>
+<p>The scriggo command uses the instructions in a <a href="scriggofile">Scriggofile</a> to create the interpreter or generate the package loader.</p>
+<p>The <code>scriggo build</code> command builds a standalone Go interpreter from a <a href="scriggofile">Scriggofile</a> in a module.</p>
+<p>The basic build command takes this form:</p>
+<pre><code>$ scriggo build [module]
+</code></pre>
+<p>Executables are created in the current directory. To build and install the executables in
+the <code>bin</code> subdirectory of the Go path, use instead the install command:</p>
+<pre><code>$ scriggo install [module]
+</code></pre>
+<p>If the argument <code>module</code> is given, it can be a module path or a directory path:</p>
+<ul>
+<li>
+<p>If the argument is a module path, the module is downloaded from its repository
+and the build command looks for a <a href="scriggofile">Scriggofile</a> named <code>Scriggofile</code> in its root.
+A module argument can have a version as in <code>foo.boo@v2.1.0</code>. If no version is
+given the latest version of the module is used.</p>
+</li>
+<li>
+<p>If the argument is a directory path, it must be rooted or must begin with
+a <code>.</code> or <code>..</code> element and the directory must be the root of a module. The build
+command looks for a <a href="scriggofile">Scriggofile</a> named <code>Scriggofile</code> in that directory.</p>
+</li>
+<li>
+<p>If no argument is given, the action applies to the current directory.</p>
+</li>
+</ul>
+<p>The name of the executable is the last element of the module's path or
+directory path. For example if the module's path is <code>boo/foo</code> the name of the
+executable will be <code>foo</code> or <code>foo.exe</code>.</p>
+<p>The interpreter is build from the instructions in the <a href="scriggofile">Scriggofile</a>. For example:</p>
+<pre><code>$ scriggo build github.com/example/foo
+</code></pre>
+<p>will build an interpreter named <code>foo</code> or <code>foo.exe</code> from the instructions in
+the file at <code>github.com/example/foo/Scriggofile</code>.</p>
+<p>In this other example:</p>
+<pre><code>$ scriggo build ./boo
+</code></pre>
+<p>the command will build an interpreter named <code>boo</code> or <code>boo.exe</code> from the
+instructions in the <a href="scriggofile">Scriggofile</a> <code>./boo/Scriggofile</code>.</p>
+<h3 id="complete-syntax">Complete syntax</h3>
+<p>The complete <code>scriggo build</code> command takes this form:</p>
+<pre><code>$ scriggo build [-f Scriggofile] [-w] [-v] [-x] [-work] [-o output] [module] 
+</code></pre>
+<p>With the exception of the flag <code>-o</code>, install has the same parameters as build:</p>
+<pre><code>$ scriggo install [-f Scriggofile] [-w] [-v] [-x] [-work] [module] 
+</code></pre>
+<p>The <code>-f</code> flag forces the command to read the given <a href="scriggofile">Scriggofile</a> instead of the
+Scriggofile of the module. For example:</p>
+<pre><code>$ scriggo build -f boo.Scriggofile github.com/example/foo
+</code></pre>
+<p>will build an interpreter named <code>foo</code> or <code>foo.exe</code> from the instructions in the file at <code>boo.Scriggofile</code>.</p>
+<p>The <code>-w</code> flag omits the DWARF symbol table.</p>
+<p>The <code>-v</code> flag prints the imported packages as defined in the <a href="scriggofile">Scriggofile</a>.</p>
+<p>The <code>-x</code> flag prints the executed commands.</p>
+<p>The <code>-work</code> flag prints the name of a temporary directory containing a work
+module used to build the interpreter. The directory will not be deleted
+after the build.</p>
+<p>The <code>-o</code> flag forces build to write the resulting executable to the named output
+file, instead in the current directory.</p>
+<h2 id="generate-a-package-loader">Generate a package loader</h2>
+
+        </div>
+    </div>
+</article>
+<footer>
+    &copy; to me
+</footer>
+</body>
+</html>

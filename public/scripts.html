@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <meta charset="utf-8">
+    <title>Scripts</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/">Scriggo</a>
+    <ul>
+        <li><a href="/news">News</a></li>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/use-cases">Use Cases</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="what-is-scriggo">What is Scriggo</a></li>
+                <li><a href="get-started">Get Started</a></li>
+                <li><a href="install">Install Scriggo</a></li>
+                <li><a href="scriggo-command">Scriggo command</a></li>
+                <li><a href="scriggofile">API</a></li>
+                <li><a href="template">Template</a></li>
+                <li><a href="scriggofile">Scriggofile</a></li>
+                <li><a href="internals">Internals</a></li>
+                <li><a href="disassembler">Disassembler</a></li>
+                <li><a href="limitations">Limitations</a></li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="scripts">Scripts</h1>
+<p>Scripts a scripting language based on Go but with the following differences that make them more suitable for a scripting context:</p>
+<ul>
+<li>files can start with a shebang: <code>#!/usr/bin/env scriggo</code></li>
+<li>there is no <code>package main</code> declaration</li>
+<li>there is no <code>func main</code> declaration</li>
+<li>execution exits with the script’s exit code</li>
+<li>there is a new shell command literal</li>
+<li>there are a new <code>run</code> and <code>exit</code> builtin functions</li>
+</ul>
+<p>This is a script:</p>
+<pre><code class="language-go">println(&quot;Hello Word!&quot;)
+</code></pre>
+<p>and this is another script with the <code>run</code> builtin function with a shell command literal as argument:</p>
+<pre><code class="language-go">hello := &quot;Hello Word!&quot;
+run $ echo #{hello}
+</code></pre>
+<p>The following is a more complete example of script:</p>
+<pre><code class="language-go">#!/usr/bin/env scriggo
+
+import (
+    &quot;fmt&quot;
+    &quot;os&quot;
+)
+
+const limit = 10000
+
+fi, err := os.Open(&quot;requests.log&quot;)
+if err != nil {
+    exit(1)
+}
+defer fi.Close()
+
+cat := $ cat &quot;a.txt&quot; | grep &quot;n&quot; | sort 
+err = cat.Run()
+if err != nil {
+    exit(err)
+}
+
+repo := &quot;github.com/open2b/scriggo&quot;
+
+_, err = run $ git checkout #{repo}
+if err != nil {
+    exit(1)
+}
+
+_, err := run(checkout)
+if err != nil {
+    exit(err)
+}
+
+_, err = run $ while [[ $i -le 3 ]]; do echo $i; i=$((i+1)); done
+if err != nil {
+    exit(1)
+}
+
+run $ alias | grep -i git | sort -R | head -10
+
+out, err = run(&quot;docker&quot;, &quot;run&quot;, &quot;nmp&quot;)
+
+apk := $ apk --no-cache add \
+    bash \
+    btrfs-progs-dev \
+    build-base \
+    curl \
+    lvm2-dev \
+    jq
+apk.Stdin = in
+err = apk.Run()
+
+_, err = run $ git branch dev
+if err != nil {
+    exit(err)
+}
+
+_, err = run(cmd, checkout)
+
+if len(requests) &gt; limit {
+    fmt.Println(&quot;How many requests!&quot;)
+}
+
+rx``
+
+</code></pre>
+<p>A Scriggo interpreter runs scripts with performances comparable or superior to those of a programming language like Python.</p>
+<h2 id="make-a-script-interpreter">Make a script interpreter</h2>
+<p>A script interpreter is a program that can run scripts. It can be a command line executable or a web application, with
+an editor to code and run scripts, or a server that executes scripts for routine operations and plugins.</p>
+<p>Creating an interpreter starts from writing a <a href="scriggofile">Scriggofile</a> that defines which packages a script can import and
+which globals will be defined for the executed scripts.</p>
+<p>The <a href="scriggofile">Scriggofile</a> is then saved in a module directory. The module's <code>go.mod</code> will specify the versions of
+packages's modules imported in the <a href="scriggofile">Scriggofile</a>.</p>
+<p>And finally the <code>scriggo</code> command is executed to make an executable of the interpreter or to generate a package loader
+to use in an existing application to load and run scripts.</p>
+<h3 id="a-simple-interpreter">A simple interpreter</h3>
+<p>To create a simple interpreter, as a command line executable, that runs scripts that can import the packages of the Go standard library, start
+creating a new Go module:</p>
+<pre><code>$ mkdir foo
+$ cd foo
+$ go mod init foo
+</code></pre>
+<p>Create a file named <code>Scriggofile</code> in the module directory <code>foo</code> with this content:</p>
+<pre><code>TARGET SCRIPTS
+IMPORT STANDARD LIBRARY
+</code></pre>
+<p>Build the interpreter from the module directory with the <a href="/doc/scriggo-command">scriggo command</a>:</p>
+<pre><code>$ scriggo build
+</code></pre>
+<p>It builds the interpreter from the instructions in <code>Scriggofile</code> and creates the <code>foo</code>, or <code>foo.exe</code>, executable in
+the current directory.</p>
+<p>Try to run a script with the new <code>foo</code> interpreter. Create a file named <code>script.sg</code> with the following content:</p>
+<pre><code class="language-go">import &quot;fmt&quot;
+fmt.Println(&quot;hello world!&quot;)
+</code></pre>
+<p>and run the script:</p>
+<pre><code>$ ./foo script.sg
+hello world!
+</code></pre>
+<p>or on Windows:</p>
+<pre><code>$ foo.exe script.sgo
+hello world!
+</code></pre>
+<h3 id="a-more-complex-interpreter">A more complex interpreter</h3>
+<p>Starting fro  the</p>
+<p>The following is an example of <a href="scriggofile">Scriggofile</a> for scripts to create and manage containers:</p>
+<pre><code># Scriggofile for create and manage containers
+TARGET SCRIPTS
+IMPORT context INCLUDING Background NOT CAPITALIZED
+IMPORT fmt
+IMPORT github.com/docker/docker/client AS main INCLUDING NewClientWithOpts NOT CAPITALIZED
+IMPORT github.com/docker/docker/client AS main INCLUDING FromEnv Image
+IMPORT github.com/docker/docker/types AS main INCLUDING ContainerListOptions 
+</code></pre>
+<p>The following is an example of a script that can be executed with an interpreter made from <a href="scriggofile">Scriggofile</a>:</p>
+<pre><code class="language-go">import (
+    &quot;context&quot;
+    &quot;fmt&quot;
+)
+
+cli, err := newClientWithOpts(FromEnv)
+if err != nil {
+    panic(err)
+}
+
+containers, err := cli.ContainerList(background(), ContainerListOptions{})
+if err != nil {
+    panic(err)
+}
+
+for _, container := range containers {
+    fmt.Printf(&quot;%s %s\n&quot;, container.ID[:10], Image)
+}
+</code></pre>
+<ul>
+<li>
+<p>a
+Building of a script interpreter starts from writing a Scriggofile for the interpreter and running one of the following commands:</p>
+</li>
+<li>
+<p><code>scriggo build</code> or <code>scriggo install</code> to create a standalone interpreter.</p>
+</li>
+<li>
+<p><code>scriggo embed</code> to generate a package loader to use with an existing program.</p>
+</li>
+</ul>
+<h3 id="scriggofile-for-a-script-interpreter">Scriggofile for a script interpreter</h3>
+
+        </div>
+    </div>
+</article>
+<footer>
+    &copy; to me
+</footer>
+</body>
+</html>
