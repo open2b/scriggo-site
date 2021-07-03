@@ -28,7 +28,6 @@ run $ echo #{hello}
 
 The following is a more complete example of script:
 
-{% raw %}
 ```go
 #!/usr/bin/env scriggo
 
@@ -96,7 +95,6 @@ if len(requests) > limit {
 rx``
 
 ```
-{% endraw %}
 
 A Scriggo interpreter runs scripts with performances comparable or superior to those of a programming language like Python.  
 
