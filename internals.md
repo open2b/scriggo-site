@@ -1,13 +1,26 @@
 {% extends "/layouts/article.html" %}
-{% macro Title %}Get Started{% end %}
+{% macro Title %}Internals{% end %}
 {% Article %}
 
-{% raw code %}
 # Internals
-{: .no_toc}
 
-1. TOC
-{:toc}
+<ol>
+  <li>
+    <a href="#an-overview-of-the-scriggo-implementation">An overview of the Scriggo implementation</a>
+    <ol>
+      <li>
+        <a href="#the-compiler" id="markdown-toc-the-compiler">The compiler</a>
+        <ol>
+          <li><a href="#the-lexer" id="markdown-toc-the-lexer">The lexer</a></li>
+          <li><a href="#the-parser" id="markdown-toc-the-parser">The parser</a></li>
+          <li><a href="#the-type-checker">The type checker</a></li>
+          <li><a href="#the-emitter">The emitter</a></li>
+       </ol>
+      </li>
+      <li><a href="#the-runtime" id="markdown-toc-the-runtime">The runtime</a></li>
+    </ol>
+  </li>
+</ol>
 
 ## An overview of the Scriggo implementation
 
@@ -40,7 +53,7 @@ The lexer reads a source code and outputs a list of _tokens_.
 ![lexer](/images/lexer.png)
 
 
-The lexer recognizes all the tokens used by Go plus the ones specific for the template, as `{%`, `%}`, `macro` etc.. To get an overview of the Scriggo template syntax see [the Scriggo Template](/doc/template).
+The lexer recognizes all the tokens used by Go plus the ones specific for the template, as {% raw %}`{%`, `%}` {% end %}, `macro` etc.. To get an overview of the Scriggo template syntax see [the Scriggo Template](/doc/template).
 
 #### The parser
 
@@ -90,5 +103,3 @@ Note that, without the use of the builder, the emission of instructions for the 
 
 The runtime of Scriggo executes the byte code using its internal virtual machine.
 For a detailed explanation of the virtual machine and to see the set of the bytecode instructions that it uses, see the section [Bytecode](bytecode).
-
-{% end raw code %}
