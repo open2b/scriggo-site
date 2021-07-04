@@ -56,20 +56,20 @@ Here you can find some useful resources that cover from the first steps with Scr
 
 For designers who want to work with the Scriggo template.
 
-- [The Scriggo template](/doc/template.md) covers the usage of the Scriggo template starting from the simplest pages.
+- [The Scriggo template](/template.md) covers the usage of the Scriggo template starting from the simplest pages.
 
 ## Write Scriggo scripts and programs
 
 For users who use Scriggo in an embedded context or through an interpreter.
 
-- [Scriggo scripts vs Scriggo programs](/doc/users/script-program-differences.html) covers the differences between a _Scriggo script_ and a standard Go program.
+- [Scriggo scripts vs Scriggo programs](/script-program-differences.html) covers the differences between a _Scriggo script_ and a standard Go program.
 
 ## Embed Scriggo in your application
 
 If you want to develope an application that uses Scriggo, this is the right section for you.
 It covers the Scriggo APIs and the `scriggo` command line tool.
 
-- [Get started embedding Scriggo](/doc/users/get-started-embedding.html)
+- [Get started embedding Scriggo](/get-started-embedding.html)
 - [godoc.org/scriggo]() the Scriggo APIs documentation, hosted on godoc.org.
 - [The scriggo command line tool]() introduces and describes the use of the command `scriggo`.
 
@@ -78,6 +78,6 @@ It covers the Scriggo APIs and the `scriggo` command line tool.
 For developers who want to develope Scriggo.
 Covers the Scriggo internals, as well as the repository structure.
 
-- [Scriggo internals](doc/internals.md) makes an overview of the internals of Scriggo.
-- [The Scriggo Virtual Machine](/doc/developers/vm.md)
+- [Scriggo internals](/internals.md) makes an overview of the internals of Scriggo.
+- [The Scriggo Virtual Machine](/developers/vm.md)
 

@@ -13,7 +13,7 @@ It requires 10 minutes to be completed.
 
 The `scriggo` command is a standalone interpreter that executes Go programs without requiring other software installed. 
 
-Before you start working with Scriggo, <a href="/doc/install">install the Scriggo command</a> using precompiled binaries or compiling from source.
+Before you start working with Scriggo, <a href="/install">install the Scriggo command</a> using precompiled binaries or compiling from source.
 
 To run a Go program, as the following example:
 
@@ -64,7 +64,7 @@ Hello, World!
 A program executed by the `scriggo` command can have access only to packages, variables, constants, functions and types
 that has been explicitly compiled in the `scriggo` command.
 
-See <a href="/doc/scriggo-command">scriggo command</a> for more details.
+See <a href="/scriggo-command">scriggo command</a> for more details.
 
 ## Use Scriggo in applications
 
@@ -154,7 +154,7 @@ does not import packages and uses the builtin `println` to print the string on t
 A program executed by Scriggo can have access only to packages, variables, constants, functions and types that are
 explicitly provided through a package importer.
 
-See <a href="/doc/package-importers">package importers</a> for more details.
+See <a href="/package-importers">package importers</a> for more details.
 
 ## Use Scriggo in templates
 

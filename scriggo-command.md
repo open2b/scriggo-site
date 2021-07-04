@@ -16,7 +16,7 @@ It is a single binary executable with no external dependencies. It includes the 
 
 If your use of the Scriggo command is not limited to run programs, before you start you must <a href="https://golang.org/dl/">download and install Go</a>.
 
-See <a href="/doc/install">install Scriggo command</a> to install the `scriggo` command using precompiled binaries or compiling from source.
+See <a href="/install">install Scriggo command</a> to install the `scriggo` command using precompiled binaries or compiling from source.
 
 ### Get help from command line
 

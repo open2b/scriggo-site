@@ -130,7 +130,7 @@ TARGET SCRIPTS
 IMPORT STANDARD LIBRARY
 ```
 
-Build the interpreter from the module directory with the [scriggo command](/doc/scriggo-command):
+Build the interpreter from the module directory with the [scriggo command](/scriggo-command):
 
 ```
 $ scriggo build
