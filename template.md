@@ -19,12 +19,12 @@ template scripting language.
       <li><a href="{{ product.URL }}">{{ product.Name }}</a></li>
       {% end %}
     </ul>
-    {% show "pagination.html" %}
-    {% show Banner() %}
+    {{ render "pagination.html" }}
+    {{ Banner() }}
 {% end %}
 ```
 
-Scriggo Template's files can be written in plain text, HTML, CSS, JavaScript and JSON.
+Scriggo Template's files can be written in plain text, HTML, Markdown, CSS, JavaScript and JSON.
 
 ## Expressions
 
@@ -53,6 +53,8 @@ Examples:
 ```
 
 `{{ }}` escapes the printed value based on its context.
+
+In addiction, Scriggo Template supports the `render` operator to render a template file, the `contains` operator and the `default` expression statement.
 
 ## Statements
 
@@ -94,8 +96,8 @@ Example:
 {% end for %}
 ```
 
-In addiction, Scriggo Template supports four new statements that are used for template layouts: `extends`, `import`,
-`macro` and `show`.
+In addiction, Scriggo Template supports six new statements: `extends`, `import`,
+`macro`, `show`, `raw` and `using`.
 
 ### Functions
 
@@ -170,7 +172,7 @@ Example:
 
 ```
 {# parent.html #}
-{% show Banners %}
+{{ Banner() }}
 ```
 
 ```
@@ -184,15 +186,15 @@ This is a more complete example of a parent file:
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% show Title %}</title>
+  <title>{{ Title() }}</title>
 </head>
 <body>
-  {% show Header %}
+  {{ Header() }}
   <div>
-    {% show Column %}
-    {% show Body %}
+    {{ Column() }}
+    {{ Body() }}
   </div>
-  {% show Footer %}
+  {{ Footer() }}
 </body>
 </head>
 ```
@@ -216,36 +218,36 @@ and an extended file:
 ### macro
 
 The statement `macro` defines a macro, which is a way to repeat frequently-used template code. A macro can have
-parameters, like a function, but no return values. A macro without parameters can be declared and called without the parentheses. 
+input parameters, like a function, but have a single unnamed return parameter with type `string`, `html`, `markdown`, `css`, `js`, or `json`. In a macro declaration the return parameter type can be omitted, in this case it is inferred by the context. A macro without input parameters can be declared and called without the parentheses. 
 
 Examples:
 
 ```
 {% macro title %}A wonderful book{% end %}
 
-{% macro image(url string, width, height int) %}
+{% macro image(url string, width, height int) html %}
   <img src="{{ url }}" width="{{ width }}" height="{{ height }}">
 {% end %}
 ```
 
-The statement `show` is used to call a macro:
+A macro is a function and as such it is called with the parentheses:
 
 ```
-{% show name %}
+{{ name() }}
  
 {% show image("picture.jpg", 400, 500) %}
 ```
 
 ### Partials
 
-Partials are template files whose contents can be shown in other files with a `show` statement:
+Partials are template files whose contents can be rendered in other files with the `render` operator:
 
 ```
-{% show "partials/footer.html" %}
+{{ render "partials/footer.html" }}
 ```
 
 The name of the partial file can be a relative or an absolute path. The partial file does not inherit the variables
-declared in the file in which it is shown.
+declared in the file in which it is rendered.
 
 ### import
 
@@ -263,12 +265,12 @@ Examples:
 
 ```
 {% import "elements.html" %}
-{% show Banners %}
+{{ Banners() }}
 ```
 
 ```
 {% import elems "elements.html" %}
-{% show elems.Banners %}
+{{ elems.Banners() }}
 ```
 
 Import statements can be only at the beginning of a file and can be preceded only by an extends statement.   
@@ -282,7 +284,7 @@ Examples:
   <title>Catalog</title>
 </head>
 <body>
-  {% show Products %}
+  {{ Products() }}
 </body>
 </html>
 ```
@@ -292,7 +294,7 @@ Examples:
 {% import elems "elements.html" %}
 
 {% macro Header %}
-  <div>{% show elems.Banners %}</div>
+  <div>{{ elems.Banners }}</div>
 {% end %}
 
 {% macro Body %}
@@ -300,6 +302,57 @@ Examples:
 {% end %}
 ```
 
+### raw
+
+The raw statement is used to render a content without executing Scriggo code:
+
+```
+{% raw %} {{ price }} {% end %}
+```
+
+Terminate the `raw` statement with `{% end %}`, `{% end raw %}` or `{% end raw example %}` where `example` can be any identifier.
+
+```
+{% raw example %}
+Use {% raw %} ... {% end raw %} to render a content as is.
+{% end raw example %}
+```
+
+It is rendered as `Use {% raw %} ... {% end raw %} to render a content as is`.
+
+### using
+
+The `using` statement can be used between `{%` and `%}` in conjunction with show statements, expression statements, send statements, assignments and variable declarations to capture the rendering of a content into a value.
+
+The value is assigned to the predeclared identifier `this` and has the type that follow `using`. The type can be a format type (`string`, `html`, `markdown`, `css`, `js` or `json`) or a macro type. If it is omitted, it is inferred by the context.
+
+```
+{% var link = this; using %}
+  <a href="{{ url }}">{{ name }}</a>
+{% end %}
+
+{% reply(this); using string %}
+  Dear {{ name }},
+  thanks for your interest.
+{% end using %}
+```
+
+When a using statement has a macro type, the content if rendered every time the macro is called:
+
+```
+{% show Head(this); using macro %}
+    <title>{{ Title() default "" }} - Awesome site</title>
+    <link href="style.css">
+{% end using %}
+```
+```
+{% extends "layout.html" %}
+{% macro Title %}Contact us{% end %}
+{% macro Head(content macro() html) %}
+    {{ content() }}
+    <script src="contact-form.js"></script>
+{% end macro %}
+```
 
 ### Comments
 

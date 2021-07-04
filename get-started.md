@@ -103,8 +103,8 @@ func main() {
         }
     `)
 
-    // Load the program.
-    program, err := scriggo.Load(src, nil, nil)
+    // Build the program.
+    program, err := scriggo.Build(src, nil)
     if err != nil {
         panic(err)
     }
@@ -158,10 +158,10 @@ See <a href="/doc/package-importers">package importers</a> for more details.
 
 ## Use Scriggo in templates
 
-The Scriggo template language supports inheritance, macros, includes, imports and autoescaping but most of all
+The Scriggo template language supports inheritance, macros, partials, imports and autoescaping but most of all
 it uses the Go language as the template scripting language. 
 
-Scriggo templates can be written with plain text, HTML, CSS and JavaScript.
+Scriggo templates can be written with plain text, HTML, Markdown, CSS, JavaScript and JSON.
 
 Open a terminal and create a new directory for the application: 
 
@@ -180,39 +180,39 @@ Create a file `main.go` with the following source code:
 
 {% raw %}
 ```go
-// Load and render a Scriggo template on the standard output.
+// Build and run a Scriggo template.
 package main
 
 import (
     "os"
-    "github.com/open2b/scriggo/template"
+    "github.com/open2b/scriggo/templates"
 )
 
 func main() {
 
-    // src is the source code of the template file to render.
-    src := []byte(`
+    // Content of the template file to run.
+    content := `
     <!DOCTYPE html>
     <html>
     <head>Hello</head> 
     <body>
-        {% who := "World" %}
+        {% var who = "World" %}
         Hello, {{ who }}!
     </body>
     </html>
-    `)
+    `
 
-    // files is used to read the template files.
-    files := template.MapReader{"index.html" : src}
+    // File system used to read the template files. 
+    fsys := templates.MapFS{"index.html" : content}
 
-    // Load the template.
-    tmpl, err := template.Load("index.html", files, nil, template.LanguageHTML, nil)
+    // Build the template.
+    template, err := templates.Build(fsys, "index.html", nil)
     if err != nil {
         panic(err)
     }
  
-    // Render the template on the standard output.
-    err = tmpl.Render(os.Stdout, nil, nil)
+    // Run the template and print it to the standard output.
+    err = template.Run(os.Stdout, nil, nil)
     if err != nil {
         panic(err)
     }

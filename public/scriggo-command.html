@@ -38,7 +38,8 @@
 <p>Scriggo has a command line interface, the <code>scriggo</code> command, that allows to:</p>
 <ul>
 <li>run Go programs</li>
-<li>add and remove importable packages</li>
+<li>run Scriggo scripts</li>
+<li>serve Scriggo templates</li>
 <li>build scriggo commands with specific packages</li>
 <li>generate a package loader for an existing application</li>
 </ul>
@@ -77,38 +78,6 @@ func main() {
 </blockquote>  
 <p>To raise an error if the file has a shebang, use the <span style="white-space:nowrap"><code>-strict</code></span> option:</p>
 <pre><code>$ scriggo -strict file [arguments...]
-</code></pre>
-<h2 id="add-and-remove-importable-packages">Add and remove importable packages</h2>
-<p>An executed program can import only packages that have been explicitly compiled in a <code>scriggo</code> command. To list all the
-packages compiled in a <code>scriggo</code> command run from command line:</p>
-<pre><code>$ scriggo list packages
-</code></pre>
-<p>It will prints to the standard output all the packages compiled in the executed <code>scriggo</code> command and that can be imported in a Go program.</p>
-<p>To add or remove a package use the Rebuild command. The basic Rebuild command takes this form:</p>
-<pre><code>$ scriggo rebuild [add|remove] path[@version]
-</code></pre>
-<p>It creates the rebuilded Scriggo command in the current directory with the name <code>scriggo</code> or <code>scriggo.exe</code>, overwriting
-an existing file with the same name.</p>
-<h3 id="add-packages">Add packages</h3>
-<p>To add packages use the <code>scriggo rebuild add</code> command:</p>
-<pre><code>$ scriggo rebuild add [-force] path[@version]
-</code></pre>
-<p>where <code>path</code> is the import path of the package and <code>version</code> is the version of the package's module. If the argument
-<code>version</code> is missing, the version is the latest. You can give more packages as argument. For example to add the package
-<code>foo</code> with version <code>v1.3</code> and the latest version of the package <code>bar</code> run from command line:</p>
-<pre><code>$ scriggo rebuild add foo@v1.3 bar
-</code></pre>
-<p>If a package already exists with a different version, it will be updated at the new version. If more packages exist
-for the same module an error occurs. To force the update of all the packages of the same module to the given version use
-the <code>-force</code> option, but the packages of the same module listed as argument must have the same version.</p>
-<p>For packages of the Go standard library don't give the version because the version is implicitly the version of Go.
-To add almost all the packages of the Go standard library use <code>stdlib</code> as package argument.</p>
-<h3 id="remove-packages">Remove packages</h3>
-<p>To remove packages use the <code>scriggo rebuild remove</code> command:</p>
-<pre><code>$ scriggo rebuild remove paths
-</code></pre>
-<p>where <code>paths</code> are the import paths of the packages to remove. For example to remove packages <code>foo</code> and <code>bar</code> run from command line:</p>
-<pre><code>$ scriggo rebuild remove foo bar
 </code></pre>
 <h2 id="build-scriggo-commands">Build Scriggo commands</h2>
 <p>The scriggo command uses the instructions in a <a href="scriggofile">Scriggofile</a> to create the interpreter or generate the package loader.</p>

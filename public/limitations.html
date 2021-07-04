@@ -42,19 +42,16 @@ Github issue linked in the list below.</p>
 <ul>
 <li>methods declarations (<a href="https://github.com/open2b/scriggo/issues/458">#458</a>)</li>
 <li>interface types definition (<a href="https://github.com/open2b/scriggo/issues/218">#218</a>)</li>
-<li>assigning return values from a deferred closure (<a href="https://github.com/open2b/scriggo/issues/278">#278</a>)</li>
 <li>assigning to non-variables in 'for range' statements (<a href="https://github.com/open2b/scriggo/issues/182">#182</a>)</li>
 <li>importing the &quot;unsafe&quot; package from Scriggo (<a href="https://github.com/open2b/scriggo/issues/288">#288</a>)</li>
 <li>importing the &quot;runtime&quot; package from Scriggo (<a href="https://github.com/open2b/scriggo/issues/524">#524</a>)</li>
 <li>labeled continue and break statements (<a href="https://github.com/open2b/scriggo/issues/83">#83</a>)</li>
-<li>struct type declarations with implicit fields (<a href="https://github.com/open2b/scriggo/issues/367">#367</a>)</li>
-<li>struct type declarations with tags (<a href="https://github.com/open2b/scriggo/issues/61">#61</a>)</li>
 <li>some kinds of pointer shorthands (<a href="https://github.com/open2b/scriggo/issues/383">#383</a>)</li>
 <li>compilation of non-main packages without importing them (<a href="https://github.com/open2b/scriggo/issues/521">#521</a>)</li>
 </ul>
 <p>For a comprehensive list of not-yet-implemented features
 see the list of <a href="https://github.com/open2b/scriggo/labels/missing-feature">missing features on Github</a>.</p>
-<h2 id="limitations-due-to-mantain-the-interoperability-with-go-official-compiler-gc">Limitations due to mantain the interoperability with Go official compiler <code>gc</code></h2>
+<h2 id="limitations-due-to-maintain-the-interoperability-with-go-official-compiler-gc">Limitations due to maintain the interoperability with Go official compiler <code>gc</code></h2>
 <ul>
 <li>
 <p>types defined in Scriggo are not correctly seen by the <code>reflect</code> package.
@@ -76,16 +73,15 @@ avoid accidental accessing.</p>
 <p>cannot define functions without a body (TODO)</p>
 </li>
 <li>
+<p>a select supports a maximum of 65536 cases.</p>
+</li>
+<li>
 <p>Go packages can be imported only if they have been precompiled into the
 Scriggo interpreter/execution environment.
 Also see the commands <code>scriggo embed</code> and <code>scriggo build</code>.</p>
 </li>
 <li>
 <p>types are not garbage collected. See issue <a href="https://github.com/golang/go/issues/28783">golang/go#28783</a>.</p>
-</li>
-<li>
-<p>the debugger <a href="https://github.com/go-delve/delve">delve</a> is not compatible with Scriggo; currently there are
-no debuggers available for Scriggo.</p>
 </li>
 </ul>
 <h2 id="arbitrary-limitations">Arbitrary limitations</h2>
@@ -96,9 +92,9 @@ performances:</p>
 <li>256 function literal declarations plus unique functions calls per function</li>
 <li>256 types available per function</li>
 <li>256 unique predefined functions per function</li>
-<li>256 integer values per function</li>
+<li>16384 integer values per function</li>
 <li>256 string values per function</li>
-<li>256 floating-point values per function</li>
+<li>16384 floating-point values per function</li>
 <li>256 general values per function</li>
 </ul>
 

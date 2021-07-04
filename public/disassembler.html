@@ -35,9 +35,9 @@
         </aside>
         <div class="content">
             <h1 id="disassembler">Disassembler</h1>
-<p>When Scriggo runs a program or template, first compiles it into virtual machine code and then runs it on a Scriggo virtual machine.</p>
+<p>When Scriggo runs a program, script or template, first compiles it into virtual machine code and then runs it on the Scriggo virtual machine.</p>
 <h2 id="how-to-disassemble">How to disassemble</h2>
-<p>To disassemble a program or a template you can:</p>
+<p>To disassemble a program, script or a template you can:</p>
 <ul>
 <li>
 <p>in the <a href="https://play.scriggo.com/">Scriggo Playground</a> click on the <code>Disassemble</code> button to show the disassembled program.</p>
@@ -48,8 +48,18 @@
 </code></pre>
 </li>
 <li>
-<p>with the scriggo package, call the method <code>Disassemble</code> on the value returned by the <code>Load</code> method to disassemble a named package to a writer:</p>
-<pre><code>program.Disassemble(w, &quot;main&quot;)
+<p>with the scriggo serve sub-command, use the <code>-S</code> option to print the template's assembly to the standard output:</p>
+<pre><code>$ scriggo serve -S -1
+</code></pre>
+</li>
+<li>
+<p>with the scriggo package, call the method <code>Disassemble</code> on the value returned by the <code>Build</code> method to disassemble a named package:</p>
+<pre><code>asm, err = program.Disassemble(&quot;main&quot;)
+</code></pre>
+</li>
+<li>
+<p>with the templates package, call the method <code>Disassemble</code> on the value returned by the <code>Build</code> method to disassemble the template:</p>
+<pre><code>asm = template.Disassemble(-1)
 </code></pre>
 </li>
 </ul>
@@ -95,6 +105,22 @@ var e *S
 <p>The declaration <code>Import</code> states that the disassembled package uses exported identifiers of the imported package.</p>
 <pre><code class="language-go">Syntax:  Import &quot;pkg&quot; ; description: import &quot;pkg&quot;
 </code></pre>
+<h2 id="func-declaration">Func declaration</h2>
+<p>The declaration <code>Func</code> declares a function with its body and specifies the number of registers that it uses.</p>
+<pre><code class="language-go">Syntax:  Func f(a1, ...an) (r1, ...rn) ; func f(a1, ...an) (r1, ...rn) 
+                 ; regs(ni,nf,ns,ng)
+</code></pre>
+<pre><code class="language-go">Example: Func sum(i1, i2 int) (i3 int)
+                 ; regs(3,0,0,0)
+</code></pre>
+<h2 id="macro-declaration">Macro declaration</h2>
+<p>The declaration <code>Macro</code> declares a macro with its body and specifies the number of registers that it uses.</p>
+<pre><code class="language-go">Syntax:  Macro m(a1, ...an) T ; {% macro m(a1, ...an) T %} ... {% end %}
+                 ; regs(ni,nf,ns,ng)
+</code></pre>
+<pre><code class="language-go">Example: Macro Head(s5 markdown) (s7 markdown)
+                 ; regs(1,0,3,0)
+</code></pre>
 <h2 id="assembly-instructions">Assembly instructions</h2>
 <p>The Scriggo assembly is an abstraction above the virtual machine instructions. Some assembly instructions have a direct representation in a virtual machine instruction but some do not.</p>
 <p>There are 72 assembly instructions:</p>
@@ -131,8 +157,8 @@ var e *S
   <li><a href="#if">If</a></li>
   <li><a href="#index">Index</a></li>
   <li><a href="#len">Len</a></li>
+  <li><a href="#load">Load</a></li>
   <li><a href="#loadfunc">LoadFunc</a></li>
-  <li><a href="#loadnumber">LoadNumber</a></li>
   <li><a href="#makearray">MakeArray</a></li>
   <li><a href="#makechan">MakeChan</a></li>
   <li><a href="#makemap">MakeMap</a></li>
@@ -219,7 +245,7 @@ var e *S
 <pre><code class="language-go">Syntax:  Break label ; description: break label
 </code></pre>
 <h3 id="call">Call</h3>
-<p>The instruction <code>Call</code> calls the function with name <code>name</code> or the function addressed by <code>fn</code> with arguments addressed by <code>i</code>, <code>f</code>, <code>s</code> and <code>g</code>.</p>
+<p>The instruction <code>Call</code> calls the function, or macro, with name <code>name</code> or the function, or macro, addressed by <code>fn</code> with arguments addressed by <code>i</code>, <code>f</code>, <code>s</code> and <code>g</code>.</p>
 <ol>
 <li><code>i</code> is the first integer register of the integer parameters.</li>
 <li><code>f</code> is the first floating point register of the floating point parameters.</li>
@@ -429,19 +455,24 @@ Call Serve i2 _ s1 _
 <p>The instruction <code>Len</code> gets the length of the slice, string or channel addressed by <code>s</code> and stores it in <code>n</code>.</p>
 <pre><code class="language-go">Syntax:  Len s n ; description: n = len(s)
 </code></pre>
+<h3 id="load">Load</h3>
+<p>The instruction <code>Load</code> loads a value <code>v</code> and stores it by copy into <code>dst</code>.</p>
+<pre><code class="language-go">Syntax:  Load v dst ; description: dst = v
+</code></pre>
+<pre><code class="language-go">Example: Load 64 i3
+         Load 3.14 f7
+         Load &quot;a&quot; s1
+         Load [2]int{} g3
+         Load nil g5
+</code></pre>
 <h3 id="loadfunc">LoadFunc</h3>
 <p>The instruction <code>LoadFunc</code> loads the function with name <code>name</code> into <code>fn</code>.</p>
 <pre><code class="language-go">Syntax:  LoadFunc name fn ; description: fn = name
 </code></pre>
 <pre><code class="language-go">Example: LoadFunc strings.HasPrefix g2
-           Call (g2) i1 _ s3 _
+         Call (g2) i1 _ s3 _
 </code></pre>
 <p>See the <a href="#func">Func</a> instruction for how to declare and load a function literal.</p>
-<h3 id="loadnumber">LoadNumber</h3>
-<p>The instruction <code>LoadNumber</code> loads an integer from <code>vm.fn.Int</code> or a float from <code>vm.fn.Float</code> at index <code>i</code> and stores it in <code>dst</code>.</p>
-<pre><code class="language-go">Syntax:  LoadNumber i dst ; description: dst = vm.fn.Int[i]   // when dst is a int register
-                                         dst = vm.fn.Float[i] // when dst is a float register
-</code></pre>
 <h3 id="makearray">MakeArray</h3>
 <p>The instruction <code>MakeArray</code> makes an array with type <code>T</code> and stores it in <code>a</code>.</p>
 <pre><code class="language-go">Syntax: MakeArray T a ; description: var a T
@@ -656,7 +687,7 @@ return
 </code></pre>
 <h3 id="show">Show</h3>
 <p>The instruction <code>Show</code> formats the value addresses by <code>v</code> based on the context <code>ctx</code> and writes the result to the template out writer.</p>
-<pre><code class="language-go">Syntax:  Show T v ctx; description: out.Write(format(v, ctx))
+<pre><code class="language-go">Syntax:  Show T v (ctx); description: out.Write(format(v, ctx))
 </code></pre>
 <h3 id="shr">Shr</h3>
 <p>The instruction <code>Shr</code> computes the right shift of an integer. <code>Shr</code> has two forms.</p>
@@ -703,8 +734,10 @@ return
 <h3 id="tailcall">TailCall</h3>
 <p>TODO</p>
 <h3 id="text">Text</h3>
-<p>The instruction <code>Text</code> writes the text data at index <code>i</code> to the template out writer.</p>
-<pre><code class="language-go">Syntax:  Text i ; description: out.Write(text[i])
+<p>The instruction <code>Text</code> writes the text <code>txt</code> to the template out writer.</p>
+<pre><code class="language-go">Syntax:  Text txt ; description: out.Write(txt)
+</code></pre>
+<pre><code class="language-go">Example: Text &quot;&lt;h1&gt;About us&lt;/h1&gt;&quot;
 </code></pre>
 <h3 id="typify">Typify</h3>
 <p>The instruction <code>Typify</code> gets the value addressed by <code>v1</code>, convert it to type <code>T</code> and stores the resulting value into <code>v2</code>.</p>

@@ -14,20 +14,17 @@ Github issue linked in the list below.
 
 * methods declarations ([#458](https://github.com/open2b/scriggo/issues/458))
 * interface types definition ([#218](https://github.com/open2b/scriggo/issues/218))
-* assigning return values from a deferred closure ([#278](https://github.com/open2b/scriggo/issues/278))
 * assigning to non-variables in 'for range' statements ([#182](https://github.com/open2b/scriggo/issues/182))
 * importing the "unsafe" package from Scriggo ([#288](https://github.com/open2b/scriggo/issues/288))
 * importing the "runtime" package from Scriggo ([#524](https://github.com/open2b/scriggo/issues/524))
 * labeled continue and break statements ([#83](https://github.com/open2b/scriggo/issues/83))
-* struct type declarations with implicit fields ([#367](https://github.com/open2b/scriggo/issues/367))
-* struct type declarations with tags ([#61](https://github.com/open2b/scriggo/issues/61))
 * some kinds of pointer shorthands ([#383](https://github.com/open2b/scriggo/issues/383))
 * compilation of non-main packages without importing them ([#521](https://github.com/open2b/scriggo/issues/521))
 
 For a comprehensive list of not-yet-implemented features
 see the list of [missing features on Github](https://github.com/open2b/scriggo/labels/missing-feature).
 
-## Limitations due to mantain the interoperability with Go official compiler `gc`
+## Limitations due to maintain the interoperability with Go official compiler `gc`
 
 * types defined in Scriggo are not correctly seen by the `reflect` package.
     This manifests itself, for example, when calling the function
@@ -45,14 +42,13 @@ see the list of [missing features on Github](https://github.com/open2b/scriggo/l
 
 * cannot define functions without a body (TODO)
 
+* a select supports a maximum of 65536 cases.
+
 * Go packages can be imported only if they have been precompiled into the
     Scriggo interpreter/execution environment.
     Also see the commands `scriggo embed` and `scriggo build`.
 
 * types are not garbage collected. See issue [golang/go#28783](https://github.com/golang/go/issues/28783).
-
-* the debugger [delve](https://github.com/go-delve/delve) is not compatible with Scriggo; currently there are
-    no debuggers available for Scriggo.
 
 ## Arbitrary limitations
 
@@ -63,9 +59,9 @@ performances:
 * 256 function literal declarations plus unique functions calls per function
 * 256 types available per function
 * 256 unique predefined functions per function
-* 256 integer values per function
+* 16384 integer values per function
 * 256 string values per function
-* 256 floating-point values per function
+* 16384 floating-point values per function
 * 256 general values per function
 
 {% end raw %}

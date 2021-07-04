@@ -6,11 +6,11 @@
 
 # Disassembler
 
-When Scriggo runs a program or template, first compiles it into virtual machine code and then runs it on a Scriggo virtual machine.
+When Scriggo runs a program, script or template, first compiles it into virtual machine code and then runs it on the Scriggo virtual machine.
 
 ## How to disassemble
 
-To disassemble a program or a template you can:
+To disassemble a program, script or a template you can:
 
 * in the [Scriggo Playground](https://play.scriggo.com/) click on the `Disassemble` button to show the disassembled program.
 
@@ -20,10 +20,22 @@ To disassemble a program or a template you can:
     $ scriggo -S program.go
     ```
 
-* with the scriggo package, call the method `Disassemble` on the value returned by the `Load` method to disassemble a named package to a writer:
+* with the scriggo serve sub-command, use the `-S` option to print the template's assembly to the standard output:
 
     ```
-    program.Disassemble(w, "main")
+    $ scriggo serve -S -1
+    ```
+
+* with the scriggo package, call the method `Disassemble` on the value returned by the `Build` method to disassemble a named package:
+
+    ```
+    asm, err = program.Disassemble("main")
+    ``` 
+
+* with the templates package, call the method `Disassemble` on the value returned by the `Build` method to disassemble the template:
+
+    ```
+    asm = template.Disassemble(-1)
     ``` 
 
 ## Registers
@@ -84,6 +96,34 @@ The declaration `Import` states that the disassembled package uses exported iden
 Syntax:  Import "pkg" ; description: import "pkg"
 ```
 
+## Func declaration
+
+The declaration `Func` declares a function with its body and specifies the number of registers that it uses.
+
+```go
+Syntax:  Func f(a1, ...an) (r1, ...rn) ; func f(a1, ...an) (r1, ...rn) 
+                 ; regs(ni,nf,ns,ng)
+```
+
+```go
+Example: Func sum(i1, i2 int) (i3 int)
+                 ; regs(3,0,0,0)
+```
+
+## Macro declaration
+
+The declaration `Macro` declares a macro with its body and specifies the number of registers that it uses.
+
+```go
+Syntax:  Macro m(a1, ...an) T ; {% macro m(a1, ...an) T %} ... {% end %}
+                 ; regs(ni,nf,ns,ng)
+```
+
+```go
+Example: Macro Head(s5 markdown) (s7 markdown)
+                 ; regs(1,0,3,0)
+```
+
 ## Assembly instructions
 
 The Scriggo assembly is an abstraction above the virtual machine instructions. Some assembly instructions have a direct representation in a virtual machine instruction but some do not.
@@ -123,8 +163,8 @@ There are 72 assembly instructions:
   <li><a href="#if">If</a></li>
   <li><a href="#index">Index</a></li>
   <li><a href="#len">Len</a></li>
+  <li><a href="#load">Load</a></li>
   <li><a href="#loadfunc">LoadFunc</a></li>
-  <li><a href="#loadnumber">LoadNumber</a></li>
   <li><a href="#makearray">MakeArray</a></li>
   <li><a href="#makechan">MakeChan</a></li>
   <li><a href="#makemap">MakeMap</a></li>
@@ -254,7 +294,7 @@ Syntax:  Break label ; description: break label
 
 ### Call
 
-The instruction `Call` calls the function with name `name` or the function addressed by `fn` with arguments addressed by `i`, `f`, `s` and `g`.
+The instruction `Call` calls the function, or macro, with name `name` or the function, or macro, addressed by `fn` with arguments addressed by `i`, `f`, `s` and `g`.
 
 1. `i` is the first integer register of the integer parameters.
 2. `f` is the first floating point register of the floating point parameters.
@@ -592,6 +632,23 @@ The instruction `Len` gets the length of the slice, string or channel addressed 
 Syntax:  Len s n ; description: n = len(s)
 ```
 
+
+### Load
+
+The instruction `Load` loads a value `v` and stores it by copy into `dst`.
+
+```go
+Syntax:  Load v dst ; description: dst = v
+```
+
+```go
+Example: Load 64 i3
+         Load 3.14 f7
+         Load "a" s1
+         Load [2]int{} g3
+         Load nil g5
+```
+
 ### LoadFunc
 
 The instruction `LoadFunc` loads the function with name `name` into `fn`.
@@ -602,19 +659,10 @@ Syntax:  LoadFunc name fn ; description: fn = name
 
 ```go
 Example: LoadFunc strings.HasPrefix g2
-           Call (g2) i1 _ s3 _
+         Call (g2) i1 _ s3 _
 ```
 
 See the [Func](#func) instruction for how to declare and load a function literal.
-
-### LoadNumber
-
-The instruction `LoadNumber` loads an integer from `vm.fn.Int` or a float from `vm.fn.Float` at index `i` and stores it in `dst`. 
-
-```go
-Syntax:  LoadNumber i dst ; description: dst = vm.fn.Int[i]   // when dst is a int register
-                                         dst = vm.fn.Float[i] // when dst is a float register
-```
 
 ### MakeArray
 
@@ -984,7 +1032,7 @@ The instruction `Show` formats the value addresses by `v` based on the context `
 
 
 ```go
-Syntax:  Show T v ctx; description: out.Write(format(v, ctx))
+Syntax:  Show T v (ctx); description: out.Write(format(v, ctx))
 ```
 
 ### Shr
@@ -1066,11 +1114,14 @@ TODO
 
 ### Text
 
-The instruction `Text` writes the text data at index `i` to the template out writer.
-
+The instruction `Text` writes the text `txt` to the template out writer.
 
 ```go
-Syntax:  Text i ; description: out.Write(text[i])
+Syntax:  Text txt ; description: out.Write(txt)
+```
+
+```go
+Example: Text "<h1>About us</h1>"
 ```
 
 ### Typify

@@ -53,7 +53,7 @@ The lexer reads a source code and outputs a list of _tokens_.
 ![lexer](/images/lexer.png)
 
 
-The lexer recognizes all the tokens used by Go plus the ones specific for the template, as {% raw %}`{%`, `%}` {% end %}, `macro` etc.. To get an overview of the Scriggo template syntax see [the Scriggo Template](/doc/template).
+The lexer recognizes all the tokens used by Go plus the ones specific for the template, as {% raw %}`{%`, `%}` {% end %}, `macro` etc.. To get an overview of the Scriggo template syntax see [the Scriggo Template](/template).
 
 #### The parser
 
