@@ -54,24 +54,6 @@ func main() {
 <pre><code>$ scriggo hello.go
 Hello, World!
 </code></pre>
-<p>As an alternative you can add a shebang to the file:</p>
-<pre><code class="language-go">#!/usr/bin/env scriggo
-
-package main
-
-import &quot;fmt&quot;
-
-func main() {
-    fmt.Println(&quot;Hello, World!&quot;)    
-}
-</code></pre>
-<p>and make the program's file executable:</p>
-<pre><code>$ chmod u+x hello.go
-</code></pre>
-<p>Then execute the program:</p>
-<pre><code>$ ./hello.go
-Hello, World!
-</code></pre>
 <p>A program executed by the <code>scriggo</code> command can have access only to packages, variables, constants, functions and types
 that has been explicitly compiled in the <code>scriggo</code> command.</p>
 <p>See <a href="/scriggo-command">scriggo command</a> for more details.</p>

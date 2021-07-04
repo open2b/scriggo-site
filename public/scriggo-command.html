@@ -61,24 +61,6 @@ file of the program as the first argument to the <code>scriggo</code> command:</
 <p>If the name of the file could be interpreted as a <code>scriggo</code> subcommand, use <code>--</code> as in:</p>
 <pre><code>$ scriggo -- file [arguments...]
 </code></pre>
-<h3 id="shebang">Shebang</h3>
-<p>The file to execute can have a shebang as first line as in:</p>
-<pre><code class="language-go">#!/usr/bin/env scriggo
-
-package main
-
-func main() {
-    println(&quot;Hello, World!&quot;)    
-}
-</code></pre>
-<blockquote>
-  <p>Shebang is not allowed by the <a href="https://golang.org/ref/spec">Go specification</a>,
-  but Scriggo runs Go program files starting with a shebang because is extremely
-  useful when Go programs are not compiled to binary but interpreted as Scriggo does.</p>
-</blockquote>  
-<p>To raise an error if the file has a shebang, use the <span style="white-space:nowrap"><code>-strict</code></span> option:</p>
-<pre><code>$ scriggo -strict file [arguments...]
-</code></pre>
 <h2 id="build-scriggo-commands">Build Scriggo commands</h2>
 <p>The scriggo command uses the instructions in a <a href="scriggofile">Scriggofile</a> to create the interpreter or generate the package loader.</p>
 <p>The <code>scriggo build</code> command builds a standalone Go interpreter from a <a href="scriggofile">Scriggofile</a> in a module.</p>

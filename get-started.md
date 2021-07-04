@@ -34,33 +34,6 @@ $ scriggo hello.go
 Hello, World!
 ```  
 
-As an alternative you can add a shebang to the file:
-
-```go
-#!/usr/bin/env scriggo
-
-package main
-
-import "fmt"
-
-func main() {
-    fmt.Println("Hello, World!")    
-}
-``` 
-
-and make the program's file executable:
-
-```
-$ chmod u+x hello.go
-```  
-
-Then execute the program:
-
-```
-$ ./hello.go
-Hello, World!
-```  
-
 A program executed by the `scriggo` command can have access only to packages, variables, constants, functions and types
 that has been explicitly compiled in the `scriggo` command.
 
