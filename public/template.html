@@ -242,18 +242,18 @@ Use {% raw %} ... {% end raw %} to render a content as is.
 <p>It is rendered as <code>Use {% raw %} ... {% end raw %} to render a content as is</code>.</p>
 <h3 id="using">using</h3>
 <p>The <code>using</code> statement can be used between <code>{%</code> and <code>%}</code> in conjunction with show statements, expression statements, send statements, assignments and variable declarations to capture the rendering of a content into a value.</p>
-<p>The value is assigned to the predeclared identifier <code>this</code> and has the type that follow <code>using</code>. The type can be a format type (<code>string</code>, <code>html</code>, <code>markdown</code>, <code>css</code>, <code>js</code> or <code>json</code>) or a macro type. If it is omitted, it is inferred by the context.</p>
-<pre><code>{% var link = this; using %}
+<p>The value is assigned to the predeclared identifier <code>itea</code> and has the type that follow <code>using</code>. The type can be a format type (<code>string</code>, <code>html</code>, <code>markdown</code>, <code>css</code>, <code>js</code> or <code>json</code>) or a macro type. If it is omitted, it is inferred by the context.</p>
+<pre><code>{% var link = itea; using %}
   &lt;a href=&quot;{{ url }}&quot;&gt;{{ name }}&lt;/a&gt;
 {% end %}
 
-{% reply(this); using string %}
+{% reply(itea); using string %}
   Dear {{ name }},
   thanks for your interest.
 {% end using %}
 </code></pre>
 <p>When a using statement has a macro type, the content if rendered every time the macro is called:</p>
-<pre><code>{% show Head(this); using macro %}
+<pre><code>{% show Head(itea); using macro %}
     &lt;title&gt;{{ Title() default &quot;&quot; }} - Awesome site&lt;/title&gt;
     &lt;link href=&quot;style.css&quot;&gt;
 {% end using %}

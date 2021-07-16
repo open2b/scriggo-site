@@ -324,14 +324,14 @@ It is rendered as `Use {% raw %} ... {% end raw %} to render a content as is`.
 
 The `using` statement can be used between `{%` and `%}` in conjunction with show statements, expression statements, send statements, assignments and variable declarations to capture the rendering of a content into a value.
 
-The value is assigned to the predeclared identifier `this` and has the type that follow `using`. The type can be a format type (`string`, `html`, `markdown`, `css`, `js` or `json`) or a macro type. If it is omitted, it is inferred by the context.
+The value is assigned to the predeclared identifier `itea` and has the type that follow `using`. The type can be a format type (`string`, `html`, `markdown`, `css`, `js` or `json`) or a macro type. If it is omitted, it is inferred by the context.
 
 ```
-{% var link = this; using %}
+{% var link = itea; using %}
   <a href="{{ url }}">{{ name }}</a>
 {% end %}
 
-{% reply(this); using string %}
+{% reply(itea); using string %}
   Dear {{ name }},
   thanks for your interest.
 {% end using %}
@@ -340,7 +340,7 @@ The value is assigned to the predeclared identifier `this` and has the type that
 When a using statement has a macro type, the content if rendered every time the macro is called:
 
 ```
-{% show Head(this); using macro %}
+{% show Head(itea); using macro %}
     <title>{{ Title() default "" }} - Awesome site</title>
     <link href="style.css">
 {% end using %}
