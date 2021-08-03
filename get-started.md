@@ -176,7 +176,7 @@ func main() {
     </html>
     `
 
-	// Create a file system with the file of the template to run.
+    // Create a file system with the file of the template to run.
     fsys := scriggo.File("index.html", content)
 
     // Build the template.
