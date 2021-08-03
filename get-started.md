@@ -66,16 +66,16 @@ import "github.com/open2b/scriggo"
 func main() {
 
     // src is the source code of the program to run.
-    src := `
+    src := []byte(`
         package main
 
         func main() {
             println("Hello, World!")
         }
-    `
+    `)
 
     // Create a file system with the file of the program to run.
-    fsys := scriggo.File("main.go", []byte(src))
+    fsys := scriggo.File("main.go", src)
 
     // Build the program.
     program, err := scriggo.Build(fsys, nil)
@@ -165,7 +165,7 @@ import (
 func main() {
 
     // Content of the template file to run.
-    content := `
+    content := []byte(`
     <!DOCTYPE html>
     <html>
     <head>Hello</head> 
@@ -174,7 +174,7 @@ func main() {
         Hello, {{ who }}!
     </body>
     </html>
-    `
+    `)
 
     // Create a file system with the file of the template to run.
     fsys := scriggo.File("index.html", content)
