@@ -61,23 +61,24 @@ Create a file `main.go` with the following source code:
 ```go
 package main
 
-import (
-    "github.com/open2b/scriggo"
-)
+import "github.com/open2b/scriggo"
 
 func main() {
 
     // src is the source code of the program to run.
-    src := strings.NewReader(`
+    src := `
         package main
 
         func main() {
             println("Hello, World!")
         }
-    `)
+    `
+
+    // Create a file system with the file of the program to run.
+    fsys := scriggo.File("main.go", []byte(src))
 
     // Build the program.
-    program, err := scriggo.Build(src, nil)
+    program, err := scriggo.Build(fsys, nil)
     if err != nil {
         panic(err)
     }
@@ -158,7 +159,7 @@ package main
 
 import (
     "os"
-    "github.com/open2b/scriggo/templates"
+    "github.com/open2b/scriggo"
 )
 
 func main() {
@@ -175,11 +176,11 @@ func main() {
     </html>
     `
 
-    // File system used to read the template files. 
-    fsys := templates.MapFS{"index.html" : content}
+	// Create a file system with the file of the template to run.
+    fsys := scriggo.File("index.html", content)
 
     // Build the template.
-    template, err := templates.Build(fsys, "index.html", nil)
+    template, err := scriggo.BuildTemplate(fsys, "index.html", nil)
     if err != nil {
         panic(err)
     }
