@@ -75,7 +75,7 @@ func main() {
     `)
 
     // Create a file system with the file of the program to run.
-    fsys := scriggo.File("main.go", src)
+    fsys := scriggo.Files{"main.go": src}
 
     // Build the program.
     program, err := scriggo.Build(fsys, nil)
@@ -177,7 +177,7 @@ func main() {
     `)
 
     // Create a file system with the file of the template to run.
-    fsys := scriggo.File("index.html", content)
+    fsys := scriggo.Files{"index.html": content}
 
     // Build the template.
     template, err := scriggo.BuildTemplate(fsys, "index.html", nil)
