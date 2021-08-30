@@ -10,7 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/open2b/scriggo/templates"
+	"github.com/open2b/scriggo"
+	"github.com/open2b/scriggo/native"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html"
@@ -36,7 +37,7 @@ func main() {
 		goldmark.WithRendererOptions(html.WithUnsafe()),
 		goldmark.WithParserOptions(parser.WithAutoHeadingID()))
 
-	buildOptions := &templates.BuildOptions{
+	buildOptions := &scriggo.BuildOptions{
 		Globals: globals,
 		MarkdownConverter: func(src []byte, out io.Writer) error {
 			return md.Convert(src, out)
@@ -55,7 +56,7 @@ func main() {
 		ext := filepath.Ext(path)
 		switch ext {
 		case ".md":
-			template, err := templates.Build(srcFS, path, buildOptions)
+			template, err := scriggo.BuildTemplate(srcFS, path, buildOptions)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -116,4 +117,4 @@ func main() {
 	return
 }
 
-var globals = templates.Declarations{}
+var globals = native.Declarations{}
