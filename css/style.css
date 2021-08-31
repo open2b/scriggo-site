@@ -30,7 +30,9 @@ nav.top ul a:hover { color: #fcd804; }
 .index header h3 { color: #666; font-size: 1.4em; font-weight: 200; letter-spacing: .02rem; line-height: 1.5em; margin: .5rem; }
 .index header .button { background: linear-gradient(to bottom, #e6a621, #e6a621); border-radius: 3px; color: #333; cursor: pointer; display: inline-block; font-size: 1em; font-weight: bold; margin-top: 2rem; text-transform: uppercase; padding: .8rem 1.8rem .7em 1.8em; }
 
-.index .why { color: #fff; margin: 4rem; margin-bottom: 2rem; }
+.index body > section { margin: 4rem; }
+
+.index .why { color: #fff; margin-bottom: 2rem; }
 .index .why h2 { color: #ebb951; font-size: 1.8rem; font-weight: normal; }
 .index .why p { color: #333; font-size: 1.3rem; font-weight: 200; line-height: 1.9rem; }
 
@@ -51,6 +53,8 @@ nav.top ul a:hover { color: #fcd804; }
 .benchmark .bar-ruby { opacity: 1; width: 40.40%; }
 .benchmark .bar-scriggo-2 { opacity: 1; width: 77.15%; }
 .benchmark .bar-python { opacity: .6935; width: 100%; }
+
+.benchmark + .benchmark { padding-left: 5rem; padding-right: 8rem; }
 
 .article article { background: #fff; min-height: 100vh; }
 .article article > .wrap { display: flex; font-size: 1.1rem; margin: 0 auto; max-width: 1024px; }
@@ -75,3 +79,25 @@ nav.top ul a:hover { color: #fcd804; }
 .article img { max-width: 100%; }
 
 #what-is-scriggo + p { color: #777; font-size: 1.2em; font-weight: bold; }
+
+@media only screen and (max-width: 767px) {
+
+    nav.top { padding: 1em; }
+    nav.top .logo { flex: 0 0 100%;  font-size: 2em; margin: 0; text-align: center; }
+    nav.top ul { margin: 1rem 0; padding: 0; text-align: center; }
+
+    .index header { margin: 1rem; }
+    .index header section { width: auto; }
+    .index header h1 { font-size: 5rem; }
+    .index header h2 { font-size: 1.6em; }
+    .index header h3 { font-size: 1.2em; }
+
+    .index body > section { margin: 1rem; }
+
+    .cols-2 > div { padding: 0; width: auto; }
+
+    .benchmark, .benchmark + .benchmark { padding: 0; width: auto; }
+
+    footer { font-size: 0.8rem; text-align: center; }
+
+}
