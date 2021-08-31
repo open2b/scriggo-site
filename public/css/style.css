@@ -57,20 +57,20 @@ nav.top ul a:hover { color: #fcd804; }
 .benchmark + .benchmark { padding-left: 5rem; padding-right: 8rem; }
 
 .article article { background: #fff; min-height: 100vh; }
-.article article > .wrap { display: flex; font-size: 1.1rem; margin: 0 auto; max-width: 1024px; }
-.article article > .wrap > :first-child { width: 20%; }
-.article article > .wrap > :last-child { width: 80%; }
-.article aside ul { list-style-type: none; margin-top: 3rem; }
+.article article > .wrap { display: flex; font-size: 1.1rem; margin: 0 auto; max-width: 1280px; padding: 0 1rem; }
+.article aside { margin-right: 3rem; }
+.article aside ul { list-style-type: none; margin-top: 3rem; padding: 0; }
 .article aside li { white-space: nowrap; }
 .article aside ul a { display: block; font-size: 1.1rem; padding: 0.5rem; }
 .article aside ul a, .article aside ul a:visited { color: #333; }
-.article aside ul a:hover { background: #ebb951; }
+.article aside ul a:hover { background: #ebb951; border-radius: 3px; }
+.article .content { flex-grow: 1; margin: 0; min-width: 0; }
 .article .content a, .article .content a:visited { color: #5f943d; }
 .article h1 { color: #0a1922; font-size: 3rem; }
 .article p + h1 { font-size: 2.2rem; margin-top: -.7em; }
 .article h2 { color: #0a1922; font-size: 2rem; }
 .article h3 { color: #0a1922; }
-.article pre { background: #f9f6f1; border-radius: 3px; padding: 1rem; }
+.article pre { background: #f9f6f1; border-radius: 3px; padding: 1rem; overflow-x: auto; }
 .article code { background: #f9f6f1; border-radius: 2px; color: #523f18; padding: .2rem .5rem; }
 .article pre code { padding: 0; }
 .article blockquote { background: #f9f9f9; border-left: 5px solid #ebb951; border-radius: 3px; margin: 0; padding: .5rem 1rem; }
@@ -84,7 +84,7 @@ nav.top ul a:hover { color: #fcd804; }
 
     nav.top { padding: 1em; }
     nav.top .logo { flex: 0 0 100%;  font-size: 2em; margin: 0; text-align: center; }
-    nav.top ul { margin: 1rem 0; padding: 0; text-align: center; }
+    nav.top ul { margin: 1rem auto; padding: 0; text-align: center; }
 
     .index header { margin: 1rem; }
     .index header section { width: auto; }
@@ -97,6 +97,8 @@ nav.top ul a:hover { color: #fcd804; }
     .cols-2 > div { padding: 0; width: auto; }
 
     .benchmark, .benchmark + .benchmark { padding: 0; width: auto; }
+
+    .article aside { display: none; }
 
     footer { font-size: 0.8rem; text-align: center; }
 

@@ -8,13 +8,13 @@ Scriggo has a command line interface, the `scriggo` command, that allows to:
 
 * run Go programs
 * run Scriggo scripts  
-* serve Scriggo templates
-* build scriggo commands with specific packages
+* serve Scriggo templates with support for Markdown
+* build custom scriggo commands with specific packages
 * generate a package loader for an existing application
 
-It is a single binary executable with no external dependencies. It includes the entire Go library in a executable that when compressed is only 5 megabyte.
+It is a single binary executable with no external dependencies and includes the entire Go standard library.
 
-If your use of the Scriggo command is not limited to run programs, before you start you must <a href="https://golang.org/dl/">download and install Go</a>.
+To use the `scriggo` command to build custom scriggo commands or generate a package loader, before you start you must <a href="https://golang.org/dl/">download and install Go</a>.
 
 See <a href="/install">install Scriggo command</a> to install the `scriggo` command using precompiled binaries or compiling from source.
 
@@ -46,11 +46,13 @@ If the name of the file could be interpreted as a `scriggo` subcommand, use `--`
 $ scriggo -- file [arguments...]
 ```
 
+Currently, the `scriggo` command can run only a single package file.
+
 ## Build Scriggo commands
 
-The scriggo command uses the instructions in a [Scriggofile](scriggofile) to create the interpreter or generate the package loader.
+The scriggo command includes the Go standard library. If you want to include other packages, you can build a custom scriggo command. The scriggo command uses the instructions in a [Scriggofile](scriggofile) to create a custom scriggo command or generate a package loader.
 
-The `scriggo build` command builds a standalone Go interpreter from a [Scriggofile](scriggofile) in a module.
+The `scriggo build` command builds a custom scriggo command from a [Scriggofile](scriggofile) in a Go module.
 
 The basic build command takes this form:
 

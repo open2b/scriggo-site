@@ -4,9 +4,9 @@
 
 {% raw code %}
 
-# Scriggo Template
+# Scriggo templates
 
-Scriggo Template is a modern and powerful template engine for Go, supporting inheritance,
+Scriggo is a modern and powerful template engine for Go, supporting inheritance,
 macros, partials, imports and autoescaping but most of all it uses the Go language as the
 template scripting language. 
 
@@ -24,11 +24,11 @@ template scripting language.
 {% end %}
 ```
 
-Scriggo Template's files can be written in plain text, HTML, Markdown, CSS, JavaScript and JSON.
+Scriggo template files can be written in plain text, HTML, Markdown, CSS, JavaScript and JSON.
 
 ## Expressions
 
-Scriggo Template supports all Go language expressions. To evaluate an expression and render its result, put the expression between `{{` and `}}`:
+Scriggo supports all Go expressions. To evaluate an expression and render its result, put the expression between `{{` and `}}`:
 
 ```
 {{ expression }}
@@ -37,28 +37,16 @@ Scriggo Template supports all Go language expressions. To evaluate an expression
 Examples:
 
 ```
-{{ page.Title }}
-
-{{ len(products) }}
-
-{{ capitalize(name) }}
-
-{{ n + 2 }}
-
-{{ <-ch }}
-
-{{ func(i int) { return i + i }(7) }}  
-
-{{ map[string]int{ "a" : 2, "b" : 7 } }} 
+Page has title "{{ capitalize(page.Title) }}" and shows {{ len(products) + 1 }} products
 ```
 
 `{{ }}` escapes the printed value based on its context.
 
-In addiction, Scriggo Template supports the `render` operator to render a template file, the `contains` operator and the `default` expression statement.
+In addiction, Scriggo templates support the `render` operator to render a template file, the `contains` operator and the `default` expression statement.
 
 ## Statements
 
-Scriggo Template supports almost all Go language statements. A statement is delimited between `{%` and `%}`:
+Scriggo supports in templates almost all Go statements. A statement is delimited between `{%` and `%}`:
 
 ```
 {% statement %}
@@ -96,12 +84,12 @@ Example:
 {% end for %}
 ```
 
-In addiction, Scriggo Template supports six new statements: `extends`, `import`,
+In addiction, Scriggo supports in templates six new statements: `extends`, `import`,
 `macro`, `show`, `raw` and `using`.
 
 ### Functions
 
-Function declarations are by design not supported by Scriggo Template, use instead what is more appropriate between a macro:
+Function declarations are by design not supported by Scriggo in templates, use instead what is more appropriate between a macro:
 
 ```
 {% macro image(url string) %}<img src="{{ url }}">{% end %}
@@ -115,7 +103,7 @@ and a function literal:
 
 ## Simpler syntax
 
-Scriggo Template also supports a simpler and relaxed syntax for a gentle introduction to templates.
+Scriggo also support a simpler and relaxed syntax for a gentle introduction to templates.
 
 The `for` `range` statement:
 
@@ -251,26 +239,23 @@ declared in the file in which it is rendered.
 
 ### import
 
-The statement `import` imports the exported declarations in a file in the current file scope. The exported declarations
+The statement `import` imports the exported declarations in a template file in the current file scope. The exported declarations
 are the macro, variable, constant and type declarations with the first letter of the declaration's name in uppercase.
 
-An import name the path, relative or absolute, of the imported file and can name an identifier to be used as prefix for access the declarations: 
+If a template file with the given path does not exist, `import` tries to import the declarations from a package with the given path.
+
+Scriggo supports in templates all the supported Go `import` forms plus a new "import-for" form that allows to indicate the names to import. For example:
 
 ```
-{% import "path" %}
-{% import prefix "path" %}
-```
-
-Examples: 
-
-```
-{% import "elements.html" %}
+{% import "elements.html" for Banners, Menus %}
 {{ Banners() }}
+{{ Menus() }}
 ```
 
+The Go `import` form without a package name is only used to import packages and not template files:
+
 ```
-{% import elems "elements.html" %}
-{{ elems.Banners() }}
+{% import "fmt" %}
 ```
 
 Import statements can be only at the beginning of a file and can be preceded only by an extends statement.   

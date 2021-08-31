@@ -36,7 +36,7 @@
         </aside>
         <div class="content">
             <h1 id="disassembler">Disassembler</h1>
-<p>When Scriggo runs a program, script or template, first compiles it into virtual machine code and then runs it on the Scriggo virtual machine.</p>
+<p>When Scriggo runs a program, script or template, first compiles it into a byte code and then runs it on the Scriggo Virtual Machine.</p>
 <h2 id="how-to-disassemble">How to disassemble</h2>
 <p>To disassemble a program, script or a template you can:</p>
 <ul>
@@ -59,13 +59,13 @@
 </code></pre>
 </li>
 <li>
-<p>with the templates package, call the method <code>Disassemble</code> on the value returned by the <code>Build</code> method to disassemble the template:</p>
+<p>with the scriggo package, call the method <code>Disassemble</code> on the value returned by the <code>BuildTemplate</code> method to disassemble the template:</p>
 <pre><code>asm = template.Disassemble(-1)
 </code></pre>
 </li>
 </ul>
 <h2 id="registers">Registers</h2>
-<p>The Scriggo virtual machine has 500 registers for each called function to store its local variables:</p>
+<p>The Scriggo Virtual Machine has 500 registers for each called function to store its local variables:</p>
 <ul>
 <li>125 integer registers: <code>i1</code>, <code>i2</code>, ..., <code>i125</code></li>
 <li>125 floating-point registers: <code>f1</code>, <code>f2</code>, ..., <code>f125</code></li>

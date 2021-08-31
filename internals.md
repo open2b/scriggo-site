@@ -36,7 +36,7 @@ The **compiler**, in turn, is composed by:
 - the **type checker**
 - the **emitter**
 
-The **runtime** is implemented on the **Scriggo virtual machine**.
+The **runtime** is implemented on the **Scriggo Virtual Machine**.
 
 ![internals_overview](/images/internals_overview.png)
 
@@ -53,7 +53,7 @@ The lexer reads a source code and outputs a list of _tokens_.
 ![lexer](/images/lexer.png)
 
 
-The lexer recognizes all the tokens used by Go plus the ones specific for the template, as {% raw %}`{%`, `%}` {% end %}, `macro` etc.. To get an overview of the Scriggo template syntax see [the Scriggo Template](/template).
+The lexer recognizes all the tokens used by Go plus the ones specific for the template, as {% raw %}`{%`, `%}` {% end %}, `macro` etc.. To get an overview of the Scriggo template syntax see [the Scriggo templates](/template).
 
 #### The parser
 

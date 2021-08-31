@@ -6,7 +6,7 @@
 
 # Disassembler
 
-When Scriggo runs a program, script or template, first compiles it into virtual machine code and then runs it on the Scriggo virtual machine.
+When Scriggo runs a program, script or template, first compiles it into a byte code and then runs it on the Scriggo Virtual Machine.
 
 ## How to disassemble
 
@@ -32,7 +32,7 @@ To disassemble a program, script or a template you can:
     asm, err = program.Disassemble("main")
     ``` 
 
-* with the templates package, call the method `Disassemble` on the value returned by the `Build` method to disassemble the template:
+* with the scriggo package, call the method `Disassemble` on the value returned by the `BuildTemplate` method to disassemble the template:
 
     ```
     asm = template.Disassemble(-1)
@@ -40,7 +40,7 @@ To disassemble a program, script or a template you can:
 
 ## Registers
 
-The Scriggo virtual machine has 500 registers for each called function to store its local variables:  
+The Scriggo Virtual Machine has 500 registers for each called function to store its local variables:  
 
 * 125 integer registers: `i1`, `i2`, ..., `i125`
 * 125 floating-point registers: `f1`, `f2`, ..., `f125`

@@ -35,8 +35,8 @@
             </nav>
         </aside>
         <div class="content">
-            <h1 id="scriggo-template">Scriggo Template</h1>
-<p>Scriggo Template is a modern and powerful template engine for Go, supporting inheritance,
+            <h1 id="scriggo-templates">Scriggo templates</h1>
+<p>Scriggo is a modern and powerful template engine for Go, supporting inheritance,
 macros, partials, imports and autoescaping but most of all it uses the Go language as the
 template scripting language.</p>
 <pre><code>{% extends &quot;layout.html&quot; %}
@@ -51,30 +51,18 @@ template scripting language.</p>
     {{ Banner() }}
 {% end %}
 </code></pre>
-<p>Scriggo Template's files can be written in plain text, HTML, Markdown, CSS, JavaScript and JSON.</p>
+<p>Scriggo template files can be written in plain text, HTML, Markdown, CSS, JavaScript and JSON.</p>
 <h2 id="expressions">Expressions</h2>
-<p>Scriggo Template supports all Go language expressions. To evaluate an expression and render its result, put the expression between <code>{{</code> and <code>}}</code>:</p>
+<p>Scriggo supports all Go expressions. To evaluate an expression and render its result, put the expression between <code>{{</code> and <code>}}</code>:</p>
 <pre><code>{{ expression }}
 </code></pre>
 <p>Examples:</p>
-<pre><code>{{ page.Title }}
-
-{{ len(products) }}
-
-{{ capitalize(name) }}
-
-{{ n + 2 }}
-
-{{ &lt;-ch }}
-
-{{ func(i int) { return i + i }(7) }}  
-
-{{ map[string]int{ &quot;a&quot; : 2, &quot;b&quot; : 7 } }} 
+<pre><code>Page has title &quot;{{ capitalize(page.Title) }}&quot; and shows {{ len(products) + 1 }} products
 </code></pre>
 <p><code>{{ }}</code> escapes the printed value based on its context.</p>
-<p>In addiction, Scriggo Template supports the <code>render</code> operator to render a template file, the <code>contains</code> operator and the <code>default</code> expression statement.</p>
+<p>In addiction, Scriggo templates support the <code>render</code> operator to render a template file, the <code>contains</code> operator and the <code>default</code> expression statement.</p>
 <h2 id="statements">Statements</h2>
-<p>Scriggo Template supports almost all Go language statements. A statement is delimited between <code>{%</code> and <code>%}</code>:</p>
+<p>Scriggo supports in templates almost all Go statements. A statement is delimited between <code>{%</code> and <code>%}</code>:</p>
 <pre><code>{% statement %}
 </code></pre>
 <p>Examples:</p>
@@ -98,17 +86,17 @@ template scripting language.</p>
   {{ i }}. {{ product.Name }}
 {% end for %}
 </code></pre>
-<p>In addiction, Scriggo Template supports six new statements: <code>extends</code>, <code>import</code>,
+<p>In addiction, Scriggo supports in templates six new statements: <code>extends</code>, <code>import</code>,
 <code>macro</code>, <code>show</code>, <code>raw</code> and <code>using</code>.</p>
 <h3 id="functions">Functions</h3>
-<p>Function declarations are by design not supported by Scriggo Template, use instead what is more appropriate between a macro:</p>
+<p>Function declarations are by design not supported by Scriggo in templates, use instead what is more appropriate between a macro:</p>
 <pre><code>{% macro image(url string) %}&lt;img src=&quot;{{ url }}&quot;&gt;{% end %}
 </code></pre>
 <p>and a function literal:</p>
 <pre><code>{% inc := func(i int) int { return i + 1 } %}
 </code></pre>
 <h2 id="simpler-syntax">Simpler syntax</h2>
-<p>Scriggo Template also supports a simpler and relaxed syntax for a gentle introduction to templates.</p>
+<p>Scriggo also support a simpler and relaxed syntax for a gentle introduction to templates.</p>
 <p>The <code>for</code> <code>range</code> statement:</p>
 <pre><code>{% for _, product := range products %}
 </code></pre>
@@ -195,18 +183,16 @@ input parameters, like a function, but have a single unnamed return parameter wi
 <p>The name of the partial file can be a relative or an absolute path. The partial file does not inherit the variables
 declared in the file in which it is rendered.</p>
 <h3 id="import">import</h3>
-<p>The statement <code>import</code> imports the exported declarations in a file in the current file scope. The exported declarations
+<p>The statement <code>import</code> imports the exported declarations in a template file in the current file scope. The exported declarations
 are the macro, variable, constant and type declarations with the first letter of the declaration's name in uppercase.</p>
-<p>An import name the path, relative or absolute, of the imported file and can name an identifier to be used as prefix for access the declarations:</p>
-<pre><code>{% import &quot;path&quot; %}
-{% import prefix &quot;path&quot; %}
-</code></pre>
-<p>Examples:</p>
-<pre><code>{% import &quot;elements.html&quot; %}
+<p>If a template file with the given path does not exist, <code>import</code> tries to import the declarations from a package with the given path.</p>
+<p>Scriggo supports in templates all the supported Go <code>import</code> forms plus a new &quot;import-for&quot; form that allows to indicate the names to import. For example:</p>
+<pre><code>{% import &quot;elements.html&quot; for Banners, Menus %}
 {{ Banners() }}
+{{ Menus() }}
 </code></pre>
-<pre><code>{% import elems &quot;elements.html&quot; %}
-{{ elems.Banners() }}
+<p>The Go <code>import</code> form without a package name is only used to import packages and not template files:</p>
+<pre><code>{% import &quot;fmt&quot; %}
 </code></pre>
 <p>Import statements can be only at the beginning of a file and can be preceded only by an extends statement.</p>
 <p>Examples:</p>

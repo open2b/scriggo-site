@@ -66,7 +66,7 @@
 <li>the <strong>type checker</strong></li>
 <li>the <strong>emitter</strong></li>
 </ul>
-<p>The <strong>runtime</strong> is implemented on the <strong>Scriggo virtual machine</strong>.</p>
+<p>The <strong>runtime</strong> is implemented on the <strong>Scriggo Virtual Machine</strong>.</p>
 <p><img src="/images/internals_overview.png" alt="internals_overview"></p>
 <h3 id="the-compiler">The compiler</h3>
 <p>The Scriggo compiler takes a source code and generates some bytecode ready to be executed by the virtual machine.</p>
@@ -74,7 +74,7 @@
 <h4 id="the-lexer">The lexer</h4>
 <p>The lexer reads a source code and outputs a list of <em>tokens</em>.</p>
 <p><img src="/images/lexer.png" alt="lexer"></p>
-<p>The lexer recognizes all the tokens used by Go plus the ones specific for the template, as <code>{%</code>, <code>%}</code> , <code>macro</code> etc.. To get an overview of the Scriggo template syntax see <a href="/template">the Scriggo Template</a>.</p>
+<p>The lexer recognizes all the tokens used by Go plus the ones specific for the template, as <code>{%</code>, <code>%}</code> , <code>macro</code> etc.. To get an overview of the Scriggo template syntax see <a href="/template">the Scriggo templates</a>.</p>
 <h4 id="the-parser">The parser</h4>
 <p>The <strong>parser</strong> takes the the list of tokens returned by the <strong>lexer</strong> and generates an AST (Abstract Syntax Tree).</p>
 <p><img src="/images/parser.png" alt="parser"></p>
