@@ -1,17 +1,17 @@
 
 *, *:before, *:after { box-sizing: border-box; }
 
-body { background: #0a1922; font-family: muli,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; line-height: 1.45; margin: 0; }
+body { background: #f5f4f4; font-family: muli,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; line-height: 1.45; margin: 0; }
 
 a { text-decoration: none; }
 p { color: #555; line-height: 1.5; }
 li { line-height: 1.65; }
 
-nav.top { align-items: center; background: #0a1922; display: flex; justify-content: flex-start; flex-wrap: wrap; padding: 2rem 0; width: 100%; }
-nav.top .logo { color: #ebb951; font-size: 1.6rem; font-weight: bold; margin-left: 2em; }
+nav.top { align-items: center; display: flex; justify-content: flex-start; flex-wrap: wrap; padding: 2rem 0; width: 100%; }
+nav.top .logo { color: #e6a621; font-size: 1.6rem; font-weight: bold; margin-left: 2em; }
 nav.top ul { display: inline-block; list-style-type: none; margin: 0 .5em; vertical-align: middle; }
 nav.top li { display: inline-block; padding: 0 1rem; }
-nav.top ul a { color: #fff; }
+nav.top ul a { color: #333; }
 nav.top ul a:hover { color: #fcd804; }
 
 .content { margin: 0 20px; }
@@ -21,20 +21,20 @@ nav.top ul a:hover { color: #fcd804; }
 
 .index a { color: #fff; }
 
-.index nav.top .logo { color: #fff; cursor: default; pointer-events: none; }
+.index nav.top .logo { cursor: default; pointer-events: none; }
 
 .index header { margin: 1.6rem; }
 .index header section { margin: 0 auto; text-align: center; width: 55%; }
-.index header h1 { color: #ebb951; cursor: default; font-size: 7rem; font-weight: 800; margin-top: 0; margin-bottom: 2rem; }
-.index header h2 { color: #fff; font-size: 2.6em; font-weight: 200; line-height: 1.2em; margin: 2.2rem auto; }
-.index header h3 { color: #aaa; font-size: 1.4em; font-weight: 200; letter-spacing: .02rem; line-height: 1.5em; margin: .5rem; }
-.index header .button { background: linear-gradient(to right, #00fcd5, #00c6ff); border-radius: 3px; color: #333; cursor: pointer; display: inline-block; font-size: 1em; font-weight: bold; margin-top: 2rem; text-transform: uppercase; padding: .6rem 1.5rem .4em 1.5em; }
+.index header h1 { color: #e6a621; cursor: default; font-size: 7rem; font-weight: 800; margin-top: 0; margin-bottom: 2rem; }
+.index header h2 { color: #000; font-size: 2.6em; font-weight: 200; line-height: 1.2em; margin: 2.2rem auto; }
+.index header h3 { color: #666; font-size: 1.4em; font-weight: 200; letter-spacing: .02rem; line-height: 1.5em; margin: .5rem; }
+.index header .button { background: linear-gradient(to bottom, #e6a621, #e6a621); border-radius: 3px; color: #333; cursor: pointer; display: inline-block; font-size: 1em; font-weight: bold; margin-top: 2rem; text-transform: uppercase; padding: .8rem 1.8rem .7em 1.8em; }
 
 .index .why { color: #fff; margin: 4rem; margin-bottom: 2rem; }
 .index .why h2 { color: #ebb951; font-size: 1.8rem; font-weight: normal; }
-.index .why p { color: #f6f6f6; font-size: 1.3rem; font-weight: 200; line-height: 1.9rem; }
+.index .why p { color: #333; font-size: 1.3rem; font-weight: 200; line-height: 1.9rem; }
 
-.benchmark { color: #fff; float: left; padding: 2rem 1rem 5rem 9rem; width: 50%; }
+.benchmark { color: #000; float: left; padding: 2rem 1rem 5rem 9rem; width: 50%; }
 .benchmark h2 { font-size: 2rem; font-weight: normal; margin-bottom: .5rem; }
 .benchmark h2 + p { color: #ddd; margin-bottom: 3rem; margin-top: .5rem; }
 .benchmark div p { font-size: 1.1rem; margin-bottom: 5px; margin-top: 24px; }
