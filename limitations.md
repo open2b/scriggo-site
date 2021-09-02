@@ -1,5 +1,5 @@
 {% extends "/layouts/article.html" %}
-{% macro Title %}Limitations{% end %}
+{% macro Title string %}Limitations{% end %}
 {% Article %}
 
 {% raw %}

@@ -1,5 +1,5 @@
 {% extends "/layouts/article.html" %}
-{% macro Title %}Scriggo command{% end %}
+{% macro Title string %}Scriggo command{% end %}
 {% Article %}
 
 {% raw code %}

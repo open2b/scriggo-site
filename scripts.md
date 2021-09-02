@@ -1,5 +1,5 @@
 {% extends "/layouts/article.html" %}
-{% macro Title %}Scripts{% end %}
+{% macro Title string %}Scripts{% end %}
 {% Article %}
 
 # Scripts

@@ -1,5 +1,5 @@
 {% extends "/layouts/article.html" %}
-{% macro Title %}What is Scriggo{% end %} 
+{% macro Title string %}What is Scriggo{% end %} 
 {% Article %}
 
 # What is Scriggo

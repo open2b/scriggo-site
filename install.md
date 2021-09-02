@@ -1,5 +1,5 @@
 {% extends "/layouts/article.html" %}
-{% macro Title %}Install Scriggo{% end %}
+{% macro Title string %}Install Scriggo{% end %}
 {% Article %}
 
 # Install `scriggo` command

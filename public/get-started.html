@@ -164,7 +164,8 @@ program, err := scriggo.Build(fsys, opts)
 <p>The importer, in the <code>packages</code> variable, is passed to the <code>Build</code> function. The <code>packages</code> variable is declared in the
 generated <code>packages.go</code> file.</p>
 <h4 id="manually-create-an-importer">Manually create an importer</h4>
-<p>The following code defined a package with path &quot;acme.inc/colors&quot; and name &quot;colors&quot;. The color package exports the &quot;Red&quot; constant and the &quot;Print&quot; function.</p>
+<p>The following code defines a package with path &quot;acme.inc/colors&quot; and name &quot;colors&quot; and passes it to the <code>Build</code> function.
+The colors package exports the &quot;Red&quot; constant and the &quot;Print&quot; function.</p>
 <pre><code class="language-go">packages := native.Packages{
     &quot;acme.inc/colors&quot; : native.Package{
         Name: &quot;colors&quot;,
@@ -174,8 +175,10 @@ generated <code>packages.go</code> file.</p>
         },
     },
 }
+opts := &amp;scriggo.BuildOptions{Packages: packages}
+program, err := scriggo.Build(fsys, opts)
 </code></pre>
-<p>Using the <code>packages</code> variable as importer with the <code>Build</code> function, the color package can be imported in the program to execute:</p>
+<p>The colors package can then be imported into the embedded program:</p>
 <pre><code class="language-go">package main
 
 import &quot;acme.inc/colors&quot;

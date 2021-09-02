@@ -107,10 +107,10 @@ $ go build
     &lt;/html&gt;
  
 </code></pre>
-<h2 id="builtins">Builtins</h2>
-<p>A template executed by Scriggo, apart from Go builtins, can use only globals explicitly provided through the <code>Globals</code>
-option and can import only packages provided through an importer.</p>
-<p>Scriggo provides some useful builtins, in the <a href="https://pkg.go.dev/github.com/open2b/scriggo/builtin">github.com/open2b/scriggo/builtin</a>
+<h2 id="globals">Globals</h2>
+<p>A template executed by Scriggo, apart from the Go builtins, can only use explicitly passed globals with the <code>Globals</code>
+option and can only import packages whose importer has been passed with the <code>Packages</code> option.</p>
+<p>Scriggo provides some useful globals, in the <a href="https://pkg.go.dev/github.com/open2b/scriggo/builtin">github.com/open2b/scriggo/builtin</a>
 package, that can be used in templates.</p>
 <p>Replace the content of the <code>main.go</code> file with the following:</p>
 <pre><code class="language-go">// Build and run a Scriggo template.
@@ -175,7 +175,15 @@ func main() {
     &lt;/html&gt;
  
 </code></pre>
-<p>See the <a href="/template">Scriggo templates</a> for more details.</p>
+<h3 id="use-your-globals">Use your globals</h3>
+<p>The following code defines a global function called &quot;printHello&quot; and passes it to the <code>BuildTemplate</code> function.</p>
+<pre><code class="language-go">globals := native.Declarations{
+    &quot;printHello&quot;: func (who string) string { return fmt.Sprintf(&quot;Hello, %s!&quot;, who) },
+}
+opts := scriggo.Options{Globals: globals}
+template, err := scriggo.BuildTemplate(fsys, &quot;index.html&quot;, opts)
+</code></pre>
+<p>Globals can be functions, variables, constants, types and even packages.</p>
 
         </div>
     </div>

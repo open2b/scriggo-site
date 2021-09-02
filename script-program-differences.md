@@ -1,5 +1,5 @@
 {% extends "/layouts/article.html" %}
-{% macro Title %}Differences between a Scriggo script and a program{% end %}
+{% macro Title string %}Differences between a Scriggo script and a program{% end %}
 {% Article %}
 
 # Differences between a Scriggo script and a program
