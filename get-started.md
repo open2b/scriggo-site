@@ -234,7 +234,8 @@ generated `packages.go` file.
 
 #### Manually create an importer
 
-The following code defined a package with path "acme.inc/colors" and name "colors". The color package exports the "Red" constant and the "Print" function.  
+The following code defines a package with path "acme.inc/colors" and name "colors" and passes it to the `Build` function.
+The colors package exports the "Red" constant and the "Print" function.  
 
 ```go
 packages := native.Packages{
@@ -246,10 +247,11 @@ packages := native.Packages{
         },
     },
 }
+opts := &scriggo.BuildOptions{Packages: packages}
+program, err := scriggo.Build(fsys, opts)
 ```
 
-Using the `packages` variable as importer with the `Build` function, the color package can be imported in the program to execute:
-
+The colors package can then be imported into the embedded program:
 
 ```go
 package main

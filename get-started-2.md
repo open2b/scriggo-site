@@ -98,12 +98,12 @@ $ ./hello-template
  
 ```
 
-## Builtins
+## Globals
 
-A template executed by Scriggo, apart from Go builtins, can use only globals explicitly provided through the `Globals`
-option and can import only packages provided through an importer.
+A template executed by Scriggo, apart from the Go builtins, can only use explicitly passed globals with the `Globals`
+option and can only import packages whose importer has been passed with the `Packages` option.
 
-Scriggo provides some useful builtins, in the <a href="https://pkg.go.dev/github.com/open2b/scriggo/builtin">github.com/open2b/scriggo/builtin</a>
+Scriggo provides some useful globals, in the <a href="https://pkg.go.dev/github.com/open2b/scriggo/builtin">github.com/open2b/scriggo/builtin</a>
 package, that can be used in templates.
 
 Replace the content of the `main.go` file with the following:
@@ -180,4 +180,16 @@ $ ./hello-template
  
 ```
 
-See the <a href="/template">Scriggo templates</a> for more details.
+### Use your globals
+
+The following code defines a global function called "printHello" and passes it to the `BuildTemplate` function.
+
+```go
+globals := native.Declarations{
+    "printHello": func (who string) string { return fmt.Sprintf("Hello, %s!", who) },
+}
+opts := scriggo.Options{Globals: globals}
+template, err := scriggo.BuildTemplate(fsys, "index.html", opts)
+```
+
+Globals can be functions, variables, constants, types and even packages.
