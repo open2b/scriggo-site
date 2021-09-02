@@ -117,7 +117,7 @@ can be written simply as:
 {% for product in products %}
 ```
 
-Furthermore the condition of the `if` statement can have any type. If it valuates to the zero value of its type, it is false, otherwise it is true. 
+Furthermore, the condition of the `if` statement can have any type. If it valuates to the zero value of its type, it is false, otherwise it is true. 
 
 So the following statements:
 
@@ -136,7 +136,7 @@ can be written simply as:
 As a special case, if the condition has an interface type, the condition is false if the interface is `nil` or its dynamic
 value is the zero value for its type.
 
-Finally there are tree new operators: `and`, `or` and `not`. They are relaxed forms of the `&&`, `||` and `!` operators
+Finally, there are tree new operators: `and`, `or` and `not`. They are relaxed forms of the `&&`, `||` and `!` operators
 where the operands, as the `if` condition, can have any type.
 
 So the statement:
@@ -206,7 +206,9 @@ and an extended file:
 ### macro
 
 The statement `macro` defines a macro, which is a way to repeat frequently-used template code. A macro can have
-input parameters, like a function, but have a single unnamed return parameter with type `string`, `html`, `markdown`, `css`, `js`, or `json`. In a macro declaration the return parameter type can be omitted, in this case it is inferred by the context. A macro without input parameters can be declared and called without the parentheses. 
+input parameters, like a function, but have a single unnamed return parameter with type `string`, `html`, `markdown`,
+`css`, `js`, or `json`. In a macro declaration the return parameter type can be omitted, in this case it is inferred by
+the context. A macro without input parameters can be declared and called without the parentheses. 
 
 Examples:
 
@@ -239,12 +241,15 @@ declared in the file in which it is rendered.
 
 ### import
 
-The statement `import` imports the exported declarations in a template file in the current file scope. The exported declarations
-are the macro, variable, constant and type declarations with the first letter of the declaration's name in uppercase.
+The statement `import` imports the exported declarations in a template file in the current file scope. The exported
+declarations are the macro, variable, constant and type declarations with the first letter of the declaration's name in
+uppercase.
 
-If a template file with the given path does not exist, `import` tries to import the declarations from a package with the given path.
+If a template file with the given path does not exist, `import` tries to import the declarations from a package with the
+given path.
 
-Scriggo supports in templates all the supported Go `import` forms plus a new "import-for" form that allows to indicate the names to import. For example:
+Scriggo supports in templates all the supported Go `import` forms plus a new "import-for" form that allows to indicate
+the names to import. For example:
 
 ```
 {% import "elements.html" for Banners, Menus %}
@@ -307,9 +312,12 @@ It is rendered as `Use {% raw %} ... {% end raw %} to render a content as is`.
 
 ### using
 
-The `using` statement can be used between `{%` and `%}` in conjunction with show statements, expression statements, send statements, assignments and variable declarations to capture the rendering of a content into a value.
+The `using` statement can be used between `{%` and `%}` in conjunction with show statements, expression statements,
+send statements, assignments and variable declarations to capture the rendering of a content into a value.
 
-The value is assigned to the predeclared identifier `itea` and has the type that follow `using`. The type can be a format type (`string`, `html`, `markdown`, `css`, `js` or `json`) or a macro type. If it is omitted, it is inferred by the context.
+The value is assigned to the predeclared identifier `itea` and has the type that follow `using`. The type can be a
+format type (`string`, `html`, `markdown`, `css`, `js` or `json`) or a macro type. If it is omitted, it is inferred by
+the context.
 
 ```
 {% var link = itea; using %}
@@ -341,7 +349,7 @@ When a using statement has a macro type, the content if rendered every time the 
 
 ### Comments
 
-Text between `{#` and `#}` is a comment and it is discarded during the rendering.
+Text between `{#` and `#}` is a comment, and it is discarded during the rendering.
 
 ```
 {# comment #}

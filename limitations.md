@@ -10,7 +10,7 @@
 
 These limitations are features that Scriggo currently lacks but that are
 under development. To check the state of a limitation please refer to the
-Github issue linked in the list below.
+GitHub issues linked in the list below.
 
 * methods declarations ([#458](https://github.com/open2b/scriggo/issues/458))
 * interface types definition ([#218](https://github.com/open2b/scriggo/issues/218))
@@ -18,7 +18,6 @@ Github issue linked in the list below.
 * importing the "unsafe" package from Scriggo ([#288](https://github.com/open2b/scriggo/issues/288))
 * importing the "runtime" package from Scriggo ([#524](https://github.com/open2b/scriggo/issues/524))
 * labeled continue and break statements ([#83](https://github.com/open2b/scriggo/issues/83))
-* some kinds of pointer shorthands ([#383](https://github.com/open2b/scriggo/issues/383))
 * compilation of non-main packages without importing them ([#521](https://github.com/open2b/scriggo/issues/521))
 
 For a comprehensive list of not-yet-implemented features
@@ -33,20 +32,23 @@ see the list of [missing features on Github](https://github.com/open2b/scriggo/l
     relies on the package `reflect`) prints the name of the type that wrapped
     the value in `v` before passing it to gc.
 
-* not exported fields of struct types defined in Scriggo are still
-    accessible from the outside.
-    This is caused by the function `reflect.StructOf` that requires that all
-    fields are exported before creating the type.  By the way, such fields
-    (that should be not exported) are exported with a particular prefix to
-    avoid accidental accessing.
+* unexported fields of struct types defined in Scriggo are still accessible
+    from native packages with the reflect methods. This is caused by the
+    reflect methods that does not allow, by design, to change the value of an
+    unexported field, so they are created with an empty package path. By the
+    way, such fields (that should be unexported) can not be changed without
+    the reflect and have a particular prefix to avoid accidental accessing.
 
-* cannot define functions without a body (TODO)
+* in a structure, types can be embedded but, apart from interfaces, if they
+    have methods then they must be the first field of the struct. This is a
+    limitation of the StructOf function of reflect.
+    See [golang/go#15924](https://github.com/golang/go/issues/15924).
 
 * a select supports a maximum of 65536 cases.
 
-* Go packages can be imported only if they have been precompiled into the
+* Native packages can be imported only if they have been precompiled into the
     Scriggo interpreter/execution environment.
-    Also see the commands `scriggo embed` and `scriggo build`.
+    Also see the commands `scriggo import` and `scriggo init`.
 
 * types are not garbage collected. See issue [golang/go#28783](https://github.com/golang/go/issues/28783).
 

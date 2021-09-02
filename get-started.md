@@ -135,12 +135,6 @@ $ ./hello
 Hello, World!
 ```
 
-> On Windows execute the application with the following command:
-> ```
-> $ hello.exe
-> Hello, World!
-> ``` 
-
 ### Import packages
 
 The program executed by Scriggo in the previous example:
@@ -156,14 +150,14 @@ func main() {
 does not import packages and uses the built-in `println` to print the string on the standard error.
 
 A program executed by Scriggo can have access only to packages, variables, constants, functions and types that are
-explicitly provided through a package loader.
+explicitly provided through an importer.
 
-To import packages and the relative exported names, you have to pass a package importer to the `Build` function. The code
-of a package import can be coded manually or can be created automatically from a Scriggofile with the Import command.
+To import packages and the relative exported names, you have to pass an importer to the `Build` function. The code
+of the importer can be coded manually or can be generated from a Scriggofile with the Import command.
 
 #### The Import command
 
-The `scriggo import` command allows to easily create a package importer to import Go standard packages and other packages
+The `scriggo import` command allows to easily create an importer that imports the Go standard packages and other packages
 according to the instructions in a <a href="scriggofile">Scriggofile</a>.
 
 Create a file called "Scriggofile" with the following contents and put it in the module directory:
@@ -173,8 +167,8 @@ IMPORT STANDARD LIBRARY
 IMPORT github.com/fatih/color
 ```
 
-The Scriggo Import command will read the instructions in the Scriggofile and will generate the source code of a package
-importer that can import the packages of the Go standard library and the `github.com/fatih/color` package.
+The Scriggo Import command reads the instructions in the Scriggofile and generates the source code of an importer that
+imports the packages of the Go standard library and the `github.com/fatih/color` package.
 
 Execute `scriggo import` command in the module directory:
 
@@ -235,12 +229,12 @@ opts := &scriggo.BuildOptions{Packages: packages}
 program, err := scriggo.Build(fsys, opts)
 ```
 
-The importer, in the `packages` variable, is passed to the Build function. The `packages` variable is declared in the
+The importer, in the `packages` variable, is passed to the `Build` function. The `packages` variable is declared in the
 generated `packages.go` file.
 
-#### Manually create a package importer
+#### Manually create an importer
 
-The following code defined a package named "colors" with path "acme.inc/colors". The color package exports the "Red" constant and the "Print" function.  
+The following code defined a package with path "acme.inc/colors" and name "colors". The color package exports the "Red" constant and the "Print" function.  
 
 ```go
 packages := native.Packages{
@@ -273,9 +267,10 @@ implements that interface.
 
 A package to be imported must implement the `native.Package` interface. In this example we use the `native.DeclarationsPackage` type
 that implements that interface.
-#}
 
 See <a href="/package-importers">package importers</a> for more details.
+
+#}
 
 ## Continue with Scriggo templates
 

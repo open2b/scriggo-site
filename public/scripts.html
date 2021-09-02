@@ -127,7 +127,7 @@ an editor to code and run scripts, or a server that executes scripts for routine
 which globals will be defined for the executed scripts.</p>
 <p>The <a href="scriggofile">Scriggofile</a> is then saved in a module directory. The module's <code>go.mod</code> will specify the versions of
 packages's modules imported in the <a href="scriggofile">Scriggofile</a>.</p>
-<p>And finally the <code>scriggo</code> command is executed to make an executable of the interpreter or to generate a package loader
+<p>And finally the <code>scriggo</code> command is executed to make an executable of the interpreter or to generate a package importer
 to use in an existing application to load and run scripts.</p>
 <h3 id="a-simple-interpreter">A simple interpreter</h3>
 <p>To create a simple interpreter, as a command line executable, that runs scripts that can import the packages of the Go standard library, start
@@ -197,7 +197,7 @@ Building of a script interpreter starts from writing a Scriggofile for the inter
 <p><code>scriggo build</code> or <code>scriggo install</code> to create a standalone interpreter.</p>
 </li>
 <li>
-<p><code>scriggo embed</code> to generate a package loader to use with an existing program.</p>
+<p><code>scriggo embed</code> to generate a package importer to use with an existing program.</p>
 </li>
 </ul>
 <h3 id="scriggofile-for-a-script-interpreter">Scriggofile for a script interpreter</h3>

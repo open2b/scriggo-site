@@ -76,9 +76,10 @@ func main() {
 ```
 {% end raw %}
 
-Build the application directly from the `hello-template` directory.
+Execute `go mod tidy` and build the application directly from the `hello-template` directory.
 
 ```
+$ go mod tidy
 $ go build
 ```
 
@@ -99,11 +100,11 @@ $ ./hello-template
 
 ## Builtins
 
-A template executed by Scriggo, apart from Go builtins, can use only globals explicitly provided through the Globals
-options and can import only packages provided through a package importer.
+A template executed by Scriggo, apart from Go builtins, can use only globals explicitly provided through the `Globals`
+option and can import only packages provided through an importer.
 
-Scriggo provides some builtins, in the <a href="https://pkg.go.dev/github.com/open2b/scriggo/builtin">github.com/open2b/scriggo/builtin</a>
-package, that can be used in templates. To use these builtins, use the `Globals` option:
+Scriggo provides some useful builtins, in the <a href="https://pkg.go.dev/github.com/open2b/scriggo/builtin">github.com/open2b/scriggo/builtin</a>
+package, that can be used in templates.
 
 Replace the content of the `main.go` file with the following:
 
@@ -158,7 +159,7 @@ func main() {
 ```
 {% end raw %}
 
-Build again the application directly from the `hello-template` directory.
+Rebuild the application directly from the `hello-template` directory.
 
 ```
 $ go build

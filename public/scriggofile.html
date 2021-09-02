@@ -38,7 +38,7 @@
             <h1 id="scriggofile">Scriggofile</h1>
 <p>A Scriggofile is a text file with a specific format used by the <code>scriggo</code> command.
 The <code>scriggo</code> command uses the instructions in a Scriggofile to create an
-interpreter or to generate a package loader to use in an existing application.</p>
+interpreter or to generate an importer to use in an existing application.</p>
 <p>A Scriggofile defines which packages a program, script or template can import,
 what exported declarations in a package can be imported and so on.</p>
 <h2 id="format">Format</h2>
@@ -96,7 +96,7 @@ package is <code>main</code>. This instruction is read only by the command <code
 <h3 id="goos-linux-windows">GOOS linux windows</h3>
 <p>Specifies the operating systems that will be supported by the built interpreter.
 If the GOOS at the time the Scriggofile is parsed is not listed in the <code>GOOS</code> instruction,
-the <code>build</code> and <code>install</code> commands fail. If there is no <code>GOOS</code> instruction, all the
+the <code>init</code> and <code>embed</code> commands fail. If there is no <code>GOOS</code> instruction, all the
 operating systems are supported.</p>
 <p>To view possible GOOS values execute:</p>
 <pre><code>$ go tool dist list

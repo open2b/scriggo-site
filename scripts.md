@@ -109,7 +109,7 @@ which globals will be defined for the executed scripts.
 The [Scriggofile](scriggofile) is then saved in a module directory. The module's `go.mod` will specify the versions of
 packages's modules imported in the [Scriggofile](scriggofile).
 
-And finally the `scriggo` command is executed to make an executable of the interpreter or to generate a package loader
+And finally the `scriggo` command is executed to make an executable of the interpreter or to generate a package importer
 to use in an existing application to load and run scripts. 
 
 ### A simple interpreter
@@ -211,7 +211,7 @@ for _, container := range containers {
 Building of a script interpreter starts from writing a Scriggofile for the interpreter and running one of the following commands:
 
 * `scriggo build` or `scriggo install` to create a standalone interpreter.
-* `scriggo embed` to generate a package loader to use with an existing program.
+* `scriggo embed` to generate a package importer to use with an existing program.
 
 ### Scriggofile for a script interpreter
 

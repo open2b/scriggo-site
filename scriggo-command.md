@@ -8,7 +8,7 @@ Scriggo has a command line interface, the `scriggo` command, that allows to:
 
 * serve Scriggo templates with support for Markdown
 * initialize an interpreter for Go programs
-* generate a package loader for an existing application
+* generate a package importer for an existing application
 
 Se how to <a href="/install">install the scriggo command</a>.
 
@@ -42,7 +42,7 @@ Currently, the `scriggo` command can run only a single package file.
 
 ## Build Scriggo commands
 
-The scriggo command includes the Go standard library. If you want to include other packages, you can build a custom scriggo command. The scriggo command uses the instructions in a [Scriggofile](scriggofile) to create a custom scriggo command or generate a package loader.
+The scriggo command includes the Go standard library. If you want to include other packages, you can build a custom scriggo command. The scriggo command uses the instructions in a [Scriggofile](scriggofile) to create a custom scriggo command or generate a package importer.
 
 The `scriggo build` command builds a custom scriggo command from a [Scriggofile](scriggofile) in a Go module.
 
@@ -130,5 +130,5 @@ after the build.
 The `-o` flag forces build to write the resulting executable to the named output
 file, instead in the current directory.
 
-## Generate a package loader
+## Generate a package importer
 

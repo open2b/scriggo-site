@@ -91,8 +91,9 @@ func main() {
 
 }
 </code></pre>
-<p>Build the application directly from the <code>hello-template</code> directory.</p>
-<pre><code>$ go build
+<p>Execute <code>go mod tidy</code> and build the application directly from the <code>hello-template</code> directory.</p>
+<pre><code>$ go mod tidy
+$ go build
 </code></pre>
 <p>Execute the application:</p>
 <pre><code>$ ./hello-template
@@ -107,10 +108,10 @@ func main() {
  
 </code></pre>
 <h2 id="builtins">Builtins</h2>
-<p>A template executed by Scriggo, apart from Go builtins, can use only globals explicitly provided through the Globals
-options and can import only packages provided through a package importer.</p>
-<p>Scriggo provides some builtins, in the <a href="https://pkg.go.dev/github.com/open2b/scriggo/builtin">github.com/open2b/scriggo/builtin</a>
-package, that can be used in templates. To use these builtins, use the <code>Globals</code> option:</p>
+<p>A template executed by Scriggo, apart from Go builtins, can use only globals explicitly provided through the <code>Globals</code>
+option and can import only packages provided through an importer.</p>
+<p>Scriggo provides some useful builtins, in the <a href="https://pkg.go.dev/github.com/open2b/scriggo/builtin">github.com/open2b/scriggo/builtin</a>
+package, that can be used in templates.</p>
 <p>Replace the content of the <code>main.go</code> file with the following:</p>
 <pre><code class="language-go">// Build and run a Scriggo template.
 package main
@@ -159,7 +160,7 @@ func main() {
 
 }
 </code></pre>
-<p>Build again the application directly from the <code>hello-template</code> directory.</p>
+<p>Rebuild the application directly from the <code>hello-template</code> directory.</p>
 <pre><code>$ go build
 </code></pre>
 <p>Execute the application:</p>

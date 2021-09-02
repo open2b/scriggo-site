@@ -14,18 +14,6 @@ To disassemble a program, script or a template you can:
 
 * in the [Scriggo Playground](https://play.scriggo.com/) click on the `Disassemble` button to show the disassembled program.
 
-* with the scriggo command, use the `-S` option to print the program's assembly to the standard output:
-
-    ```
-    $ scriggo -S program.go
-    ```
-
-* with the scriggo serve sub-command, use the `-S` option to print the template's assembly to the standard output:
-
-    ```
-    $ scriggo serve -S -1
-    ```
-
 * with the scriggo package, call the method `Disassemble` on the value returned by the `Build` method to disassemble a named package:
 
     ```

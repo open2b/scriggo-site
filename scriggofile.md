@@ -6,7 +6,7 @@
 
 A Scriggofile is a text file with a specific format used by the `scriggo` command.
 The `scriggo` command uses the instructions in a Scriggofile to create an
-interpreter or to generate a package loader to use in an existing application.
+interpreter or to generate an importer to use in an existing application.
 
 A Scriggofile defines which packages a program, script or template can import,
 what exported declarations in a package can be imported and so on.  
@@ -101,7 +101,7 @@ package is `main`. This instruction is read only by the command `scriggo embed`.
 
 Specifies the operating systems that will be supported by the built interpreter.
 If the GOOS at the time the Scriggofile is parsed is not listed in the `GOOS` instruction,
-the `build` and `install` commands fail. If there is no `GOOS` instruction, all the
+the `init` and `embed` commands fail. If there is no `GOOS` instruction, all the
 operating systems are supported.
 
 To view possible GOOS values execute:

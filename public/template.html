@@ -103,7 +103,7 @@ template scripting language.</p>
 <p>can be written simply as:</p>
 <pre><code>{% for product in products %}
 </code></pre>
-<p>Furthermore the condition of the <code>if</code> statement can have any type. If it valuates to the zero value of its type, it is false, otherwise it is true.</p>
+<p>Furthermore, the condition of the <code>if</code> statement can have any type. If it valuates to the zero value of its type, it is false, otherwise it is true.</p>
 <p>So the following statements:</p>
 <pre><code>{% if price &gt; 0 %} ... {% end %}
 {% if producer != nil %} ... {% end %}
@@ -114,7 +114,7 @@ template scripting language.</p>
 </code></pre>
 <p>As a special case, if the condition has an interface type, the condition is false if the interface is <code>nil</code> or its dynamic
 value is the zero value for its type.</p>
-<p>Finally there are tree new operators: <code>and</code>, <code>or</code> and <code>not</code>. They are relaxed forms of the <code>&amp;&amp;</code>, <code>||</code> and <code>!</code> operators
+<p>Finally, there are tree new operators: <code>and</code>, <code>or</code> and <code>not</code>. They are relaxed forms of the <code>&amp;&amp;</code>, <code>||</code> and <code>!</code> operators
 where the operands, as the <code>if</code> condition, can have any type.</p>
 <p>So the statement:</p>
 <pre><code>{% if discount &gt; 0 &amp;&amp; banners != nil %} ... {% end %}
@@ -163,7 +163,9 @@ A parent file contains calls to macros declared in the extended files.</p>
 </code></pre>
 <h3 id="macro">macro</h3>
 <p>The statement <code>macro</code> defines a macro, which is a way to repeat frequently-used template code. A macro can have
-input parameters, like a function, but have a single unnamed return parameter with type <code>string</code>, <code>html</code>, <code>markdown</code>, <code>css</code>, <code>js</code>, or <code>json</code>. In a macro declaration the return parameter type can be omitted, in this case it is inferred by the context. A macro without input parameters can be declared and called without the parentheses.</p>
+input parameters, like a function, but have a single unnamed return parameter with type <code>string</code>, <code>html</code>, <code>markdown</code>,
+<code>css</code>, <code>js</code>, or <code>json</code>. In a macro declaration the return parameter type can be omitted, in this case it is inferred by
+the context. A macro without input parameters can be declared and called without the parentheses.</p>
 <p>Examples:</p>
 <pre><code>{% macro title %}A wonderful book{% end %}
 
@@ -183,10 +185,13 @@ input parameters, like a function, but have a single unnamed return parameter wi
 <p>The name of the partial file can be a relative or an absolute path. The partial file does not inherit the variables
 declared in the file in which it is rendered.</p>
 <h3 id="import">import</h3>
-<p>The statement <code>import</code> imports the exported declarations in a template file in the current file scope. The exported declarations
-are the macro, variable, constant and type declarations with the first letter of the declaration's name in uppercase.</p>
-<p>If a template file with the given path does not exist, <code>import</code> tries to import the declarations from a package with the given path.</p>
-<p>Scriggo supports in templates all the supported Go <code>import</code> forms plus a new &quot;import-for&quot; form that allows to indicate the names to import. For example:</p>
+<p>The statement <code>import</code> imports the exported declarations in a template file in the current file scope. The exported
+declarations are the macro, variable, constant and type declarations with the first letter of the declaration's name in
+uppercase.</p>
+<p>If a template file with the given path does not exist, <code>import</code> tries to import the declarations from a package with the
+given path.</p>
+<p>Scriggo supports in templates all the supported Go <code>import</code> forms plus a new &quot;import-for&quot; form that allows to indicate
+the names to import. For example:</p>
 <pre><code>{% import &quot;elements.html&quot; for Banners, Menus %}
 {{ Banners() }}
 {{ Menus() }}
@@ -228,8 +233,11 @@ Use {% raw %} ... {% end raw %} to render a content as is.
 </code></pre>
 <p>It is rendered as <code>Use {% raw %} ... {% end raw %} to render a content as is</code>.</p>
 <h3 id="using">using</h3>
-<p>The <code>using</code> statement can be used between <code>{%</code> and <code>%}</code> in conjunction with show statements, expression statements, send statements, assignments and variable declarations to capture the rendering of a content into a value.</p>
-<p>The value is assigned to the predeclared identifier <code>itea</code> and has the type that follow <code>using</code>. The type can be a format type (<code>string</code>, <code>html</code>, <code>markdown</code>, <code>css</code>, <code>js</code> or <code>json</code>) or a macro type. If it is omitted, it is inferred by the context.</p>
+<p>The <code>using</code> statement can be used between <code>{%</code> and <code>%}</code> in conjunction with show statements, expression statements,
+send statements, assignments and variable declarations to capture the rendering of a content into a value.</p>
+<p>The value is assigned to the predeclared identifier <code>itea</code> and has the type that follow <code>using</code>. The type can be a
+format type (<code>string</code>, <code>html</code>, <code>markdown</code>, <code>css</code>, <code>js</code> or <code>json</code>) or a macro type. If it is omitted, it is inferred by
+the context.</p>
 <pre><code>{% var link = itea; using %}
   &lt;a href=&quot;{{ url }}&quot;&gt;{{ name }}&lt;/a&gt;
 {% end %}
@@ -253,7 +261,7 @@ Use {% raw %} ... {% end raw %} to render a content as is.
 {% end macro %}
 </code></pre>
 <h3 id="comments">Comments</h3>
-<p>Text between <code>{#</code> and <code>#}</code> is a comment and it is discarded during the rendering.</p>
+<p>Text between <code>{#</code> and <code>#}</code> is a comment, and it is discarded during the rendering.</p>
 <pre><code>{# comment #}
 </code></pre>
 <p>Example:</p>

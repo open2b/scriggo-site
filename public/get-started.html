@@ -89,12 +89,6 @@ $ go build
 <pre><code>$ ./hello
 Hello, World!
 </code></pre>
-<blockquote>
-<p>On Windows execute the application with the following command:</p>
-<pre><code>$ hello.exe
-Hello, World!
-</code></pre>
-</blockquote>
 <h3 id="import-packages">Import packages</h3>
 <p>The program executed by Scriggo in the previous example:</p>
 <pre><code class="language-go">package main
@@ -105,18 +99,18 @@ func main() {
 </code></pre>
 <p>does not import packages and uses the built-in <code>println</code> to print the string on the standard error.</p>
 <p>A program executed by Scriggo can have access only to packages, variables, constants, functions and types that are
-explicitly provided through a package loader.</p>
-<p>To import packages and the relative exported names, you have to pass a package importer to the <code>Build</code> function. The code
-of a package import can be coded manually or can be created automatically from a Scriggofile with the Import command.</p>
+explicitly provided through an importer.</p>
+<p>To import packages and the relative exported names, you have to pass an importer to the <code>Build</code> function. The code
+of the importer can be coded manually or can be generated from a Scriggofile with the Import command.</p>
 <h4 id="the-import-command">The Import command</h4>
-<p>The <code>scriggo import</code> command allows to easily create a package importer to import Go standard packages and other packages
+<p>The <code>scriggo import</code> command allows to easily create an importer that imports the Go standard packages and other packages
 according to the instructions in a <a href="scriggofile">Scriggofile</a>.</p>
 <p>Create a file called &quot;Scriggofile&quot; with the following contents and put it in the module directory:</p>
 <pre><code>IMPORT STANDARD LIBRARY
 IMPORT github.com/fatih/color
 </code></pre>
-<p>The Scriggo Import command will read the instructions in the Scriggofile and will generate the source code of a package
-importer that can import the packages of the Go standard library and the <code>github.com/fatih/color</code> package.</p>
+<p>The Scriggo Import command reads the instructions in the Scriggofile and generates the source code of an importer that
+imports the packages of the Go standard library and the <code>github.com/fatih/color</code> package.</p>
 <p>Execute <code>scriggo import</code> command in the module directory:</p>
 <pre><code>$ scriggo import -o packages.go
 </code></pre>
@@ -167,10 +161,10 @@ func main() {
 <pre><code class="language-go">opts := &amp;scriggo.BuildOptions{Packages: packages}
 program, err := scriggo.Build(fsys, opts)
 </code></pre>
-<p>The importer, in the <code>packages</code> variable, is passed to the Build function. The <code>packages</code> variable is declared in the
+<p>The importer, in the <code>packages</code> variable, is passed to the <code>Build</code> function. The <code>packages</code> variable is declared in the
 generated <code>packages.go</code> file.</p>
-<h4 id="manually-create-a-package-importer">Manually create a package importer</h4>
-<p>The following code defined a package named &quot;colors&quot; with path &quot;acme.inc/colors&quot;. The color package exports the &quot;Red&quot; constant and the &quot;Print&quot; function.</p>
+<h4 id="manually-create-an-importer">Manually create an importer</h4>
+<p>The following code defined a package with path &quot;acme.inc/colors&quot; and name &quot;colors&quot;. The color package exports the &quot;Red&quot; constant and the &quot;Print&quot; function.</p>
 <pre><code class="language-go">packages := native.Packages{
     &quot;acme.inc/colors&quot; : native.Package{
         Name: &quot;colors&quot;,
@@ -190,7 +184,6 @@ func main() {
 	colors.Print(colors.Red)
 }
 </code></pre>
-<p>See <a href="/package-importers">package importers</a> for more details.</p>
 <h2 id="continue-with-scriggo-templates">Continue with Scriggo templates</h2>
 <p>Continue the get started guide with the <a href="/get-started-2">Scriggo templates</a>.</p>
 
