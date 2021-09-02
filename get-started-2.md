@@ -13,7 +13,7 @@ Before you start using Scriggo in a Go application you must <a href="https://gol
 
 ## Execute a template in your application
 
-Scriggo, in templates, supports inheritance, macros, partials, imports and autoescaping but most of all it uses the Go
+Scriggo, in templates, supports inheritance, macros, partials, imports and contextual autoescaping but most of all it uses the Go
 language as the template scripting language. 
 
 Scriggo templates can be written with plain text, HTML, Markdown, CSS, JavaScript and JSON.

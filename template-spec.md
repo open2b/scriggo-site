@@ -17,6 +17,7 @@
                 <dt><a href="#types">Types</a></dt>
                 <dd><a href="#format-types">Format types</a></dd>
                 <dd><a href="#macro-types">Macro types</a></dd>
+                <dt><a href="#contexts">Contexts</a></dt>
                 <dt><a href="#declarations">Declarations</a></dt>
                 <dd><a href="#predeclared-identifiers">Predeclared identifiers</a></dd>
                 <dt><a href="#expressions">Expressions</a></dt>
@@ -36,6 +37,8 @@
                 <dd><a href="#if-statement">If statement</a></dd>
                 <dd><a href="#for-statement">For statement</a></dd>
                 <dd><a href="#show-statement">Show statement</a></dd>
+                <dd><a href="#using-statement">Using statement</a></dd>
+                <dd><a href="#itea">Itea</a></dd>
                 <dd><a href="#raw-statement">Raw statement</a></dd>
                 <dt><a href="#template-files">Template files</a></dt>
                 <dt><a href="#packages">Packages</a></dt>
@@ -79,6 +82,10 @@ Line comments and general comments can only appear between _{%_ and _%}_ and bet
 A format type represents a sets of string values that can have a special treatment when used with `show` statement. The `string` type is a format type.
 
 ```
+FormatType = "string" | "html" | "css" | "js" | "json" | "markdown" .
+```
+
+```
 string    The string type. The strings in this set are not escaped in a Text context.
 html      The set of all strings that are not escaped in a HTML context.
 css       The set of all strings that are not escaped in a CSS context.
@@ -111,6 +118,10 @@ macro([]int) int         // not valid, int is not a format type
 macro([]int)             // not valid, has no return parameters
 macro() (string, css)    // not valid, has too many return parameters
 ```
+
+## Contexts
+
+Templates are autoescaping
 
 ## Declarations
 
@@ -192,7 +203,7 @@ and more article content.
 
 ### Predeclared identifiers
 
-The predeclared type identifiers _html_, _css_, _js_, _json_ and _markdown_ that with the type _string_ are called format types:
+The predeclared type identifiers _html_, _css_, _js_, _json_ and _markdown_, with the type _string_ are called format types:
 
 ```
 Format types:
@@ -378,25 +389,93 @@ for i := range s { }
 
 ### Show statement
 
-The _show_ statement formats the expressions, according to the expression type and the context. If _show_ is used in the body
-of a macro the formatted values are appended to the macro response value, otherwise the formatted values are printed to the template output.
+The _show_ statement formats the expressions, according to the expression type and the context. If _show_ is used
+in a macro, the formatted values are appended to the macro response value, otherwise the formatted values are printed
+to the template output.
+
+In content, the show statement can be also written using the short form.
+
+Implementation restriction: a Scriggo templates implementation may not support the short form. If not supported, _{{_
+and _}}_ have no special meaning.
 
 ```
-ShowStmt = "show" { Expression "," } .
+ShowStmt      = "show" Expression { "," Expression } .
+ShortShowStmt = "{{" Expression "}}" .
 ```
 
-The _show_ statement cannot be used in a function body.
+The _show_ statement cannot be used in a function literal.
+
+Examples:
+
+```
+{% show "the document has ", count, " characters" %}
+
+{%%
+    if price > 0 {
+        show "price: ", price
+    }
+%%} 
+
+{% macro Product(product Product) %}
+    Name:  {{ product.Name }}
+    Price: {{ product.Price }}
+{% end %}
+
+{% func(s string) {
+    show s // invalid, cannot be used in a function literal.
+}() %}
+```
+
+### Using statement
+
+A using statement renders its content and then executes its affected statement. Within the affected statement the
+predeclared identifier `itea` represents the rendered content.
+
+```
+UsingStmt    = "{%" AffectedStmt ";" "using" [ IteaType ] "%}" Content "{%" "end" [ "using" ] "%}" .
+AffectedStmt =  VarDecl | ExpressionStmt | SendStmt | Assignment | ShowStmt .
+IteaType     = ( FormatType | "macro" [  Parameters ] [ FormatType ] ) .
+```
+
+If a type is present, `itea` has that type. Otherwise, `itea` has the format type corresponding to the context of the
+using statement. If the type is a macro type, the result type can be omitted. If omitted, the result type is the format
+type corresponding to the context of the using statement.
+
+```
+{# there is a type, itea has type markdown #}
+{% show itea; using markdown %}## {{ title }}{% end %}
+
+{# if the context is HTML, itea has type html #}
+{% var a = itea; using %}<a href="{{ src }}">{{ description }}</a>{% end %}
+
+{# if the context is Text, itea has type macro(string) string #}  
+{% names(itea); using macro(name string) %}Name: {{ name }}{% end %}
+```
+
+If the type of `itea` is a format type, `itea` is a string value containing the rendered content.
+
+If the type of `itea` is a macro type, `itea` is a macro with content the content of the using statement. In the content
+are defined the parameter of the macro if any.
+
+
+### Itea
+
+Within the affected statement of a [using statement](#using-statement), the predeclared identifier `itea` represents the
+value resulted from the rendering of the macro's content. It can have a format type or a macro type.
 
 ### Raw statement
 
 In a _raw_ statement the content is rendered as is, the tokens _{%_, _%}_, _{%%_, _%%}_, _{{_, _}}_, _{#_ and _#}_ have no special meaning. 
 
 ```
-RawStmt = "{%" "raw" [ Marker ] [ Tag ] "%}" Content "{%" "end" [ "raw" [ Marker ] ] "%}" .
-Marker  = identifier .
+RawStmt         = MarkedRawStmt | UnmarkedRawStmt .
+MarkedRawStmt   = "{%" "raw" Marker [ Tag ] "%}" Content "{%" "end" "raw" Marker "%}" .
+UnmarkedRawStmt = "{%" "raw" [ Tag ] "%}" Content "{%" "end" [ "raw" ] "%}" .
+Marker          = letter { letter | unicode_digit } .
+Tag             = string_lit .
 ```
 
-For example
+The following code
 
 ```
 {% raw %}
@@ -414,34 +493,13 @@ is rendered as
    {% end if %}
 ```
 
-A raw statement ends at the first `{% end %}` or `{% end raw %}` statement.
-
-The raw statement can have an identifier, called "marker", after the `raw` keyword. In this case the
-raw statement ends at the first `{% end raw marker %}` statement and not with `{% end %}` or `{% end raw %}`.  
-
-For example
-
-```
-{% raw code %}
-   {% if discount %}
-     promotion
-   {% end %}
-{% end raw code %}
-```
-
-is rendered as
-
-```
-   {% if discount %}
-     promotion
-   {% end %}
-```
-
-Raw statements with different markers can be nested, for example this code
+Marked raw statements ends at the first occurrence of `{% end raw marker %}` where `marker` is its marker. For example,
+the following code
 
 ```
 {% raw doc %}
    Use a raw statement to render unparsed text as
+   {% raw %} # title {% end %}
    {% raw cycle %}
      {% for item in items %} {{ item }} {% end %}
    {% end raw cycle %}
@@ -452,27 +510,19 @@ is rendered as
 
 ```
    Use a raw statement to render unparsed text as
+   {% raw %} # title {% end %}
    {% raw cycle %}
      {% for item in items %} {{ item }} {% end %}
    {% end raw cycle %}
 ```
 
-A raw statement with a tag is written as
+A _raw_ statement can have a string literal _tag_. As for struct tags, an empty tag string is equivalent to an absent tag.
 
 ```
-{% raw `lang:"javascript"` %}
-  var a = 5;
-  console.log(a);
-{% end %}
-```
+{% raw `lang:"javascript"` %} var a = 5; console.log(a); {% end %}
 
-Markers and tags can be used together
-
-```
-{% raw code `lang:"javascript"` %}
-  var a = 5;
-  console.log(a);
-{% end raw code %}
+{# an empty tag is equilavent to an absent tag #}
+{% raw "" %} <b! data {% end %}
 ```
 
 ## Template files

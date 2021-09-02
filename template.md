@@ -7,8 +7,8 @@
 # Scriggo templates
 
 Scriggo is a modern and powerful template engine for Go, supporting inheritance,
-macros, partials, imports and autoescaping but most of all it uses the Go language as the
-template scripting language. 
+macros, partials, imports and contextual autoescaping but most of all it uses the
+Go language as the template scripting language.
 
 ```
 {% extends "layout.html" %}

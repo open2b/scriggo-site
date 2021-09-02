@@ -47,6 +47,7 @@
                 <dt><a href="#types">Types</a></dt>
                 <dd><a href="#format-types">Format types</a></dd>
                 <dd><a href="#macro-types">Macro types</a></dd>
+                <dt><a href="#contexts">Contexts</a></dt>
                 <dt><a href="#declarations">Declarations</a></dt>
                 <dd><a href="#predeclared-identifiers">Predeclared identifiers</a></dd>
                 <dt><a href="#expressions">Expressions</a></dt>
@@ -66,6 +67,8 @@
                 <dd><a href="#if-statement">If statement</a></dd>
                 <dd><a href="#for-statement">For statement</a></dd>
                 <dd><a href="#show-statement">Show statement</a></dd>
+                <dd><a href="#using-statement">Using statement</a></dd>
+                <dd><a href="#itea">Itea</a></dd>
                 <dd><a href="#raw-statement">Raw statement</a></dd>
                 <dt><a href="#template-files">Template files</a></dt>
                 <dt><a href="#packages">Packages</a></dt>
@@ -94,6 +97,8 @@
 <h2 id="types">Types</h2>
 <h3 id="format-types">Format types</h3>
 <p>A format type represents a sets of string values that can have a special treatment when used with <code>show</code> statement. The <code>string</code> type is a format type.</p>
+<pre><code>FormatType = &quot;string&quot; | &quot;html&quot; | &quot;css&quot; | &quot;js&quot; | &quot;json&quot; | &quot;markdown&quot; .
+</code></pre>
 <pre><code>string    The string type. The strings in this set are not escaped in a Text context.
 html      The set of all strings that are not escaped in a HTML context.
 css       The set of all strings that are not escaped in a CSS context.
@@ -118,6 +123,8 @@ macro([]int) int         // not valid, int is not a format type
 macro([]int)             // not valid, has no return parameters
 macro() (string, css)    // not valid, has too many return parameters
 </code></pre>
+<h2 id="contexts">Contexts</h2>
+<p>Templates are autoescaping</p>
 <h2 id="declarations">Declarations</h2>
 <p>There are no function and method declarations in Scriggo templates.</p>
 <pre><code>Declaration = ConstDecl | TypeDecl | VarDecl .
@@ -175,7 +182,7 @@ This is the article content,
 and more article content.
 </code></pre>
 <h3 id="predeclared-identifiers">Predeclared identifiers</h3>
-<p>The predeclared type identifiers <em>html</em>, <em>css</em>, <em>js</em>, <em>json</em> and <em>markdown</em> that with the type <em>string</em> are called format types:</p>
+<p>The predeclared type identifiers <em>html</em>, <em>css</em>, <em>js</em>, <em>json</em> and <em>markdown</em>, with the type <em>string</em> are called format types:</p>
 <pre><code>Format types:
     string html css js json markdown
 </code></pre>
@@ -309,17 +316,68 @@ InClause = Identifier &quot;in&quot; Expression .
 for i := range s { } 
 </code></pre>
 <h3 id="show-statement">Show statement</h3>
-<p>The <em>show</em> statement formats the expressions, according to the expression type and the context. If <em>show</em> is used in the body
-of a macro the formatted values are appended to the macro response value, otherwise the formatted values are printed to the template output.</p>
-<pre><code>ShowStmt = &quot;show&quot; { Expression &quot;,&quot; } .
+<p>The <em>show</em> statement formats the expressions, according to the expression type and the context. If <em>show</em> is used
+in a macro, the formatted values are appended to the macro response value, otherwise the formatted values are printed
+to the template output.</p>
+<p>In content, the show statement can be also written using the short form.</p>
+<p>Implementation restriction: a Scriggo templates implementation may not support the short form. If not supported, <em>{{</em>
+and <em>}}</em> have no special meaning.</p>
+<pre><code>ShowStmt      = &quot;show&quot; Expression { &quot;,&quot; Expression } .
+ShortShowStmt = &quot;{{&quot; Expression &quot;}}&quot; .
 </code></pre>
-<p>The <em>show</em> statement cannot be used in a function body.</p>
+<p>The <em>show</em> statement cannot be used in a function literal.</p>
+<p>Examples:</p>
+<pre><code>{% show &quot;the document has &quot;, count, &quot; characters&quot; %}
+
+{%%
+    if price &gt; 0 {
+        show &quot;price: &quot;, price
+    }
+%%} 
+
+{% macro Product(product Product) %}
+    Name:  {{ product.Name }}
+    Price: {{ product.Price }}
+{% end %}
+
+{% func(s string) {
+    show s // invalid, cannot be used in a function literal.
+}() %}
+</code></pre>
+<h3 id="using-statement">Using statement</h3>
+<p>A using statement renders its content and then executes its affected statement. Within the affected statement the
+predeclared identifier <code>itea</code> represents the rendered content.</p>
+<pre><code>UsingStmt    = &quot;{%&quot; AffectedStmt &quot;;&quot; &quot;using&quot; [ IteaType ] &quot;%}&quot; Content &quot;{%&quot; &quot;end&quot; [ &quot;using&quot; ] &quot;%}&quot; .
+AffectedStmt =  VarDecl | ExpressionStmt | SendStmt | Assignment | ShowStmt .
+IteaType     = ( FormatType | &quot;macro&quot; [  Parameters ] [ FormatType ] ) .
+</code></pre>
+<p>If a type is present, <code>itea</code> has that type. Otherwise, <code>itea</code> has the format type corresponding to the context of the
+using statement. If the type is a macro type, the result type can be omitted. If omitted, the result type is the format
+type corresponding to the context of the using statement.</p>
+<pre><code>{# there is a type, itea has type markdown #}
+{% show itea; using markdown %}## {{ title }}{% end %}
+
+{# if the context is HTML, itea has type html #}
+{% var a = itea; using %}&lt;a href=&quot;{{ src }}&quot;&gt;{{ description }}&lt;/a&gt;{% end %}
+
+{# if the context is Text, itea has type macro(string) string #}  
+{% names(itea); using macro(name string) %}Name: {{ name }}{% end %}
+</code></pre>
+<p>If the type of <code>itea</code> is a format type, <code>itea</code> is a string value containing the rendered content.</p>
+<p>If the type of <code>itea</code> is a macro type, <code>itea</code> is a macro with content the content of the using statement. In the content
+are defined the parameter of the macro if any.</p>
+<h3 id="itea">Itea</h3>
+<p>Within the affected statement of a <a href="#using-statement">using statement</a>, the predeclared identifier <code>itea</code> represents the
+value resulted from the rendering of the macro's content. It can have a format type or a macro type.</p>
 <h3 id="raw-statement">Raw statement</h3>
 <p>In a <em>raw</em> statement the content is rendered as is, the tokens <em>{%</em>, <em>%}</em>, <em>{%%</em>, <em>%%}</em>, <em>{{</em>, <em>}}</em>, <em>{#</em> and <em>#}</em> have no special meaning.</p>
-<pre><code>RawStmt = &quot;{%&quot; &quot;raw&quot; [ Marker ] [ Tag ] &quot;%}&quot; Content &quot;{%&quot; &quot;end&quot; [ &quot;raw&quot; [ Marker ] ] &quot;%}&quot; .
-Marker  = identifier .
+<pre><code>RawStmt         = MarkedRawStmt | UnmarkedRawStmt .
+MarkedRawStmt   = &quot;{%&quot; &quot;raw&quot; Marker [ Tag ] &quot;%}&quot; Content &quot;{%&quot; &quot;end&quot; &quot;raw&quot; Marker &quot;%}&quot; .
+UnmarkedRawStmt = &quot;{%&quot; &quot;raw&quot; [ Tag ] &quot;%}&quot; Content &quot;{%&quot; &quot;end&quot; [ &quot;raw&quot; ] &quot;%}&quot; .
+Marker          = letter { letter | unicode_digit } .
+Tag             = string_lit .
 </code></pre>
-<p>For example</p>
+<p>The following code</p>
 <pre><code>{% raw %}
    {% if discount %}
      promotion
@@ -331,24 +389,11 @@ Marker  = identifier .
      promotion
    {% end if %}
 </code></pre>
-<p>A raw statement ends at the first <code>{% end %}</code> or <code>{% end raw %}</code> statement.</p>
-<p>The raw statement can have an identifier, called &quot;marker&quot;, after the <code>raw</code> keyword. In this case the
-raw statement ends at the first <code>{% end raw marker %}</code> statement and not with <code>{% end %}</code> or <code>{% end raw %}</code>.</p>
-<p>For example</p>
-<pre><code>{% raw code %}
-   {% if discount %}
-     promotion
-   {% end %}
-{% end raw code %}
-</code></pre>
-<p>is rendered as</p>
-<pre><code>   {% if discount %}
-     promotion
-   {% end %}
-</code></pre>
-<p>Raw statements with different markers can be nested, for example this code</p>
+<p>Marked raw statements ends at the first occurrence of <code>{% end raw marker %}</code> where <code>marker</code> is its marker. For example,
+the following code</p>
 <pre><code>{% raw doc %}
    Use a raw statement to render unparsed text as
+   {% raw %} # title {% end %}
    {% raw cycle %}
      {% for item in items %} {{ item }} {% end %}
    {% end raw cycle %}
@@ -356,21 +401,16 @@ raw statement ends at the first <code>{% end raw marker %}</code> statement and 
 </code></pre>
 <p>is rendered as</p>
 <pre><code>   Use a raw statement to render unparsed text as
+   {% raw %} # title {% end %}
    {% raw cycle %}
      {% for item in items %} {{ item }} {% end %}
    {% end raw cycle %}
 </code></pre>
-<p>A raw statement with a tag is written as</p>
-<pre><code>{% raw `lang:&quot;javascript&quot;` %}
-  var a = 5;
-  console.log(a);
-{% end %}
-</code></pre>
-<p>Markers and tags can be used together</p>
-<pre><code>{% raw code `lang:&quot;javascript&quot;` %}
-  var a = 5;
-  console.log(a);
-{% end raw code %}
+<p>A <em>raw</em> statement can have a string literal <em>tag</em>. As for struct tags, an empty tag string is equivalent to an absent tag.</p>
+<pre><code>{% raw `lang:&quot;javascript&quot;` %} var a = 5; console.log(a); {% end %}
+
+{# an empty tag is equilavent to an absent tag #}
+{% raw &quot;&quot; %} &lt;b! data {% end %}
 </code></pre>
 <h2 id="template-files">Template files</h2>
 <p>A template file is a name-less package. Template files in the same directory are different name-less packages.</p>
