@@ -36,30 +36,11 @@
         </aside>
         <div class="content">
             <h1 id="get-started">Get Started</h1>
-<p>In this get started you will learn how to run Go programs with the command line <code>scriggo</code> interpreter and will learn how
-to start using Scriggo in applications and templates.</p>
+<p>In this get started you will learn how to run Go programs in your applications and, in the second step, how
+to <a href="/get-started-2"> run Scriggo templates</a>.</p>
 <p>It requires 10 minutes to be completed.</p>
-<h2 id="run-a-go-program">Run a Go program</h2>
-<p>The <code>scriggo</code> command is a standalone interpreter that executes Go programs without requiring other software installed.</p>
-<p>Before you start working with Scriggo, <a href="/install">install the Scriggo command</a> using precompiled binaries or compiling from source.</p>
-<p>To run a Go program, as the following example:</p>
-<pre><code class="language-go">package main
-
-import &quot;fmt&quot;
-
-func main() {
-    fmt.Println(&quot;Hello, World!&quot;)    
-}
-</code></pre>
-<p>you can give the file of the program as the first argument to the <code>scriggo</code> command:</p>
-<pre><code>$ scriggo hello.go
-Hello, World!
-</code></pre>
-<p>A program executed by the <code>scriggo</code> command can have access only to packages, variables, constants, functions and types
-that has been explicitly compiled in the <code>scriggo</code> command.</p>
-<p>See <a href="/scriggo-command">scriggo command</a> for more details.</p>
-<h2 id="use-scriggo-in-applications">Use Scriggo in applications</h2>
 <p>Before you start using Scriggo in a Go application you must <a href="https://golang.org/dl/">download and install Go</a>.</p>
+<h2 id="execute-a-go-program-in-your-application">Execute a Go program in your application</h2>
 <p>Open a terminal and create a new directory for the application:</p>
 <pre><code>$ mkdir hello
 $ cd hello
@@ -100,8 +81,9 @@ func main() {
 
 }
 </code></pre>
-<p>Build the application directly from the <code>hello</code> directory.</p>
-<pre><code>$ go build
+<p>Execute <code>go mod tidy</code> and build the application directly from the <code>hello</code> directory.</p>
+<pre><code>$ go mod tidy
+$ go build
 </code></pre>
 <p>Execute the application:</p>
 <pre><code>$ ./hello
@@ -121,77 +103,96 @@ func main() {
     println(&quot;Hello, World!&quot;)
 }
 </code></pre>
-<p>does not import packages and uses the builtin <code>println</code> to print the string on the standard error.</p>
+<p>does not import packages and uses the built-in <code>println</code> to print the string on the standard error.</p>
 <p>A program executed by Scriggo can have access only to packages, variables, constants, functions and types that are
-explicitly provided through a package importer.</p>
-<p>See <a href="/package-importers">package importers</a> for more details.</p>
-<h2 id="use-scriggo-in-templates">Use Scriggo in templates</h2>
-<p>The Scriggo template language supports inheritance, macros, partials, imports and autoescaping but most of all
-it uses the Go language as the template scripting language.</p>
-<p>Scriggo templates can be written with plain text, HTML, Markdown, CSS, JavaScript and JSON.</p>
-<p>Open a terminal and create a new directory for the application:</p>
-<pre><code>$ mkdir hello-template
-$ cd hello-template
+explicitly provided through a package loader.</p>
+<p>To import packages and the relative exported names, you have to pass a package importer to the <code>Build</code> function. The code
+of a package import can be coded manually or can be created automatically from a Scriggofile with the Import command.</p>
+<h4 id="the-import-command">The Import command</h4>
+<p>The <code>scriggo import</code> command allows to easily create a package importer to import Go standard packages and other packages
+according to the instructions in a <a href="scriggofile">Scriggofile</a>.</p>
+<p>Create a file called &quot;Scriggofile&quot; with the following contents and put it in the module directory:</p>
+<pre><code>IMPORT STANDARD LIBRARY
+IMPORT github.com/fatih/color
 </code></pre>
-<p>Initialize a Go module in the previous created directory:</p>
-<pre><code>$ go mod init hello-template
+<p>The Scriggo Import command will read the instructions in the Scriggofile and will generate the source code of a package
+importer that can import the packages of the Go standard library and the <code>github.com/fatih/color</code> package.</p>
+<p>Execute <code>scriggo import</code> command in the module directory:</p>
+<pre><code>$ scriggo import -o packages.go
 </code></pre>
-<p>Create a file <code>main.go</code> with the following source code:</p>
-<pre><code class="language-go">// Build and run a Scriggo template.
-package main
+<p>then replace the content of the <code>main.go</code> file with the following:</p>
+<pre><code class="language-go">package main
 
-import (
-    &quot;os&quot;
-    &quot;github.com/open2b/scriggo&quot;
-)
+import &quot;github.com/open2b/scriggo&quot;
 
 func main() {
 
-    // Content of the template file to run.
-    content := []byte(`
-    &lt;!DOCTYPE html&gt;
-    &lt;html&gt;
-    &lt;head&gt;Hello&lt;/head&gt; 
-    &lt;body&gt;
-        {% var who = &quot;World&quot; %}
-        Hello, {{ who }}!
-    &lt;/body&gt;
-    &lt;/html&gt;
+    // src is the source code of the program to run.
+    src := []byte(`
+        package main
+
+        import (
+            &quot;fmt&quot;
+            &quot;github.com/fatih/color&quot;
+        )
+ 
+        func main() {
+            fmt.Println(&quot;Here you are go&quot;)
+            color.Red(&quot;Roses are red&quot;)
+            color.Blue(&quot;Violets are blue&quot;)
+        }
     `)
 
-    // Create a file system with the file of the template to run.
-    fsys := scriggo.Files{&quot;index.html&quot;: content}
+    // Create a file system with the file of the program to run.
+    fsys := scriggo.Files{&quot;main.go&quot;: src}
 
-    // Build the template.
-    template, err := scriggo.BuildTemplate(fsys, &quot;index.html&quot;, nil)
+    // Use the importer in the packages variable.
+    opts := &amp;scriggo.BuildOptions{Packages: packages}
+
+    // Build the program.
+    program, err := scriggo.Build(fsys, opts)
     if err != nil {
         panic(err)
     }
  
-    // Run the template and print it to the standard output.
-    err = template.Run(os.Stdout, nil, nil)
+    // Run the program.
+    err = program.Run(nil)
     if err != nil {
         panic(err)
     }
 
 }
 </code></pre>
-<p>Build the application directly from the <code>hello-template</code> directory.</p>
-<pre><code>$ go build
+<p>Note the following lines in the <code>main.go</code> file:</p>
+<pre><code class="language-go">opts := &amp;scriggo.BuildOptions{Packages: packages}
+program, err := scriggo.Build(fsys, opts)
 </code></pre>
-<p>Execute the application:</p>
-<pre><code>$ ./hello-template
+<p>The importer, in the <code>packages</code> variable, is passed to the Build function. The <code>packages</code> variable is declared in the
+generated <code>packages.go</code> file.</p>
+<h4 id="manually-create-a-package-importer">Manually create a package importer</h4>
+<p>The following code defined a package named &quot;colors&quot; with path &quot;acme.inc/colors&quot;. The color package exports the &quot;Red&quot; constant and the &quot;Print&quot; function.</p>
+<pre><code class="language-go">packages := native.Packages{
+    &quot;acme.inc/colors&quot; : native.Package{
+        Name: &quot;colors&quot;,
+        Declarations: native.Declarations{
+    	    &quot;Red&quot;   : &quot;#C0392B&quot;,
+    	    &quot;Print&quot; : func(color string) { fmt.Printf(&quot;The color is %s&quot;, color) },
+        },
+    },
+}
+</code></pre>
+<p>Using the <code>packages</code> variable as importer with the <code>Build</code> function, the color package can be imported in the program to execute:</p>
+<pre><code class="language-go">package main
 
-    &lt;!DOCTYPE html&gt;
-    &lt;html&gt;
-    &lt;head&gt;Hello&lt;/head&gt; 
-    &lt;body&gt;
-        Hello, World!
-    &lt;/body&gt;
-    &lt;/html&gt;
- 
+import &quot;acme.inc/colors&quot;
+
+func main() {
+	colors.Print(colors.Red)
+}
 </code></pre>
-<p>See the <a href="/template">Scriggo template language</a> for more details.</p>
+<p>See <a href="/package-importers">package importers</a> for more details.</p>
+<h2 id="continue-with-scriggo-templates">Continue with Scriggo templates</h2>
+<p>Continue the get started guide with the <a href="/get-started-2">Scriggo templates</a>.</p>
 
         </div>
     </div>

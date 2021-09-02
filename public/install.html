@@ -35,21 +35,18 @@
             </nav>
         </aside>
         <div class="content">
-            <h1 id="install-scriggo">Install Scriggo</h1>
+            <h1 id="install-scriggo-command">Install <code>scriggo</code> command</h1>
 <p>Before installing the Scriggo command, <a href="https://golang.org/dl/">download and install Go</a>.</p>
 <p>When Go is installed, open a terminal and execute:</p>
-<pre><code>$ go install github.com/open2b/scriggo/cmd/scriggo
+<pre><code>$ go install github.com/open2b/scriggo/cmd/scriggo@latest
 </code></pre>
-<p><code>go</code> will install the <code>scriggo</code> command in the <code>bin</code> subdirectory of the Go path.</p>
-<p>To know what is the Go path, execute the command:</p>
-<pre><code>$ go env GOPATH
-</code></pre>
-<p>For convenience, add the Go path's <code>bin</code> subdirectory to your <code>PATH</code>:</p>
-<pre><code>$ export PATH=$PATH:$(go env GOPATH)/bin
-</code></pre>
-<p>Then test if <code>scriggo</code> can be executed:</p>
+<p>then test if <code>scriggo</code> can be executed:</p>
 <pre><code>$ scriggo version
+scriggo version 0.48.0 (go1.17)
 </code></pre>
+<p>If the <code>scriggo</code> command is not found, you should add the directory where the command has been installed to your <code>PATH</code>.</p>
+<p><code>go</code> installs the <code>scriggo</code> command in the directory named by the <code>GOBIN</code> environment variable. If it is not set it
+defaults to <code>$GOPATH/bin</code> or, if the <code>GOPATH</code> environment variable is not set, to <code>$HOME/go/bin</code>.</p>
 
         </div>
     </div>

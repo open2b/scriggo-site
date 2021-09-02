@@ -6,17 +6,11 @@
 
 Scriggo has a command line interface, the `scriggo` command, that allows to:
 
-* run Go programs
-* run Scriggo scripts  
 * serve Scriggo templates with support for Markdown
-* build custom scriggo commands with specific packages
+* initialize an interpreter for Go programs
 * generate a package loader for an existing application
 
-It is a single binary executable with no external dependencies and includes the entire Go standard library.
-
-To use the `scriggo` command to build custom scriggo commands or generate a package loader, before you start you must <a href="https://golang.org/dl/">download and install Go</a>.
-
-See <a href="/install">install Scriggo command</a> to install the `scriggo` command using precompiled binaries or compiling from source.
+Se how to <a href="/install">install the scriggo command</a>.
 
 ### Get help from command line
 
@@ -26,19 +20,17 @@ To get help from the command line run the following command:
 $ scriggo help
 ```
 
-## Run Go programs
+## Initialize an interpreter
 
-A Scriggo command is a standalone interpreter and consequently, to run programs, does not require Go installed. You can give the
-file of the program as the first argument to the `scriggo` command: 
+The Scriggo command allows to initialize an interpreter for Go programs. The syntax is: 
 
 ```
-$ scriggo file [arguments...]
+$ scriggo init [dir]
 ```
 
-where `file` is the Go program file to run and `arguments` are the arguments that are passed to the executed program as
-`os.Arg[1]`, `os.Arg[2]` ecc... 
+where `dir` is a (generally empty) directory. If no argument is given, `scriggo init` uses the current directory.
 
-The exit status of the `scriggo` command is the exit status of the executed program.
+After 
 
 If the name of the file could be interpreted as a `scriggo` subcommand, use `--` as in:
 

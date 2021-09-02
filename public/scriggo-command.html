@@ -38,33 +38,28 @@
             <h1 id="scriggo-command">Scriggo command</h1>
 <p>Scriggo has a command line interface, the <code>scriggo</code> command, that allows to:</p>
 <ul>
-<li>run Go programs</li>
-<li>run Scriggo scripts</li>
-<li>serve Scriggo templates</li>
-<li>build scriggo commands with specific packages</li>
+<li>serve Scriggo templates with support for Markdown</li>
+<li>initialize an interpreter for Go programs</li>
 <li>generate a package loader for an existing application</li>
 </ul>
-<p>It is a single binary executable with no external dependencies. It includes the entire Go library in a executable that when compressed is only 5 megabyte.</p>
-<p>If your use of the Scriggo command is not limited to run programs, before you start you must <a href="https://golang.org/dl/">download and install Go</a>.</p>
-<p>See <a href="/install">install Scriggo command</a> to install the <code>scriggo</code> command using precompiled binaries or compiling from source.</p>
+<p>Se how to <a href="/install">install the scriggo command</a>.</p>
 <h3 id="get-help-from-command-line">Get help from command line</h3>
 <p>To get help from the command line run the following command:</p>
 <pre><code>$ scriggo help
 </code></pre>
-<h2 id="run-go-programs">Run Go programs</h2>
-<p>A Scriggo command is a standalone interpreter and consequently, to run programs, does not require Go installed. You can give the
-file of the program as the first argument to the <code>scriggo</code> command:</p>
-<pre><code>$ scriggo file [arguments...]
+<h2 id="initialize-an-interpreter">Initialize an interpreter</h2>
+<p>The Scriggo command allows to initialize an interpreter for Go programs. The syntax is:</p>
+<pre><code>$ scriggo init [dir]
 </code></pre>
-<p>where <code>file</code> is the Go program file to run and <code>arguments</code> are the arguments that are passed to the executed program as
-<code>os.Arg[1]</code>, <code>os.Arg[2]</code> ecc...</p>
-<p>The exit status of the <code>scriggo</code> command is the exit status of the executed program.</p>
+<p>where <code>dir</code> is a (generally empty) directory. If no argument is given, <code>scriggo init</code> uses the current directory.</p>
+<p>After</p>
 <p>If the name of the file could be interpreted as a <code>scriggo</code> subcommand, use <code>--</code> as in:</p>
 <pre><code>$ scriggo -- file [arguments...]
 </code></pre>
+<p>Currently, the <code>scriggo</code> command can run only a single package file.</p>
 <h2 id="build-scriggo-commands">Build Scriggo commands</h2>
-<p>The scriggo command uses the instructions in a <a href="scriggofile">Scriggofile</a> to create the interpreter or generate the package loader.</p>
-<p>The <code>scriggo build</code> command builds a standalone Go interpreter from a <a href="scriggofile">Scriggofile</a> in a module.</p>
+<p>The scriggo command includes the Go standard library. If you want to include other packages, you can build a custom scriggo command. The scriggo command uses the instructions in a <a href="scriggofile">Scriggofile</a> to create a custom scriggo command or generate a package loader.</p>
+<p>The <code>scriggo build</code> command builds a custom scriggo command from a <a href="scriggofile">Scriggofile</a> in a Go module.</p>
 <p>The basic build command takes this form:</p>
 <pre><code>$ scriggo build [module]
 </code></pre>

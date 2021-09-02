@@ -4,46 +4,75 @@
 
 # Get Started
 
-In this get started you will learn how to run Go programs with the command line `scriggo` interpreter and will learn how
-to start using Scriggo in applications and templates. 
+In this get started you will learn how to run Go programs in your applications and, in the second step, how
+to <a href="/get-started-2"> run Scriggo templates</a>.
 
 It requires 10 minutes to be completed.
 
-## Run a Go program
+Before you start using Scriggo in a Go application you must <a href="https://golang.org/dl/">download and install Go</a>.
 
-The `scriggo` command is a standalone interpreter that executes Go programs without requiring other software installed. 
+{#
 
-Before you start working with Scriggo, <a href="/install">install the Scriggo command</a> using precompiled binaries or compiling from source.
+## Make a Go interpreter
 
-To run a Go program, as the following example:
+The `scriggo init` command initializes a Go module with a functional interpreter for Go programs.    
+
+Make an empty directory and execute `scriggo init` and `go install` to install the interpreter: 
+
+```
+$ mkdir hellogo
+$ cd hellogo
+$ scriggo init
+$ go install
+```
+
+then you can use the interpreter to execute Go programs, it does not require Go installed.
+
+```
+$ hellogo myprogram.go
+```
+
+### Importing other packages
+
+By default, the programs executed by this interpreter can import only the packages of the Go standard library. To allow
+importing other packages you can write a <a href="scriggofile">Scriggofile</a> with the instructions that the scriggo
+command uses while it initializes the interpreter.
+
+For example, to allow to import the <a href="https://github.com/fatih/color/">github.com/fatih/color</a> package, open the
+`Scriggofile` in the "hellogo" directory and add to it the following line:
+
+```
+IMPORT github.com/fatih/color
+```
+
+Delete the old Go files in the "hellogo" directory and execute again the `scriggo init` command in the directory:
+
+```
+$ rm main.go packages.go
+$ scriggo init
+$ go install
+```
+
+Now you can execute, with the `hellogo` interpreter, the following program:
 
 ```go
 package main
-
-import "fmt"
-
+ 
+import "github.com/fatih/color"
+ 
 func main() {
-    fmt.Println("Hello, World!")    
+    color.Red("Roses are red")
+    color.Blue("Violets are blue")
 }
 ```
 
-you can give the file of the program as the first argument to the `scriggo` command:
+See the <a href="scriggo-command">scriggo command</a> and the <a href="scriggofile">Scriggofile</a> for more details. 
 
-```
-$ scriggo hello.go
-Hello, World!
-```  
+#}
 
-A program executed by the `scriggo` command can have access only to packages, variables, constants, functions and types
-that has been explicitly compiled in the `scriggo` command.
+## Execute a Go program in your application
 
-See <a href="/scriggo-command">scriggo command</a> for more details.
-
-## Use Scriggo in applications
-
-Before you start using Scriggo in a Go application you must <a href="https://golang.org/dl/">download and install Go</a>.
-
-Open a terminal and create a new directory for the application: 
+Open a terminal and create a new directory for the application:
 
 ```
 $ mkdir hello
@@ -92,9 +121,10 @@ func main() {
 }
 ```
 
-Build the application directly from the `hello` directory.
+Execute `go mod tidy` and build the application directly from the `hello` directory.
 
 ```
+$ go mod tidy
 $ go build
 ```
 
@@ -123,121 +153,130 @@ func main() {
 }
 ```
 
-does not import packages and uses the builtin `println` to print the string on the standard error.
+does not import packages and uses the built-in `println` to print the string on the standard error.
 
 A program executed by Scriggo can have access only to packages, variables, constants, functions and types that are
-explicitly provided through a package importer.
+explicitly provided through a package loader.
 
-See <a href="/package-importers">package importers</a> for more details.
+To import packages and the relative exported names, you have to pass a package importer to the `Build` function. The code
+of a package import can be coded manually or can be created automatically from a Scriggofile with the Import command.
 
-## Use Scriggo in templates
+#### The Import command
 
-The Scriggo template language supports inheritance, macros, partials, imports and autoescaping but most of all
-it uses the Go language as the template scripting language. 
+The `scriggo import` command allows to easily create a package importer to import Go standard packages and other packages
+according to the instructions in a <a href="scriggofile">Scriggofile</a>.
 
-Scriggo templates can be written with plain text, HTML, Markdown, CSS, JavaScript and JSON.
-
-Open a terminal and create a new directory for the application: 
-
-```
-$ mkdir hello-template
-$ cd hello-template
-```
-
-Initialize a Go module in the previous created directory:
+Create a file called "Scriggofile" with the following contents and put it in the module directory:
 
 ```
-$ go mod init hello-template
+IMPORT STANDARD LIBRARY
+IMPORT github.com/fatih/color
 ```
 
-Create a file `main.go` with the following source code:
+The Scriggo Import command will read the instructions in the Scriggofile and will generate the source code of a package
+importer that can import the packages of the Go standard library and the `github.com/fatih/color` package.
 
-{% raw %}
+Execute `scriggo import` command in the module directory:
+
+```
+$ scriggo import -o packages.go
+```
+
+then replace the content of the `main.go` file with the following:
+
 ```go
-// Build and run a Scriggo template.
 package main
 
-import (
-    "os"
-    "github.com/open2b/scriggo"
-)
+import "github.com/open2b/scriggo"
 
 func main() {
 
-    // Content of the template file to run.
-    content := []byte(`
-    <!DOCTYPE html>
-    <html>
-    <head>Hello</head> 
-    <body>
-        {% var who = "World" %}
-        Hello, {{ who }}!
-    </body>
-    </html>
+    // src is the source code of the program to run.
+    src := []byte(`
+        package main
+
+        import (
+            "fmt"
+            "github.com/fatih/color"
+        )
+ 
+        func main() {
+            fmt.Println("Here you are go")
+            color.Red("Roses are red")
+            color.Blue("Violets are blue")
+        }
     `)
 
-    // Create a file system with the file of the template to run.
-    fsys := scriggo.Files{"index.html": content}
+    // Create a file system with the file of the program to run.
+    fsys := scriggo.Files{"main.go": src}
 
-    // Build the template.
-    template, err := scriggo.BuildTemplate(fsys, "index.html", nil)
+    // Use the importer in the packages variable.
+    opts := &scriggo.BuildOptions{Packages: packages}
+
+    // Build the program.
+    program, err := scriggo.Build(fsys, opts)
     if err != nil {
         panic(err)
     }
  
-    // Run the template and print it to the standard output.
-    err = template.Run(os.Stdout, nil, nil)
+    // Run the program.
+    err = program.Run(nil)
     if err != nil {
         panic(err)
     }
 
 }
 ```
-{% end raw %}
 
-Build the application directly from the `hello-template` directory.
+Note the following lines in the `main.go` file:
 
-```
-$ go build
-```
-
-Execute the application:
-
-```
-$ ./hello-template
-
-    <!DOCTYPE html>
-    <html>
-    <head>Hello</head> 
-    <body>
-        Hello, World!
-    </body>
-    </html>
- 
+```go
+opts := &scriggo.BuildOptions{Packages: packages}
+program, err := scriggo.Build(fsys, opts)
 ```
 
-See the <a href="/template">Scriggo template language</a> for more details.
+The importer, in the `packages` variable, is passed to the Build function. The `packages` variable is declared in the
+generated `packages.go` file.
+
+#### Manually create a package importer
+
+The following code defined a package named "colors" with path "acme.inc/colors". The color package exports the "Red" constant and the "Print" function.  
+
+```go
+packages := native.Packages{
+    "acme.inc/colors" : native.Package{
+        Name: "colors",
+        Declarations: native.Declarations{
+    	    "Red"   : "#C0392B",
+    	    "Print" : func(color string) { fmt.Printf("The color is %s", color) },
+        },
+    },
+}
+```
+
+Using the `packages` variable as importer with the `Build` function, the color package can be imported in the program to execute:
+
+
+```go
+package main
+
+import "acme.inc/colors"
+
+func main() {
+	colors.Print(colors.Red)
+}
+```
 
 {#
-The following is a more complex example of a Scriggo template:
+An importer must implement the `native.Importer` interface. In this example we use the `native.Packages` type that
+implements that interface.
 
-{% raw code %}
-```html
-{% extends "layout.html" %}
-{% import "banners.html" %}
-{% Head %}
-    <title>Hello</title>
-{% end %}
-{% Body %}
-    {% include "column.html" %} 
-    <div>
-      {% who := "World" %}
-      Hello, {{ who }}!
-    </div>
-    {% show banners.Banner() %}
-{% end %}
-</html>
- ```
-{% end raw code %}
-
+A package to be imported must implement the `native.Package` interface. In this example we use the `native.DeclarationsPackage` type
+that implements that interface.
 #}
+
+See <a href="/package-importers">package importers</a> for more details.
+
+## Continue with Scriggo templates
+
+Continue the get started guide with the <a href="/get-started-2">Scriggo templates</a>.

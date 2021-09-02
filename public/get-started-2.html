@@ -35,25 +35,146 @@
             </nav>
         </aside>
         <div class="content">
-            <p>Get Started</p>
-<h1 id="how-to-use-the-scriggo-command-to-create-an-interpreter">How to use the <code>scriggo</code> command to create an interpreter</h1>
-<p>In this second part of get started we will learn how create an interpreter with the <code>scriggo</code> command. An interpreter is a standalone program that can execute Go programs, scripts and templates without requiring Go installed.</p>
-<p>It required 10 minutes to be completed.</p>
-<h2 id="install-the-scriggo-command">Install the <code>scriggo</code> command</h2>
-<p>Open a terminal and execute:</p>
-<pre><code>$ go install github.com/open2b/scriggo/cmd/scriggo
+            <h1 id="get-started-with-templates">Get Started With Templates</h1>
+<p>In the first step you have learned how to <a href="/get-started">run Go programs</a> in your applications.
+In this second step you will learn how to run Scriggo templates.</p>
+<p>It requires 10 minutes to be completed.</p>
+<p>Before you start using Scriggo in a Go application you must <a href="https://golang.org/dl/">download and install Go</a>.</p>
+<h2 id="execute-a-template-in-your-application">Execute a template in your application</h2>
+<p>Scriggo, in templates, supports inheritance, macros, partials, imports and autoescaping but most of all it uses the Go
+language as the template scripting language.</p>
+<p>Scriggo templates can be written with plain text, HTML, Markdown, CSS, JavaScript and JSON.</p>
+<p>Open a terminal and create a new directory for the application:</p>
+<pre><code>$ mkdir hello-template
+$ cd hello-template
 </code></pre>
-<p>Go will install the <code>scriggo</code> command in the <code>bin</code> subdirectory of the Go path.</p>
-<p>To know what is the Go path, execute the command:</p>
-<pre><code>$ go env GOPATH
+<p>Initialize a Go module in the previous created directory:</p>
+<pre><code>$ go mod init hello-template
 </code></pre>
-<p>For convenience, add the Go path's <code>bin</code> subdirectory to your <code>PATH</code>:</p>
-<pre><code>$ export PATH=$PATH:$(go env GOPATH)/bin
+<p>Create a file <code>main.go</code> with the following source code:</p>
+<pre><code class="language-go">// Build and run a Scriggo template.
+package main
+
+import (
+    &quot;os&quot;
+    &quot;github.com/open2b/scriggo&quot;
+)
+
+func main() {
+
+    // Content of the template file to run.
+    content := []byte(`
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;Hello&lt;/head&gt; 
+    &lt;body&gt;
+        {% who := &quot;World&quot; %}
+        Hello, {{ who }}!
+    &lt;/body&gt;
+    &lt;/html&gt;
+    `)
+
+    // Create a file system with the file of the template to run.
+    fsys := scriggo.Files{&quot;index.html&quot;: content}
+
+    // Build the template.
+    template, err := scriggo.BuildTemplate(fsys, &quot;index.html&quot;, nil)
+    if err != nil {
+        panic(err)
+    }
+ 
+    // Run the template and print it to the standard output.
+    err = template.Run(os.Stdout, nil, nil)
+    if err != nil {
+        panic(err)
+    }
+
+}
 </code></pre>
-<p>Test if the <code>scriggo</code> command can be executed:</p>
-<pre><code>$ scriggo version
+<p>Build the application directly from the <code>hello-template</code> directory.</p>
+<pre><code>$ go build
 </code></pre>
-<h2 id="scriggofile">Scriggofile</h2>
+<p>Execute the application:</p>
+<pre><code>$ ./hello-template
+
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;Hello&lt;/head&gt; 
+    &lt;body&gt;
+        Hello, World!
+    &lt;/body&gt;
+    &lt;/html&gt;
+ 
+</code></pre>
+<h2 id="builtins">Builtins</h2>
+<p>A template executed by Scriggo, apart from Go builtins, can use only globals explicitly provided through the Globals
+options and can import only packages provided through a package importer.</p>
+<p>Scriggo provides some builtins, in the <a href="https://pkg.go.dev/github.com/open2b/scriggo/builtin">github.com/open2b/scriggo/builtin</a>
+package, that can be used in templates. To use these builtins, use the <code>Globals</code> option:</p>
+<p>Replace the content of the <code>main.go</code> file with the following:</p>
+<pre><code class="language-go">// Build and run a Scriggo template.
+package main
+
+import (
+    &quot;os&quot;
+    &quot;github.com/open2b/scriggo&quot;
+    &quot;github.com/open2b/scriggo/builtin&quot;
+    &quot;github.com/open2b/scriggo/native&quot;
+)
+
+func main() {
+
+    // Content of the template file to run.
+    content := []byte(`
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;Hello&lt;/head&gt; 
+    &lt;body&gt;
+        {% who := &quot;World&quot; %}
+        Hello, {{ replace(who, &quot;World&quot;, &quot;世界&quot;, 1) }}!
+    &lt;/body&gt;
+    &lt;/html&gt;
+    `)
+
+    // Create a file system with the file of the template to run.
+    fsys := scriggo.Files{&quot;index.html&quot;: content}
+
+    // Allow to use the &quot;replace&quot; built-in in the template file.
+    globals := native.Declarations{
+        &quot;replace&quot;: builtin.Replace,
+    }
+    opts := scriggo.Options{Globals: globals}
+
+    // Build the template.
+    template, err := scriggo.BuildTemplate(fsys, &quot;index.html&quot;, opts)
+    if err != nil {
+        panic(err)
+    }
+ 
+    // Run the template and print it to the standard output.
+    err = template.Run(os.Stdout, nil, nil)
+    if err != nil {
+        panic(err)
+    }
+
+}
+</code></pre>
+<p>Build again the application directly from the <code>hello-template</code> directory.</p>
+<pre><code>$ go build
+</code></pre>
+<p>Execute the application:</p>
+<pre><code>$ ./hello-template
+
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;Hello&lt;/head&gt; 
+    &lt;body&gt;
+        Hello, 世界!
+    &lt;/body&gt;
+    &lt;/html&gt;
+ 
+</code></pre>
+<p>See the <a href="/template">Scriggo templates</a> for more details.</p>
 
         </div>
     </div>
