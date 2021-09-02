@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <meta charset="utf-8">
+    <title>The Scriggo Template Specification</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/">Scriggo</a>
+    <ul>
+        <li><a href="/news">News</a></li>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/use-cases">Use Cases</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="what-is-scriggo">What is Scriggo</a></li>
+                <li><a href="get-started">Get Started</a></li>
+                <li><a href="install">Install Scriggo</a></li>
+                <li><a href="scriggo-command">Scriggo command</a></li>
+                <li><a href="scriggofile">API</a></li>
+                <li><a href="template">Template</a></li>
+                <li><a href="scriggofile">Scriggofile</a></li>
+                <li><a href="internals">Internals</a></li>
+                <li><a href="disassembler">Disassembler</a></li>
+                <li><a href="limitations">Limitations</a></li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="the-scriggo-templates-specification">The Scriggo Templates Specification</h1>
+<h2 id="introduction">Introduction</h2>
+<p>This is a reference manual for Scriggo templates.</p>
+<p>The Scriggo templates specification is based on the Go language specification, see <a href="https://golang.org/ref/spec">golang.org/spec</a>. The Go specification applies, apart from what written in this specification.</p>
+<h2 id="template-source-code-representation">Template source code representation</h2>
+<p>Template source code between <em>{%</em> and <em>%}</em>, <em>{%%</em> and <em>%%}</em> and <em>{{</em> and <em>}}</em> is Unicode text encoded in <a href="https://en.wikipedia.org/wiki/UTF-8">UTF-8</a>.</p>
+<p>Implementation restriction: A template tool, as an editor or interpreter, may require all the template file content to be encoded in UTF-8.</p>
+<h2 id="lexical-elements">Lexical elements</h2>
+<h3 id="comments">Comments</h3>
+<p>Line comments and general comments can only appear between <em>{%</em> and <em>%}</em> and between <em>{%%</em> and <em>%%}</em>. In addition there is a third form:</p>
+<ol start="3">
+<li>Template comments start with the character sequence <em>{#</em> and stop with the first subsequent not paired character sequence <em>#}</em>. Template comments cannot appear between <em>{%</em> and <em>%}</em>, <em>{%%</em> and <em>%%}</em> and between <em>{{</em> and <em>}}</em>.</li>
+</ol>
+<pre><code>{# this is a template comment #}
+
+{# this {# is also a #} comment #}
+</code></pre>
+<h2 id="types">Types</h2>
+<h3 id="format-types">Format types</h3>
+<p>A format type represents a sets of string values that can have a special treatment when used with <code>show</code> statement. The <code>string</code> type is a format type.</p>
+<pre><code>string    The string type. The strings in this set are not escaped in a Text context.
+html      The set of all strings that are not escaped in a HTML context.
+css       The set of all strings that are not escaped in a CSS context.
+js        The set of all strings that are not escaped in a JS context.
+json      The set of all strings that are not escaped in a JSON context.
+markdown  The set of all strings that are not escaped in a Markdown context.
+</code></pre>
+<h3 id="macro-types">Macro types</h3>
+<p>There is the new <em>macro type</em>.</p>
+<pre><code>TypeLit = ArrayType | StructType | PointerType | FunctionType | InterfaceType |
+          SliceType | MapType | ChannelType | MacroType .
+</code></pre>
+<p><em>Macro types</em> are alias for function types with a single return parameter having a predefined format type (<em>string</em>, <em>html</em>, <em>css</em>, <em>js</em>, <em>json</em>, <em>markdown</em>).</p>
+<p>Aliases of format types cannot be used as the return type in a type macro literal.</p>
+<pre><code>macro() markdown           // alias for func() markdown
+macro(int, bool) string    // alias for func(int, bool) string
+
+type foo = string
+
+macro() foo              // not valid, foo is an alias of the string type  
+macro([]int) int         // not valid, int is not a format type
+macro([]int)             // not valid, has no return parameters
+macro() (string, css)    // not valid, has too many return parameters
+</code></pre>
+<h2 id="declarations">Declarations</h2>
+<p>There are no function and method declarations in Scriggo templates.</p>
+<pre><code>Declaration = ConstDecl | TypeDecl | VarDecl .
+</code></pre>
+<p>A constant, type and variable declaration can also be written between <em>{%</em> and <em>%}</em>.</p>
+<pre><code>{% var n = 5 %}
+
+{%
+    const (
+        n = 5
+        m = 7
+    )
+%}
+
+{% type T struct{ s string } %}
+</code></pre>
+<p>In addition there are macro declarations. A macro declaration binds an identifier to a macro.</p>
+<p>At part of the different declaration syntax, macros are functions. A macro declaration can only be written using <em>{%</em> and <em>%}</em>.</p>
+<pre><code>MacroDecl   =
+    &quot;{%&quot; &quot;macro&quot; MacroName [ Parameters ] [ MacroResult ] &quot;%}&quot;
+    Content
+    &quot;{%&quot; &quot;end&quot; [ &quot;macro&quot; ] &quot;%}&quot; .
+MacroName   = identifier .
+MacroResult = &quot;string&quot; | &quot;html&quot; | &quot;css&quot; | &quot;js&quot; | &quot;json&quot; | &quot;markdown&quot; .
+</code></pre>
+<p>If a macro declaration does not have a result type, it is inferred from the context of the declaration.</p>
+<pre><code>Template format   Macro result type
+
+Text              string
+HTML              html
+CSS               css
+JS                js
+JSON              json
+Markdown          markdown
+</code></pre>
+<p>Macro declarations are only allowed in the previous template contexts.</p>
+<pre><code>{% macro Title %}A beautiful title{% end %}
+
+{% macro Image(src string, with, height int) html %}
+  &lt;a href=&quot;{{ src }}&quot; with=&quot;{{ width }}&quot; height=&quot;{{ height }}&quot;&gt;
+{% end macro %}
+</code></pre>
+<p>Endless macros are macros whose content extends to the end of the file. An endless macro declaration does not have the <code>macro</code> keyword,
+does not have parameters and have an implicit return value. The name of an endless macro is an exported identifier.</p>
+<pre><code>EndlessMacroDecl = &quot;{%&quot; EndlessMacroName &quot;%}&quot; Content EOF .
+EndlessMacroName = exported_identifier .
+</code></pre>
+<pre><code>{ extends &quot;layout.html&quot; %}
+{% Article %}
+
+This is the article content,
+
+{% a := 5 %} {# a is defined in the scope of the body of the Article macro #}
+
+and more article content.
+</code></pre>
+<h3 id="predeclared-identifiers">Predeclared identifiers</h3>
+<p>The predeclared type identifiers <em>html</em>, <em>css</em>, <em>js</em>, <em>json</em> and <em>markdown</em> that with the type <em>string</em> are called format types:</p>
+<pre><code>Format types:
+    string html css js json markdown
+</code></pre>
+<p>The format types are the only types that can be used as macro result type.</p>
+<h2 id="expressions">Expressions</h2>
+<h3 id="contains-operators">Contains operators</h3>
+<p>Scriggo templates have <code>contains</code> and <code>not contains</code> operators. The following rules applies:</p>
+<ul>
+<li>
+<p>For a value <code>v</code> of type <code>[]T</code> or <code>[n]T</code> and a value <code>x</code>, the expression <code>v contains x</code> yield an untyped boolean; <code>true</code> if an element of <code>v</code> is equals to <code>x</code>. <code>x</code> must be assignable to <code>T</code> and comparable to the values of <code>T</code>.</p>
+</li>
+<li>
+<p>For a map <code>v</code> with key values of type <code>T</code> and a value <code>x</code> of type <code>T</code>, the expression <code>v contains x</code> yield an untyped boolean; <code>true</code> if <code>v</code> has <code>x</code> as key.</p>
+</li>
+<li>
+<p>For string values <code>v</code> and <code>x</code>, the expression <code>v contains x</code> yield an untyped boolean; <code>true</code> if <code>x</code> is within <code>v</code>.</p>
+</li>
+<li>
+<p>For a string value <code>v</code> and a value <code>x</code> of type <code>rune</code>, the expression <code>v contains x</code> yield an untyped boolean; <code>true</code> if the Unicode code point <code>x</code> is within <code>v</code>.</p>
+</li>
+<li>
+<p>For a value <code>v</code> of type <code>[]byte</code> and a value <code>x</code> of type <code>rune</code>, the expression <code>v contains x</code> yield an untyped boolean; <code>true</code> if the Unicode code point <code>x</code> is within <code>v</code>.</p>
+</li>
+</ul>
+<p>If <code>!(v contains y)</code> is a valid expression evaluated to the value <code>b</code>, also <code>v not contains y</code> is a valid expression and it is evaluated to the value <code>!b</code>.</p>
+<h3 id="operators">Operators</h3>
+<p>The operators are extended with the logical operators <code>and</code>, <code>or</code> and <code>not</code>.</p>
+<pre><code>binary_op  = &quot;||&quot; | &quot;&amp;&amp;&quot; | rel_op | add_op | mul_op | &quot;and&quot; | &quot;or&quot; .
+unary_op   = &quot;+&quot; | &quot;-&quot; | &quot;!&quot; | &quot;^&quot; | &quot;*&quot; | &quot;&amp;&quot; | &quot;&lt;-&quot; | &quot;not&quot; .
+</code></pre>
+<h4 id="operator-precedence">Operator precedence</h4>
+<pre><code>Precedence    Operator
+    5             *  /  %  &lt;&lt;  &gt;&gt;  &amp;  &amp;^
+    4             +  -  |  ^
+    3             ==  !=  &lt;  &lt;=  &gt;  &gt;=  contains  not contains
+    2             &amp;&amp;  and
+    1             ||  or
+</code></pre>
+<h3 id="the-logical-zero-value">The logical zero value</h3>
+<p>A value <code>x</code> of type <code>T</code> is <em>logically zero</em> if <code>x</code> is the zero value of <code>T</code>. The following exceptions applies:</p>
+<ul>
+<li>if <code>x</code> is an empty slice or an empty channel, <code>x</code> is logically zero,</li>
+<li>if <code>x</code> is a non nil interface and <code>z</code> is its dynamic value, <code>x</code> is logically zero if <code>z</code> is logically zero.</li>
+</ul>
+<h3 id="extended-logical-operators">Extended logical operators</h3>
+<p>Extended logical operators applies to any value and yield an untyped boolean value or an untyped boolean constant if both the operands are constants. The right operand is evaluated conditionally.</p>
+<pre><code>and   conditional AND   p and q  is  &quot;if p is logically zero then false else q is logically zero&quot; 
+or    conditional OR    p or q   is  &quot;if p is logically zero then q is not logically zero else false&quot;
+not   NOT               not p    is  &quot;if p is logically zero&quot;
+</code></pre>
+<h3 id="conversions">Conversions</h3>
+<p>A value <code>x</code> with type <code>html</code>, <code>css</code>, <code>js</code>, <code>json</code> or <code>markdown</code> cannot be converted to any other type. The following exception apply:</p>
+<ul>
+<li>if <code>x</code> has type <code>markdown</code>, <code>x</code> can be converted to the <code>html</code> type. The conversion transforms the string according to Markdown but the transformation is implementation-dependent. If <code>x</code> is constant, the transformation is done at compile-time.</li>
+</ul>
+<pre><code>const c1 css = &quot;red&quot;
+var c2 js = &quot;var a = 1;&quot;
+var c3 markdown = &quot;# title&quot;
+const c4 = `{&quot;a&quot;:1}`
+
+css(c1)     // a css value can be converted to css
+html(c2)    // invalid; a js value cannot be converted html
+html(c3)    // a markdown value can be converted to html
+json(c4)    // a untyped constant value can be converted to json
+</code></pre>
+<h2 id="statements">Statements</h2>
+<h3 id="go-statement">Go statement</h3>
+<p>Implementation restriction: an implementation of Scriggo templates can disallow the &quot;go&quot; statement. When disallowed
+a compile-time error occurs if used.</p>
+<h3 id="if-statement">If statement</h3>
+<p>The expression of the &quot;if&quot; statement is not limited to boolean types but can have any type.
+If the expression does not evaluate to a logically zero value, the &quot;if&quot; branch is executed, otherwise, if present,
+the &quot;else&quot; branch is executed.</p>
+<h3 id="for-statement">For statement</h3>
+<p>The &quot;for&quot; statement is extended with a fourth form</p>
+<pre><code>ForStmt  = &quot;for&quot; [ Condition | ForClause | RangeClause | InClause ] Block .
+InClause = Identifier &quot;in&quot; Expression .
+</code></pre>
+<p>A &quot;for&quot; statement with a &quot;in&quot; clause is the same of a &quot;for&quot; statement with a &quot;range&quot; clause with the first identifier only and the short assignment.</p>
+<pre><code>for i in s { }
+
+// is the same of
+
+for i := range s { } 
+</code></pre>
+<h2 id="template-files">Template files</h2>
+<p>A template file is a name-less package. Template files in the same directory are different name-less packages.</p>
+<p>A template file imported with an &quot;import&quot; statement is a name-less package and can only contain &quot;import&quot; statements and declarations.
+A template file with an &quot;extends&quot; statement is a name-less package and can only contain, after the &quot;extends&quot; statements, &quot;import&quot; statements and
+declarations.</p>
+<h2 id="packages">Packages</h2>
+<p>Imported template files and template files with the &quot;extends&quot; statement are packages without a &quot;package&quot; clause and without name.</p>
+<p>They contain only &quot;import&quot; statements and variable, constant, type and macro declarations between <em>{%</em> and <em>%}</em> or <em>{%%</em> and <em>%%}</em>. Outside these markers, is allowed only bytes [TODO].</p>
+<h2 id="import-for-declarations">Import-for declarations</h2>
+<p>The &quot;import&quot; statement has a new &quot;import-for&quot; form.</p>
+<pre><code>ImportDecl = &quot;import&quot; ( ImportSpec | &quot;(&quot; { ImportSpec &quot;;&quot; } &quot;)&quot; ) .
+ImportSpec = [ [ &quot;.&quot; | PackageName ] ImportPath | ImportPath &quot;for&quot; { Identifier &quot;,&quot; } ] .
+</code></pre>
+<p>In the &quot;import-for&quot; form, each identifier is an exported identifier of the package within the importing source file.</p>
+<pre><code>// Import the Banners and Menus names.
+import &quot;imp/components.html&quot; for Banners, Menus
+
+// Import the Index and HasPrefix names.
+import &quot;strings&quot; for Index, HasPrefix
+</code></pre>
+<p>The <code>ImportPath</code> is first interpreted as a template file path. If a template file with this path does not
+exist, it is interpreted as a package path.</p>
+<h3 id="package-unsafe">Package <code>&quot;unsafe&quot;</code></h3>
+<p>There is not the &quot;unsafe&quot; package of the Go language in Scriggo templates.</p>
+
+        </div>
+    </div>
+</article>
+<footer>
+    &copy; to me
+</footer>
+</body>
+</html>
