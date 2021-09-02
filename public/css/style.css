@@ -6,6 +6,9 @@ body { background: #f5f4f4; font-family: muli,avenir,helvetica neue,helvetica,ub
 a { text-decoration: none; }
 p { color: #555; line-height: 1.5; }
 li { line-height: 1.65; }
+td { vertical-align: top; }
+dl { margin: 1.25rem; }
+dd { margin-left: 1.5rem; }
 
 nav.top { align-items: center; display: flex; justify-content: flex-start; flex-wrap: wrap; padding: 2rem 0; width: 100%; }
 nav.top .logo { color: #e6a621; font-size: 1.6rem; font-weight: bold; margin-left: 2em; }

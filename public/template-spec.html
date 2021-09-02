@@ -36,6 +36,45 @@
         </aside>
         <div class="content">
             <h1 id="the-scriggo-templates-specification">The Scriggo Templates Specification</h1>
+<table>
+    <tr>
+        <td>
+            <dl>
+                <dt><a href="#introduction">Introduction</a></dt>
+                <dt><a href="#template-source-code-representation">Template source code representation</a></dt>
+                <dt><a href="#lexical-elements">Lexical elements</a></dt>
+                <dd><a href="#comments">Comments</a></dd>
+                <dt><a href="#types">Types</a></dt>
+                <dd><a href="#format-types">Format types</a></dd>
+                <dd><a href="#macro-types">Macro types</a></dd>
+                <dt><a href="#declarations">Declarations</a></dt>
+                <dd><a href="#predeclared-identifiers">Predeclared identifiers</a></dd>
+                <dt><a href="#expressions">Expressions</a></dt>
+                <dd><a href="#primary-expressions">Primary expressions</a></dd>
+                <dd><a href="#default-expression">Default expression</a></dd>
+                <dd><a href="#contains-operators">Contains operators</a></dd>
+                <dd><a href="#operators">Operators</a></dd>
+                <dd><a href="#the-logical-zero-value">The logical zero value</a></dd>
+                <dd><a href="#extended-logical-operators">Extended logical operators</a></dd>
+                <dd><a href="#conversions">Conversions</a></dd>
+            </dl>
+        </td>
+        <td>
+            <dl>
+                <dt><a href="#statements">Statements</a></dt>
+                <dd><a href="#go-statement">Go statement</a></dd>
+                <dd><a href="#if-statement">If statement</a></dd>
+                <dd><a href="#for-statement">For statement</a></dd>
+                <dd><a href="#show-statement">Show statement</a></dd>
+                <dd><a href="#raw-statement">Raw statement</a></dd>
+                <dt><a href="#template-files">Template files</a></dt>
+                <dt><a href="#packages">Packages</a></dt>
+                <dt><a href="#import-for-declarations">Import-for declarations</a></dt>
+                <dd><a href="#package-unsafe">Package "unsafe"</a></dd>
+            </dl>
+        </td>
+    </tr>
+</table>
 <h2 id="introduction">Introduction</h2>
 <p>This is a reference manual for Scriggo templates.</p>
 <p>The Scriggo templates specification is based on the Go language specification, see <a href="https://golang.org/ref/spec">golang.org/spec</a>. The Go specification applies, apart from what written in this specification.</p>
@@ -142,6 +181,53 @@ and more article content.
 </code></pre>
 <p>The format types are the only types that can be used as macro result type.</p>
 <h2 id="expressions">Expressions</h2>
+<h3 id="primary-expressions">Primary expressions</h3>
+<p>The <em>default expression</em> is added to primary expressions.</p>
+<pre><code>PrimaryExpr =
+	Operand |
+	Conversion |
+	MethodExpr |
+	PrimaryExpr Selector |
+	PrimaryExpr Index |
+	PrimaryExpr Slice |
+	PrimaryExpr TypeAssertion |
+	PrimaryExpr Arguments |
+	Default .
+
+Default = ( identifier | identifier Arguments | Render ) &quot;default&quot; Expression .
+</code></pre>
+<h3 id="default-expression">Default expression</h3>
+<p>The left expression <code>x</code> of the <em>default expression</em></p>
+<pre><code>x default e
+</code></pre>
+<p>is <em>resolved</em> if one of the following conditions applies:</p>
+<ul>
+<li><code>x</code> is a predeclared identifier of a variable, constant or function</li>
+<li><code>x</code> is a render expression and the file to render exists</li>
+<li><code>x</code> is a call expression <code>M(a1, a2, … an)</code> with <code>M</code> an identifier representing a macro declared in the scope of a file that extends the file of the default expression</li>
+</ul>
+<p>If the left expression <code>x</code> is resolved, <code>x default e</code> is replaced with <code>x</code> otherwise it is replaced with <code>e</code>.</p>
+<p>If it is replaced based on its left expression, it must still be valid in its context if it were replaced based on its right expression.</p>
+<p>If it is replaced based on its right expression and <code>x</code> is a function call, its arguments must be assignable to the empty interface type and if the last argument is followed by <code>...</code>, the type of the last argument must be assignable to a slice type <code>[]T</code>.</p>
+<p>A default expression may only be used in the following cases:</p>
+<ol>
+<li>Variable declaration as in <code>var a = x default e</code>.</li>
+<li>Short variable declaration as in <code>a := x default e</code>.</li>
+<li>Typed constant declaration as in <code>const c = x default e</code>.</li>
+<li>Assignment as in <code>v = x default e</code>.</li>
+<li>Show statement as  in <code>show x default e</code>.</li>
+</ol>
+<p>In a declaration, the type of the declared variable or constant is the type it would have if the default expression were replaced with its right expression <code>e</code> only. In a constant declaration without a type and with <code>e</code> untyped, the declared constant is untyped with the same kind of <code>e</code>, and  also <code>x</code> must be untyped with the same kind of <code>e</code>.</p>
+<p>In a declaration or assignment, if the right expression <code>x</code> of the default expression is a call or render expression, the type of the right expression <code>e</code> must be a format type.</p>
+<p>For example:</p>
+<pre><code>var filters []Filter = filters default nil
+</code></pre>
+<pre><code>{{ Head() default &quot;&quot; }}
+</code></pre>
+<pre><code>{% show Head() default this using %} ... {% end %}
+</code></pre>
+<pre><code>{{ render &quot;specials.html&quot; default &quot;no specials&quot; }}
+</code></pre>
 <h3 id="contains-operators">Contains operators</h3>
 <p>Scriggo templates have <code>contains</code> and <code>not contains</code> operators. The following rules applies:</p>
 <ul>
@@ -221,6 +307,70 @@ InClause = Identifier &quot;in&quot; Expression .
 // is the same of
 
 for i := range s { } 
+</code></pre>
+<h3 id="show-statement">Show statement</h3>
+<p>The <em>show</em> statement formats the expressions, according to the expression type and the context. If <em>show</em> is used in the body
+of a macro the formatted values are appended to the macro response value, otherwise the formatted values are printed to the template output.</p>
+<pre><code>ShowStmt = &quot;show&quot; { Expression &quot;,&quot; } .
+</code></pre>
+<p>The <em>show</em> statement cannot be used in a function body.</p>
+<h3 id="raw-statement">Raw statement</h3>
+<p>In a <em>raw</em> statement the content is rendered as is, the tokens <em>{%</em>, <em>%}</em>, <em>{%%</em>, <em>%%}</em>, <em>{{</em>, <em>}}</em>, <em>{#</em> and <em>#}</em> have no special meaning.</p>
+<pre><code>RawStmt = &quot;{%&quot; &quot;raw&quot; [ Marker ] [ Tag ] &quot;%}&quot; Content &quot;{%&quot; &quot;end&quot; [ &quot;raw&quot; [ Marker ] ] &quot;%}&quot; .
+Marker  = identifier .
+</code></pre>
+<p>For example</p>
+<pre><code>{% raw %}
+   {% if discount %}
+     promotion
+   {% end if %}
+{% end %}
+</code></pre>
+<p>is rendered as</p>
+<pre><code>   {% if discount %}
+     promotion
+   {% end if %}
+</code></pre>
+<p>A raw statement ends at the first <code>{% end %}</code> or <code>{% end raw %}</code> statement.</p>
+<p>The raw statement can have an identifier, called &quot;marker&quot;, after the <code>raw</code> keyword. In this case the
+raw statement ends at the first <code>{% end raw marker %}</code> statement and not with <code>{% end %}</code> or <code>{% end raw %}</code>.</p>
+<p>For example</p>
+<pre><code>{% raw code %}
+   {% if discount %}
+     promotion
+   {% end %}
+{% end raw code %}
+</code></pre>
+<p>is rendered as</p>
+<pre><code>   {% if discount %}
+     promotion
+   {% end %}
+</code></pre>
+<p>Raw statements with different markers can be nested, for example this code</p>
+<pre><code>{% raw doc %}
+   Use a raw statement to render unparsed text as
+   {% raw cycle %}
+     {% for item in items %} {{ item }} {% end %}
+   {% end raw cycle %}
+{% end raw doc %}
+</code></pre>
+<p>is rendered as</p>
+<pre><code>   Use a raw statement to render unparsed text as
+   {% raw cycle %}
+     {% for item in items %} {{ item }} {% end %}
+   {% end raw cycle %}
+</code></pre>
+<p>A raw statement with a tag is written as</p>
+<pre><code>{% raw `lang:&quot;javascript&quot;` %}
+  var a = 5;
+  console.log(a);
+{% end %}
+</code></pre>
+<p>Markers and tags can be used together</p>
+<pre><code>{% raw code `lang:&quot;javascript&quot;` %}
+  var a = 5;
+  console.log(a);
+{% end raw code %}
 </code></pre>
 <h2 id="template-files">Template files</h2>
 <p>A template file is a name-less package. Template files in the same directory are different name-less packages.</p>
