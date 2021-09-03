@@ -43,7 +43,7 @@
 macros, partials, imports and contextual autoescaping but most of all it uses the
 Go language as the template scripting language.</p>
 <pre><code>{% extends &quot;layout.html&quot; %}
-{% import &quot;banners.html&quot; %}
+{% import &quot;banners.html&quot; for Banner %}
 {% macro Body %}
     &lt;ul&gt;
       {% for _, product := range products %}

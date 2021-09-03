@@ -12,7 +12,7 @@ Go language as the template scripting language.
 
 ```
 {% extends "layout.html" %}
-{% import "banners.html" %}
+{% import "banners.html" for Banner %}
 {% macro Body %}
     <ul>
       {% for _, product := range products %}
