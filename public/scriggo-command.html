@@ -57,11 +57,11 @@ All Scriggo builtins are available in template files. It is useful to learn Scri
 <p>For example, serving this request:</p>
 <pre><code>http://localhost:8080/article
 </code></pre>
-<p>it serves the file &quot;article.html&quot; as HTML if exists, otherwise serves the file &quot;article.md&quot; as Markdown.</p>
+<p>it renders the file &quot;article.html&quot; as HTML if exists, otherwise renders the file &quot;article.md&quot; as Markdown.</p>
 <p>Serving a URL terminating with a slash:</p>
 <pre><code>http://localhost:8080/blog/
 </code></pre>
-<p>it serves &quot;blog/index.html&quot; or &quot;blog/index.md&quot;.</p>
+<p>it renders &quot;blog/index.html&quot; or &quot;blog/index.md&quot;.</p>
 <p>Markdown is converted to HTML with the <a href="https://github.com/yuin/goldmark">Goldmark</a> parser with the options
 <code>html.WithUnsafe</code> and <code>parser.WithAutoHeadingID</code>.</p>
 <p>Templates are automatically rebuilt when a file changes.</p>
