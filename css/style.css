@@ -11,11 +11,12 @@ dl { margin: 1.25rem; }
 dd { margin-left: 1.5rem; }
 
 nav.top { align-items: center; display: flex; justify-content: flex-start; flex-wrap: wrap; padding: 2rem 0; width: 100%; }
-nav.top .logo { color: #e6a621; font-size: 1.6rem; font-weight: bold; margin-left: 2em; }
+nav.top .logo { color: #e6a621; font-size: 1.6rem; font-weight: bold; margin-left: 3rem; }
 nav.top ul { display: inline-block; list-style-type: none; margin: 0 .5em; vertical-align: middle; }
 nav.top li { display: inline-block; padding: 0 1rem; }
 nav.top ul a { color: #333; }
 nav.top ul a:hover { color: #fcd804; }
+nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width: 1.8rem; }
 
 .content { margin: 0 20px; }
 
