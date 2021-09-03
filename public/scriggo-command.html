@@ -113,8 +113,8 @@ and writes it into the file &quot;packages.go&quot;.</p>
 root directory. Import looks for a Scriggofile named &quot;Scriggofile&quot; in that directory.</p>
 <p>If no argument is given, the action applies to the current directory.</p>
 <p>The <code>-f</code> flag forces import to read the given Scriggofile instead of the Scriggofile of the module.</p>
-<p>The declarations in the generated Go file have type <code>scriggo.Importer</code> and they are assigned to a variable named
-&quot;packages&quot;. The variable can be used as an argument to the <code>Build</code> and <code>BuildTemplate</code> functions in the <code>scriggo</code> package.</p>
+<p>The importer in the generated Go file have type <code>native.Importer</code> and it is assigned to a variable named &quot;packages&quot;.
+The variable can be used as an argument to the <code>Build</code> and <code>BuildTemplate</code> functions in the <code>scriggo</code> package.</p>
 <p>To give a different name to the variable use the instruction <code>SET VARIABLE</code> in the Scriggofile:</p>
 <pre><code>SET VARIABLE foo
 </code></pre>
