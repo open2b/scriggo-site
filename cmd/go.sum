@@ -1,5 +1,5 @@
 github.com/fsnotify/fsnotify v1.5.1/go.mod h1:T3375wBYaZdLLcVNkcVbzGHY7f1l/uK5T5Ai1i3InKU=
-github.com/open2b/scriggo v0.49.0 h1:eZGUvsKK2O0uQAol/y/i8IXv4zpl/mPxIoUDqJ7BWf8=
+github.com/open2b/scriggo v0.49.0 h1:iNQ61ocr8xmd8jlF6O/A3n7vdSFL690r/qRXG7Io11Q=
 github.com/open2b/scriggo v0.49.0/go.mod h1:AN9YB83Qpt0srFZ+PX4aY+uPG4uYj0ykutib+ZBA8sA=
 github.com/yuin/goldmark v1.3.5/go.mod h1:mwnBkeHKe2W/ZEtQ+71ViKU8L12m81fl3OWwC1Zlc8k=
 github.com/yuin/goldmark v1.4.0 h1:OtISOGfH6sOWa1/qXqqAiOIAO6Z5J3AEAE18WAq6BiQ=
