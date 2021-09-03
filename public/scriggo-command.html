@@ -25,11 +25,11 @@
                 <li><a href="get-started">Get Started</a></li>
                 <li><a href="install">Install Scriggo</a></li>
                 <li><a href="scriggo-command">Scriggo command</a></li>
-                <li><a href="scriggofile">API</a></li>
                 <li><a href="template">Template</a></li>
                 <li><a href="scriggofile">Scriggofile</a></li>
                 <li><a href="internals">Internals</a></li>
                 <li><a href="disassembler">Disassembler</a></li>
+                <li><a href="template-spec">Template spec</a></li>
                 <li><a href="limitations">Limitations</a></li>
             </ul>
             </nav>
@@ -38,92 +38,99 @@
             <h1 id="scriggo-command">Scriggo command</h1>
 <p>Scriggo has a command line interface, the <code>scriggo</code> command, that allows to:</p>
 <ul>
-<li>serve Scriggo templates with support for Markdown</li>
+<li>serve templates with support for Markdown</li>
 <li>initialize an interpreter for Go programs</li>
-<li>generate a package importer for an existing application</li>
+<li>generate the code for package importers</li>
 </ul>
 <p>Se how to <a href="/install">install the scriggo command</a>.</p>
 <h3 id="get-help-from-command-line">Get help from command line</h3>
 <p>To get help from the command line run the following command:</p>
 <pre><code>$ scriggo help
 </code></pre>
+<h2 id="serve-a-template">Serve a template</h2>
+<p>The Scriggo Serve command runs a web server and serves the template rooted at the current directory.
+All Scriggo builtins are available in template files. It is useful to learn Scriggo templates.</p>
+<p>The basic Serve command takes this form:</p>
+<pre><code>$ scriggo serve
+</code></pre>
+<p>It renders HTML and Markdown files based on file extension.</p>
+<p>For example, serving this request:</p>
+<pre><code>http://localhost:8080/article
+</code></pre>
+<p>it serves the file &quot;article.html&quot; as HTML if exists, otherwise serves the file &quot;article.md&quot; as Markdown.</p>
+<p>Serving a URL terminating with a slash:</p>
+<pre><code>http://localhost:8080/blog/
+</code></pre>
+<p>it serves &quot;blog/index.html&quot; or &quot;blog/index.md&quot;.</p>
+<p>Markdown is converted to HTML with the <a href="https://github.com/yuin/goldmark">Goldmark</a> parser with the options
+<code>html.WithUnsafe</code> and <code>parser.WithAutoHeadingID</code>.</p>
+<p>Templates are automatically rebuilt when a file changes.</p>
+<h3 id="complete-syntax">Complete syntax</h3>
+<p>The complete <code>scriggo serve</code> command takes this form:</p>
+<pre><code>$ scriggo serve [-S n] [--metrics] 
+</code></pre>
+<p>The <code>-S</code> flag prints the assembly code of the served file and n determines the maximum length, in runes, of
+disassembled <code>Text</code> instructions</p>
+<pre><code>n &gt; 0: at most n runes; leading and trailing white space are removed
+n == 0: no text
+n &lt; 0: all text
+</code></pre>
+<p>The <code>--metrics</code> flags prints metrics about execution time.</p>
 <h2 id="initialize-an-interpreter">Initialize an interpreter</h2>
-<p>The Scriggo command allows to initialize an interpreter for Go programs. The syntax is:</p>
+<p>The Scriggo Init command initializes an interpreter for Go programs. It creates the following files:</p>
+<ul>
+<li>go.mod</li>
+<li>go.sum</li>
+<li>main.go</li>
+<li>packages.go</li>
+<li>Scriggofile</li>
+</ul>
+<p>The syntax is:</p>
 <pre><code>$ scriggo init [dir]
 </code></pre>
-<p>where <code>dir</code> is a (generally empty) directory. If no argument is given, <code>scriggo init</code> uses the current directory.</p>
-<p>After</p>
-<p>If the name of the file could be interpreted as a <code>scriggo</code> subcommand, use <code>--</code> as in:</p>
-<pre><code>$ scriggo -- file [arguments...]
-</code></pre>
-<p>Currently, the <code>scriggo</code> command can run only a single package file.</p>
-<h2 id="build-scriggo-commands">Build Scriggo commands</h2>
-<p>The scriggo command includes the Go standard library. If you want to include other packages, you can build a custom scriggo command. The scriggo command uses the instructions in a <a href="scriggofile">Scriggofile</a> to create a custom scriggo command or generate a package importer.</p>
-<p>The <code>scriggo build</code> command builds a custom scriggo command from a <a href="scriggofile">Scriggofile</a> in a Go module.</p>
-<p>The basic build command takes this form:</p>
-<pre><code>$ scriggo build [module]
-</code></pre>
-<p>Executables are created in the current directory. To build and install the executables in
-the <code>bin</code> subdirectory of the Go path, use instead the install command:</p>
-<pre><code>$ scriggo install [module]
-</code></pre>
-<p>If the argument <code>module</code> is given, it can be a module path or a directory path:</p>
-<ul>
-<li>
-<p>If the argument is a module path, the module is downloaded from its repository
-and the build command looks for a <a href="scriggofile">Scriggofile</a> named <code>Scriggofile</code> in its root.
-A module argument can have a version as in <code>foo.boo@v2.1.0</code>. If no version is
-given the latest version of the module is used.</p>
-</li>
-<li>
-<p>If the argument is a directory path, it must be rooted or must begin with
-a <code>.</code> or <code>..</code> element and the directory must be the root of a module. The build
-command looks for a <a href="scriggofile">Scriggofile</a> named <code>Scriggofile</code> in that directory.</p>
-</li>
-<li>
-<p>If no argument is given, the action applies to the current directory.</p>
-</li>
-</ul>
-<p>The name of the executable is the last element of the module's path or
-directory path. For example if the module's path is <code>boo/foo</code> the name of the
-executable will be <code>foo</code> or <code>foo.exe</code>.</p>
-<p>The interpreter is build from the instructions in the <a href="scriggofile">Scriggofile</a>. For example:</p>
-<pre><code>$ scriggo build github.com/example/foo
-</code></pre>
-<p>will build an interpreter named <code>foo</code> or <code>foo.exe</code> from the instructions in
-the file at <code>github.com/example/foo/Scriggofile</code>.</p>
-<p>In this other example:</p>
-<pre><code>$ scriggo build ./boo
-</code></pre>
-<p>the command will build an interpreter named <code>boo</code> or <code>boo.exe</code> from the
-instructions in the <a href="scriggofile">Scriggofile</a> <code>./boo/Scriggofile</code>.</p>
-<h3 id="complete-syntax">Complete syntax</h3>
-<p>The complete <code>scriggo build</code> command takes this form:</p>
-<pre><code>$ scriggo build [-f Scriggofile] [-w] [-v] [-x] [-work] [-o output] [module] 
-</code></pre>
-<p>With the exception of the flag <code>-o</code>, install has the same parameters as build:</p>
-<pre><code>$ scriggo install [-f Scriggofile] [-w] [-v] [-x] [-work] [module] 
-</code></pre>
-<p>The <code>-f</code> flag forces the command to read the given <a href="scriggofile">Scriggofile</a> instead of the
-Scriggofile of the module. For example:</p>
-<pre><code>$ scriggo build -f boo.Scriggofile github.com/example/foo
-</code></pre>
-<p>will build an interpreter named <code>foo</code> or <code>foo.exe</code> from the instructions in the file at <code>boo.Scriggofile</code>.</p>
-<p>The <code>-w</code> flag omits the DWARF symbol table.</p>
-<p>The <code>-v</code> flag prints the imported packages as defined in the <a href="scriggofile">Scriggofile</a>.</p>
-<p>The <code>-x</code> flag prints the executed commands.</p>
-<p>The <code>-work</code> flag prints the name of a temporary directory containing a work
-module used to build the interpreter. The directory will not be deleted
-after the build.</p>
-<p>The <code>-o</code> flag forces build to write the resulting executable to the named output
-file, instead in the current directory.</p>
+<p>where <code>dir</code> is the directory in which to create the files. If no argument is given, <code>scriggo init</code> uses the current directory.
+If the directory already contains &quot;.go&quot; files or a &quot;vendor&quot; directory, the command fails.</p>
+<p>If the directory contains a Scriggofile called <code>Scriggofile</code>, the command reads it for the instructions, otherwise creates
+a Scriggofile with the instruction to create an importer for the Go standard library.</p>
+<p>If the directory does not contain a <code>go.mod</code> file, the command creates it and as module path uses the directory name.</p>
 <h2 id="generate-a-package-importer">Generate a package importer</h2>
+<p>The Scriggo Import command generate the code for a package importer. An importer is used by Scriggo to import a package
+when an &quot;import&quot; statement is executed.</p>
+<p>The code for the importer is generated from the instructions in a Scriggofile. The Scriggofile should be in a Go module.</p>
+<p>The basic Import command takes this form:</p>
+<pre><code>$ scriggo import [-o output]
+</code></pre>
+<p>For example:</p>
+<pre><code>$ scriggo import -o packages.go
+</code></pre>
+<p>generates the code for an importer, with instructions in a Scriggofile called &quot;Scriggofile&quot; in the current directory
+and writes it into the file &quot;packages.go&quot;.</p>
+<h3 id="complete-syntax-1">Complete syntax</h3>
+<p>The complete <code>scriggo import</code> command takes this form:</p>
+<pre><code>$ scriggo import [-f Scriggofile] [-v] [-x] [-o output] [module]
+</code></pre>
+<p>If an argument is given, it must be a local rooted path or must begin with a <code>.</code> or <code>..</code> element and it must be a module
+root directory. Import looks for a Scriggofile named &quot;Scriggofile&quot; in that directory.</p>
+<p>If no argument is given, the action applies to the current directory.</p>
+<p>The <code>-f</code> flag forces import to read the given Scriggofile instead of the Scriggofile of the module.</p>
+<p>The declarations in the generated Go file have type <code>scriggo.Importer</code> and they are assigned to a variable named
+&quot;packages&quot;. The variable can be used as an argument to the <code>Build</code> and <code>BuildTemplate</code> functions in the <code>scriggo</code> package.</p>
+<p>To give a different name to the variable use the instruction <code>SET VARIABLE</code> in the Scriggofile:</p>
+<pre><code>SET VARIABLE foo
+</code></pre>
+<p>The package name in the generated Go file is by default &quot;main&quot;, to give a different name to the package use the
+instruction <code>SET PACKAGE</code> in the Scriggofile:</p>
+<pre><code>SET PACKAGE boo
+</code></pre>
+<p>The <code>-v</code> flag prints the imported packages as defined in the Scriggofile.</p>
+<p>The <code>-x</code> flag prints the executed commands.</p>
+<p>The <code>-o</code> flag writes the generated Go file to the named output file, instead to the standard output.</p>
 
         </div>
     </div>
 </article>
 <footer>
-    &copy; to me
+    &copy; 2021 Open2b
 </footer>
 </body>
 </html>

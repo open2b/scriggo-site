@@ -4,8 +4,8 @@
 
 # Get Started
 
-In this get started you will learn how to run Go programs in your applications and, in the second step, how
-to <a href="/get-started-2"> run Scriggo templates</a>.
+In this get started you will learn how to run Go programs in your applications and, in the next step, how to
+<a href="/get-started-2"> run Scriggo templates</a>.
 
 It requires 10 minutes to be completed.
 

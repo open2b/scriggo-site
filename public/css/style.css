@@ -4,8 +4,8 @@
 body { background: #f5f4f4; font-family: muli,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; line-height: 1.45; margin: 0; }
 
 a { text-decoration: none; }
-p { color: #555; line-height: 1.5; }
-li { line-height: 1.65; }
+p { color: #444; line-height: 1.5; }
+li { color: #444; line-height: 1.65; }
 td { vertical-align: top; }
 dl { margin: 1.25rem; }
 dd { margin-left: 1.5rem; }
