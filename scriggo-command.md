@@ -37,13 +37,13 @@ For example, serving this request:
 
     http://localhost:8080/article
 
-it serves the file "article.html" as HTML if exists, otherwise serves the file "article.md" as Markdown.
+it renders the file "article.html" as HTML if exists, otherwise renders the file "article.md" as Markdown.
 
 Serving a URL terminating with a slash:
 
     http://localhost:8080/blog/
 
-it serves "blog/index.html" or "blog/index.md". 
+it renders "blog/index.html" or "blog/index.md". 
 
 Markdown is converted to HTML with the [Goldmark](https://github.com/yuin/goldmark) parser with the options
 `html.WithUnsafe` and `parser.WithAutoHeadingID`.
