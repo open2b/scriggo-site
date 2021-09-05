@@ -56,9 +56,10 @@
                 <dt><a href="#expressions">Expressions</a></dt>
                 <dd><a href="#primary-expressions">Primary expressions</a></dd>
                 <dd><a href="#default-expression">Default expression</a></dd>
+                <dd><a href="#render-operator">Render operator</a></dd>
                 <dd><a href="#contains-operators">Contains operators</a></dd>
                 <dd><a href="#operators">Operators</a></dd>
-                <dd><a href="#the-logical-zero-value">The logical zero value</a></dd>
+                <dd><a href="#extended-zero-values">Extended zero values</a></dd>
                 <dd><a href="#extended-logical-operators">Extended logical operators</a></dd>
                 <dd><a href="#conversions">Conversions</a></dd>
             </dl>
@@ -74,9 +75,10 @@
                 <dd><a href="#itea">Itea</a></dd>
                 <dd><a href="#raw-statement">Raw statement</a></dd>
                 <dt><a href="#template-files">Template files</a></dt>
-                <dt><a href="#packages">Packages</a></dt>
-                <dt><a href="#import-for-declarations">Import-for declarations</a></dt>
-                <dd><a href="#package-unsafe">Package "unsafe"</a></dd>
+                <dd><a href="#extends-declarations">Extends declarations</a></dd>
+                <dd><a href="#import-declarations">Import declarations</a></dd>
+                <dt><a href="#template-initialization-and-execution">Template initialization and execution</a></dt>
+                <dt><a href="#package-unsafe">Package "unsafe"</a></dt>
             </dl>
         </td>
     </tr>
@@ -96,6 +98,15 @@
 <pre><code>{# this is a template comment #}
 
 {# this {# is also a #} comment #}
+</code></pre>
+<h3 id="keywords">Keywords</h3>
+<p>The following keywords are added to the keywords of Go:</p>
+<pre><code>and          extends      not          render
+contains     in           or           show
+end          macro        raw          using
+</code></pre>
+<pre><code>{{    }}    {%    %}
+{%%   %%}   {#    #}
 </code></pre>
 <h2 id="types">Types</h2>
 <h3 id="format-types">Format types</h3>
@@ -197,14 +208,14 @@ and more article content.
 	Operand |
 	Conversion |
 	MethodExpr |
+	DefaultExpr |
 	PrimaryExpr Selector |
 	PrimaryExpr Index |
 	PrimaryExpr Slice |
 	PrimaryExpr TypeAssertion |
-	PrimaryExpr Arguments |
-	Default .
+	PrimaryExpr Arguments .
 
-Default = ( identifier | identifier Arguments | Render ) &quot;default&quot; Expression .
+DefaultExpr = ( identifier | identifier Arguments | Render ) &quot;default&quot; Expression .
 </code></pre>
 <h3 id="default-expression">Default expression</h3>
 <p>The left expression <code>x</code> of the <em>default expression</em></p>
@@ -238,6 +249,17 @@ Default = ( identifier | identifier Arguments | Render ) &quot;default&quot; Exp
 </code></pre>
 <pre><code>{{ render &quot;specials.html&quot; default &quot;no specials&quot; }}
 </code></pre>
+<h3 id="render-operator">Render operator</h3>
+<p>For a string literal s, the expression</p>
+<pre><code>render s
+</code></pre>
+<p>renders the template file with path s, and it's evaluated to a string value with the result of the rendering. The type of the resulted value is the format type relative to the format of the rendered file.</p>
+<pre><code>{# s has type string if &quot;codes.txt&quot; has format Text #}
+{% s := render &quot;codes.txt&quot; %}
+
+{# the show expression has type html if &quot;footer.html&quot; has format HTML #}
+{{ render &quot;footer.html&quot; }}
+</code></pre>
 <h3 id="contains-operators">Contains operators</h3>
 <p>Scriggo templates have <code>contains</code> and <code>not contains</code> operators. The following rules applies:</p>
 <ul>
@@ -259,9 +281,9 @@ Default = ( identifier | identifier Arguments | Render ) &quot;default&quot; Exp
 </ul>
 <p>If <code>!(v contains y)</code> is a valid expression evaluated to the value <code>b</code>, also <code>v not contains y</code> is a valid expression and it is evaluated to the value <code>!b</code>.</p>
 <h3 id="operators">Operators</h3>
-<p>The operators are extended with the logical operators <code>and</code>, <code>or</code> and <code>not</code>.</p>
-<pre><code>binary_op  = &quot;||&quot; | &quot;&amp;&amp;&quot; | rel_op | add_op | mul_op | &quot;and&quot; | &quot;or&quot; .
-unary_op   = &quot;+&quot; | &quot;-&quot; | &quot;!&quot; | &quot;^&quot; | &quot;*&quot; | &quot;&amp;&quot; | &quot;&lt;-&quot; | &quot;not&quot; .
+<p>The operators are extended with the operators <code>and</code>, <code>or</code>, <code>not</code>, <code>render</code>, <code>contains</code> and <code>not contains</code>.</p>
+<pre><code>binary_op  = &quot;||&quot; | &quot;&amp;&amp;&quot; | rel_op | add_op | mul_op | &quot;or&quot; | &quot;and&quot; | &quot;contains&quot; | &quot;not contains&quot; .
+unary_op   = &quot;+&quot; | &quot;-&quot; | &quot;!&quot; | &quot;^&quot; | &quot;*&quot; | &quot;&amp;&quot; | &quot;&lt;-&quot; | &quot;not&quot; | &quot;render&quot; .
 </code></pre>
 <h4 id="operator-precedence">Operator precedence</h4>
 <pre><code>Precedence    Operator
@@ -271,17 +293,22 @@ unary_op   = &quot;+&quot; | &quot;-&quot; | &quot;!&quot; | &quot;^&quot; | &qu
     2             &amp;&amp;  and
     1             ||  or
 </code></pre>
-<h3 id="the-logical-zero-value">The logical zero value</h3>
-<p>A value <code>x</code> of type <code>T</code> is <em>logically zero</em> if <code>x</code> is the zero value of <code>T</code>. The following exceptions applies:</p>
+<h3 id="extended-zero-values">Extended zero values</h3>
+<p>A value <code>x</code> of type <code>T</code> is an extended zero value of <code>T</code> if one of the following applies:</p>
 <ul>
-<li>if <code>x</code> is an empty slice or an empty channel, <code>x</code> is logically zero,</li>
-<li>if <code>x</code> is a non nil interface and <code>z</code> is its dynamic value, <code>x</code> is logically zero if <code>z</code> is logically zero.</li>
+<li><code>x</code> is the zero value of <code>T</code>,</li>
+<li><code>x</code> is an empty slice or an empty channel,</li>
+<li><code>x</code> is a non nil interface and its dynamic value is an extended value for the dynamic type of <code>x</code>.</li>
 </ul>
 <h3 id="extended-logical-operators">Extended logical operators</h3>
 <p>Extended logical operators applies to any value and yield an untyped boolean value or an untyped boolean constant if both the operands are constants. The right operand is evaluated conditionally.</p>
-<pre><code>and   conditional AND   p and q  is  &quot;if p is logically zero then false else q is logically zero&quot; 
-or    conditional OR    p or q   is  &quot;if p is logically zero then q is not logically zero else false&quot;
-not   NOT               not p    is  &quot;if p is logically zero&quot;
+<pre><code>not   NOT               not p    is  &quot;if p is an extended zero value&quot;
+
+or    conditional OR    p or q   is  &quot;if p is an extended zero value then
+                                        q is not an extended zero value else false&quot;
+
+and   conditional AND   p and q  is  &quot;if p is an extended zero value then
+                                        false else q is not an extended zero value&quot;
 </code></pre>
 <h3 id="conversions">Conversions</h3>
 <p>A value <code>x</code> with type <code>html</code>, <code>css</code>, <code>js</code>, <code>json</code> or <code>markdown</code> cannot be converted to any other type. The following exception apply:</p>
@@ -304,7 +331,7 @@ json(c4)    // a untyped constant value can be converted to json
 a compile-time error occurs if used.</p>
 <h3 id="if-statement">If statement</h3>
 <p>The expression of the &quot;if&quot; statement is not limited to boolean types but can have any type.
-If the expression does not evaluate to a logically zero value, the &quot;if&quot; branch is executed, otherwise, if present,
+If the expression does not evaluate to an extended zero value, the &quot;if&quot; branch is executed, otherwise, if present,
 the &quot;else&quot; branch is executed.</p>
 <h3 id="for-statement">For statement</h3>
 <p>The &quot;for&quot; statement is extended with a fourth form</p>
@@ -323,8 +350,8 @@ for i := range s { }
 in a macro, the formatted values are appended to the macro response value, otherwise the formatted values are printed
 to the template output.</p>
 <p>In content, the show statement can be also written using the short form.</p>
-<p>Implementation restriction: a Scriggo templates implementation may not support the short form. If not supported, <em>{{</em>
-and <em>}}</em> have no special meaning.</p>
+<p>Implementation restriction: a Scriggo templates implementation may not parse the short form. If not parsed, {{
+and }} have no special meaning.</p>
 <pre><code>ShowStmt      = &quot;show&quot; Expression { &quot;,&quot; Expression } .
 ShortShowStmt = &quot;{{&quot; Expression &quot;}}&quot; .
 </code></pre>
@@ -416,19 +443,27 @@ the following code</p>
 {% raw &quot;&quot; %} &lt;b! data {% end %}
 </code></pre>
 <h2 id="template-files">Template files</h2>
-<p>A template file is a name-less package. Template files in the same directory are different name-less packages.</p>
-<p>A template file imported with an &quot;import&quot; statement is a name-less package and can only contain &quot;import&quot; statements and declarations.
-A template file with an &quot;extends&quot; statement is a name-less package and can only contain, after the &quot;extends&quot; statements, &quot;import&quot; statements and
-declarations.</p>
-<h2 id="packages">Packages</h2>
-<p>Imported template files and template files with the &quot;extends&quot; statement are packages without a &quot;package&quot; clause and without name.</p>
-<p>They contain only &quot;import&quot; statements and variable, constant, type and macro declarations between <em>{%</em> and <em>%}</em> or <em>{%%</em> and <em>%%}</em>. Outside these markers, is allowed only bytes [TODO].</p>
-<h2 id="import-for-declarations">Import-for declarations</h2>
-<p>The &quot;import&quot; statement has a new &quot;import-for&quot; form.</p>
-<pre><code>ImportDecl = &quot;import&quot; ( ImportSpec | &quot;(&quot; { ImportSpec &quot;;&quot; } &quot;)&quot; ) .
-ImportSpec = [ [ &quot;.&quot; | PackageName ] ImportPath | ImportPath &quot;for&quot; { Identifier &quot;,&quot; } ] .
+<p>Templates are constructed linking together template files. A template file has a path, rooted at the template root, and a format: <em>Text</em>, <em>HTML</em>, <em>Markdown</em>, <em>CSS</em>, <em>JS</em> or <em>JSON</em>. The format of a file is implementation dependant.</p>
+<h2 id="extends-declarations">Extends declarations</h2>
+<p>An extends declaration states that the <em>extended</em> file depends on functionality of the file containing the declaration and enables access to exported identifiers of this file. The exports names the path of the extended file.</p>
+<pre><code>ExtendsDecl = &quot;extends&quot; ExtendsPath
+ExtendsPath = string_lit .
 </code></pre>
-<p>In the &quot;import-for&quot; form, each identifier is an exported identifier of the package within the importing source file.</p>
+<p>The <code>ExtendsPath</code> can be relative to the directory of the file containing the declaration or can be rooted at the root of the template. An extends declaration must be the first declaration in the file.</p>
+<p>For a file containing an extends declaration, the following rules applies:</p>
+<ul>
+<li>it can only contain declarations,</li>
+<li>it cannot contain more that one extends declaration,</li>
+<li>outside {% and %}, {%% and %%} and {# and #}, it can only contain white space: spaces (U+0020), horizontal tabs (U+0009), carriage returns (U+000D), and newlines (U+000A).</li>
+<li>it cannot be extended with the extends declaration, imported with the import declaration or rendered with the render operator.</li>
+</ul>
+<h2 id="import-declarations">Import declarations</h2>
+<p>The import statement has a new <em>import-for</em> form.</p>
+<pre><code>ImportDecl    = &quot;import&quot; ( ImportSpec | &quot;(&quot; { ImportSpec &quot;;&quot; } &quot;)&quot; ) .
+ImportSpec    = [ [ &quot;.&quot; | PackageName ] ImportPath | ImportForSpec ] .
+ImportForSpec = ImportPath &quot;for&quot; Identifier { &quot;,&quot; Identifier } .
+</code></pre>
+<p>In the <em>import-for</em> form, each identifier is an exported identifier of the package within the importing source file.</p>
 <pre><code>// Import the Banners and Menus names.
 import &quot;imp/components.html&quot; for Banners, Menus
 
@@ -437,6 +472,8 @@ import &quot;strings&quot; for Index, HasPrefix
 </code></pre>
 <p>The <code>ImportPath</code> is first interpreted as a template file path. If a template file with this path does not
 exist, it is interpreted as a package path.</p>
+<h2 id="template-initialization-and-execution">Template initialization and execution</h2>
+<p>The template execution starts from a template file. If the file contains an extends declaration, the execution starts from the extended file.</p>
 <h3 id="package-unsafe">Package <code>&quot;unsafe&quot;</code></h3>
 <p>There is not the &quot;unsafe&quot; package of the Go language in Scriggo templates.</p>
 

@@ -23,9 +23,10 @@
                 <dt><a href="#expressions">Expressions</a></dt>
                 <dd><a href="#primary-expressions">Primary expressions</a></dd>
                 <dd><a href="#default-expression">Default expression</a></dd>
+                <dd><a href="#render-operator">Render operator</a></dd>
                 <dd><a href="#contains-operators">Contains operators</a></dd>
                 <dd><a href="#operators">Operators</a></dd>
-                <dd><a href="#the-logical-zero-value">The logical zero value</a></dd>
+                <dd><a href="#extended-zero-values">Extended zero values</a></dd>
                 <dd><a href="#extended-logical-operators">Extended logical operators</a></dd>
                 <dd><a href="#conversions">Conversions</a></dd>
             </dl>
@@ -41,9 +42,10 @@
                 <dd><a href="#itea">Itea</a></dd>
                 <dd><a href="#raw-statement">Raw statement</a></dd>
                 <dt><a href="#template-files">Template files</a></dt>
-                <dt><a href="#packages">Packages</a></dt>
-                <dt><a href="#import-for-declarations">Import-for declarations</a></dt>
-                <dd><a href="#package-unsafe">Package "unsafe"</a></dd>
+                <dd><a href="#extends-declarations">Extends declarations</a></dd>
+                <dd><a href="#import-declarations">Import declarations</a></dd>
+                <dt><a href="#template-initialization-and-execution">Template initialization and execution</a></dt>
+                <dt><a href="#package-unsafe">Package "unsafe"</a></dt>
             </dl>
         </td>
     </tr>
@@ -73,6 +75,20 @@ Line comments and general comments can only appear between _{%_ and _%}_ and bet
 {# this is a template comment #}
 
 {# this {# is also a #} comment #}
+```
+### Keywords
+
+The following keywords are added to the keywords of Go:
+
+```
+and          extends      not          render
+contains     in           or           show
+end          macro        raw          using
+```
+
+```
+{{    }}    {%    %}
+{%%   %%}   {#    #}
 ```
 
 ## Types
@@ -218,20 +234,19 @@ The format types are the only types that can be used as macro result type.
 
 The _default expression_ is added to primary expressions.
 
-
 ```
 PrimaryExpr =
 	Operand |
 	Conversion |
 	MethodExpr |
+	DefaultExpr |
 	PrimaryExpr Selector |
 	PrimaryExpr Index |
 	PrimaryExpr Slice |
 	PrimaryExpr TypeAssertion |
-	PrimaryExpr Arguments |
-	Default .
+	PrimaryExpr Arguments .
 
-Default = ( identifier | identifier Arguments | Render ) "default" Expression .
+DefaultExpr = ( identifier | identifier Arguments | Render ) "default" Expression .
 ```
 
 ### Default expression
@@ -285,6 +300,24 @@ var filters []Filter = filters default nil
 {{ render "specials.html" default "no specials" }}
 ```
 
+### Render operator
+
+For a string literal s, the expression
+
+```
+render s
+```
+
+renders the template file with path s, and it's evaluated to a string value with the result of the rendering. The type of the resulted value is the format type relative to the format of the rendered file.
+
+```
+{# s has type string if "codes.txt" has format Text #}
+{% s := render "codes.txt" %}
+
+{# the show expression has type html if "footer.html" has format HTML #}
+{{ render "footer.html" }}
+```
+
 ### Contains operators
 
 Scriggo templates have <code>contains</code> and <code>not contains</code> operators. The following rules applies:
@@ -303,11 +336,11 @@ If `!(v contains y)` is a valid expression evaluated to the value `b`, also `v n
 
 ### Operators
 
-The operators are extended with the logical operators `and`, `or` and `not`.
+The operators are extended with the operators `and`, `or`, `not`, `render`, `contains` and `not contains`.
 
 ```
-binary_op  = "||" | "&&" | rel_op | add_op | mul_op | "and" | "or" .
-unary_op   = "+" | "-" | "!" | "^" | "*" | "&" | "<-" | "not" .
+binary_op  = "||" | "&&" | rel_op | add_op | mul_op | "or" | "and" | "contains" | "not contains" .
+unary_op   = "+" | "-" | "!" | "^" | "*" | "&" | "<-" | "not" | "render" .
 ```
 
 #### Operator precedence
@@ -321,20 +354,25 @@ Precedence    Operator
     1             ||  or
 ```
 
-### The logical zero value
+### Extended zero values
 
-A value `x` of type `T` is _logically zero_ if `x` is the zero value of `T`. The following exceptions applies:
-* if `x` is an empty slice or an empty channel, `x` is logically zero,
-* if `x` is a non nil interface and `z` is its dynamic value, `x` is logically zero if `z` is logically zero.
+A value `x` of type `T` is an extended zero value of `T` if one of the following applies:
+* `x` is the zero value of `T`,
+* `x` is an empty slice or an empty channel,
+* `x` is a non nil interface and its dynamic value is an extended value for the dynamic type of `x`.
 
 ### Extended logical operators
 
 Extended logical operators applies to any value and yield an untyped boolean value or an untyped boolean constant if both the operands are constants. The right operand is evaluated conditionally.
 
 ```
-and   conditional AND   p and q  is  "if p is logically zero then false else q is logically zero" 
-or    conditional OR    p or q   is  "if p is logically zero then q is not logically zero else false"
-not   NOT               not p    is  "if p is logically zero"
+not   NOT               not p    is  "if p is an extended zero value"
+
+or    conditional OR    p or q   is  "if p is an extended zero value then
+                                        q is not an extended zero value else false"
+
+and   conditional AND   p and q  is  "if p is an extended zero value then
+                                        false else q is not an extended zero value"
 ```
 
 ### Conversions
@@ -365,7 +403,7 @@ a compile-time error occurs if used.
 ### If statement
 
 The expression of the "if" statement is not limited to boolean types but can have any type.
-If the expression does not evaluate to a logically zero value, the "if" branch is executed, otherwise, if present,
+If the expression does not evaluate to an extended zero value, the "if" branch is executed, otherwise, if present,
 the "else" branch is executed.  
 
 ### For statement
@@ -395,8 +433,8 @@ to the template output.
 
 In content, the show statement can be also written using the short form.
 
-Implementation restriction: a Scriggo templates implementation may not support the short form. If not supported, _{{_
-and _}}_ have no special meaning.
+Implementation restriction: a Scriggo templates implementation may not parse the short form. If not parsed, {{
+and }} have no special meaning.
 
 ```
 ShowStmt      = "show" Expression { "," Expression } .
@@ -527,28 +565,37 @@ A _raw_ statement can have a string literal _tag_. As for struct tags, an empty 
 
 ## Template files
 
-A template file is a name-less package. Template files in the same directory are different name-less packages.
+Templates are constructed linking together template files. A template file has a path, rooted at the template root, and a format: _Text_, _HTML_, _Markdown_, _CSS_, _JS_ or _JSON_. The format of a file is implementation dependant.
 
-A template file imported with an "import" statement is a name-less package and can only contain "import" statements and declarations.
-A template file with an "extends" statement is a name-less package and can only contain, after the "extends" statements, "import" statements and
-declarations.
+## Extends declarations
 
-## Packages
-
-Imported template files and template files with the "extends" statement are packages without a "package" clause and without name.
-
-They contain only "import" statements and variable, constant, type and macro declarations between _{%_ and _%}_ or _{%%_ and _%%}_. Outside these markers, is allowed only bytes [TODO].
-
-## Import-for declarations
-
-The "import" statement has a new "import-for" form.
+An extends declaration states that the _extended_ file depends on functionality of the file containing the declaration and enables access to exported identifiers of this file. The exports names the path of the extended file.
 
 ```
-ImportDecl = "import" ( ImportSpec | "(" { ImportSpec ";" } ")" ) .
-ImportSpec = [ [ "." | PackageName ] ImportPath | ImportPath "for" { Identifier "," } ] .
+ExtendsDecl = "extends" ExtendsPath
+ExtendsPath = string_lit .
 ```
 
-In the "import-for" form, each identifier is an exported identifier of the package within the importing source file.
+The `ExtendsPath` can be relative to the directory of the file containing the declaration or can be rooted at the root of the template. An extends declaration must be the first declaration in the file.
+
+For a file containing an extends declaration, the following rules applies:
+
+* it can only contain declarations,
+* it cannot contain more that one extends declaration,
+* outside {% and %}, {%% and %%} and {# and #}, it can only contain white space: spaces (U+0020), horizontal tabs (U+0009), carriage returns (U+000D), and newlines (U+000A).
+* it cannot be extended with the extends declaration, imported with the import declaration or rendered with the render operator.
+
+## Import declarations
+
+The import statement has a new _import-for_ form.
+
+```
+ImportDecl    = "import" ( ImportSpec | "(" { ImportSpec ";" } ")" ) .
+ImportSpec    = [ [ "." | PackageName ] ImportPath | ImportForSpec ] .
+ImportForSpec = ImportPath "for" Identifier { "," Identifier } .
+```
+
+In the _import-for_ form, each identifier is an exported identifier of the package within the importing source file.
 
 ```
 // Import the Banners and Menus names.
@@ -556,9 +603,16 @@ import "imp/components.html" for Banners, Menus
 
 // Import the Index and HasPrefix names.
 import "strings" for Index, HasPrefix
- ```
-The <code>ImportPath</code> is first interpreted as a template file path. If a template file with this path does not
+```
+
+The `ImportPath` is first interpreted as a template file path. If a template file with this path does not
 exist, it is interpreted as a package path.
+
+## Template initialization and execution
+
+The template execution starts from a template file. If the file contains an extends declaration, the execution starts from the extended file.
+
+
 
 ### Package `"unsafe"`
 
