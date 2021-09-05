@@ -84,7 +84,7 @@ Example:
 {% end for %}
 ```
 
-In addiction, Scriggo supports in templates six new statements: `extends`, `import`,
+In addiction, Scriggo supports in templates the new `extends` declaration and the four new statements
 `macro`, `show`, `raw` and `using`.
 
 ### Functions
@@ -263,7 +263,7 @@ The Go `import` form without a package name is only used to import packages and 
 {% import "fmt" %}
 ```
 
-Import statements can be only at the beginning of a file and can be preceded only by an extends statement.   
+Import declarations can be only at the beginning of a file and can be preceded only by an extends statement.   
 
 Examples:
 

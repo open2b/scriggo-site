@@ -458,7 +458,7 @@ ExtendsPath = string_lit .
 <li>it cannot be extended with the extends declaration, imported with the import declaration or rendered with the render operator.</li>
 </ul>
 <h2 id="import-declarations">Import declarations</h2>
-<p>The import statement has a new <em>import-for</em> form.</p>
+<p>The import declaration has a new <em>import-for</em> form.</p>
 <pre><code>ImportDecl    = &quot;import&quot; ( ImportSpec | &quot;(&quot; { ImportSpec &quot;;&quot; } &quot;)&quot; ) .
 ImportSpec    = [ [ &quot;.&quot; | PackageName ] ImportPath | ImportForSpec ] .
 ImportForSpec = ImportPath &quot;for&quot; Identifier { &quot;,&quot; Identifier } .

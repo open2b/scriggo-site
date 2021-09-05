@@ -587,7 +587,7 @@ For a file containing an extends declaration, the following rules applies:
 
 ## Import declarations
 
-The import statement has a new _import-for_ form.
+The import declaration has a new _import-for_ form.
 
 ```
 ImportDecl    = "import" ( ImportSpec | "(" { ImportSpec ";" } ")" ) .

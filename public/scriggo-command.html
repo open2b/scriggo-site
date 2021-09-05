@@ -98,7 +98,7 @@ a Scriggofile with the instruction to create an importer for the Go standard lib
 <p>If the directory does not contain a <code>go.mod</code> file, the command creates it and as module path uses the directory name.</p>
 <h2 id="generate-a-package-importer">Generate a package importer</h2>
 <p>The Scriggo Import command generate the code for a package importer. An importer is used by Scriggo to import a package
-when an &quot;import&quot; statement is executed.</p>
+when an &quot;import&quot; declaration is executed.</p>
 <p>The code for the importer is generated from the instructions in a Scriggofile. The Scriggofile should be in a Go module.</p>
 <p>The basic Import command takes this form:</p>
 <pre><code>$ scriggo import [-o output]

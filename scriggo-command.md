@@ -94,7 +94,7 @@ If the directory does not contain a `go.mod` file, the command creates it and as
 ## Generate a package importer
 
 The Scriggo Import command generate the code for a package importer. An importer is used by Scriggo to import a package
-when an "import" statement is executed.
+when an "import" declaration is executed.
 
 The code for the importer is generated from the instructions in a Scriggofile. The Scriggofile should be in a Go module.
 

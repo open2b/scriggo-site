@@ -89,7 +89,7 @@ Go language as the template scripting language.</p>
   {{ i }}. {{ product.Name }}
 {% end for %}
 </code></pre>
-<p>In addiction, Scriggo supports in templates six new statements: <code>extends</code>, <code>import</code>,
+<p>In addiction, Scriggo supports in templates the new <code>extends</code> declaration and the four new statements
 <code>macro</code>, <code>show</code>, <code>raw</code> and <code>using</code>.</p>
 <h3 id="functions">Functions</h3>
 <p>Function declarations are by design not supported by Scriggo in templates, use instead what is more appropriate between a macro:</p>
@@ -202,7 +202,7 @@ the names to import. For example:</p>
 <p>The Go <code>import</code> form without a package name is only used to import packages and not template files:</p>
 <pre><code>{% import &quot;fmt&quot; %}
 </code></pre>
-<p>Import statements can be only at the beginning of a file and can be preceded only by an extends statement.</p>
+<p>Import declarations can be only at the beginning of a file and can be preceded only by an extends statement.</p>
 <p>Examples:</p>
 <pre><code>{% import &quot;catalog.html&quot; %}
 &lt;html&gt;

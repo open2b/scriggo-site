@@ -4,8 +4,8 @@
 
 # Get Started
 
-In this get started you will learn how to run Go programs in your applications and, in the next step, how to
-<a href="/get-started-2"> run Scriggo templates</a>.
+In this get started you will learn how to embed Go programs in your applications and, in the next step, how to
+<a href="/get-started-2"> execute Scriggo templates</a> in your applications.
 
 It requires 10 minutes to be completed.
 
@@ -70,7 +70,7 @@ See the <a href="scriggo-command">scriggo command</a> and the <a href="scriggofi
 
 #}
 
-## Execute a Go program in your application
+## Embed Go programs in your application
 
 Open a terminal and create a new directory for the application:
 
