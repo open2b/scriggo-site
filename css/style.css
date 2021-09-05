@@ -28,7 +28,7 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .index nav.top .logo { cursor: default; pointer-events: none; }
 
 .index header { margin: 1.6rem; }
-.index header section { margin: 0 auto; text-align: center; width: 55%; }
+.index header section { margin: 0 auto; text-align: center; width: 65%; }
 .index header h1 { color: #e6a621; cursor: default; font-size: 7rem; font-weight: 800; margin-top: 0; margin-bottom: 2rem; }
 .index header h2 { color: #000; font-size: 2.6em; font-weight: 200; line-height: 1.2em; margin: 2.2rem auto; }
 .index header h3 { color: #666; font-size: 1.4em; font-weight: 200; letter-spacing: .02rem; line-height: 1.5em; margin: .5rem; }
