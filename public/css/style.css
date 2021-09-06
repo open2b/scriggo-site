@@ -30,7 +30,7 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .index header { margin: 1.6rem; }
 .index header section { margin: 0 auto; text-align: center; width: 65%; }
 .index header h1 { color: #e6a621; cursor: default; font-size: 7rem; font-weight: 800; margin-top: 0; margin-bottom: 2rem; }
-.index header h2 { color: #000; font-size: 2.6em; font-weight: 200; line-height: 1.2em; margin: 2.2rem auto; }
+.index header h2 { color: #000; font-size: 2.6em; font-weight: 200; line-height: 1.2em; margin: 2.2rem auto; max-width: 830px; }
 .index header h3 { color: #666; font-size: 1.4em; font-weight: 200; letter-spacing: .02rem; line-height: 1.5em; margin: .5rem; }
 .index header .button { background: linear-gradient(to bottom, #e6a621, #e6a621); border-radius: 3px; color: #333; cursor: pointer; display: inline-block; font-size: 1em; font-weight: bold; margin-top: 2rem; text-transform: uppercase; padding: .8rem 1.8rem .7em 1.8em; }
 
@@ -83,6 +83,17 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .article img { max-width: 100%; }
 
 #what-is-scriggo + p { color: #777; font-size: 1.2em; font-weight: bold; }
+
+.page-support h1 { margin: 1em auto 1em auto; text-align: center; }
+.page-support .support { display: flex; font-size: 1rem; margin: 0 auto; max-width: 800px;  }
+.page-support .support > div { flex-basis: 0; flex-grow: 1; padding: 0 3rem; text-align: center; }
+.page-support .support > div:first-child { border-right: 1px solid #aaa; }
+.page-support .support h2 { margin-bottom: 0; }
+.page-support .support h2 + p { color: #666; margin: .5rem 0 3rem 0; }
+.page-support .support .github-discussions { color: #000; display: block; }
+.page-support .support .github-discussions svg { height: 72px; width: 72px; }
+.page-support .support .github-discussions + p { margin-top: 0; }
+
 
 @media only screen and (max-width: 767px) {
 

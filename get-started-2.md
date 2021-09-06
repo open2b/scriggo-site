@@ -1,4 +1,4 @@
-{% extends "/layouts/article.html" %}
+{% extends "/layouts/doc.html" %}
 {% macro Title string %}Get Started{% end %}
 {% Article %}
 
