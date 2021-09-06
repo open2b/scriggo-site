@@ -612,11 +612,10 @@ If `ImportPath` is interpreted as template file, the form without _for_ and with
 the form with the explicit period.
 
 ```
-import "header.html"
-
 // if "header.html" resolves to a template file,
-// the previuos and the next declaration are equivalent.
+// the following import declarations are equivament.
 
+import "header.html"
 import . "header.html"
 ```
 
