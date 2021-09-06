@@ -605,8 +605,20 @@ import "imp/components.html" for Banners, Menus
 import "strings" for Index, HasPrefix
 ```
 
-The `ImportPath` is first interpreted as a template file path. If a template file with this path does not
-exist, it is interpreted as a package path.
+The `ImportPath` is first interpreted as template file path. If a template file with this path does not exist, it is
+interpreted as package path.
+
+If `ImportPath` is interpreted as template file, the form without _for_ and without a package name is the same of
+the form with the explicit period.
+
+```
+import "header.html"
+
+// if "header.html" resolves to a template file,
+// the previuos and the next declaration are equivalent.
+
+import . "header.html"
+```
 
 ## Template initialization and execution
 

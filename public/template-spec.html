@@ -466,8 +466,17 @@ import &quot;imp/components.html&quot; for Banners, Menus
 // Import the Index and HasPrefix names.
 import &quot;strings&quot; for Index, HasPrefix
 </code></pre>
-<p>The <code>ImportPath</code> is first interpreted as a template file path. If a template file with this path does not
-exist, it is interpreted as a package path.</p>
+<p>The <code>ImportPath</code> is first interpreted as template file path. If a template file with this path does not exist, it is
+interpreted as package path.</p>
+<p>If <code>ImportPath</code> is interpreted as template file, the form without <em>for</em> and without a package name is the same of
+the form with the explicit period.</p>
+<pre><code>import &quot;header.html&quot;
+
+// if &quot;header.html&quot; resolves to a template file,
+// the previuos and the next declaration are equivalent.
+
+import . &quot;header.html&quot;
+</code></pre>
 <h2 id="template-initialization-and-execution">Template initialization and execution</h2>
 <p>The template execution starts from a template file. If the file contains an extends declaration, the execution starts from the extended file.</p>
 <h3 id="package-unsafe">Package <code>&quot;unsafe&quot;</code></h3>
