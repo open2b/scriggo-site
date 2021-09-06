@@ -1,3 +1,5 @@
+{% import "/imports/graph.html" for Graph %}
+
 <!doctype html>
 <html lang="en" class="index">
 <head>
@@ -5,7 +7,8 @@
     <title>Scriggo: The Go embedded scripting runtime"</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/style.css">
-    <script src="/js/jquery-3.6.0.slim.min.js"></script>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/benchGraph.js"></script>
 </head>
 <body>
 {{ render "/partials/nav.html" }}
@@ -62,105 +65,9 @@
 </section>
 <section class="benchmark">
     <h2>Scriggo is the fastest pure Go language runtime</h2>
-    <p>Execution of <span class="program"></span></p>
-    <div class="graph">
-        <div class="scriggo">
-            <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a></p>
-            <div class="bar time"></div><span class="time"></span>
-            <span class="allocs"></span>
-        </div>
-        <div class="tengo">
-            <p><a href="https://github.com/d5/tengo" target="_blank">Tengo</a></p>
-            <div class="bar time"></div><span class="time"></span>
-            <span class="allocs"></span>
-        </div>
-        <div class="gopher-lua">
-            <p><a href="https://github.com/yuin/gopher-lua" target="_blank">GopherLua</a></p>
-            <div class="bar time"></div><span class="time"></span>
-            <span class="allocs"></span>
-        </div>
-        <div class="go-lua">
-            <p><a href="https://github.com/Shopify/go-lua" target="_blank">Go Lua</a></p>
-            <div class="bar time"></div><span class="time"></span>
-            <span class="allocs"></span>
-        </div>
-        <div class="yaegi">
-            <p><a href="https://github.com/containous/yaegi" target="_blank">Yaegi</a></p>
-            <div class="bar time"></div><span class="time"></span>
-            <span class="allocs"></span>
-        </div>
-
-        <div class="allocations">
-            <h3>Allocations</h3>
-            <div class="data">
-                <div class="scriggo">
-                    <span>Scriggo:</span><span class="allocs"></span>
-                </div>
-                <div class="tengo">
-                    <span>Tengo:</span><span class="allocs"></span>
-                </div>
-                <div class="gopher-lua">
-                    <span>GopherLua:</span><span class="allocs"></span>
-                </div>
-                <div class="go-lua">
-                    <span>Go Lua:</span><span class="allocs"></span>
-                </div>
-                <div class="yaegi">
-                    <span>Yaegi:</span><span class="allocs"></span>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{ Graph("fib35") }}
     <script>
-        var bench = {
-            Program:"fib(35)",
-            Results:{
-                "scriggo" : {
-                    Time:2467002742,
-                    Allocs:13,
-                },
-                "yaegi" : {
-                    Time:21619479588,
-                    Allocs:283677307,
-                },
-                "tengo" : {
-                    Time:3337659673,
-                    Allocs:39088568,
-                },
-                "go-lua" : {
-                    Time:5953213010,
-                    Allocs:39088324,
-                },
-                "gopher-lua" : {
-                    Time:6216982443,
-                    Allocs:4040,
-                }
-            }
-        }
-        $('.benchmark .program').text(bench.Program);
-        var maxTime = 0;
-        for (const interpreter in bench.Results) {
-            var res = bench.Results[interpreter];
-            if (res.Time > maxTime) {  maxTime = res.Time }
-        }
-        for (const interpreter in bench.Results) {
-            var res = bench.Results[interpreter];
-
-            var timeLabel = (Math.round((res.Time/1000000000 + Number.EPSILON) * 100) / 100) +'s';
-            var timeWidth = res.Time*95/maxTime;
-            $('.'+interpreter+' .bar').css({width:timeWidth+'%'});
-            $('.'+interpreter+' span.time').text(timeLabel)
-
-            var allocsLabel = $('.allocations .'+interpreter+' .allocs');
-            var allocsText = '';
-            if (res.Allocs > 1000000) {
-                // allocsText = Math.round((res.Allocs/1000000+ Number.EPSILON)*100)/100+"M";
-                allocsText = Math.round(res.Allocs/1000000)+" million";
-            } else {
-                allocsText = res.Allocs;
-            }
-            allocsLabel.text(allocsText);
-        }
+        $.getJSON("benchmarks/fib35.json", function(data) { new BenchGraph(data).Render(); })
     </script>
 </section>
 <section class="benchmark">

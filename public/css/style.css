@@ -48,6 +48,8 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .benchmark h2 { font-size: 2rem; font-weight: normal; margin-bottom: .5rem; }
 .benchmark h2 + p { color: #ddd; margin-bottom: 3rem; margin-top: .5rem; }
 .benchmark .graph { position: relative; }
+.benchmark .graph .program { color: #999; margin-bottom: 1em; }
+.benchmark .graph .program span { color: #999; padding:0; }
 .benchmark div p { font-size: 1.1rem; margin-bottom: 1px; margin-top: 15px; }
 .benchmark div p a { color: #FFF; opacity: .999; }
 .benchmark div p span { color: #aaa; font-size: 1rem; padding-left: 1rem; }
@@ -55,12 +57,13 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .benchmark span.time { clear: right; color: #FFF; font-size: 16px; padding-left: 10px; }
 .benchmark span.allocs { color: #CCC; }
 
-.benchmark .allocations { background: #16374b; border-radius: 7px; font-size: 0.9em; position: absolute; right: 0; top: 0; padding: 15px 25px; }
+.benchmark .allocations { font-size: .95em; position: absolute; right: 60px; top: 0; }
 .benchmark .allocations .data { display: table; padding: 10px 0; }
 .benchmark .allocations .data div { display: table-row; }
-.benchmark .allocations .data div span { display: table-cell; padding:1px 5px; }
+.benchmark .allocations .data div span { display: table-cell; padding:3px 8px; }
 .benchmark .allocations .data div span:first-child { padding-left: 0; }
-.benchmark .allocations h3 { column-span: 2; display:table-cell; font-size: 1.3em; font-weight: normal; letter-spacing: 1px;  margin: 0 0 10px 0; margin-top: 0; }
+.benchmark .allocations h3 { column-span: 2; display:table-cell; font-size: 1.3em; font-weight: normal; letter-spacing: 1px;  margin: 0 0 10px 0; }
+.benchmark .allocations h3 span { color: #CCC; font-size: .7em; }
 
 .benchmark .bar-go { opacity: 1; width: 1.99%; }
 .benchmark .bar-ruby { opacity: 1; width: 40.40%; }
