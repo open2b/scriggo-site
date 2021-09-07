@@ -26,7 +26,7 @@
                 <dd><a href="#render-operator">Render operator</a></dd>
                 <dd><a href="#contains-operators">Contains operators</a></dd>
                 <dd><a href="#operators">Operators</a></dd>
-                <dd><a href="#extended-zero-values">Extended zero values</a></dd>
+                <dd><a href="#truthful-values">Truthful values</a></dd>
                 <dd><a href="#extended-logical-operators">Extended logical operators</a></dd>
                 <dd><a href="#conversions">Conversions</a></dd>
             </dl>
@@ -55,7 +55,7 @@
 
 This is a reference manual for Scriggo templates.
 
-The Scriggo templates specification is based on the Go language specification, see <a href="https://golang.org/ref/spec">golang.org/spec</a>. The Go specification applies, apart from what written in this specification.
+The Scriggo templates specification is based on the Go language specification, see <a href="https://golang.org/ref/spec">golang.org/spec</a>. The Go specification applies, except as written in this specification.
 
 ## Template source code representation
 
@@ -354,25 +354,22 @@ Precedence    Operator
     1             ||  or
 ```
 
-### Extended zero values
+### Truthful values
 
-A value `x` of type `T` is an extended zero value of `T` if one of the following applies:
+A value `x` of type `T` is _truthful_ unless one of the following rules applies:
 * `x` is the zero value of `T`,
-* `x` is an empty slice or an empty channel,
-* `x` is a non nil interface and its dynamic value is an extended value for the dynamic type of `x`.
+* `x` is an empty slice or map,
+* `T` is an interface and the dynamic value of `x` is not truthful,
+* `T` is a struct or pointer to struct, implements `interface{ IsTrue() bool }` and `x.IsTrue()` is false.
 
 ### Extended logical operators
 
 Extended logical operators applies to any value and yield an untyped boolean value or an untyped boolean constant if both the operands are constants. The right operand is evaluated conditionally.
 
 ```
-not   NOT               not p    is  "if p is an extended zero value"
-
-or    conditional OR    p or q   is  "if p is an extended zero value then
-                                        q is not an extended zero value else false"
-
-and   conditional AND   p and q  is  "if p is an extended zero value then
-                                        false else q is not an extended zero value"
+and     conditional AND     p and q     is     "if p is truthful then q is truthful else false"
+or      conditional OR      p or q      is     "if p is truthful then true else q is truthful"
+not     NOT                 not p       is     "if p is not truthful"
 ```
 
 ### Conversions
