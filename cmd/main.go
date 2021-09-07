@@ -47,7 +47,8 @@ func main() {
 	srcFS := os.DirFS("./")
 
 	err = fs.WalkDir(srcFS, ".", func(path string, d fs.DirEntry, err error) error {
-		if path == "public" || path == dstBase || strings.HasPrefix(path, ".git/") || strings.HasPrefix(path, "cmd/") {
+		if path == "public" || path == dstBase || strings.HasPrefix(path, ".git/") || strings.HasPrefix(path, "cmd/") ||
+			strings.HasPrefix(path, "sources/") {
 			return fs.SkipDir
 		}
 		if d.IsDir() || path[0] == '.' || path == "README.md" {
@@ -76,7 +77,7 @@ func main() {
 			if err != nil {
 				log.Fatal(err)
 			}
-		case ".css", ".js", ".png", ".ico", ".txt":
+		case ".css", ".js", ".png", ".ico", ".txt", ".svg":
 			src, err := os.Open(path)
 			if err != nil {
 				log.Fatal(err)
