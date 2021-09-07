@@ -11,7 +11,8 @@ dl { line-height: 1.60; margin: 1.25rem; }
 dd { margin-left: 1.5rem; }
 
 nav.top { align-items: center; display: flex; justify-content: flex-start; flex-wrap: wrap; padding: 2rem 0; width: 100%; }
-nav.top .logo { color: #e6a621; font-size: 1.6rem; font-weight: bold; margin-left: 3rem; }
+nav.top .logo { margin-left: 3rem; }
+nav.top .logo img{ vertical-align: bottom; }
 nav.top ul { display: inline-block; list-style-type: none; margin: 0 .5em; vertical-align: middle; }
 nav.top li { display: inline-block; padding: 0 1rem; }
 nav.top ul a { color: #333; }
