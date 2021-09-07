@@ -188,7 +188,7 @@ JSON              json
 Markdown          markdown
 ```
 
-Macro declarations are only allowed in the previous template contexts. 
+Macro declarations are only allowed in the previous template contexts.
 
 ```
 {% macro Title %}A beautiful title{% end %}
@@ -226,7 +226,7 @@ Format types:
     string html css js json markdown
 ```
 
-The format types are the only types that can be used as macro result type. 
+The format types are the only types that can be used as macro result type.
 
 ## Expressions
 
@@ -332,7 +332,7 @@ Scriggo templates have <code>contains</code> and <code>not contains</code> opera
 
 * For a value `v` of type `[]byte` and a value `x` of type `rune`, the expression `v contains x` yield an untyped boolean; `true` if the Unicode code point `x` is within `v`.
 
-If `!(v contains y)` is a valid expression evaluated to the value `b`, also `v not contains y` is a valid expression and it is evaluated to the value `!b`. 
+If `!(v contains y)` is a valid expression evaluated to the value `b`, also `v not contains y` is a valid expression and it is evaluated to the value `!b`.
 
 ### Operators
 
@@ -379,7 +379,7 @@ and   conditional AND   p and q  is  "if p is an extended zero value then
 
 A value `x` with type `html`, `css`, `js`, `json` or `markdown` cannot be converted to any other type. The following exception apply:
 
-* if `x` has type `markdown`, `x` can be converted to the `html` type. The conversion transforms the string according to Markdown but the transformation is implementation-dependent. If `x` is constant, the transformation is done at compile-time.  
+* if `x` has type `markdown`, `x` can be converted to the `html` type. The conversion transforms the string according to Markdown but the transformation is implementation-dependent. If `x` is constant, the transformation is done at compile-time.
 
 ```
 const c1 css = "red"
@@ -404,7 +404,7 @@ a compile-time error occurs if used.
 
 The expression of the "if" statement is not limited to boolean types but can have any type.
 If the expression does not evaluate to an extended zero value, the "if" branch is executed, otherwise, if present,
-the "else" branch is executed.  
+the "else" branch is executed.
 
 ### For statement
 
@@ -503,7 +503,7 @@ value resulted from the rendering of the macro's content. It can have a format t
 
 ### Raw statement
 
-In a _raw_ statement the content is rendered as is, the tokens _{%_, _%}_, _{%%_, _%%}_, _{{_, _}}_, _{#_ and _#}_ have no special meaning. 
+In a _raw_ statement the content is rendered as is, the tokens _{%_, _%}_, _{%%_, _%%}_, _{{_, _}}_, _{#_ and _#}_ have no special meaning.
 
 ```
 RawStmt         = MarkedRawStmt | UnmarkedRawStmt .
@@ -587,15 +587,22 @@ For a file containing an extends declaration, the following rules applies:
 
 ## Import declarations
 
-The import declaration has a new _import-for_ form.
+The `ImportPath` of an import declaration is first interpreted as the path of a template file. If a template file with
+this path does not exist, it is interpreted as a package path.
+
+If `ImportPath` is interpreted as a template file, the Go form without a package name is the same of the form with the
+explicit period.
 
 ```
-ImportDecl    = "import" ( ImportSpec | "(" { ImportSpec ";" } ")" ) .
-ImportSpec    = [ [ "." | PackageName ] ImportPath | ImportForSpec ] .
-ImportForSpec = ImportPath "for" Identifier { "," Identifier } .
+// if "header.html" resolves to a template file,
+// the following import declarations are equivament.
+
+import "header.html"
+import . "header.html"
 ```
 
-In the _import-for_ form, each identifier is an exported identifier of the package within the importing source file.
+A new form of import declaration is added with an explicit list of exported identifiers. Only these identifiers are
+imported within the importing source file.
 
 ```
 // Import the Banners and Menus names.
@@ -605,18 +612,10 @@ import "imp/components.html" for Banners, Menus
 import "strings" for Index, HasPrefix
 ```
 
-The `ImportPath` is first interpreted as template file path. If a template file with this path does not exist, it is
-interpreted as package path.
-
-If `ImportPath` is interpreted as template file, the form without _for_ and without a package name is the same of
-the form with the explicit period.
-
 ```
-// if "header.html" resolves to a template file,
-// the following import declarations are equivament.
-
-import "header.html"
-import . "header.html"
+ImportDecl    = "import" ( ImportSpec | "(" { ImportSpec ";" } ")" ) .
+ImportSpec    = [ [ "." | PackageName ] ImportPath | ImportForSpec ] .
+ImportForSpec = ImportPath "for" Identifier { "," Identifier } .
 ```
 
 ## Template initialization and execution

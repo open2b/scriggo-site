@@ -12,7 +12,7 @@ dd { margin-left: 1.5rem; }
 
 nav.top { align-items: center; display: flex; justify-content: flex-start; flex-wrap: wrap; padding: 2rem 0; width: 100%; }
 nav.top .logo { margin-left: 3rem; }
-nav.top .logo img{ vertical-align: bottom; }
+nav.top .logo img { vertical-align: bottom; }
 nav.top ul { display: inline-block; list-style-type: none; margin: 0 .5em; vertical-align: middle; }
 nav.top li { display: inline-block; padding: 0 1rem; }
 nav.top ul a { color: #333; }
@@ -28,9 +28,10 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 
 .index nav.top .logo { cursor: default; pointer-events: none; }
 
-.index header { margin: 1.6rem; }
+.index header { margin: 1.6rem; margin-top: 5rem; }
 .index header section { margin: 0 auto; text-align: center; width: 65%; }
-.index header h1 { color: #e6a621; cursor: default; font-size: 7rem; font-weight: 800; margin-top: 0; margin-bottom: 2rem; }
+
+.index header img.logo { max-width: 80%; }
 .index header h2 { color: #000; font-size: 2.6em; font-weight: 200; line-height: 1.2em; margin: 2.2rem auto; max-width: 830px; }
 .index header h3 { color: #666; font-size: 1.4em; font-weight: 200; letter-spacing: .02rem; line-height: 1.5em; margin: .5rem; }
 .index header .button { background: linear-gradient(to bottom, #e6a621, #e6a621); border-radius: 3px; color: #333; cursor: pointer; display: inline-block; font-size: 1em; font-weight: bold; margin-top: 2rem; text-transform: uppercase; padding: .8rem 1.8rem .7em 1.8em; }
@@ -94,7 +95,6 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .page-support .support .github-discussions { color: #000; display: block; }
 .page-support .support .github-discussions svg { height: 72px; width: 72px; }
 .page-support .support .github-discussions + p { margin-top: 0; }
-
 
 @media only screen and (max-width: 767px) {
 
