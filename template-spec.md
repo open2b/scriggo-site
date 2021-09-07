@@ -400,7 +400,7 @@ a compile-time error occurs if used.
 ### If statement
 
 The expression of the "if" statement is not limited to boolean types but can have any type.
-If the expression does not evaluate to an extended zero value, the "if" branch is executed, otherwise, if present,
+If the expression evaluate to truthful value, the "if" branch is executed, otherwise, if present,
 the "else" branch is executed.
 
 ### For statement
