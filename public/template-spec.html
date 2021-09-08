@@ -290,7 +290,7 @@ unary_op   = &quot;+&quot; | &quot;-&quot; | &quot;!&quot; | &quot;^&quot; | &qu
     1             ||  or
 </code></pre>
 <h3 id="truthful-values">Truthful values</h3>
-<p>A value <code>x</code> of type <code>T</code> is <em>truthful</em> unless one of the following rules applies:</p>
+<p>A value <code>x</code> of type <code>T</code> is <em>truthful</em> unless one of the following conditions applies:</p>
 <ul>
 <li><code>x</code> is the zero value of <code>T</code>,</li>
 <li><code>x</code> is an empty slice or map,</li>
@@ -299,9 +299,9 @@ unary_op   = &quot;+&quot; | &quot;-&quot; | &quot;!&quot; | &quot;^&quot; | &qu
 </ul>
 <h3 id="extended-logical-operators">Extended logical operators</h3>
 <p>Extended logical operators applies to any value and yield an untyped boolean value or an untyped boolean constant if both the operands are constants. The right operand is evaluated conditionally.</p>
-<pre><code>and     conditional AND     p and q     is     &quot;if p is truthful then q is truthful else false&quot;
-or      conditional OR      p or q      is     &quot;if p is truthful then true else q is truthful&quot;
-not     NOT                 not p       is     &quot;if p is not truthful&quot;
+<pre><code>and    conditional AND    p and q  is  &quot;if p is truthful then q is truthful else false&quot;
+or     conditional OR     p or q   is  &quot;if p is truthful then true else q is truthful&quot;
+not    NOT                not p    is  &quot;if p is not truthful&quot;
 </code></pre>
 <h3 id="conversions">Conversions</h3>
 <p>A value <code>x</code> with type <code>html</code>, <code>css</code>, <code>js</code>, <code>json</code> or <code>markdown</code> cannot be converted to any other type. The following exception apply:</p>

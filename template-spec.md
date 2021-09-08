@@ -356,7 +356,8 @@ Precedence    Operator
 
 ### Truthful values
 
-A value `x` of type `T` is _truthful_ unless one of the following rules applies:
+A value `x` of type `T` is _truthful_ unless one of the following conditions applies:
+
 * `x` is the zero value of `T`,
 * `x` is an empty slice or map,
 * `T` is an interface and the dynamic value of `x` is not truthful,
@@ -367,9 +368,9 @@ A value `x` of type `T` is _truthful_ unless one of the following rules applies:
 Extended logical operators applies to any value and yield an untyped boolean value or an untyped boolean constant if both the operands are constants. The right operand is evaluated conditionally.
 
 ```
-and     conditional AND     p and q     is     "if p is truthful then q is truthful else false"
-or      conditional OR      p or q      is     "if p is truthful then true else q is truthful"
-not     NOT                 not p       is     "if p is not truthful"
+and    conditional AND    p and q  is  "if p is truthful then q is truthful else false"
+or     conditional OR     p or q   is  "if p is truthful then true else q is truthful"
+not    NOT                not p    is  "if p is not truthful"
 ```
 
 ### Conversions

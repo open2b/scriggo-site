@@ -4,7 +4,7 @@
 
 # Get Started With Templates
 
-In the first step you have learned how to <a href="/get-started">embed Go programs</a> in your applications.
+In the first step you have learned how to <a href="/get-started">embed Go programs</a>.
 In this second step you will learn how to execute Scriggo templates in your applications.
 
 It requires 10 minutes to be completed.

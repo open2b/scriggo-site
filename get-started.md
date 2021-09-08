@@ -5,70 +5,14 @@
 # Get Started
 
 In this get started you will learn how to embed Go programs in your applications and, in the next step, how to
-<a href="/get-started-2"> execute Scriggo templates</a> in your applications.
+<a href="/get-started-2"> execute Scriggo templates</a>.
+
+1. [Embed Go programs in your application](#embed-go-programs-in-your-application)
+2. [Execute templates in your application](/get-started-2#execute-templates-in-your-application)
 
 It requires 10 minutes to be completed.
 
 Before you start using Scriggo in a Go application you must <a href="https://golang.org/dl/">download and install Go</a>.
-
-{#
-
-## Make a Go interpreter
-
-The `scriggo init` command initializes a Go module with a functional interpreter for Go programs.    
-
-Make an empty directory and execute `scriggo init` and `go install` to install the interpreter: 
-
-```
-$ mkdir hellogo
-$ cd hellogo
-$ scriggo init
-$ go install
-```
-
-then you can use the interpreter to execute Go programs, it does not require Go installed.
-
-```
-$ hellogo myprogram.go
-```
-
-### Importing other packages
-
-By default, the programs executed by this interpreter can import only the packages of the Go standard library. To allow
-importing other packages you can write a <a href="scriggofile">Scriggofile</a> with the instructions that the scriggo
-command uses while it initializes the interpreter.
-
-For example, to allow to import the <a href="https://github.com/fatih/color/">github.com/fatih/color</a> package, open the
-`Scriggofile` in the "hellogo" directory and add to it the following line:
-
-```
-IMPORT github.com/fatih/color
-```
-
-Delete the old Go files in the "hellogo" directory and execute again the `scriggo init` command in the directory:
-
-```
-$ rm main.go packages.go
-$ scriggo init
-$ go install
-```
-
-Now you can execute, with the `hellogo` interpreter, the following program:
-
-```go
-package main
- 
-import "github.com/fatih/color"
- 
-func main() {
-    color.Red("Roses are red")
-    color.Blue("Violets are blue")
-}
-```
-
-See the <a href="scriggo-command">scriggo command</a> and the <a href="scriggofile">Scriggofile</a> for more details. 
-
-#}
 
 ## Embed Go programs in your application
 
