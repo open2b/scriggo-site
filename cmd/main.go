@@ -7,7 +7,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/open2b/scriggo"
@@ -25,7 +24,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	dstBase := filepath.Base(dstDir)
 	defer func() {
 		err = os.RemoveAll(dstDir)
 		if err != nil {
@@ -44,14 +42,10 @@ func main() {
 		},
 	}
 
-	srcFS := os.DirFS("./")
+	srcFS := os.DirFS("./site")
 
 	err = fs.WalkDir(srcFS, ".", func(path string, d fs.DirEntry, err error) error {
-		if path == "public" || path == dstBase || strings.HasPrefix(path, ".git/") || strings.HasPrefix(path, "cmd/") ||
-			strings.HasPrefix(path, "sources/") {
-			return fs.SkipDir
-		}
-		if d.IsDir() || path[0] == '.' || path == "README.md" {
+		if d.IsDir() || path[0] == '.' {
 			return nil
 		}
 		ext := filepath.Ext(path)
@@ -77,8 +71,8 @@ func main() {
 			if err != nil {
 				log.Fatal(err)
 			}
-		case ".css", ".js", ".png", ".ico", ".txt", ".svg":
-			src, err := os.Open(path)
+		default:
+			src, err := srcFS.Open(path)
 			if err != nil {
 				log.Fatal(err)
 			}
