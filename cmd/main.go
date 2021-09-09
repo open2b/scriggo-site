@@ -102,10 +102,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = os.RemoveAll("../public/")
-	if err != nil {
-		log.Fatal(err)
-	}
 	err = os.Rename(dstDir, "../public")
 	if err != nil {
 		log.Fatal(err)
