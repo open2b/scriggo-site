@@ -6,8 +6,8 @@
 
 <h1>Benchmarks</h1>
 <p>
-    Scriggo a fast pure Go language runtime, here there are some benchmarks.
-    The benchmarks illustrated here can be found <a href="https://github.com/open2b/scriggo-bench" target="_blank">on this repository</a>.
+    Scriggo a fast pure Go language runtime, here are some benchmarks that compares it with some popular go embedded interpreters.
+    The benchmarks code can be found <a href="https://github.com/open2b/scriggo-bench" target="_blank">on this repository</a>.
 </p>
 
 <p>
@@ -15,8 +15,17 @@
     <pre>{{ render "/benchmarks/raw/head.txt" }}</pre>
 </p>
 
+<h3>Fib(10)</h3>
+<p>Execution of a recursive algorithm for the calculation of Fibonacci(10)</p>
+<section class="benchmark">
+    {{ Graph("fib10") }}
+</section>
+<pre>
+    {{ render "/benchmarks/raw/fib10.txt" }}
+</pre>
+
 <h3>Fib(35)</h3>
-<p>this benchmark....</p>
+<p>Execution of a recursive algorithm for the calculation of Fibonacci(35)</p>
 <section class="benchmark">
 {{ Graph("fib35") }}
 </section>
@@ -25,7 +34,7 @@
 </pre>
 
 <h3>Closures</h3>
-<p>this benchmark....</p>
+<p>Declaration and execution of a closure inside a loop</p>
 <section class="benchmark">
     {{ Graph("closures") }}
 </section>
@@ -34,7 +43,7 @@
 </pre>
 
 <h3>Iterations</h3>
-<p>this benchmark....</p>
+<p>Nested iterations and assignments on a slice of integers</p>
 <section class="benchmark">
     {{ Graph("iterations") }}
 </section>
@@ -44,7 +53,7 @@
 </pre>
 
 <h3>Strings</h3>
-<p>this benchmark....
+<p>Strings concatenation and rune search
     <div class="note">go-lua and GopherLua are not represented here as the test program was not portable to Lua5.1</div>
 </p>
 <section class="benchmark">
