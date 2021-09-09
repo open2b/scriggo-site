@@ -20,7 +20,7 @@ func main() {
 
 	start := time.Now()
 
-	dstDir, err := os.MkdirTemp(".", "public-temp-*")
+	dstDir, err := os.MkdirTemp("..", "public-temp-*")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -42,7 +42,7 @@ func main() {
 		},
 	}
 
-	srcFS := os.DirFS("./site")
+	srcFS := os.DirFS("../site")
 
 	err = fs.WalkDir(srcFS, ".", func(path string, d fs.DirEntry, err error) error {
 		if d.IsDir() || path[0] == '.' {
@@ -99,11 +99,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = os.RemoveAll("public/")
+	err = os.RemoveAll("../public/")
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = os.Rename(dstDir, "public")
+	err = os.Rename(dstDir, "../public")
 	if err != nil {
 		log.Fatal(err)
 	}
