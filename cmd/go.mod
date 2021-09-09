@@ -1,4 +1,4 @@
-module github.com/open2b/scriggo-site/cmd
+module open2b/scriggo-site/cmd
 
 go 1.16
 
