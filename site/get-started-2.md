@@ -39,8 +39,9 @@ Create a file `main.go` with the following source code:
 package main
 
 import (
-    "os"
     "github.com/open2b/scriggo"
+    "log"
+    "os"
 )
 
 func main() {
@@ -63,13 +64,13 @@ func main() {
     // Build the template.
     template, err := scriggo.BuildTemplate(fsys, "index.html", nil)
     if err != nil {
-        panic(err)
+        log.Fatal(err)
     }
  
     // Run the template and print it to the standard output.
     err = template.Run(os.Stdout, nil, nil)
     if err != nil {
-        panic(err)
+        log.Fatal(err)
     }
 
 }
@@ -114,10 +115,11 @@ Replace the content of the `main.go` file with the following:
 package main
 
 import (
-    "os"
     "github.com/open2b/scriggo"
     "github.com/open2b/scriggo/builtin"
     "github.com/open2b/scriggo/native"
+    "log"
+    "os"
 )
 
 func main() {
@@ -146,13 +148,13 @@ func main() {
     // Build the template.
     template, err := scriggo.BuildTemplate(fsys, "index.html", opts)
     if err != nil {
-        panic(err)
+        log.Fatal(err)
     }
  
     // Run the template and print it to the standard output.
     err = template.Run(os.Stdout, nil, nil)
     if err != nil {
-        panic(err)
+        log.Fatal(err)
     }
 
 }

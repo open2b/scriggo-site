@@ -34,7 +34,10 @@ Create a file `main.go` with the following source code:
 ```go
 package main
 
-import "github.com/open2b/scriggo"
+import (
+    "github.com/open2b/scriggo"
+    "log"
+)
 
 func main() {
 
@@ -53,13 +56,13 @@ func main() {
     // Build the program.
     program, err := scriggo.Build(fsys, nil)
     if err != nil {
-        panic(err)
+        log.Fatal(err)
     }
  
     // Run the program.
     err = program.Run(nil)
     if err != nil {
-        panic(err)
+        log.Fatal(err)
     }
 
 }
@@ -125,7 +128,10 @@ then replace the content of the `main.go` file with the following:
 ```go
 package main
 
-import "github.com/open2b/scriggo"
+import (
+    "github.com/open2b/scriggo"
+    "log"
+)
 
 func main() {
 
@@ -154,13 +160,13 @@ func main() {
     // Build the program.
     program, err := scriggo.Build(fsys, opts)
     if err != nil {
-        panic(err)
+        log.Fatal(err)
     }
  
     // Run the program.
     err = program.Run(nil)
     if err != nil {
-        panic(err)
+        log.Fatal(err)
     }
 
 }

@@ -63,8 +63,9 @@ $ cd hello-template
 package main
 
 import (
-    &quot;os&quot;
     &quot;github.com/open2b/scriggo&quot;
+    &quot;log&quot;
+    &quot;os&quot;
 )
 
 func main() {
@@ -87,13 +88,13 @@ func main() {
     // Build the template.
     template, err := scriggo.BuildTemplate(fsys, &quot;index.html&quot;, nil)
     if err != nil {
-        panic(err)
+        log.Fatal(err)
     }
  
     // Run the template and print it to the standard output.
     err = template.Run(os.Stdout, nil, nil)
     if err != nil {
-        panic(err)
+        log.Fatal(err)
     }
 
 }
@@ -124,10 +125,11 @@ package, that can be used in templates.</p>
 package main
 
 import (
-    &quot;os&quot;
     &quot;github.com/open2b/scriggo&quot;
     &quot;github.com/open2b/scriggo/builtin&quot;
     &quot;github.com/open2b/scriggo/native&quot;
+    &quot;log&quot;
+    &quot;os&quot;
 )
 
 func main() {
@@ -156,13 +158,13 @@ func main() {
     // Build the template.
     template, err := scriggo.BuildTemplate(fsys, &quot;index.html&quot;, opts)
     if err != nil {
-        panic(err)
+        log.Fatal(err)
     }
  
     // Run the template and print it to the standard output.
     err = template.Run(os.Stdout, nil, nil)
     if err != nil {
-        panic(err)
+        log.Fatal(err)
     }
 
 }
