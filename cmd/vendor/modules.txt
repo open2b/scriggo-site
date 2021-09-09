@@ -1,0 +1,19 @@
+# github.com/open2b/scriggo v0.50.0
+## explicit
+github.com/open2b/scriggo
+github.com/open2b/scriggo/ast
+github.com/open2b/scriggo/ast/astutil
+github.com/open2b/scriggo/internal/compiler
+github.com/open2b/scriggo/internal/compiler/types
+github.com/open2b/scriggo/internal/runtime
+github.com/open2b/scriggo/internal/thirdparties
+github.com/open2b/scriggo/native
+# github.com/yuin/goldmark v1.4.0
+## explicit
+github.com/yuin/goldmark
+github.com/yuin/goldmark/ast
+github.com/yuin/goldmark/parser
+github.com/yuin/goldmark/renderer
+github.com/yuin/goldmark/renderer/html
+github.com/yuin/goldmark/text
+github.com/yuin/goldmark/util
