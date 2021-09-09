@@ -12,14 +12,14 @@ Here is provided a overview of the similarities and the differences between the 
 templating languages.
 
 > Some examples on this page are taken from [the Jinja
-> documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/).
+> documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/), © Copyright
+> 2007 Pallets).
 
 
 - [From Jinja to Scriggo](#from-jinja-to-scriggo)
   - [Syntax](#syntax)
   - [Type system](#type-system)
   - [Escaping](#escaping)
-  - [Line statements](#line-statements)
   - [Tests](#tests)
   - [Expressions](#expressions)
     - [Literals](#literals)
@@ -31,7 +31,8 @@ templating languages.
     - [Math and comparisons](#math-and-comparisons)
     - [Logic](#logic)
     - [Operator `in`](#operator-in)
-    - [Operator `~`](#operator-)
+    - [Operator `+` (plus)](#operator--plus)
+    - [Operator `~` (tilde)](#operator--tilde)
     - [Methods](#methods)
   - [List of control structures](#list-of-control-structures)
     - [For](#for)
@@ -50,7 +51,7 @@ templating languages.
     - [`length`](#length)
   - [HTML Escaping](#html-escaping)
     - [Automatic contextual escaping](#automatic-contextual-escaping)
-
+  - [Continue to learn](#continue-to-learn)
 
 ## Syntax
 
@@ -82,7 +83,7 @@ it must be separated by the `end` keyword:
 
 ## Type system
 
-One of the biggest difference between Jinja and Scriggo is the type system.
+One of the biggest differences between Jinja and Scriggo is the type system.
 
 Jinja is based on Python, thus it offers a dynamically-typed template system, while
 Scriggo (which is based on Go) is statically typed.
@@ -120,41 +121,12 @@ the _raw_ block in Jinja:
     <ul>
     {% for item in seq %}
         <li>{{ item }}</li>
-    {% endfor %}
+    {% end for %}
     </ul>
 {% end raw %}
 ```
 
 > Note that the _raw_ block is closed by `{% end raw %}`, not `{% endraw %}`.
-
-## Line statements
-
-While Jinja has the _line statements_, Scriggo takes a different approach using the
-_multiline statements_.
-
-For example consider this code in Jinja:
-
-```jinja
-<ul>
-# for item in seq
-    <li>{{ item }}</li>
-# endfor
-</ul>
-```
-
-In Scriggo, you can enclose between `{%%` and `%%}` some Scriggo code without the
-needing of using `{%` and `%}` for every statement, so the example above becomes:
-
-```scriggo
-<ul>{%%
-    for item in seq {
-        show "<li>", item, "</li>"
-    }
-%%}</ul>
-```
-
-The `show` statement can be used in a multiline-statements context, and it is
-equivalent to `{{ .. }}`.
 
 ## Tests
 
@@ -172,8 +144,6 @@ can be rewritten in Scriggo simply using arithmetic and comparison operators:
 ```scriggo
 {% if loop.index % 3 == 0 %}
 ```
-
-
 
 ## Expressions
 
@@ -200,9 +170,9 @@ character:
 
 #### Lists
 
-Scriggo has typed lists, called _slices_, where the type must be specified at
-compilation-time. Also, slice elements must be enclosed between braces (`{`, ...,
-`}`) instead of brackets (`[`, ..., `]`).
+Scriggo has a typed list type called _slice_, where the type must be specified at
+compilation-time. Also, slice elements must be enclosed between `{` and `}` instead
+of `[` and `]`.
 
 For example this code in Jinja:
 
@@ -218,8 +188,8 @@ can be written in Scriggo as:
 
 #### Dictionaries
 
-Scriggo has typed dictionaries called _maps_, where both the key and the value types
-must be specified at compile-time.
+Scriggo has a typed dictionary type called _map_, where both the key and the value
+types must be specified at compile-time.
 
 So, this dictionary:
 
@@ -233,14 +203,13 @@ can be written as:
 {% var data = map[string]string{"dict": "of", "key": "and", "value": "pairs"} %}
 ```
 
-Note that _maps_ in Scriggo, just like in Go, do not keep any information about keys
+Note that maps in Scriggo, just like in Go, do not keep any information about keys
 ordering.
 
 #### Tuples
 
-Scriggo has no equivalent for tuples. In general, you may want to use _slices_ or
-_arrays_ for sorted values, and _maps_ or _structs_ for values with an associated
-key.
+Scriggo has no equivalent for tuples. In general, you may want to use slices for
+sorted values, and maps or structs for values with an associated key.
 
 For example, consider this tuple in Jinja, representing a date:
 
@@ -248,25 +217,19 @@ For example, consider this tuple in Jinja, representing a date:
 {% set birthday = (1, 5, 2020) %}
 ```
 
-This can be rewritten in Scriggo using a _slice_:
+This can be rewritten in Scriggo using a slice:
 
 ```scriggo
 {% var birthday = []int{1, 5, 2020} %}
 ```
 
-or an _array_:
-
-```scriggo
-{% var birthday = [3]int{1, 5, 2020} %}
-```
-
-or, if you want named values, you can us a _map_:
+or, if you want named values, you can us a map:
 
 ```scriggo
 {% var birthday = map[string]int{"day": 1, "month": 5, "year": 2020} %}
 ```
 
-or a _struct_:
+or a struct:
 
 ```scriggo
 {% type date struct { day, month, year int } %}
@@ -280,11 +243,9 @@ While Jinja does have _if expressions_, Scriggo doesn't.
 In Scriggo you can use an _if statement_ to assign to a variable conditionally:
 
 ```scriggo
-{% var title string %}
+{% var title = "bar" %}
 {% if 2 + 2 == 4 %}
 	{% title = "foo" %}
-{% else %}
-	{% title = "bar" %}
 {% end %}
 <h1>{{ title }}</h1>
 ```
@@ -302,10 +263,10 @@ For example this template code is valid both in Jinja and Scriggo:
 
 ### Logic
 
-Scriggo, just like Jinja, supports the `and`, `or` and `not` binary operators, but
- with a difference: while in Jinja (like in Python) the `and`/`or` operator returns
- the value of the last evaluated operand, in Scriggo they return a boolean value
- independently from the type of the operands.
+Scriggo, just like Jinja, supports the `and`, `or` and `not` logic operators, but
+ with a difference: while in Jinja (like in Python) the `and` and `or` expressions
+ are evaluated as one of the two operands, in Scriggo they are always evaluated to a
+ boolean value.
 
 Consider this:
 
@@ -326,7 +287,7 @@ true
 ```
 
 The behavior of the `not` operator is the same in Jinja and Scriggo, thus it always
-returns a boolean.
+evaluates to a boolean.
 
 ### Operator `in`
 
@@ -334,15 +295,28 @@ While Jinja has the _in_ operator:
 
 ```jinja
 {{ 1 in [1, 2, 3] }}
+{{ 3 not in [1, 2, 3] }}
 ```
 
-Scriggo has the _contains_ operators (note that the operands are reverted respect to the _in_ operator):
+Scriggo has the _contains_ and _not contains_ operators (note that the operands are
+reverted respect to the _in_ operator):
 
 ```scriggo
 {{ []int{1, 2, 3} contains 1 }}
+{{ []int{1, 2, 3} not contains 3 }}
 ```
 
-### Operator `~`
+### Operator `+` (plus)
+
+The operator `+` in Scriggo, just like in Jinja, can also be used to concatenate
+strings.
+
+```scriggo
+{% var name = "hello" %}
+{{ name + ", " + "world! "}}
+```
+
+### Operator `~` (tilde)
 
 Jinja has the _tilde operator_ that converts the operands in strings and concatenates them:
 
@@ -357,6 +331,8 @@ In Scriggo this can be achieved using a builtin function like `sprintf`:
 {% var name = "FooBar" %}
 {{ sprintf("Hello %s!", name) }}
 ```
+
+If the operands are strings, you can use the [operator `+`](#operator--plus).
 
 ### Methods
 
@@ -382,18 +358,6 @@ For example this code is valid both in Scriggo and Jinja:
 {% endfor %}
 </ul>
 ```
-
-You can also iterate over [maps](#dictionaries):
-
-```scriggo
-{% var x = map[string]int{ "one": 1, "two": 2, "three": 3 } %}
-{% for k in x %}
-    Key:   {{ k }}
-    Value: {{ x[k]}}
-{% end for %}
-```
-
-> In Scriggo, just like in Go, ordering of iterations over maps is non-deterministic.
 
 ### If
 
@@ -663,10 +627,11 @@ To import a template file specifying the declarations to import:
 {{ Content() }}
 ```
 
-To import every declaration from a template file:
+To import every (exported) declaration from a template file:
+
 
 ```scriggo
-{% import . "path/to/file.html" %}
+{% import "path/to/file.html" %}
 {{ Title() }}
 {{ Content() }}
 ```
@@ -715,24 +680,39 @@ In Scriggo you can access to attributes using a selector, just like in Jinja:
 
 Note that if `foo` has no attribute `bar`, it results in a compilation error.
 
+> In general, attributes names in Scriggo begins with an uppercase letter: that means
+> that such field is exported. In Scriggo, just like in Go, only exported fields can
+> be accessed by other packages from the one that declared such type.
+
 ### `length`
 
-Scriggo offer the builtin function `len` that may be used to obtain the length of a
-string, slice, array or map.
-
-Note that, for strings, it returns the count of bytes, not the count of runes
-(characters).
+Scriggo offer the builtin function `runeCount` that returns the number of characters
+of a string.
 
 ```scriggo
-{{ len("hellò") }}
+{{ runeCount("hellò") }}
 ```
 
 renders to
 
 ```
-6
+5
 ```
 
+Scriggo also offers the builtin function `len` that returns the number of elements in
+slices and maps and the number of bytes in strings.
+
+```scriggo
+{{ len([]int{10, 20, 30}) }}
+{{ len("hellò") }}
+```
+
+renders to:
+
+```
+3
+6
+```
 
 ## HTML Escaping
 
@@ -745,7 +725,7 @@ In Scriggo the code is always escaped before being rendered in a given context.
 For example:
 
 ```scriggo
-{{ "<b>Not real bold...</b>"}}
+{{ "<b>Not real bold...</b>" }}
 ```
 
 renders as:
@@ -796,5 +776,17 @@ different algorithms:
 * in the context of HTML it becomes: `&lt; is more`.
 * in the context of an attribute value, that is automatically detected by the Scriggo
   parser, it is escaped as `%3c is more`.
+
+## Continue to learn
+
+Now you can checkout this resources:
+
+- [Templates](templates), which provides a more depth overview of the Scriggo
+  template
+- [Get started with templates](get-started-2#execute-templates-in-your-application),
+  which provides a tutorial on embedding Scriggo templates in your Go application.
+- [The Scriggo Templates Specification](template-spec), which expands the [Go
+  language specification](https://golang.org/ref/spec) covering every aspect of the
+  Scriggo template in detail.
 
 {% end raw document %}
