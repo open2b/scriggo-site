@@ -11,7 +11,6 @@ dl { line-height: 1.60; margin: 1.25rem; }
 dd { margin-left: 1.5rem; }
 ol li { line-height: 2; }
 
-
 nav.top { align-items: center; display: flex; justify-content: flex-start; flex-wrap: wrap; padding: 2rem 0; width: 100%; }
 nav.top .logo { margin-left: 3rem; }
 nav.top .logo img { vertical-align: bottom; }
@@ -68,7 +67,9 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .article article { background: #fff; min-height: 100vh; }
 .article article > .wrap { display: flex; font-size: 1rem; margin: 0 auto; max-width: 1280px; padding: 0 1rem; }
 .article aside { margin-right: 3rem; }
-.article aside ul { list-style-type: none; margin-top: 3rem; padding: 0; }
+.article aside ul { list-style-type: none; padding: 0; }
+.article aside > ul { margin-top: 3rem; }
+.article aside li > ul { padding-left: 1rem; }
 .article aside li { white-space: nowrap; }
 .article aside ul a { display: block; font-size: 1.1rem; padding: 0.5rem; }
 .article aside ul a, .article aside ul a:visited { color: #333; }
@@ -77,7 +78,7 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .article .content a, .article .content a:visited { color: #5f943d; }
 .article h1 { color: #0a1922; font-size: 2.6rem; }
 .article p + h1 { font-size: 2.2rem; margin-top: -.7em; }
-.article h2 { color: #0a1922; font-size: 2rem; }
+.article h2 { color: #0a1922; font-size: 1.8rem; }
 .article h3 { color: #0a1922; }
 .article pre { background: #f9f6f1; border-radius: 3px; padding: 1rem; overflow-x: auto; }
 .article code { background: #f9f6f1; border-radius: 2px; color: #523f18; padding: .2rem .5rem; }
@@ -86,6 +87,8 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .article blockquote > p + div pre { background: transparent; margin: 0; padding-left: 0; padding-top: 0; }
 .article blockquote div + p { margin-top: 0; }
 .article img { max-width: 100%; }
+
+.article pre + .result { border-top-left-radius: 0; border-top: 1px solid #dfdad3; border-top-right-radius: 0; margin-top: -17px; padding-top: 16px; }
 
 #what-is-scriggo + p { color: #777; font-size: 1.2em; font-weight: bold; }
 

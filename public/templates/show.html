@@ -2,7 +2,7 @@
 <html lang="en" class="article">
 <head>
     <meta charset="utf-8">
-    <title>What is Scriggo</title>
+    <title>Scriggo templates: the show statement</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -42,17 +42,53 @@
             </nav>
         </aside>
         <div class="content">
-            <h1 id="what-is-scriggo">What is Scriggo</h1>
-<p>Scriggo is the fastest, modern and secure Go template engine and embeddable Go runtime.</p>
-<p>It is also a modern and safe template engine that allows to use the Go language also inside templates.</p>
-<p>Scriggo can be easily included in any application and does not require Go installed on the client or server because
-Scriggo implements the Go programming language with its own compiler and virtual machine written from scratch.</p>
-<p>Scriggo is written in pure Go, so it can run on servers, desktops, mobile devises and also on serverless platforms
-like <a href="https://aws.amazon.com/lambda/">Amazon Lambda</a>,
-<a href="https://cloud.google.com/appengine/">Google App Engine</a> and
-<a href="https://azure.microsoft.com/services/functions/">Azure Functions</a>.</p>
-<p>It's fast. Executes code as fast as mainstream languages like Ruby, Python and Lua.</p>
-<h2 id="why-use-scriggo">Why use Scriggo</h2>
+            <h1 id="show">Show</h1>
+<p>The <em>show</em> statement followed by one or more expressions, evaluates them and displays the results:</p>
+<pre><code class="language-scriggo">{% show 5 + 2, &quot; = &quot;, 7 %}
+{% show price %}
+</code></pre>
+<pre class="result">
+7 = 7
+$29,99
+</pre>
+<p>A show statement with a single expression can also be written as follows:</p>
+<pre><code>{{ 5 + 2 }}
+{{ price }}
+</code></pre>
+<pre class="result">
+7
+$29,99
+</pre>
+<p>This second form is the most used because it is easier to write and read, you can still use one or the other indifferently.</p>
+<p>Between <code>{%%</code> and <code>%%}</code> the show statement can be used as follows:</p>
+<pre><code>{%%
+  var value = 55
+  if value &lt; 100 {
+      show &quot;value is &quot;, value
+  } else {
+      show &quot;too large&quot;
+  }
+%%}
+</code></pre>
+<pre class="result">value is 55</pre>
+<p>The show statement shows the expressions based on the context in which it is used:</p>
+<pre><code>{% var greeting = &quot;hello&quot; %}
+
+&lt;div&gt;{{ greeting }}&lt;/div&gt;
+
+&lt;script&gt;
+  var a = {{ greeting }};
+  var b = '{{ greeting }} world';
+&lt;/script&gt;
+</code></pre>
+<pre class="result">
+&lt;div&gt;hello&lt;/div&gt;
+
+&lt;script&gt;
+  var a = "hello";
+  var b = 'hello world';
+&lt;/script&gt;
+</pre>
 
         </div>
     </div>

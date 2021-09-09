@@ -2,7 +2,7 @@
 <html lang="en" class="article">
 <head>
     <meta charset="utf-8">
-    <title>What is Scriggo</title>
+    <title>Scriggo templates: the render operator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -42,17 +42,42 @@
             </nav>
         </aside>
         <div class="content">
-            <h1 id="what-is-scriggo">What is Scriggo</h1>
-<p>Scriggo is the fastest, modern and secure Go template engine and embeddable Go runtime.</p>
-<p>It is also a modern and safe template engine that allows to use the Go language also inside templates.</p>
-<p>Scriggo can be easily included in any application and does not require Go installed on the client or server because
-Scriggo implements the Go programming language with its own compiler and virtual machine written from scratch.</p>
-<p>Scriggo is written in pure Go, so it can run on servers, desktops, mobile devises and also on serverless platforms
-like <a href="https://aws.amazon.com/lambda/">Amazon Lambda</a>,
-<a href="https://cloud.google.com/appengine/">Google App Engine</a> and
-<a href="https://azure.microsoft.com/services/functions/">Azure Functions</a>.</p>
-<p>It's fast. Executes code as fast as mainstream languages like Ruby, Python and Lua.</p>
-<h2 id="why-use-scriggo">Why use Scriggo</h2>
+            <h1 id="render">Render</h1>
+<p>The <em>render</em> operator, when used between <code>{{</code> and <code>}}</code>:</p>
+<pre><code class="language-scriggo">{{ render path }}
+</code></pre>
+<p>renders the template file with the named path and shows its content. A file rendered with render is called <em>partial</em>
+because contains only a part of the content to render:</p>
+<pre><code class="language-scriggo">{{ render &quot;/partials/promotion.html&quot; }}
+</code></pre>
+<p>The path of the partial file can also be relative to the file that contains the render operator:</p>
+<pre><code class="language-scriggo">{{ render &quot;../header.html&quot; }}
+</code></pre>
+<p>When a partial file is rendered, the code of the file does not see the variables declared in the file that contain the
+render operator, and it does not see the other declarations in this file. For this purpose, macros with parameters are
+used, such as:</p>
+<pre><code class="language-scriggo">{{ Image(&quot;picture.jpg&quot;, 400, 500) }}
+</code></pre>
+<p>See <a href="macro">macro</a> for details.</p>
+<h2 id="more-general-use">More general use</h2>
+<p>Render is a Scriggo operator and as such it can be used in expressions, not only between {{ and }}, like any other
+operator. Its evaluation returns a string. For example, it is possible to assign its evaluation for later use:</p>
+<pre><code class="language-scriggo">{% var email = render &quot;email.html&quot; %}
+</code></pre>
+<p>or use it as part of another expression:</p>
+<pre><code class="language-scriggo">{%%
+    if discount {
+        show &quot;Offer: &quot; + render &quot;offer.html&quot;
+    }
+%%}
+</code></pre>
+<h2 id="non-existent-files">Non-existent files</h2>
+<p>If the file to render does not exist, a compilation error occurs. On the other hand, if you want to handle the case in
+which the file does not exist, you can use a <em>default</em> expression:</p>
+<pre><code class="language-scriggo">{% promo := render &quot;extra.html&quot; default &quot;not found&quot; %}
+</code></pre>
+<p>If a template file with path &quot;extra.html&quot; exists, <code>promo</code> will contain the result of its rendering, otherwise it will be
+<code>&quot;not found&quot;</code>.</p>
 
         </div>
     </div>

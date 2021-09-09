@@ -22,14 +22,22 @@
         <aside>
             <nav>
             <ul>
-                <li><a href="what-is-scriggo">What is Scriggo</a></li>
-                <li><a href="get-started">Get Started</a></li>
-                <li><a href="templates">Templates</a></li>
-                <li><a href="scriggo-command">Scriggo command</a></li>
-                <li><a href="scriggofile">Scriggofile</a></li>
-                <li><a href="disassembler">Disassembler</a></li>
-                <li><a href="limitations">Limitations</a></li>
-                <li><a href="template-spec">Template spec</a></li>
+                <li><a href="/what-is-scriggo">What is Scriggo</a></li>
+                <li><a href="/get-started">Get Started</a></li>
+                <li>
+                    <a href="/templates">Templates</a>
+                    <ul>
+                        <li><a href="/templates/show">Show</a></li>
+                        <li><a href="/templates/render">Render</a></li>
+                        <li><a href="/templates/macro">Macro</a></li>
+                        <li><a href="/templates/extends-and-import">Extends and Import</a></li>
+                    </ul>
+                </li>
+                <li><a href="/scriggo-command">Scriggo command</a></li>
+                <li><a href="/scriggofile">Scriggofile</a></li>
+                <li><a href="/disassembler">Disassembler</a></li>
+                <li><a href="/limitations">Limitations</a></li>
+                <li><a href="/template-spec">Template spec</a></li>
             </ul>
             </nav>
         </aside>
@@ -295,8 +303,10 @@ unary_op   = &quot;+&quot; | &quot;-&quot; | &quot;!&quot; | &quot;^&quot; | &qu
 <li><code>x</code> is the zero value of <code>T</code>,</li>
 <li><code>x</code> is an empty slice or map,</li>
 <li><code>T</code> is an interface and the dynamic value of <code>x</code> is not truthful,</li>
-<li><code>T</code> is a struct or pointer to struct, implements <code>interface{ IsTrue() bool }</code> and <code>x.IsTrue()</code> is false.</li>
+<li><code>T</code> is a struct or pointer to struct that implements <code>interface{ IsTrue() bool }</code> and <code>x.IsTrue()</code> is false.</li>
 </ul>
+<p>Implementation restriction: A compiler can not assume that <code>x.IsTrue()</code> evaluates to the same value for the same value
+of <code>x</code>.</p>
 <h3 id="extended-logical-operators">Extended logical operators</h3>
 <p>Extended logical operators applies to any value and yield an untyped boolean value or an untyped boolean constant if both the operands are constants. The right operand is evaluated conditionally.</p>
 <pre><code>and    conditional AND    p and q  is  &quot;if p is truthful then q is truthful else false&quot;
@@ -438,7 +448,8 @@ the following code</p>
 <h2 id="template-files">Template files</h2>
 <p>Templates are constructed linking together template files. A template file has a path, rooted at the template root, and a format: <em>Text</em>, <em>HTML</em>, <em>Markdown</em>, <em>CSS</em>, <em>JS</em> or <em>JSON</em>. The format of a file is implementation dependant.</p>
 <h2 id="extends-declarations">Extends declarations</h2>
-<p>An extends declaration states that the <em>extended</em> file depends on functionality of the file containing the declaration and enables access to exported identifiers of this file. The exports names the path of the extended file.</p>
+<p>An extends declaration states that the <em>extended</em> file depends on functionality of the file containing the declaration
+and enables access to exported identifiers of this file. The exports names the path of the extended file.</p>
 <pre><code>ExtendsDecl = &quot;extends&quot; ExtendsPath
 ExtendsPath = string_lit .
 </code></pre>
@@ -448,7 +459,7 @@ ExtendsPath = string_lit .
 <li>it can only contain declarations,</li>
 <li>it cannot contain more that one extends declaration,</li>
 <li>outside {% and %}, {%% and %%} and {# and #}, it can only contain white space: spaces (U+0020), horizontal tabs (U+0009), carriage returns (U+000D), and newlines (U+000A).</li>
-<li>it cannot be extended with the extends declaration, imported with the import declaration or rendered with the render operator.</li>
+<li>it cannot be imported with the import declaration or rendered with the render operator.</li>
 </ul>
 <h2 id="import-declarations">Import declarations</h2>
 <p>The <code>ImportPath</code> of an import declaration is first interpreted as the path of a template file. If a template file with
@@ -474,7 +485,9 @@ ImportSpec    = [ [ &quot;.&quot; | PackageName ] ImportPath | ImportForSpec ] .
 ImportForSpec = ImportPath &quot;for&quot; Identifier { &quot;,&quot; Identifier } .
 </code></pre>
 <h2 id="template-initialization-and-execution">Template initialization and execution</h2>
-<p>The template execution starts from a template file. If the file contains an extends declaration, the execution starts from the extended file.</p>
+<p>The template execution starts from a template file. If the file contains an extends declaration, the execution starts
+from the extended file. If the extended file extends another file, the execution starts from that other file, and so on
+as long as an extended file does not extend any other files.</p>
 <h3 id="package-unsafe">Package <code>&quot;unsafe&quot;</code></h3>
 <p>There is not the &quot;unsafe&quot; package of the Go language in Scriggo templates.</p>
 
