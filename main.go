@@ -46,11 +46,7 @@ func main() {
 			return nil
 		}
 		if d.IsDir() {
-			err = os.MkdirAll(filepath.Join("public", path), 0700)
-			if err != nil {
-				log.Fatal(err)
-			}
-			return nil
+			return os.MkdirAll(filepath.Join("public", path), 0700)
 		}
 		ext := filepath.Ext(path)
 		switch ext {
@@ -58,44 +54,38 @@ func main() {
 		case ".md":
 			template, err := scriggo.BuildTemplate(srcFS, path, buildOptions)
 			if err != nil {
-				log.Fatal(err)
+				return err
 			}
 			name := filepath.Join("public", path[:len(path)-3]) + ".html"
 			fi, err := os.OpenFile(name, os.O_WRONLY|os.O_CREATE, 0600)
 			if err != nil {
-				log.Fatal(err)
+				return err
 			}
 			err = template.Run(fi, nil, nil)
 			if err == nil {
 				err = fi.Close()
 			}
-			if err != nil {
-				log.Fatal(err)
-			}
 		default:
 			src, err := srcFS.Open(path)
 			if err != nil {
-				log.Fatal(err)
+				return err
 			}
 			name := filepath.Join("public", path)
 			err = os.MkdirAll(filepath.Dir(name), 0700)
 			if err != nil {
-				log.Fatal(err)
+				return err
 			}
 			dst, err := os.OpenFile(name, os.O_WRONLY|os.O_CREATE, 0600)
 			if err != nil {
-				log.Fatal(err)
+				return err
 			}
 			_, err = io.Copy(dst, src)
 			if err == nil {
 				_ = src.Close()
 				err = dst.Close()
 			}
-			if err != nil {
-				log.Fatal(err)
-			}
 		}
-		return nil
+		return err
 	})
 	if err != nil {
 		log.Fatal(err)
