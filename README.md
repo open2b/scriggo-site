@@ -2,8 +2,7 @@
 
 ### Running the website
 
-Run inside this repository:
-
 ```
+cd site
 scriggo serve
 ```
