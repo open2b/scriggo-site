@@ -42,7 +42,14 @@ func main() {
 		if err != nil {
 			return err
 		}
-		if d.IsDir() || path[0] == '.' {
+		if path[0] == '.' {
+			return nil
+		}
+		if d.IsDir() {
+			err = os.MkdirAll(filepath.Join("public", path), 0700)
+			if err != nil {
+				log.Fatal(err)
+			}
 			return nil
 		}
 		ext := filepath.Ext(path)
@@ -54,10 +61,6 @@ func main() {
 				log.Fatal(err)
 			}
 			name := filepath.Join("public", path[:len(path)-3]) + ".html"
-			err = os.MkdirAll(filepath.Dir(name), 0500)
-			if err != nil {
-				log.Fatal(err)
-			}
 			fi, err := os.OpenFile(name, os.O_WRONLY|os.O_CREATE, 0600)
 			if err != nil {
 				log.Fatal(err)
