@@ -20,16 +20,10 @@ func main() {
 
 	start := time.Now()
 
-	dstDir, err := os.MkdirTemp("..", "public-temp-*")
+	err := os.Mkdir("public", 0755)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer func() {
-		err = os.RemoveAll(dstDir)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}()
 
 	md := goldmark.New(
 		goldmark.WithRendererOptions(html.WithUnsafe()),
@@ -42,7 +36,7 @@ func main() {
 		},
 	}
 
-	srcFS := os.DirFS("../site")
+	srcFS := os.DirFS("site")
 
 	err = fs.WalkDir(srcFS, ".", func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
@@ -58,7 +52,7 @@ func main() {
 			if err != nil {
 				log.Fatal(err)
 			}
-			name := filepath.Join(dstDir, path[:len(path)-3]) + ".html"
+			name := filepath.Join("public", path[:len(path)-3]) + ".html"
 			err = os.MkdirAll(filepath.Dir(name), 0500)
 			if err != nil {
 				log.Fatal(err)
@@ -79,7 +73,7 @@ func main() {
 			if err != nil {
 				log.Fatal(err)
 			}
-			name := filepath.Join(dstDir, path)
+			name := filepath.Join("public", path)
 			err = os.MkdirAll(filepath.Dir(name), 0700)
 			if err != nil {
 				log.Fatal(err)
@@ -99,10 +93,6 @@ func main() {
 		}
 		return nil
 	})
-	if err != nil {
-		log.Fatal(err)
-	}
-	err = os.Rename(dstDir, "../public")
 	if err != nil {
 		log.Fatal(err)
 	}
