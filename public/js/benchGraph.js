@@ -10,14 +10,25 @@ var BenchGraph = (function () {
 			}
 			graphContainer.find('.program span').text(bench.Program);
 			var maxTime = 0;
+			var minTime = 9999999999999;
 			for (const interpreter in bench.Results) {
 				var res = bench.Results[interpreter];
 				if (res.Time > maxTime) {
-					maxTime = res.Time
+					maxTime = res.Time;
+				}
+				if (res.Time < minTime) {
+					minTime = res.Time;
 				}
 			}
 			var times = [];
 			var allocs = [];
+			var timeFormat = 's';
+			if ( minTime / 1000000000 < 1 ) {
+				timeFormat = 'ms';
+			}
+			if ( minTime / 1000000 < 1 ) {
+				timeFormat = 'μs'
+			}
 			for (const interpreter in bench.Results) {
 				var res = bench.Results[interpreter];
 				times.push({
@@ -29,8 +40,15 @@ var BenchGraph = (function () {
 					value: res.Allocs
 				});
 
-				var timeLabel = (Math.round((res.Time / 1000000000 + Number.EPSILON) * 100) / 100) + 's';
-				var timeWidth = res.Time * 95 / maxTime;
+				var timeLabel;
+				if ( timeFormat == 's' ) {
+					timeLabel = (Math.round((res.Time / 1000000000 + Number.EPSILON) * 100) / 100) + 's';
+				} else if ( timeFormat == 'ms' ) {
+					timeLabel = Math.round(res.Time / 1000000) + 'ms';
+				} else {
+					timeLabel = Math.round(res.Time / 1000) + 'μs';
+				}
+				var timeWidth = res.Time * 90 / maxTime;
 				graphContainer.find('.' + interpreter + ' .bar').css({
 					width: timeWidth + '%'
 				});
@@ -52,13 +70,16 @@ var BenchGraph = (function () {
 			times.sort(sortFunc);
 			allocs.sort(sortFunc);
 
-			for (var i = 0; i < times.length; i++) {
-				graphContainer.append(graphContainer.children(' .' + times[i].interpreter));
+			for (var j = 0; j < times.length; j++) {
+				var langContainer = graphContainer.children(' .' + times[j].interpreter);
+				langContainer.show();
+				graphContainer.append(langContainer);
 			}
-			for (var i = 0; i < allocs.length; i++) {
-				graphContainer.find('.allocations .data').append(graphContainer.find('.allocations .data .' + allocs[i].interpreter));
+			for (var j = 0; j < allocs.length; j++) {
+				var langContainer = graphContainer.find('.allocations .data .' + allocs[j].interpreter);
+				langContainer.css({ display : 'table-row' });
+				graphContainer.find('.allocations .data').append(langContainer);
 			}
-			// $('.benchmark .graph').append($('.benchmark .graph .allocations'));
 		}
 
 	}

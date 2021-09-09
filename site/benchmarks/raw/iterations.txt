@@ -1,0 +1,6 @@
+BenchmarkScriggo/iterations.go-4       	     270	  13124931 ns/op	   32264 B/op	       8 allocs/op
+BenchmarkYaegi/iterations.go-4         	     351	  10375293 ns/op	   53766 B/op	    1031 allocs/op
+BenchmarkTengo/iterations.tengo-4      	      72	  47643964 ns/op	 9150662 B/op	  803200 allocs/op
+BenchmarkGoLua/iterations.lua-4        	     100	  34664298 ns/op	 2601146 B/op	  322111 allocs/op
+BenchmarkGopherLua/iterations.lua-4    	      75	  47975331 ns/op	 3897222 B/op	  326059 allocs/op
+BenchmarkGoja/iterations.js-4          	      26	 136761288 ns/op	12806211 B/op	  772259 allocs/op

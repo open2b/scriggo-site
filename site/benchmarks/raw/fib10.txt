@@ -1,0 +1,6 @@
+BenchmarkScriggo/fib10.go-4            	  115525	     29809 ns/op	   32016 B/op	      11 allocs/op
+BenchmarkYaegi/fib10.go-4              	   16239	    202051 ns/op	  108006 B/op	    2307 allocs/op
+BenchmarkTengo/fib10.tengo-4           	   32164	    112193 ns/op	  127314 B/op	     638 allocs/op
+BenchmarkGoLua/fib10.lua-4             	   70012	     51901 ns/op	    9360 B/op	     319 allocs/op
+BenchmarkGopherLua/fib10.lua-4         	   37641	     95869 ns/op	   52608 B/op	     247 allocs/op
+BenchmarkGoja/fib10.js-4               	   13126	    272616 ns/op	  148735 B/op	    1874 allocs/op

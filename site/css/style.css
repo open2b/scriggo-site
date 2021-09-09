@@ -44,25 +44,38 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .index .why h2 { color: #ebb951; font-size: 1.8rem; font-weight: normal; }
 .index .why p { color: #333; font-size: 1.3rem; font-weight: 200; line-height: 1.9rem; }
 
-.benchmark { color: #000; float: left; padding: 2rem 1rem 5rem 9rem; width: 50%; }
+.index body > section.benchmark { background: #0a1922; color: #FFF; margin: 0; padding: 4rem 9rem; }
 .benchmark h2 { font-size: 2rem; font-weight: normal; margin-bottom: .5rem; }
 .benchmark h2 + p { color: #ddd; margin-bottom: 3rem; margin-top: .5rem; }
-.benchmark div p { font-size: 1.1rem; margin-bottom: 5px; margin-top: 24px; }
-.benchmark div p a { color: #ccc; opacity: .999; }
+.benchmark .graph { position: relative; }
+.benchmark .graph .program { color: #999; margin-bottom: 1em; }
+.benchmark .graph .program span { color: #999; padding:0; }
+.benchmark .graph .interpreter,
+.benchmark .graph .allocations .interpreter{ display: none; }
+.benchmark div p { font-size: 1.1rem; margin-bottom: 1px; margin-top: 15px; }
+.benchmark div p a { color: #FFF; opacity: .999; }
 .benchmark div p span { color: #aaa; font-size: 1rem; padding-left: 1rem; }
-.benchmark .bar { background: linear-gradient(to right, #00fcd5, #00c6ff); height: 11px; }
-.benchmark .bar-scriggo { opacity: 1; width: 12.79%; }
-.benchmark .bar-tengo { opacity: .6935; width: 18.44%; }
-.benchmark .bar-gopher-lua { opacity: .4542; width: 28.16%; }
-.benchmark .bar-go-lua { opacity: .4480; width: 28.1654%; }
-.benchmark .bar-yaegi { opacity: .1200; width: 100%; }
-
-.benchmark .bar-go { opacity: 1; width: 1.99%; }
-.benchmark .bar-ruby { opacity: 1; width: 40.40%; }
-.benchmark .bar-scriggo-2 { opacity: 1; width: 77.15%; }
-.benchmark .bar-python { opacity: .6935; width: 100%; }
+.benchmark .bar { background: linear-gradient(to right, #00fcd5, #006288); display: inline-block; height: 12px; margin-top: 1px; text-align: right; }
+.benchmark span.time { color: #FFF; font-size: 16px; padding-left: 10px; }
+.benchmark .allocations { font-size: .95em; position: absolute; right: 60px; top: 0; }
+.benchmark .allocations .data { display: table; padding: 10px 0; }
+.benchmark .allocations .data div { display: table-row; }
+.benchmark .allocations .data div span { display: table-cell; padding:3px 8px; }
+.benchmark .allocations .data div span:first-child { padding-left: 0; }
+.benchmark .allocations .data span.allocs { color: #CCC; }
+.benchmark .allocations h3 { column-span: 2; display:table-cell; font-size: 1.3em; font-weight: normal; letter-spacing: 1px;  margin: 0 0 10px 0; }
+.benchmark .allocations h3 span { color: #CCC; font-size: .7em; }
 
 .benchmark + .benchmark { padding-left: 5rem; padding-right: 8rem; }
+
+.page-benchmarks h3 { margin-top: 4rem; }
+.page-benchmarks pre { font-size: .8em; }
+.page-benchmarks section.benchmark { border-radius: 3px; background: #0a1922; color: #FFF; margin-top: 1rem; padding: 34px 50px 50px 50px; }
+.page-benchmarks section.benchmark h3,
+.page-benchmarks .graph p a,
+.page-benchmarks .graph p a:visited { color: #FFF; }
+.page-benchmarks .graph p.program { display: none; }
+.page-benchmarks .note { color: #999; font-size: .8em; font-style: italic; }
 
 .article article { background: #fff; min-height: 100vh; }
 .article article > .wrap { display: flex; font-size: 1rem; margin: 0 auto; max-width: 1280px; padding: 0 1rem; }

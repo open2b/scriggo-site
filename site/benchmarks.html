@@ -1,0 +1,63 @@
+{% extends "/layouts/page.html" %}
+{% import "/imports/graph.html" for Graph %}
+{% var Page = "benchmarks" %}
+{% macro Title string %}Benchmarks{% end %}
+{% Content %}
+
+<h1>Benchmarks</h1>
+<p>
+    Scriggo a fast pure Go language runtime, here there are some benchmarks.
+    The benchmarks illustrated here can be found <a href="https://github.com/open2b/scriggo-bench" target="_blank">on this repository</a>.
+</p>
+
+<p>
+    The results presented in this page have been obtained with the following configuration:
+    <pre>{{ render "/benchmarks/raw/head.txt" }}</pre>
+</p>
+
+<h3>Fib(35)</h3>
+<p>this benchmark....</p>
+<section class="benchmark">
+{{ Graph("fib35") }}
+</section>
+<pre>
+    {{ render "/benchmarks/raw/fib35.txt" }}
+</pre>
+
+<h3>Closures</h3>
+<p>this benchmark....</p>
+<section class="benchmark">
+    {{ Graph("closures") }}
+</section>
+<pre>
+    {{ render "/benchmarks/raw/closures.txt" }}
+</pre>
+
+<h3>Iterations</h3>
+<p>this benchmark....</p>
+<section class="benchmark">
+    {{ Graph("iterations") }}
+</section>
+
+<pre>
+    {{ render "/benchmarks/raw/iterations.txt" }}
+</pre>
+
+<h3>Strings</h3>
+<p>this benchmark....
+    <div class="note">go-lua and GopherLua are not represented here as the test program was not portable to Lua5.1</div>
+</p>
+<section class="benchmark">
+    {{ Graph("strings") }}
+</section>
+
+<pre>
+    {{ render "/benchmarks/raw/strings.txt" }}
+</pre>
+
+<script src="/js/jquery-3.6.0.min.js"></script>
+<script src="/js/benchGraph.js"></script>
+<script>
+    $.getJSON("benchmarks/all.json", function(data) { new BenchGraph(data).Render(); })
+</script>
+
