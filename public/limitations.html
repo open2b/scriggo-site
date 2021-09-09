@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <meta charset="utf-8">
+    <title>Limitations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
+    <ul>
+        <li><a href="/news">News</a></li>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/use-cases">Use Cases</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+    <a class="github-logo" href="https://github.com/open2b/scriggo/" alt="Scriggo on GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Github | Scriggo</title><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a></a>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="what-is-scriggo">What is Scriggo</a></li>
+                <li><a href="get-started">Get Started</a></li>
+                <li><a href="templates">Templates</a></li>
+                <li><a href="scriggo-command">Scriggo command</a></li>
+                <li><a href="scriggofile">Scriggofile</a></li>
+                <li><a href="disassembler">Disassembler</a></li>
+                <li><a href="limitations">Limitations</a></li>
+                <li><a href="template-spec">Template spec</a></li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="limitations">Limitations</h1>
+<h2 id="missing-features">Missing features</h2>
+<p>These limitations are features that Scriggo currently lacks but that are
+under development. To check the state of a limitation please refer to the
+GitHub issues linked in the list below.</p>
+<ul>
+<li>methods declarations (<a href="https://github.com/open2b/scriggo/issues/458">#458</a>)</li>
+<li>interface types definition (<a href="https://github.com/open2b/scriggo/issues/218">#218</a>)</li>
+<li>assigning to non-variables in 'for range' statements (<a href="https://github.com/open2b/scriggo/issues/182">#182</a>)</li>
+<li>importing the &quot;unsafe&quot; package from Scriggo (<a href="https://github.com/open2b/scriggo/issues/288">#288</a>)</li>
+<li>importing the &quot;runtime&quot; package from Scriggo (<a href="https://github.com/open2b/scriggo/issues/524">#524</a>)</li>
+<li>labeled continue and break statements (<a href="https://github.com/open2b/scriggo/issues/83">#83</a>)</li>
+<li>compilation of non-main packages without importing them (<a href="https://github.com/open2b/scriggo/issues/521">#521</a>)</li>
+</ul>
+<p>For a comprehensive list of not-yet-implemented features
+see the list of <a href="https://github.com/open2b/scriggo/labels/missing-feature">missing features on Github</a>.</p>
+<h2 id="limitations-due-to-maintain-the-interoperability-with-go-official-compiler-gc">Limitations due to maintain the interoperability with Go official compiler <code>gc</code></h2>
+<ul>
+<li>
+<p>types defined in Scriggo are not correctly seen by the <code>reflect</code> package.
+This manifests itself, for example, when calling the function
+<code>fmt.Printf(&quot;%T&quot;, v)</code> where <code>v</code> is a value with a Scriggo defined type.
+The user expects to see the name of the type but <code>fmt</code> (which internally
+relies on the package <code>reflect</code>) prints the name of the type that wrapped
+the value in <code>v</code> before passing it to gc.</p>
+</li>
+<li>
+<p>unexported fields of struct types defined in Scriggo are still accessible
+from native packages with the reflect methods. This is caused by the
+reflect methods that does not allow, by design, to change the value of an
+unexported field, so they are created with an empty package path. By the
+way, such fields (that should be unexported) can not be changed without
+the reflect and have a particular prefix to avoid accidental accessing.</p>
+</li>
+<li>
+<p>in a structure, types can be embedded but, apart from interfaces, if they
+have methods then they must be the first field of the struct. This is a
+limitation of the StructOf function of reflect.
+See <a href="https://github.com/golang/go/issues/15924">golang/go#15924</a>.</p>
+</li>
+<li>
+<p>a select supports a maximum of 65536 cases.</p>
+</li>
+<li>
+<p>Native packages can be imported only if they have been precompiled into the
+Scriggo interpreter/execution environment.
+Also see the commands <code>scriggo import</code> and <code>scriggo init</code>.</p>
+</li>
+<li>
+<p>types are not garbage collected. See issue <a href="https://github.com/golang/go/issues/28783">golang/go#28783</a>.</p>
+</li>
+</ul>
+<h2 id="arbitrary-limitations">Arbitrary limitations</h2>
+<p>These limitations have been arbitrarily added to Scriggo to enhance
+performances:</p>
+<ul>
+<li>127 registers of a given type (integer, floating point, string or general) per function</li>
+<li>256 function literal declarations plus unique functions calls per function</li>
+<li>256 types available per function</li>
+<li>256 unique predefined functions per function</li>
+<li>16384 integer values per function</li>
+<li>256 string values per function</li>
+<li>16384 floating-point values per function</li>
+<li>256 general values per function</li>
+</ul>
+
+        </div>
+    </div>
+</article>
+<footer>
+    &copy; 2021 Open2b
+</footer>
+</body>
+</html>

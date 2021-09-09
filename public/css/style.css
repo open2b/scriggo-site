@@ -1,0 +1,124 @@
+
+*, *:before, *:after { box-sizing: border-box; }
+
+body { background: #f5f4f4; font-family: muli,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; line-height: 1.45; margin: 0; }
+
+a { text-decoration: none; }
+p { color: #444; line-height: 1.5; }
+li { color: #444; line-height: 1.65; }
+td { vertical-align: top; }
+dl { line-height: 1.60; margin: 1.25rem; }
+dd { margin-left: 1.5rem; }
+ol li { line-height: 2; }
+
+
+nav.top { align-items: center; display: flex; justify-content: flex-start; flex-wrap: wrap; padding: 2rem 0; width: 100%; }
+nav.top .logo { margin-left: 3rem; }
+nav.top .logo img { vertical-align: bottom; }
+nav.top ul { display: inline-block; list-style-type: none; margin: 0 .5em; vertical-align: middle; }
+nav.top li { display: inline-block; padding: 0 1rem; }
+nav.top ul a { color: #333; }
+nav.top ul a:hover { color: #fcd804; }
+nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width: 1.8rem; }
+
+.content { margin: 0 20px; }
+
+.cols-2 { display: flex; flex-wrap: wrap; }
+.cols-2 > div { padding: 2em 5rem; width: 50%; }
+
+.index a { color: #fff; }
+
+.index nav.top .logo { cursor: default; pointer-events: none; }
+
+.index header { margin: 1.6rem; margin-top: 4.6rem; }
+.index header section { margin: 0 auto; text-align: center; width: 65%; }
+
+.index header img.logo { max-width: 80%; }
+.index header h2 { color: #000; font-size: 2.6em; font-weight: 200; line-height: 1.2em; margin: 2.1rem auto; max-width: 830px; }
+.index header h3 { color: #666; font-size: 1.4em; font-weight: 200; letter-spacing: .02rem; line-height: 1.5em; margin: .5rem; }
+.index header .button { background: #e6a621; border-radius: 3px; color: #fff6ED; cursor: pointer; display: inline-block; font-size: 1.1em; font-weight: bold; margin-top: 2rem; text-transform: uppercase; padding: .8rem 1.8rem .7em 1.8em; }
+.index header .button:hover { background: #f3ad20; border-radius: 3px; color: #fff6ED; cursor: pointer; display: inline-block; font-size: 1.1em; font-weight: bold; margin-top: 2rem; text-transform: uppercase; padding: .8rem 1.8rem .7em 1.8em; }
+
+.index body > section { margin: 4rem; }
+
+.index .why { color: #fff; margin-bottom: 2rem; }
+.index .why h2 { color: #ebb951; font-size: 1.8rem; font-weight: normal; }
+.index .why p { color: #333; font-size: 1.3rem; font-weight: 200; line-height: 1.9rem; }
+
+.benchmark { color: #000; float: left; padding: 2rem 1rem 5rem 9rem; width: 50%; }
+.benchmark h2 { font-size: 2rem; font-weight: normal; margin-bottom: .5rem; }
+.benchmark h2 + p { color: #ddd; margin-bottom: 3rem; margin-top: .5rem; }
+.benchmark div p { font-size: 1.1rem; margin-bottom: 5px; margin-top: 24px; }
+.benchmark div p a { color: #ccc; opacity: .999; }
+.benchmark div p span { color: #aaa; font-size: 1rem; padding-left: 1rem; }
+.benchmark .bar { background: linear-gradient(to right, #00fcd5, #00c6ff); height: 11px; }
+.benchmark .bar-scriggo { opacity: 1; width: 12.79%; }
+.benchmark .bar-tengo { opacity: .6935; width: 18.44%; }
+.benchmark .bar-gopher-lua { opacity: .4542; width: 28.16%; }
+.benchmark .bar-go-lua { opacity: .4480; width: 28.1654%; }
+.benchmark .bar-yaegi { opacity: .1200; width: 100%; }
+
+.benchmark .bar-go { opacity: 1; width: 1.99%; }
+.benchmark .bar-ruby { opacity: 1; width: 40.40%; }
+.benchmark .bar-scriggo-2 { opacity: 1; width: 77.15%; }
+.benchmark .bar-python { opacity: .6935; width: 100%; }
+
+.benchmark + .benchmark { padding-left: 5rem; padding-right: 8rem; }
+
+.article article { background: #fff; min-height: 100vh; }
+.article article > .wrap { display: flex; font-size: 1rem; margin: 0 auto; max-width: 1280px; padding: 0 1rem; }
+.article aside { margin-right: 3rem; }
+.article aside ul { list-style-type: none; margin-top: 3rem; padding: 0; }
+.article aside li { white-space: nowrap; }
+.article aside ul a { display: block; font-size: 1.1rem; padding: 0.5rem; }
+.article aside ul a, .article aside ul a:visited { color: #333; }
+.article aside ul a:hover { background: #ebb951; border-radius: 3px; }
+.article .content { flex-grow: 1; margin: 0; min-width: 0; }
+.article .content a, .article .content a:visited { color: #5f943d; }
+.article h1 { color: #0a1922; font-size: 2.6rem; }
+.article p + h1 { font-size: 2.2rem; margin-top: -.7em; }
+.article h2 { color: #0a1922; font-size: 2rem; }
+.article h3 { color: #0a1922; }
+.article pre { background: #f9f6f1; border-radius: 3px; padding: 1rem; overflow-x: auto; }
+.article code { background: #f9f6f1; border-radius: 2px; color: #523f18; padding: .2rem .5rem; }
+.article pre code { padding: 0; }
+.article blockquote { background: #f9f9f9; border-left: 5px solid #ebb951; border-radius: 3px; margin: 0; padding: .5rem 1rem; }
+.article blockquote > p + div pre { background: transparent; margin: 0; padding-left: 0; padding-top: 0; }
+.article blockquote div + p { margin-top: 0; }
+.article img { max-width: 100%; }
+
+#what-is-scriggo + p { color: #777; font-size: 1.2em; font-weight: bold; }
+
+.page-support h1 { margin: 1em auto 1em auto; text-align: center; }
+.page-support .support { display: flex; font-size: 1rem; margin: 0 auto; max-width: 800px;  }
+.page-support .support > div { flex-basis: 0; flex-grow: 1; padding: 0 3rem; text-align: center; }
+.page-support .support > div:first-child { border-right: 1px solid #aaa; }
+.page-support .support h2 { margin-bottom: 0; }
+.page-support .support h2 + p { color: #666; margin: .5rem 0 3rem 0; }
+.page-support .support .github-discussions { color: #000; display: block; }
+.page-support .support .github-discussions svg { height: 72px; width: 72px; }
+.page-support .support .github-discussions + p { margin-top: 0; }
+
+@media only screen and (max-width: 767px) {
+
+    nav.top { padding: 1em; }
+    nav.top .logo { flex: 0 0 100%;  font-size: 2em; margin: 0; text-align: center; }
+    nav.top ul { margin: 1rem auto; padding: 0; text-align: center; }
+
+    .index header { margin: 1rem; }
+    .index header section { width: auto; }
+    .index header h1 { font-size: 5rem; }
+    .index header h2 { font-size: 1.6em; }
+    .index header h3 { font-size: 1.2em; }
+
+    .index body > section { margin: 1rem; }
+
+    .cols-2 > div { padding: 0; width: auto; }
+
+    .benchmark, .benchmark + .benchmark { padding: 0; width: auto; }
+
+    .article aside { display: none; }
+
+    footer { font-size: 0.8rem; text-align: center; }
+
+}
