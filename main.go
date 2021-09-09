@@ -20,10 +20,16 @@ func main() {
 
 	start := time.Now()
 
-	err := os.Mkdir("public", 0755)
+	dstDir, err := os.MkdirTemp(".", "public-temp-*")
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer func() {
+		err = os.RemoveAll(dstDir)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
 
 	md := goldmark.New(
 		goldmark.WithRendererOptions(html.WithUnsafe()),
@@ -46,7 +52,7 @@ func main() {
 			return nil
 		}
 		if d.IsDir() {
-			return os.MkdirAll(filepath.Join("public", path), 0700)
+			return os.MkdirAll(filepath.Join(dstDir, path), 0700)
 		}
 		ext := filepath.Ext(path)
 		switch ext {
@@ -56,7 +62,7 @@ func main() {
 			if err != nil {
 				return err
 			}
-			name := filepath.Join("public", path[:len(path)-3]) + ".html"
+			name := filepath.Join(dstDir, path[:len(path)-3]) + ".html"
 			fi, err := os.OpenFile(name, os.O_WRONLY|os.O_CREATE, 0600)
 			if err != nil {
 				return err
@@ -70,7 +76,7 @@ func main() {
 			if err != nil {
 				return err
 			}
-			name := filepath.Join("public", path)
+			name := filepath.Join(dstDir, path)
 			err = os.MkdirAll(filepath.Dir(name), 0700)
 			if err != nil {
 				return err
@@ -87,6 +93,14 @@ func main() {
 		}
 		return err
 	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = os.RemoveAll("public")
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = os.Rename(dstDir, "public")
 	if err != nil {
 		log.Fatal(err)
 	}
