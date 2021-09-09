@@ -45,6 +45,9 @@ func main() {
 	srcFS := os.DirFS("../site")
 
 	err = fs.WalkDir(srcFS, ".", func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
 		if d.IsDir() || path[0] == '.' {
 			return nil
 		}
