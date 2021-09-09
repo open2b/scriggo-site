@@ -47,6 +47,7 @@ func main() {
 		}
 		ext := filepath.Ext(path)
 		switch ext {
+		case ".html":
 		case ".md":
 			template, err := scriggo.BuildTemplate(srcFS, path, buildOptions)
 			if err != nil {
