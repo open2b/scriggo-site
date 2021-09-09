@@ -361,7 +361,10 @@ A value `x` of type `T` is _truthful_ unless one of the following conditions app
 * `x` is the zero value of `T`,
 * `x` is an empty slice or map,
 * `T` is an interface and the dynamic value of `x` is not truthful,
-* `T` is a struct or pointer to struct, implements `interface{ IsTrue() bool }` and `x.IsTrue()` is false.
+* `T` is a struct or pointer to struct that implements `interface{ IsTrue() bool }` and `x.IsTrue()` is false.
+
+Implementation restriction: A compiler can not assume that `x.IsTrue()` evaluates to the same value for the same value
+of `x`.
 
 ### Extended logical operators
 
@@ -567,7 +570,8 @@ Templates are constructed linking together template files. A template file has a
 
 ## Extends declarations
 
-An extends declaration states that the _extended_ file depends on functionality of the file containing the declaration and enables access to exported identifiers of this file. The exports names the path of the extended file.
+An extends declaration states that the _extended_ file depends on functionality of the file containing the declaration
+and enables access to exported identifiers of this file. The exports names the path of the extended file.
 
 ```
 ExtendsDecl = "extends" ExtendsPath
@@ -581,7 +585,7 @@ For a file containing an extends declaration, the following rules applies:
 * it can only contain declarations,
 * it cannot contain more that one extends declaration,
 * outside {% and %}, {%% and %%} and {# and #}, it can only contain white space: spaces (U+0020), horizontal tabs (U+0009), carriage returns (U+000D), and newlines (U+000A).
-* it cannot be extended with the extends declaration, imported with the import declaration or rendered with the render operator.
+* it cannot be imported with the import declaration or rendered with the render operator.
 
 ## Import declarations
 
@@ -618,9 +622,9 @@ ImportForSpec = ImportPath "for" Identifier { "," Identifier } .
 
 ## Template initialization and execution
 
-The template execution starts from a template file. If the file contains an extends declaration, the execution starts from the extended file.
-
-
+The template execution starts from a template file. If the file contains an extends declaration, the execution starts
+from the extended file. If the extended file extends another file, the execution starts from that other file, and so on
+as long as an extended file does not extend any other files.
 
 ### Package `"unsafe"`
 
