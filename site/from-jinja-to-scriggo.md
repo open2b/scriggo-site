@@ -21,6 +21,7 @@ templating languages.
   - [Type system](#type-system)
   - [Escaping](#escaping)
   - [Tests](#tests)
+  - [Comments](#comments)
   - [Expressions](#expressions)
     - [Literals](#literals)
       - [Strings](#strings)
@@ -143,6 +144,17 @@ can be rewritten in Scriggo simply using arithmetic and comparison operators:
 
 ```scriggo
 {% if loop.index % 3 == 0 %}
+```
+
+## Comments
+
+In Scriggo, just like Jinja, you can write commented code enclosing it between `{#`
+and `#}`. Commented portions of the template won't be rendered by Scriggo.
+
+Note that Scriggo, unlike Jinja, supports nested comments:
+
+```scriggo
+{#  {# This is a nested comment! #}  #}
 ```
 
 ## Expressions

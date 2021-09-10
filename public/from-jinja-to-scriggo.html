@@ -50,7 +50,7 @@ Python/Jinja but have a limited/no experience with Go/Scriggo.</p>
 templating languages.</p>
 <blockquote>
 <p>Some examples on this page are taken from <a href="https://jinja.palletsprojects.com/en/3.0.x/templates/">the Jinja
-documentation</a>, © Copyright
+documentation</a>, (copyright
 2007 Pallets).</p>
 </blockquote>
 <ul>
@@ -60,6 +60,7 @@ documentation</a>, © Copyright
 <li><a href="#type-system">Type system</a></li>
 <li><a href="#escaping">Escaping</a></li>
 <li><a href="#tests">Tests</a></li>
+<li><a href="#comments">Comments</a></li>
 <li><a href="#expressions">Expressions</a>
 <ul>
 <li><a href="#literals">Literals</a>
@@ -168,6 +169,12 @@ any valid expression.</p>
 </code></pre>
 <p>can be rewritten in Scriggo simply using arithmetic and comparison operators:</p>
 <pre><code class="language-scriggo">{% if loop.index % 3 == 0 %}
+</code></pre>
+<h2 id="comments">Comments</h2>
+<p>In Scriggo, just like Jinja, you can write commented code enclosing it between <code>{#</code>
+and <code>#}</code>. Commented portions of the template won't be rendered by Scriggo.</p>
+<p>Note that Scriggo, unlike Jinja, supports nested comments:</p>
+<pre><code class="language-scriggo">{#  {# This is a nested comment! #}  #}
 </code></pre>
 <h2 id="expressions">Expressions</h2>
 <h3 id="literals">Literals</h3>
