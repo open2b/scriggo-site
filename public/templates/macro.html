@@ -58,24 +58,9 @@ file before the macro declaration. For example:</p>
 </code></pre>
 <pre class="result">An awesome tablet</pre>
 <p>A variable declared in a body of a macro is not visible outside the macro.</p>
-<h2 id="endless-macro">Endless macro</h2>
-<p>If a macro has no parameters and in the file there are no declarations after the macro declaration, you can avoid
-writing <code>{% end %}</code> or <code>{% end macro %}</code> at the end of the macro declaration. The macro ends at the end of the file.</p>
-<p>A declaration of an endless macro is written without the keyword <code>macro</code> and with the first letter in uppercase (in Go
-it is called an exported name). For example:</p>
-<pre><code class="language-scriggo">{% Main %}
-</code></pre>
-<p>In the following example, Macro is an endless macro, so it extends to the end of the file:</p>
-<pre><code class="language-scriggo">{% extends &quot;layout.html&quot; %}
-{% Main %}
-
-&lt;ul&gt;
-  {% for product in products %}
-  &lt;li&gt;&lt;a href=&quot;{{ product.URL }}&quot;&gt;{{ product.Name }}&lt;/a&gt;&lt;/li&gt;
-  {% end for %}
-&lt;/ul&gt;
-</code></pre>
-<p>The previous example could also be written like this:</p>
+<h2 id="distraction-free-declaration">Distraction free declaration</h2>
+<p>If a macro is declared in a file with an extends declaration, to be called in the extended file, and the macro has no
+parameters, as in this example:</p>
 <pre><code class="language-scriggo">{% extends &quot;layout.html&quot; %}
 {% macro Main %}
 
@@ -87,6 +72,22 @@ it is called an exported name). For example:</p>
 
 {% end macro %}
 </code></pre>
+<p>the declaration can be written in a special form called &quot;distraction free&quot;. The following example is equivalent to the
+previous one but uses a distraction free macro declaration:</p>
+<pre><code class="language-scriggo">{% extends &quot;layout.html&quot; %}
+{% Main %}
+
+&lt;ul&gt;
+  {% for product in products %}
+  &lt;li&gt;&lt;a href=&quot;{{ product.URL }}&quot;&gt;{{ product.Name }}&lt;/a&gt;&lt;/li&gt;
+  {% end for %}
+&lt;/ul&gt;
+</code></pre>
+<p>In a distraction free declaration, the <code>macro</code> keyword and the terminating <code>{% end %}</code> or <code>{% end macro %}</code> are omitted
+and the macro ends at the end of the file. It means that all the code after the declaration and up to the end of the
+file is the body of the macro.</p>
+<p>Note that in Scriggo the code <code>{% Ident %}</code>, where <code>Ident</code> is an exported identifier (the first letter is in uppercase),
+is always a distraction free macro declaration.</p>
 <h2 id="macro-with-parameters">Macro with parameters</h2>
 <p>A macro can have parameters as any other function. Parameters are declared in parentheses, separated by a comma and
 the type must be indicated in addition to the name of the parameter.</p>

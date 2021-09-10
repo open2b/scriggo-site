@@ -56,6 +56,7 @@
                 <dd><a href="#macro-types">Macro types</a></dd>
                 <dt><a href="#contexts">Contexts</a></dt>
                 <dt><a href="#declarations">Declarations</a></dt>
+                <dd><a href="#macro-declarations">Macro declarations</a></dd>
                 <dd><a href="#predeclared-identifiers">Predeclared identifiers</a></dd>
                 <dt><a href="#expressions">Expressions</a></dt>
                 <dd><a href="#primary-expressions">Primary expressions</a></dd>
@@ -159,6 +160,7 @@ macro() (string, css)    // not valid, has too many return parameters
 
 {% type T struct{ s string } %}
 </code></pre>
+<h3 id="macro-declarations">Macro declarations</h3>
 <p>In addition there are macro declarations. A macro declaration binds an identifier to a macro.</p>
 <p>At part of the different declaration syntax, macros are functions. A macro declaration can only be written using <em>{%</em> and <em>%}</em>.</p>
 <pre><code>MacroDecl   =
@@ -185,11 +187,13 @@ Markdown          markdown
   &lt;a href=&quot;{{ src }}&quot; with=&quot;{{ width }}&quot; height=&quot;{{ height }}&quot;&gt;
 {% end macro %}
 </code></pre>
-<p>Endless macros are macros whose content extends to the end of the file. An endless macro declaration does not have the <code>macro</code> keyword,
-does not have parameters and have an implicit return value. The name of an endless macro is an exported identifier.</p>
-<pre><code>EndlessMacroDecl = &quot;{%&quot; EndlessMacroName &quot;%}&quot; Content EOF .
-EndlessMacroName = exported_identifier .
+<p>A distraction free declaration is a macro declaration where the body of the macro end at the end of the file.
+A distraction free declaration does not have the <code>macro</code> keyword, does not have parameters and have an implicit
+return value. The name of the macro in a distraction free declaration is an exported identifier.</p>
+<pre><code>DistractionFreeMacroDecl = &quot;{%&quot; DistractionFreeMacroName &quot;%}&quot; Content EOF .
+DistractionFreeMacroName = exported_identifier .
 </code></pre>
+<p>A distraction free declaration can only be used in a file with an extends declaration.</p>
 <pre><code>{ extends &quot;layout.html&quot; %}
 {% Article %}
 

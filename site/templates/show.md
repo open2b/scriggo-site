@@ -14,7 +14,7 @@ The _show_ statement followed by one or more expressions, evaluates them and dis
 ```
 <pre class="result">
 7 = 7
-$29,99
+$29.99
 </pre>
 
 A show statement with a single expression can also be written as follows:
@@ -25,10 +25,11 @@ A show statement with a single expression can also be written as follows:
 ```
 <pre class="result">
 7
-$29,99
+$29.99
 </pre>
 
-This second form is the most used because it is easier to write and read, you can still use one or the other indifferently.
+This second form is the most used because it is easier to write and read, you can still use one or the other
+indifferently.
 
 Between `{%%` and `%%}` the show statement can be used as follows:
 
