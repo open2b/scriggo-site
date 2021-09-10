@@ -12,7 +12,7 @@ Here is provided a overview of the similarities and the differences between the 
 templating languages.
 
 > Some examples on this page are taken from [the Jinja
-> documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/), © Copyright
+> documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/), (copyright
 > 2007 Pallets).
 
 
