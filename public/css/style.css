@@ -125,3 +125,7 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
     footer { font-size: 0.8rem; text-align: center; }
 
 }
+
+code.language-jinja {
+    color: rgb(136, 136, 136);
+}
