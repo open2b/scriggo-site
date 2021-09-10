@@ -31,32 +31,10 @@ file before the macro declaration. For example:
 
 A variable declared in a body of a macro is not visible outside the macro.
 
-## Endless macro
+## Distraction free declaration
 
-If a macro has no parameters and in the file there are no declarations after the macro declaration, you can avoid
-writing `{% end %}` or `{% end macro %}` at the end of the macro declaration. The macro ends at the end of the file.  
-
-A declaration of an endless macro is written without the keyword `macro` and with the first letter in uppercase (in Go
-it is called an exported name). For example:
-
-```scriggo
-{% Main %}
-```
-
-In the following example, Macro is an endless macro, so it extends to the end of the file:
-
-```scriggo
-{% extends "layout.html" %}
-{% Main %}
-
-<ul>
-  {% for product in products %}
-  <li><a href="{{ product.URL }}">{{ product.Name }}</a></li>
-  {% end for %}
-</ul>
-```
-
-The previous example could also be written like this:
+If a macro is declared in a file with an extends declaration, to be called in the extended file, and the macro has no
+parameters, as in this example:
 
 ```scriggo
 {% extends "layout.html" %}
@@ -70,6 +48,27 @@ The previous example could also be written like this:
 
 {% end macro %}
 ```
+
+the declaration can be written in a special form called "distraction free". The following example is equivalent to the
+previous one but uses a distraction free macro declaration:
+
+```scriggo
+{% extends "layout.html" %}
+{% Main %}
+
+<ul>
+  {% for product in products %}
+  <li><a href="{{ product.URL }}">{{ product.Name }}</a></li>
+  {% end for %}
+</ul>
+```
+
+In a distraction free declaration, the `macro` keyword and the terminating `{% end %}` or `{% end macro %}` are omitted
+and the macro ends at the end of the file. It means that all the code after the declaration and up to the end of the
+file is the body of the macro.
+
+Note that in Scriggo the code `{% Ident %}`, where `Ident` is an exported identifier (the first letter is in uppercase),
+is always a distraction free macro declaration.
 
 ## Macro with parameters
 

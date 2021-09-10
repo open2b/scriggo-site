@@ -19,6 +19,7 @@
                 <dd><a href="#macro-types">Macro types</a></dd>
                 <dt><a href="#contexts">Contexts</a></dt>
                 <dt><a href="#declarations">Declarations</a></dt>
+                <dd><a href="#macro-declarations">Macro declarations</a></dd>
                 <dd><a href="#predeclared-identifiers">Predeclared identifiers</a></dd>
                 <dt><a href="#expressions">Expressions</a></dt>
                 <dd><a href="#primary-expressions">Primary expressions</a></dd>
@@ -162,6 +163,8 @@ A constant, type and variable declaration can also be written between _{%_ and _
 {% type T struct{ s string } %}
 ```
 
+### Macro declarations
+
 In addition there are macro declarations. A macro declaration binds an identifier to a macro.
 
 At part of the different declaration syntax, macros are functions. A macro declaration can only be written using _{%_ and _%}_.
@@ -198,13 +201,16 @@ Macro declarations are only allowed in the previous template contexts.
 {% end macro %}
 ```
 
-Endless macros are macros whose content extends to the end of the file. An endless macro declaration does not have the `macro` keyword,
-does not have parameters and have an implicit return value. The name of an endless macro is an exported identifier.
+A distraction free declaration is a macro declaration where the body of the macro end at the end of the file.
+A distraction free declaration does not have the `macro` keyword, does not have parameters and have an implicit
+return value. The name of the macro in a distraction free declaration is an exported identifier.
 
 ```
-EndlessMacroDecl = "{%" EndlessMacroName "%}" Content EOF .
-EndlessMacroName = exported_identifier .
+DistractionFreeMacroDecl = "{%" DistractionFreeMacroName "%}" Content EOF .
+DistractionFreeMacroName = exported_identifier .
 ```
+
+A distraction free declaration can only be used in a file with an extends declaration.   
 
 ```
 { extends "layout.html" %}
