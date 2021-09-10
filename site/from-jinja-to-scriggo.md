@@ -348,7 +348,7 @@ If the operands are strings, you can use the [operator `+`](#operator--plus).
 
 ### Methods
 
-In Scriggo, just like in Jinja, you can call method on values using the syntax:
+In Scriggo, just like in Jinja, you can call methods on values using the syntax:
 
 ```
 {{ value.Method(a1, a2) }}
