@@ -52,7 +52,7 @@ that can be implemented in Go. Moreover, the new types specified in the executed
 released. This is a known limitation of the Go reflect implementation. Specifying the same type does no result,
 however, in a new memory allocation.
 
-### How Can I Run Third Party Code Safely?
+### How can I run third party code safely?
 
 By running the process in a controlled environment such as a virtual machine.
 
@@ -81,7 +81,7 @@ specifications.
 ### Why is Scriggo so fast and allocates less than other interpreters in Go?
 
 Scriggo implements a virtual machine with registers. The code of the programs in Go and that of the templates is
-compiled for the first time in bytecode and then executed on the Scriggo virtual machine.
+compiled the first time in bytecode and then executed on the Scriggo virtual machine.
 
 This allows for excellent execution speed and a small memory allocation compared to other interpreters in Go.
 
@@ -115,14 +115,14 @@ like the following:
 brings with it some concepts such as slices, the built-in `len` and the equality operator, which on the whole could 
 discourage anyone approaching a template system without having a programming base.
 
-In Scriggo, therefore, the previous code can also be written in the following way:
+In Scriggo, therefore, the previous code can be written in the following way:
 
 ```
 {% if not products %} There are no products {% end %}
 ```
 
 The condition of the _if_ statement can have any type and is _true_ if it is truthful. A _nil_ or empty slice is not
-truthful and therefore in the context of the _if_ condition, `len(products) == 0` can also be replaced with
+truthful and therefore in the context of the _if_ condition, `len(products) == 0` can be replaced with
 `not products`.
 
 `and`,` or` and `not` are three boolean operators, available in templates, which are based on the concept of
@@ -130,7 +130,7 @@ truthfulness. For more details you can see the [documentation](/templates/operat
 [specifications](/template-spec#truthful-values) of the templates.
 
 ### Can you implement X functionality in templates even if it is not present in Go?
-If the X functionality is templates specific and does not also concern the Go language, then we can evaluate it. If, on
+If the X functionality is templates specific and does not also concern the Go language, then it can be evaluated. If, on
 the other hand, it could also concern the Go language, then it is less likely that it can be implemented as we prefer
 to maintain as much consistency as possible with the Go language.
 
@@ -157,13 +157,13 @@ can be written in Scriggo as follows:
 
 Scriggo's compiler is written in Go entirely from scratch and therefore does not rely on any other previously written
 compiler. The same compiler is able to compile both Go programs and Scriggo templates with the same code base. This
-allows to make corrections, improvements and new functions at the same time in the compilation of programs and
+allows to make fixes, improvements and new features at the same time in the compilation of programs and
 templates.
 
 The compiler consists of the parser, a completely handwritten and not self-generated recursive descent parser, the type
 checker and the emitter. The final result of the compilation is a series of data structures, one for each Scriggo
 function defined in the code and one for each native function called by the Scriggo functions. Templates have an
-implicit _main_ function. Each Scriggo function then has the body compiled as a bytecode.
+implicit _main_ function. Each Scriggo function then has the body compiled into bytecode.
 
 ### How does the runtime work?
 

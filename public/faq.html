@@ -48,7 +48,7 @@ It is also possible to not allow the use of the &quot;go&quot; statement.</p>
 that can be implemented in Go. Moreover, the new types specified in the executed code allocate memory that is not
 released. This is a known limitation of the Go reflect implementation. Specifying the same type does no result,
 however, in a new memory allocation.</p>
-<h3 id="how-can-i-run-third-party-code-safely">How Can I Run Third Party Code Safely?</h3>
+<h3 id="how-can-i-run-third-party-code-safely">How can I run third party code safely?</h3>
 <p>By running the process in a controlled environment such as a virtual machine.</p>
 <h3 id="why-is-a-string-value-not-convertible-to-html-type-in-the-templates">Why is a string value not convertible to html type in the templates?</h3>
 <p>Only untyped string constants are convertible to type <em>html</em> (apart from values of type <em>html</em>). The same is true for
@@ -66,7 +66,7 @@ specifications.</p>
 <h2 id="performance">Performance</h2>
 <h3 id="why-is-scriggo-so-fast-and-allocates-less-than-other-interpreters-in-go">Why is Scriggo so fast and allocates less than other interpreters in Go?</h3>
 <p>Scriggo implements a virtual machine with registers. The code of the programs in Go and that of the templates is
-compiled for the first time in bytecode and then executed on the Scriggo virtual machine.</p>
+compiled the first time in bytecode and then executed on the Scriggo virtual machine.</p>
 <p>This allows for excellent execution speed and a small memory allocation compared to other interpreters in Go.</p>
 <h3 id="how-can-scriggo-perform-like-mainstream-languages">How can Scriggo perform like mainstream languages?</h3>
 <p>The Go static type checking made it possible to design efficient Scriggo virtual machine instructions even if they have
@@ -85,17 +85,17 @@ like the following:</p>
 <p><code>{% if len(products) == 0 %} There are no products {% end %}</code></p>
 <p>brings with it some concepts such as slices, the built-in <code>len</code> and the equality operator, which on the whole could
 discourage anyone approaching a template system without having a programming base.</p>
-<p>In Scriggo, therefore, the previous code can also be written in the following way:</p>
+<p>In Scriggo, therefore, the previous code can be written in the following way:</p>
 <pre><code>{% if not products %} There are no products {% end %}
 </code></pre>
 <p>The condition of the <em>if</em> statement can have any type and is <em>true</em> if it is truthful. A <em>nil</em> or empty slice is not
-truthful and therefore in the context of the <em>if</em> condition, <code>len(products) == 0</code> can also be replaced with
+truthful and therefore in the context of the <em>if</em> condition, <code>len(products) == 0</code> can be replaced with
 <code>not products</code>.</p>
 <p><code>and</code>,<code> or</code> and <code>not</code> are three boolean operators, available in templates, which are based on the concept of
 truthfulness. For more details you can see the <a href="/templates/operators#and-or-not">documentation</a> and the
 <a href="/template-spec#truthful-values">specifications</a> of the templates.</p>
 <h3 id="can-you-implement-x-functionality-in-templates-even-if-it-is-not-present-in-go">Can you implement X functionality in templates even if it is not present in Go?</h3>
-<p>If the X functionality is templates specific and does not also concern the Go language, then we can evaluate it. If, on
+<p>If the X functionality is templates specific and does not also concern the Go language, then it can be evaluated. If, on
 the other hand, it could also concern the Go language, then it is less likely that it can be implemented as we prefer
 to maintain as much consistency as possible with the Go language.</p>
 <h3 id="why-isnt-the--operator-supported-in-templates">Why isn't the ?: operator supported in templates?</h3>
@@ -111,12 +111,12 @@ the Go specification.</p>
 <h3 id="how-is-the-compiler-written">How is the compiler written?</h3>
 <p>Scriggo's compiler is written in Go entirely from scratch and therefore does not rely on any other previously written
 compiler. The same compiler is able to compile both Go programs and Scriggo templates with the same code base. This
-allows to make corrections, improvements and new functions at the same time in the compilation of programs and
+allows to make fixes, improvements and new features at the same time in the compilation of programs and
 templates.</p>
 <p>The compiler consists of the parser, a completely handwritten and not self-generated recursive descent parser, the type
 checker and the emitter. The final result of the compilation is a series of data structures, one for each Scriggo
 function defined in the code and one for each native function called by the Scriggo functions. Templates have an
-implicit <em>main</em> function. Each Scriggo function then has the body compiled as a bytecode.</p>
+implicit <em>main</em> function. Each Scriggo function then has the body compiled into bytecode.</p>
 <h3 id="how-does-the-runtime-work">How does the runtime work?</h3>
 <p>The Scriggo runtime is a virtual machine with registers. Like the compiler, it is written from scratch. Many of the
 virtual machine instructions rely on Go reflect functions to operate on type literal values, call native functions,

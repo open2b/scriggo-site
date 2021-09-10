@@ -235,7 +235,7 @@ This can be rewritten in Scriggo using a slice:
 {% var birthday = []int{1, 5, 2020} %}
 ```
 
-or, if you want named values, you can us a map:
+or, if you want named values, you can use a map:
 
 ```scriggo
 {% var birthday = map[string]int{"day": 1, "month": 5, "year": 2020} %}
@@ -257,7 +257,7 @@ In Scriggo you can use an _if statement_ to assign to a variable conditionally:
 ```scriggo
 {% var title = "bar" %}
 {% if 2 + 2 == 4 %}
-	{% title = "foo" %}
+    {% title = "foo" %}
 {% end %}
 <h1>{{ title }}</h1>
 ```
@@ -517,7 +517,7 @@ So the example above becomes:
 
 Just like Jinja, Scriggo provides a mechanism to implement the template inheritance.
 
-The _extends_ statement can be used in Scriggo to extend another file, just like in Jijnja:
+The _extends_ declaration can be used in Scriggo to extend another file, just like in Jijnja:
 
 ```
 {% extends "layout/default.html" %}
@@ -605,7 +605,7 @@ As you may have noticed, there are some main differences:
 
 Jinja uses the _include_ statement:
 
-```
+```jinja
 {% include 'header.html' %}
 ```
 
@@ -614,7 +614,7 @@ a template file and returns its rendered content.
 
 So, the example above may be written as:
 
-```
+```scriggo
 {{ render "header.html" }}
 ```
 
@@ -627,7 +627,7 @@ File is {{ len(content) }} bytes long.
 
 ## Importing other template files
 
-Scriggo has the _import_ statement, just like Jinja , but with some differences.
+Scriggo has the _import_ declaration, just like Jinja, but with some differences.
 
 There are several form of _import_ available.
 
@@ -746,8 +746,7 @@ renders as:
 &lt;b&gt;Not real bold...&lt;/b&gt;
 ```
 
-This happens because the rendered value has type
-[string](https://pkg.go.dev/builtin#string), so it must be escaped before being
+This happens because the rendered value has type [string](/templates/types#strings), so it must be escaped before being
 rendered in a _HTML_ context.
 
 For this reason, if you write something like:
@@ -762,7 +761,7 @@ this is rendered as:
 <b>Real bold!</b>
 ```
 
-because the value type is explicitly set to HTML, so Scriggo won't escape it.
+because the value type is explicitly set to the `html` type, so Scriggo won't escape it.
 
 ### Automatic contextual escaping
 

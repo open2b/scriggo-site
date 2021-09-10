@@ -219,7 +219,7 @@ sorted values, and maps or structs for values with an associated key.</p>
 <p>This can be rewritten in Scriggo using a slice:</p>
 <pre><code class="language-scriggo">{% var birthday = []int{1, 5, 2020} %}
 </code></pre>
-<p>or, if you want named values, you can us a map:</p>
+<p>or, if you want named values, you can use a map:</p>
 <pre><code class="language-scriggo">{% var birthday = map[string]int{&quot;day&quot;: 1, &quot;month&quot;: 5, &quot;year&quot;: 2020} %}
 </code></pre>
 <p>or a struct:</p>
@@ -231,7 +231,7 @@ sorted values, and maps or structs for values with an associated key.</p>
 <p>In Scriggo you can use an <em>if statement</em> to assign to a variable conditionally:</p>
 <pre><code class="language-scriggo">{% var title = &quot;bar&quot; %}
 {% if 2 + 2 == 4 %}
-	{% title = &quot;foo&quot; %}
+    {% title = &quot;foo&quot; %}
 {% end %}
 &lt;h1&gt;{{ title }}&lt;/h1&gt;
 </code></pre>
@@ -405,7 +405,7 @@ is not covered in this document.</p>
 </blockquote>
 <h2 id="template-inheritance">Template inheritance</h2>
 <p>Just like Jinja, Scriggo provides a mechanism to implement the template inheritance.</p>
-<p>The <em>extends</em> statement can be used in Scriggo to extend another file, just like in Jijnja:</p>
+<p>The <em>extends</em> declaration can be used in Scriggo to extend another file, just like in Jijnja:</p>
 <pre><code>{% extends &quot;layout/default.html&quot; %}
 </code></pre>
 <h2 id="blocks-and-macros">Blocks and macros</h2>
@@ -473,19 +473,19 @@ the parameters.</li>
 </ul>
 <h2 id="including-other-template-files">Including other template files</h2>
 <p>Jinja uses the <em>include</em> statement:</p>
-<pre><code>{% include 'header.html' %}
+<pre><code class="language-jinja">{% include 'header.html' %}
 </code></pre>
 <p>Scriggo uses a more flexible system making available the <em>render</em> operator that reads
 a template file and returns its rendered content.</p>
 <p>So, the example above may be written as:</p>
-<pre><code>{{ render &quot;header.html&quot; }}
+<pre><code class="language-scriggo">{{ render &quot;header.html&quot; }}
 </code></pre>
 <p>The value returned by <em>render</em> can be used in any expression:</p>
 <pre><code class="language-scriggo">{% var content = render &quot;myfile.html&quot; %}
 File is {{ len(content) }} bytes long.
 </code></pre>
 <h2 id="importing-other-template-files">Importing other template files</h2>
-<p>Scriggo has the <em>import</em> statement, just like Jinja , but with some differences.</p>
+<p>Scriggo has the <em>import</em> declaration, just like Jinja, but with some differences.</p>
 <p>There are several form of <em>import</em> available.</p>
 <p>To import a template file specifying the declarations to import:</p>
 <pre><code class="language-scriggo">{% import &quot;path/to/file.html&quot; for Title, Content %}
@@ -553,8 +553,7 @@ filter) or automatically.</p>
 <p>renders as:</p>
 <pre><code>&amp;lt;b&amp;gt;Not real bold...&amp;lt;/b&amp;gt;
 </code></pre>
-<p>This happens because the rendered value has type
-<a href="https://pkg.go.dev/builtin#string">string</a>, so it must be escaped before being
+<p>This happens because the rendered value has type <a href="/templates/types#strings">string</a>, so it must be escaped before being
 rendered in a <em>HTML</em> context.</p>
 <p>For this reason, if you write something like:</p>
 <pre><code class="language-scriggo">{{ html(&quot;&lt;b&gt;Real bold!&lt;/b&gt;&quot;) }}
@@ -562,7 +561,7 @@ rendered in a <em>HTML</em> context.</p>
 <p>this is rendered as:</p>
 <pre><code>&lt;b&gt;Real bold!&lt;/b&gt;
 </code></pre>
-<p>because the value type is explicitly set to HTML, so Scriggo won't escape it.</p>
+<p>because the value type is explicitly set to the <code>html</code> type, so Scriggo won't escape it.</p>
 <h3 id="automatic-contextual-escaping">Automatic contextual escaping</h3>
 <p>Scriggo also offers an automatic contextual escaping.
 For example consider this:</p>

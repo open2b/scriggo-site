@@ -4,7 +4,7 @@
 
 # What is Scriggo
 
-Scriggo is the fast, modern and secure Go template engine and embeddable Go runtime.
+Scriggo is a fast, modern and secure Go template engine and embeddable Go runtime.
 
 It is also a modern and safe template engine that allows to use the Go language also inside templates.  
  
