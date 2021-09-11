@@ -37,7 +37,7 @@ See [macro](macro) for details.
 
 ## More general use
 
-Render is a Scriggo operator and as such it can be used in expressions, not only between {{ and }}, like any other
+Render is a Scriggo operator and as such it can be used in expressions, not only between `{{` and `}}`, like any other
 operator. Its evaluation returns a string. For example, it is possible to assign its evaluation for later use:
 
 ```scriggo

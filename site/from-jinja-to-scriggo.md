@@ -417,7 +417,7 @@ can be reproduced in Scriggo as:
 {% end using %}
 ```
 
-Since `itea` is an identifier it can be used in any expression, so it can also be
+Since `itea` is an identifier, it can be used in any expression, so it can also be
 passed as argument to builtin functions as you use filters in the block assignments
 in Jinja:
 
@@ -793,7 +793,7 @@ different algorithms:
 Now you can checkout this resources:
 
 - [Templates](templates), which provides a more depth overview of the Scriggo
-  template
+  template.
 - [Get started with templates](get-started-2#execute-templates-in-your-application),
   which provides a tutorial on embedding Scriggo templates in your Go application.
 - [The Scriggo Templates Specification](template-spec), which expands the [Go
