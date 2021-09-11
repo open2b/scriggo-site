@@ -1,3 +1,7 @@
+// Copyright 2021 The Scriggo Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 package main
 
 import (
@@ -7,10 +11,14 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"reflect"
+	"strings"
 	"time"
 
 	"github.com/open2b/scriggo"
+	"github.com/open2b/scriggo/builtin"
 	"github.com/open2b/scriggo/native"
+
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html"
@@ -36,33 +44,37 @@ func main() {
 		goldmark.WithParserOptions(parser.WithAutoHeadingID()))
 
 	buildOptions := &scriggo.BuildOptions{
-		Globals: globals,
+		Globals: make(native.Declarations, len(globals)+1),
 		MarkdownConverter: func(src []byte, out io.Writer) error {
 			return md.Convert(src, out)
 		},
 	}
+	for n, v := range globals {
+		buildOptions.Globals[n] = v
+	}
 
 	srcFS := os.DirFS("template")
 
-	err = fs.WalkDir(srcFS, ".", func(path string, d fs.DirEntry, err error) error {
+	err = fs.WalkDir(srcFS, ".", func(name string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}
-		if path[0] == '.' {
+		if name[0] == '.' {
 			return nil
 		}
 		if d.IsDir() {
-			return os.MkdirAll(filepath.Join(dstDir, path), 0700)
+			return os.MkdirAll(filepath.Join(dstDir, name), 0700)
 		}
-		ext := filepath.Ext(path)
+		ext := filepath.Ext(name)
 		switch ext {
 		case ".html":
 		case ".md":
-			template, err := scriggo.BuildTemplate(srcFS, path, buildOptions)
+			buildOptions.Globals["filepath"] = strings.TrimSuffix(name, ".md")
+			template, err := scriggo.BuildTemplate(srcFS, name, buildOptions)
 			if err != nil {
 				return err
 			}
-			name := filepath.Join(dstDir, path[:len(path)-3]) + ".html"
+			name := filepath.Join(dstDir, name[:len(name)-3]) + ".html"
 			fi, err := os.OpenFile(name, os.O_WRONLY|os.O_CREATE, 0600)
 			if err != nil {
 				return err
@@ -72,11 +84,11 @@ func main() {
 				err = fi.Close()
 			}
 		default:
-			src, err := srcFS.Open(path)
+			src, err := srcFS.Open(name)
 			if err != nil {
 				return err
 			}
-			name := filepath.Join(dstDir, path)
+			name := filepath.Join(dstDir, name)
 			err = os.MkdirAll(filepath.Dir(name), 0700)
 			if err != nil {
 				return err
@@ -109,4 +121,90 @@ func main() {
 	return
 }
 
-var globals = native.Declarations{}
+var globals = native.Declarations{
+	// crypto
+	"hmacSHA1":   builtin.HmacSHA1,
+	"hmacSHA256": builtin.HmacSHA256,
+	"sha1":       builtin.Sha1,
+	"sha256":     builtin.Sha256,
+
+	// encoding
+	"base64":            builtin.Base64,
+	"hex":               builtin.Hex,
+	"marshalJSON":       builtin.MarshalJSON,
+	"marshalJSONIndent": builtin.MarshalJSONIndent,
+	"md5":               builtin.Md5,
+	"unmarshalJSON":     builtin.UnmarshalJSON,
+
+	// html
+	"htmlEscape": builtin.HtmlEscape,
+
+	// math
+	"abs": builtin.Abs,
+	"max": builtin.Max,
+	"min": builtin.Min,
+	"pow": builtin.Pow,
+
+	// net
+	"File":        reflect.TypeOf((*builtin.File)(nil)).Elem(),
+	"FormData":    reflect.TypeOf(builtin.FormData{}),
+	"form":        (*builtin.FormData)(nil),
+	"queryEscape": builtin.QueryEscape,
+
+	// regexp
+	"Regexp": reflect.TypeOf(builtin.Regexp{}),
+	"regexp": builtin.RegExp,
+
+	// sort
+	"reverse": builtin.Reverse,
+	"sort":    builtin.Sort,
+
+	// strconv
+	"formatFloat": builtin.FormatFloat,
+	"formatInt":   builtin.FormatInt,
+	"parseFloat":  builtin.ParseFloat,
+	"parseInt":    builtin.ParseInt,
+
+	// strings
+	"abbreviate":    builtin.Abbreviate,
+	"capitalize":    builtin.Capitalize,
+	"capitalizeAll": builtin.CapitalizeAll,
+	"hasPrefix":     builtin.HasPrefix,
+	"hasSuffix":     builtin.HasSuffix,
+	"index":         builtin.Index,
+	"indexAny":      builtin.IndexAny,
+	"join":          builtin.Join,
+	"lastIndex":     builtin.LastIndex,
+	"replace":       builtin.Replace,
+	"replaceAll":    builtin.ReplaceAll,
+	"runeCount":     builtin.RuneCount,
+	"split":         builtin.Split,
+	"splitAfter":    builtin.SplitAfter,
+	"splitAfterN":   builtin.SplitAfterN,
+	"splitN":        builtin.SplitN,
+	"sprint":        builtin.Sprint,
+	"sprintf":       builtin.Sprintf,
+	"toKebab":       builtin.ToKebab,
+	"toLower":       builtin.ToLower,
+	"toUpper":       builtin.ToUpper,
+	"trim":          builtin.Trim,
+	"trimLeft":      builtin.TrimLeft,
+	"trimPrefix":    builtin.TrimPrefix,
+	"trimRight":     builtin.TrimRight,
+	"trimSuffix":    builtin.TrimSuffix,
+
+	// time
+	"Duration":      reflect.TypeOf(builtin.Duration(0)),
+	"Hour":          time.Hour,
+	"Microsecond":   time.Microsecond,
+	"Millisecond":   time.Millisecond,
+	"Minute":        time.Minute,
+	"Nanosecond":    time.Nanosecond,
+	"Second":        time.Second,
+	"Time":          reflect.TypeOf(builtin.Time{}),
+	"date":          builtin.Date,
+	"now":           builtin.Now,
+	"parseDuration": builtin.ParseDuration,
+	"parseTime":     builtin.ParseTime,
+	"unixTime":      builtin.UnixTime,
+}

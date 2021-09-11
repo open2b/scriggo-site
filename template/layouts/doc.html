@@ -8,28 +8,31 @@
 </head>
 <body>
 {{ render "/partials/nav.html" }}
+{% macro item(path, name string) %}
+<a href="/{{ path }}" {% if path == filepath %} class="selected" {% else if hasPrefix(filepath, path+"/") %} class="expanded"{% end %}>{{ name }}</a>
+{% end %}
 <article>
     <div class="wrap">
         <aside>
             <nav>
             <ul>
-                <li><a href="/what-is-scriggo">What is Scriggo</a></li>
-                <li><a href="/get-started">Get Started</a></li>
-                <li><a href="/scriggo-command">Scriggo command</a></li>
+                <li>{{ item(`what-is-scriggo`, `What is Scriggo`) }}</li>
+                <li>{{ item(`get-started`, `Get Started`) }}</li>
+                <li>{{ item(`scriggo-command`, `Scriggo command`) }}</li>
                 <li>
-                    <a href="/templates">Templates</a>
+                    {{ item(`templates`, `Templates`) }}
                     <ul>
-                        <li><a href="/templates/show">Show</a></li>
-                        <li><a href="/templates/render">Render</a></li>
-                        <li><a href="/templates/macro">Macro</a></li>
-                        <li><a href="/templates/extends-and-import">Extends and Import</a></li>
-                        <li><a href="/templates/specification">Specification</a></li>
-                        <li><a href="/templates/switch-from-jinja-to-scriggo">Switch from Jinja</a></li>
+                        <li>{{ item(`templates/show`, `Show`) }}</li>
+                        <li>{{ item(`templates/render`, `Render`) }}</li>
+                        <li>{{ item(`templates/macro`, `Macro`) }}</li>
+                        <li>{{ item(`templates/extends-and-import`, `Extends and Import`) }}</li>
+                        <li>{{ item(`templates/specification`, `Specification`) }}</li>
+                        <li>{{ item(`templates/switch-from-jinja-to-scriggo`, `Switch from Jinja`) }}</li>
                     </ul>
                 </li>
-                <li><a href="/scriggofile">Scriggofile</a></li>
-                <li><a href="/disassembler">Disassembler</a></li>
-                <li><a href="/limitations">Limitations</a></li>
+                <li>{{ item(`scriggofile`, `Scriggofile`) }}</li>
+                <li>{{ item(`disassembler`, `Disassembler`) }}</li>
+                <li>{{ item(`limitations`, `Limitations`) }}</li>
             </ul>
             </nav>
         </aside>

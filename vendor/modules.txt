@@ -3,6 +3,7 @@
 github.com/open2b/scriggo
 github.com/open2b/scriggo/ast
 github.com/open2b/scriggo/ast/astutil
+github.com/open2b/scriggo/builtin
 github.com/open2b/scriggo/internal/compiler
 github.com/open2b/scriggo/internal/compiler/types
 github.com/open2b/scriggo/internal/runtime

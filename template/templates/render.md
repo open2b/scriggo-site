@@ -13,16 +13,17 @@ The _render_ operator, when used between `{{` and `}}`:
 ```
 
 renders the template file with the named path and shows its content. A file rendered with render is called _partial_
-because contains only a part of the content to render:
+because contains only a part of the content that will be rendered:
 
 ```scriggo
-{{ render "/partials/promotion.html" }}
+{{ render "/promotion.html" }}
 ```
 
 The path of the partial file can also be relative to the file that contains the render operator:
 
 ```scriggo
 {{ render "../header.html" }}
+{{ render "socials.html" }}
 ```
 
 When a partial file is rendered, the code of the file does not see the variables declared in the file that contain the
@@ -33,11 +34,11 @@ used, such as:
 {{ Image("picture.jpg", 400, 500) }}
 ```
 
-See [macro](macro) for details.
+See the [macro statement](macro) for details.
 
 ## More general use
 
-Render is a Scriggo operator and as such it can be used in expressions, not only between `{{` and `}}`, like any other
+Render is a Scriggo operator and as such it can be used in any expression, not only between `{{` and `}}`, like any other
 operator. Its evaluation returns a string. For example, it is possible to assign its evaluation for later use:
 
 ```scriggo

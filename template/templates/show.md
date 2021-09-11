@@ -6,7 +6,7 @@
 
 # Show
 
-The _show_ statement followed by one or more expressions, evaluates them and displays the results:
+The _show_ statement followed by one or more expressions, evaluates them and shows the results:
 
 ```scriggo
 {% show 5 + 2, " = ", 7 %}
@@ -28,8 +28,8 @@ A show statement with a single expression can also be written as follows:
 $29.99
 </pre>
 
-This second form is the most used because it is easier to write and read, you can still use one or the other
-indifferently.
+This short form, for a single expression, is the most used because it is easier to write and read, but you can use
+one or the other indifferently.
 
 Between `{%%` and `%%}` the show statement can be used as follows:
 

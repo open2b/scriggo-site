@@ -72,7 +72,7 @@ project.</p>
 <p>Scriggo, for programs, implements exclusively the Go language specification, so if it is not present in the Go
 specification it cannot be implemented.</p>
 <h3 id="can-i-use-the-shebang-in-go-files">Can I use the shebang in Go files?</h3>
-<p>No, because the shebang is not mentioned in the Go specification. If you really want it, remove the shebang line from the
+<p>No, because the shebang is not mentioned in the Go specification. If you need it, you could remove the shebang line from the
 file when it is read by Scriggo.</p>
 <h3 id="what-versions-of-go-does-scriggo-support">What versions of Go does Scriggo support?</h3>
 <p>Scriggo supports the latest two stable versions of Go. Therefore, it currently supports versions 1.16 and 1.17. When
@@ -97,9 +97,9 @@ however, in a new memory allocation.</p>
 the version introduces an incompatibility with the previous version. Patches are released for the latest minor only.
 Once version 1.0.0 is released, patches for the current and previous minor will be released.</p>
 <h3 id="can-scriggo-be-used-in-production">Can Scriggo be used in production?</h3>
-<p>Scriggo is currently already used in production. It is not yet in version 1.0 as there are some part of the Go
-specification to implement, and we still want to be free to make small and limited changes to the template specification
-and packages.</p>
+<p>Scriggo v0.45.0 is currently used in production and the latest version will be soon. It is not yet in version 1.0 as
+there are some part of the Go specification to implement, and we still want to be free to make small and limited
+changes to the template specification and packages after receiving feedback.</p>
 <h2 id="performance">Performance</h2>
 <h3 id="why-is-scriggo-so-fast-and-allocates-less-than-other-interpreters-in-go">Why is Scriggo so fast and allocates less than other interpreters in Go?</h3>
 <p>Scriggo implements a virtual machine with registers. Go programs and templates are first compiled to bytecode and then executed by the Scriggo virtual machine.</p>
@@ -121,7 +121,7 @@ templating languages like Jinja and Liquid.</p>
 <p><code>{% if len(products) == 0 %} There are no products {% end %}</code></p>
 <p>brings with it some concepts such as slices, the built-in <code>len</code> and the equality operator, which on the whole could
 discourage people approaching a template language without coding skills.</p>
-<p>In Scriggo, therefore, the previous code can be written in the following way:</p>
+<p>In Scriggo, therefore, the previous code can also be written in the following way:</p>
 <pre><code>{% if not products %} There are no products {% end %}
 </code></pre>
 <p>The condition of the <em>if</em> statement can have any type and is <em>true</em> if it is truthful. A <em>nil</em> or empty slice is not
@@ -179,7 +179,10 @@ from the standard Go library.</p>
       <li><a href="/copyright">Copyright</a></li>
       <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
     </ul>
-    <div class="generator">This site is <a href="https://github.com/open2b/scriggo-site">generated</a> by Scriggo</div>
+    <div class="generator">This site is
+      <a href="https://github.com/open2b/scriggo-site/blob/main/template/faq.md" target="_blank">generated</a>
+      by Scriggo
+    </div>
   </div>
 </footer></body>
 </html>

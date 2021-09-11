@@ -1,16 +1,23 @@
 {% extends "/layouts/page.html" %}
 {% var Page = "support" %}
 {% macro Title string %}Support{% end %}
-{% Content %}
+{% macro Content html %}
 
-# Support
+<h1>Get Support</h1>
 
 <div class="support">
+<div class="enterprise">
+
+<h2>Enterprise</h2>
+
+<p>Priority private support by core developers</p>
+
+</div>
 <div class="community">
 
-## Community
+<h2>Community</h2>
 
-Free public support by the community  
+<p>Free public support by the community</p>
 
 <a class="github-discussions" href="https://github.com/open2b/scriggo/discussions">
     {{ render "partials/github-logo.html" }}
@@ -19,13 +26,6 @@ Free public support by the community
 <a class="github-discussions" href="https://github.com/open2b/scriggo/discussions">GitHub Discussions</a>
 
 </div>
-<div class="enterprise">
-
-## Enterprise
-
-Priority private support by core developers
-
-
-
 </div>
-</div>
+
+{% end macro %}

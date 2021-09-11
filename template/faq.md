@@ -62,7 +62,7 @@ specification it cannot be implemented.
 
 ### Can I use the shebang in Go files?
 
-No, because the shebang is not mentioned in the Go specification. If you really want it, remove the shebang line from the
+No, because the shebang is not mentioned in the Go specification. If you need it, you could remove the shebang line from the
 file when it is read by Scriggo.
 
 ### What versions of Go does Scriggo support?
@@ -103,9 +103,9 @@ Once version 1.0.0 is released, patches for the current and previous minor will 
 
 ### Can Scriggo be used in production?
 
-Scriggo is currently already used in production. It is not yet in version 1.0 as there are some part of the Go 
-specification to implement, and we still want to be free to make small and limited changes to the template specification
-and packages.
+Scriggo v0.45.0 is currently used in production and the latest version will be soon. It is not yet in version 1.0 as
+there are some part of the Go specification to implement, and we still want to be free to make small and limited
+changes to the template specification and packages after receiving feedback.
 
 ## Performance
 
@@ -145,7 +145,7 @@ We wanted the template language to be easy to use even for non-programmers. A si
 brings with it some concepts such as slices, the built-in `len` and the equality operator, which on the whole could 
 discourage people approaching a template language without coding skills.
 
-In Scriggo, therefore, the previous code can be written in the following way:
+In Scriggo, therefore, the previous code can also be written in the following way:
 
 ```
 {% if not products %} There are no products {% end %}

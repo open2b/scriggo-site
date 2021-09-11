@@ -30,23 +30,36 @@
         <aside>
             <nav>
             <ul>
-                <li><a href="/what-is-scriggo">What is Scriggo</a></li>
-                <li><a href="/get-started">Get Started</a></li>
-                <li><a href="/scriggo-command">Scriggo command</a></li>
+                <li><a href="/what-is-scriggo" >What is Scriggo</a>
+</li>
+                <li><a href="/get-started" >Get Started</a>
+</li>
+                <li><a href="/scriggo-command" >Scriggo command</a>
+</li>
                 <li>
-                    <a href="/templates">Templates</a>
+                    <a href="/templates"  class="expanded">Templates</a>
+
                     <ul>
-                        <li><a href="/templates/show">Show</a></li>
-                        <li><a href="/templates/render">Render</a></li>
-                        <li><a href="/templates/macro">Macro</a></li>
-                        <li><a href="/templates/extends-and-import">Extends and Import</a></li>
-                        <li><a href="/templates/specification">Specification</a></li>
-                        <li><a href="/templates/switch-from-jinja-to-scriggo">Switch from Jinja</a></li>
+                        <li><a href="/templates/show" >Show</a>
+</li>
+                        <li><a href="/templates/render"  class="selected" >Render</a>
+</li>
+                        <li><a href="/templates/macro" >Macro</a>
+</li>
+                        <li><a href="/templates/extends-and-import" >Extends and Import</a>
+</li>
+                        <li><a href="/templates/specification" >Specification</a>
+</li>
+                        <li><a href="/templates/switch-from-jinja-to-scriggo" >Switch from Jinja</a>
+</li>
                     </ul>
                 </li>
-                <li><a href="/scriggofile">Scriggofile</a></li>
-                <li><a href="/disassembler">Disassembler</a></li>
-                <li><a href="/limitations">Limitations</a></li>
+                <li><a href="/scriggofile" >Scriggofile</a>
+</li>
+                <li><a href="/disassembler" >Disassembler</a>
+</li>
+                <li><a href="/limitations" >Limitations</a>
+</li>
             </ul>
             </nav>
         </aside>
@@ -56,20 +69,21 @@
 <pre><code class="language-scriggo">{{ render path }}
 </code></pre>
 <p>renders the template file with the named path and shows its content. A file rendered with render is called <em>partial</em>
-because contains only a part of the content to render:</p>
-<pre><code class="language-scriggo">{{ render &quot;/partials/promotion.html&quot; }}
+because contains only a part of the content that will be rendered:</p>
+<pre><code class="language-scriggo">{{ render &quot;/promotion.html&quot; }}
 </code></pre>
 <p>The path of the partial file can also be relative to the file that contains the render operator:</p>
 <pre><code class="language-scriggo">{{ render &quot;../header.html&quot; }}
+{{ render &quot;socials.html&quot; }}
 </code></pre>
 <p>When a partial file is rendered, the code of the file does not see the variables declared in the file that contain the
 render operator, and it does not see the other declarations in this file. For this purpose, macros with parameters are
 used, such as:</p>
 <pre><code class="language-scriggo">{{ Image(&quot;picture.jpg&quot;, 400, 500) }}
 </code></pre>
-<p>See <a href="macro">macro</a> for details.</p>
+<p>See the <a href="macro">macro statement</a> for details.</p>
 <h2 id="more-general-use">More general use</h2>
-<p>Render is a Scriggo operator and as such it can be used in expressions, not only between <code>{{</code> and <code>}}</code>, like any other
+<p>Render is a Scriggo operator and as such it can be used in any expression, not only between <code>{{</code> and <code>}}</code>, like any other
 operator. Its evaluation returns a string. For example, it is possible to assign its evaluation for later use:</p>
 <pre><code class="language-scriggo">{% var email = render &quot;email.html&quot; %}
 </code></pre>
@@ -98,7 +112,10 @@ which the file does not exist, you can use a <em>default</em> expression:</p>
       <li><a href="/copyright">Copyright</a></li>
       <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
     </ul>
-    <div class="generator">This site is <a href="https://github.com/open2b/scriggo-site">generated</a> by Scriggo</div>
+    <div class="generator">This site is
+      <a href="https://github.com/open2b/scriggo-site/blob/main/template/templates/render.md" target="_blank">generated</a>
+      by Scriggo
+    </div>
   </div>
 </footer></body>
 </html>

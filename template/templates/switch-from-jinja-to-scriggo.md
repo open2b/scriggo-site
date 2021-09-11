@@ -323,7 +323,7 @@ strings.
 
 ```scriggo
 {% var name = "hello" %}
-{{ name + ", " + "world! "}}
+{{ name + ", " + "world!" }}
 ```
 
 ### Operator `~` (tilde)

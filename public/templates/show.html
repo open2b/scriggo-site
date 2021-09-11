@@ -30,29 +30,42 @@
         <aside>
             <nav>
             <ul>
-                <li><a href="/what-is-scriggo">What is Scriggo</a></li>
-                <li><a href="/get-started">Get Started</a></li>
-                <li><a href="/scriggo-command">Scriggo command</a></li>
+                <li><a href="/what-is-scriggo" >What is Scriggo</a>
+</li>
+                <li><a href="/get-started" >Get Started</a>
+</li>
+                <li><a href="/scriggo-command" >Scriggo command</a>
+</li>
                 <li>
-                    <a href="/templates">Templates</a>
+                    <a href="/templates"  class="expanded">Templates</a>
+
                     <ul>
-                        <li><a href="/templates/show">Show</a></li>
-                        <li><a href="/templates/render">Render</a></li>
-                        <li><a href="/templates/macro">Macro</a></li>
-                        <li><a href="/templates/extends-and-import">Extends and Import</a></li>
-                        <li><a href="/templates/specification">Specification</a></li>
-                        <li><a href="/templates/switch-from-jinja-to-scriggo">Switch from Jinja</a></li>
+                        <li><a href="/templates/show"  class="selected" >Show</a>
+</li>
+                        <li><a href="/templates/render" >Render</a>
+</li>
+                        <li><a href="/templates/macro" >Macro</a>
+</li>
+                        <li><a href="/templates/extends-and-import" >Extends and Import</a>
+</li>
+                        <li><a href="/templates/specification" >Specification</a>
+</li>
+                        <li><a href="/templates/switch-from-jinja-to-scriggo" >Switch from Jinja</a>
+</li>
                     </ul>
                 </li>
-                <li><a href="/scriggofile">Scriggofile</a></li>
-                <li><a href="/disassembler">Disassembler</a></li>
-                <li><a href="/limitations">Limitations</a></li>
+                <li><a href="/scriggofile" >Scriggofile</a>
+</li>
+                <li><a href="/disassembler" >Disassembler</a>
+</li>
+                <li><a href="/limitations" >Limitations</a>
+</li>
             </ul>
             </nav>
         </aside>
         <div class="content">
             <h1 id="show">Show</h1>
-<p>The <em>show</em> statement followed by one or more expressions, evaluates them and displays the results:</p>
+<p>The <em>show</em> statement followed by one or more expressions, evaluates them and shows the results:</p>
 <pre><code class="language-scriggo">{% show 5 + 2, &quot; = &quot;, 7 %}
 {% show price %}
 </code></pre>
@@ -68,8 +81,8 @@ $29.99
 7
 $29.99
 </pre>
-<p>This second form is the most used because it is easier to write and read, you can still use one or the other
-indifferently.</p>
+<p>This short form, for a single expression, is the most used because it is easier to write and read, but you can use
+one or the other indifferently.</p>
 <p>Between <code>{%%</code> and <code>%%}</code> the show statement can be used as follows:</p>
 <pre><code>{%%
   var value = 55
@@ -110,7 +123,10 @@ indifferently.</p>
       <li><a href="/copyright">Copyright</a></li>
       <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
     </ul>
-    <div class="generator">This site is <a href="https://github.com/open2b/scriggo-site">generated</a> by Scriggo</div>
+    <div class="generator">This site is
+      <a href="https://github.com/open2b/scriggo-site/blob/main/template/templates/show.md" target="_blank">generated</a>
+      by Scriggo
+    </div>
   </div>
 </footer></body>
 </html>
