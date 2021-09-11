@@ -42,7 +42,7 @@
 
 ### Is Scriggo Open Source?
 
-Yes, it is distributed under the BSD license, the same as Go.
+Yes, it is distributed under a BSD license, the same as Go.
 
 ### What is the relationship between Scriggo and Google?
 
@@ -62,7 +62,7 @@ specification it cannot be implemented.
 
 ### Can I use the shebang in Go files?
 
-No, because the shebang is not included in the Go specification. If you really want it, remove the shebang line from the
+No, because the shebang is not mentioned in the Go specification. If you really want it, remove the shebang line from the
 file when it is read by Scriggo.
 
 ### What versions of Go does Scriggo support?

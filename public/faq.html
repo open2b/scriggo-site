@@ -1,16 +1,24 @@
 <!doctype html>
 <html class="article page-faq" lang="en">
 <head>
-    <meta charset="utf-8">
     <title>Scriggo Frequently Asked Questions (FAQ)</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
     <link rel="stylesheet" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="Scriggo Frequently Asked Questions (FAQ)">
+    <meta property="og:description" content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scriggo.com">
+    <meta property="og:image" content="https://scriggo.com/images/scriggo-card.png">
+    <meta name=twitter:title content="Scriggo Frequently Asked Questions (FAQ)">
+    <meta name=twitter:description content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta name=twitter:image content="https://scriggo.com/images/scriggo-card.png">
+
 </head>
 <body>
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
     <ul>
-        <li><a href="/news">News</a></li>
         <li><a href="/what-is-scriggo">Documentation</a></li>
         <li><a href="/support">Support</a></li>
         <li><a href="/faq">FAQ</a></li>
@@ -53,7 +61,7 @@
 </dl>
 <h2 id="origin-and-nature-of-the-project">Origin and nature of the project</h2>
 <h3 id="is-scriggo-open-source">Is Scriggo Open Source?</h3>
-<p>Yes, it is distributed under the BSD license, the same as Go.</p>
+<p>Yes, it is distributed under a BSD license, the same as Go.</p>
 <h3 id="what-is-the-relationship-between-scriggo-and-google">What is the relationship between Scriggo and Google?</h3>
 <p>None, apart from the fact that the Go language, with which Scriggo is written and which it implements, is a Google
 project.</p>
@@ -64,7 +72,7 @@ project.</p>
 <p>Scriggo, for programs, implements exclusively the Go language specification, so if it is not present in the Go
 specification it cannot be implemented.</p>
 <h3 id="can-i-use-the-shebang-in-go-files">Can I use the shebang in Go files?</h3>
-<p>No, because the shebang is not included in the Go specification. If you really want it, remove the shebang line from the
+<p>No, because the shebang is not mentioned in the Go specification. If you really want it, remove the shebang line from the
 file when it is read by Scriggo.</p>
 <h3 id="what-versions-of-go-does-scriggo-support">What versions of Go does Scriggo support?</h3>
 <p>Scriggo supports the latest two stable versions of Go. Therefore, it currently supports versions 1.16 and 1.17. When
@@ -165,7 +173,13 @@ from the standard Go library.</p>
     </div>
 </article>
 <footer>
-    &copy; 2021 Open2b
-</footer>
-</body>
+  <div class="wrap">
+    <img class="gopher" src="/images/pilot-bust.svg" alt="The Go Gopher">
+    <ul>
+      <li><a href="/copyright">Copyright</a></li>
+      <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
+    </ul>
+    <div class="generator">This site is <a href="https://github.com/open2b/scriggo-site">generated</a> by Scriggo</div>
+  </div>
+</footer></body>
 </html>

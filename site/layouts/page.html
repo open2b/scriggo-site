@@ -1,10 +1,10 @@
+{% import "/imports/meta.html" for Meta %}
 <!doctype html>
 <html class="article page-{{ Page }}" lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>{{ Title() default "" }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/css/style.css">
+    {% title := Title() default "" %}
+    <title>{{ title }}</title>
+    {{ Meta(title) }}
 </head>
 <body>
 {{ render "/partials/nav.html" }}
@@ -15,8 +15,6 @@
         </div>
     </div>
 </article>
-<footer>
-    &copy; 2021 Open2b
-</footer>
+{{ render "/partials/footer.html" }}
 </body>
 </html>

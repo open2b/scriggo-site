@@ -64,8 +64,10 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 
 .benchmark + .benchmark { padding-left: 5rem; padding-right: 8rem; }
 
+.wrap { margin: 0 auto; max-width: 1280px; }
+
 .article article { background: #fff; min-height: 100vh; }
-.article article > .wrap { display: flex; font-size: 1rem; margin: 0 auto; max-width: 1280px; padding: 0 1rem; }
+.article article > .wrap { display: flex; font-size: 1rem; padding: 0 1rem; }
 .article aside { margin-right: 3rem; }
 .article aside ul { list-style-type: none; padding: 0; }
 .article aside > ul { margin-top: 3rem; }
@@ -74,7 +76,7 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .article aside ul a { display: block; font-size: 1.1rem; padding: 0.5rem; }
 .article aside ul a, .article aside ul a:visited { color: #333; }
 .article aside ul a:hover { background: #ebb951; border-radius: 3px; }
-.article .content { flex-grow: 1; margin: 0; min-width: 0; }
+.article .content { flex-grow: 1; margin: 0 0 4em 0; min-width: 0; }
 .article .content a, .article .content a:visited { color: #5f943d; }
 .article h1 { color: #0a1922; font-size: 2.6rem; }
 .article p + h1 { font-size: 2.2rem; margin-top: -.7em; }
@@ -129,3 +131,13 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 code.language-jinja {
     color: rgb(136, 136, 136);
 }
+
+footer { border-top: 1px solid #dcdee0; }
+footer > div { display: flex; padding-top: .6rem; }
+footer > div > * { align-self: flex-end; }
+footer img.gopher { width: 5rem; }
+footer ul { display: flex; flex: 1; flex-wrap: wrap; list-style: none; }
+footer ul li { padding: 0 1rem; }
+footer ul li a { color: #333; }
+footer .generator { align-self: center; }
+footer .generator a { color: #e6a62f; }
