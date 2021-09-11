@@ -42,7 +42,7 @@ func main() {
 		},
 	}
 
-	srcFS := os.DirFS("site")
+	srcFS := os.DirFS("template")
 
 	err = fs.WalkDir(srcFS, ".", func(path string, d fs.DirEntry, err error) error {
 		if err != nil {

@@ -24,7 +24,7 @@ Contributions to the scriggo.com site are greatly appreciated, as new documentat
 The scriggo.com site is a Scriggo template, and you can use the [scriggo command](https://scriggo.com/scriggo-command) to run it locally:
 
 ```
-cd site
+cd template
 scriggo serve
 ```
 
