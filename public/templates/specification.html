@@ -24,6 +24,7 @@
             <ul>
                 <li><a href="/what-is-scriggo">What is Scriggo</a></li>
                 <li><a href="/get-started">Get Started</a></li>
+                <li><a href="/scriggo-command">Scriggo command</a></li>
                 <li>
                     <a href="/templates">Templates</a>
                     <ul>
@@ -31,19 +32,18 @@
                         <li><a href="/templates/render">Render</a></li>
                         <li><a href="/templates/macro">Macro</a></li>
                         <li><a href="/templates/extends-and-import">Extends and Import</a></li>
+                        <li><a href="/templates/specification">Specification</a></li>
+                        <li><a href="/templates/switch-from-jinja-to-scriggo">Switch from Jinja</a></li>
                     </ul>
                 </li>
-                <li><a href="/from-jinja-to-scriggo">From Jinja to Scriggo</a></li>
-                <li><a href="/scriggo-command">Scriggo command</a></li>
                 <li><a href="/scriggofile">Scriggofile</a></li>
                 <li><a href="/disassembler">Disassembler</a></li>
                 <li><a href="/limitations">Limitations</a></li>
-                <li><a href="/template-spec">Template spec</a></li>
             </ul>
             </nav>
         </aside>
         <div class="content">
-            <h1 id="the-scriggo-templates-specification">The Scriggo Templates Specification</h1>
+            <h1 id="the-scriggo-template-specification">The Scriggo Template Specification</h1>
 <table>
     <tr>
         <td>
@@ -91,7 +91,7 @@
 </table>
 <h2 id="introduction">Introduction</h2>
 <p>This is a reference manual for Scriggo templates.</p>
-<p>The Scriggo templates specification is based on the Go language specification, see <a href="https://golang.org/ref/spec">golang.org/spec</a>. The Go specification applies, except as written in this specification.</p>
+<p>The Scriggo template specification is based on the Go language specification, see <a href="https://golang.org/ref/spec">golang.org/spec</a>. The Go specification applies, except as written in this specification.</p>
 <h2 id="template-source-code-representation">Template source code representation</h2>
 <p>Template source code between <em>{%</em> and <em>%}</em>, <em>{%%</em> and <em>%%}</em> and <em>{{</em> and <em>}}</em> is Unicode text encoded in <a href="https://en.wikipedia.org/wiki/UTF-8">UTF-8</a>.</p>
 <p>Implementation restriction: A template tool, as an editor or interpreter, may require all the template file content to be encoded in UTF-8.</p>

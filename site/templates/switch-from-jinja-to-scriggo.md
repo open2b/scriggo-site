@@ -1,9 +1,9 @@
 {% extends "/layouts/doc.html" %}
-{% macro Title string %}From Jinja to Scriggo{% end %}
+{% macro Title string %}Switch from Jinja to Scriggo templates{% end %}
 {% Article %}
 {% raw document %}
 
-# From Jinja to Scriggo
+# Switch from Jinja to Scriggo
 
 This page is targeted to users who are already familiar with designing templates in
 Python/Jinja but have a limited/no experience with Go/Scriggo.
@@ -12,7 +12,7 @@ Here is provided a overview of the similarities and the differences between the 
 templating languages.
 
 > Some examples on this page are taken from [the Jinja
-> documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/), (copyright
+> documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/) (copyright
 > 2007 Pallets).
 
 
@@ -792,11 +792,11 @@ different algorithms:
 
 Now you can checkout this resources:
 
-- [Templates](templates), which provides a more depth overview of the Scriggo
+- [Templates](/templates), which provides a more depth overview of the Scriggo
   template.
-- [Get started with templates](get-started-2#execute-templates-in-your-application),
+- [Get started with templates](/get-started-2#execute-templates-in-your-application),
   which provides a tutorial on embedding Scriggo templates in your Go application.
-- [The Scriggo Templates Specification](template-spec), which expands the [Go
+- [The Scriggo Template Specification](/templates/specification), which expands the [Go
   language specification](https://golang.org/ref/spec) covering every aspect of the
   Scriggo template in detail.
 

@@ -2,7 +2,7 @@
 <html lang="en" class="article">
 <head>
     <meta charset="utf-8">
-    <title>From Jinja to Scriggo</title>
+    <title>Switch from Jinja to Scriggo templates</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -24,6 +24,7 @@
             <ul>
                 <li><a href="/what-is-scriggo">What is Scriggo</a></li>
                 <li><a href="/get-started">Get Started</a></li>
+                <li><a href="/scriggo-command">Scriggo command</a></li>
                 <li>
                     <a href="/templates">Templates</a>
                     <ul>
@@ -31,26 +32,25 @@
                         <li><a href="/templates/render">Render</a></li>
                         <li><a href="/templates/macro">Macro</a></li>
                         <li><a href="/templates/extends-and-import">Extends and Import</a></li>
+                        <li><a href="/templates/specification">Specification</a></li>
+                        <li><a href="/templates/switch-from-jinja-to-scriggo">Switch from Jinja</a></li>
                     </ul>
                 </li>
-                <li><a href="/from-jinja-to-scriggo">From Jinja to Scriggo</a></li>
-                <li><a href="/scriggo-command">Scriggo command</a></li>
                 <li><a href="/scriggofile">Scriggofile</a></li>
                 <li><a href="/disassembler">Disassembler</a></li>
                 <li><a href="/limitations">Limitations</a></li>
-                <li><a href="/template-spec">Template spec</a></li>
             </ul>
             </nav>
         </aside>
         <div class="content">
-            <h1 id="from-jinja-to-scriggo">From Jinja to Scriggo</h1>
+            <h1 id="switch-from-jinja-to-scriggo">Switch from Jinja to Scriggo</h1>
 <p>This page is targeted to users who are already familiar with designing templates in
 Python/Jinja but have a limited/no experience with Go/Scriggo.</p>
 <p>Here is provided a overview of the similarities and the differences between the two
 templating languages.</p>
 <blockquote>
 <p>Some examples on this page are taken from <a href="https://jinja.palletsprojects.com/en/3.0.x/templates/">the Jinja
-documentation</a>, (copyright
+documentation</a> (copyright
 2007 Pallets).</p>
 </blockquote>
 <ul>
@@ -583,11 +583,11 @@ parser, it is escaped as <code>%3c is more</code>.</li>
 <h2 id="continue-to-learn">Continue to learn</h2>
 <p>Now you can checkout this resources:</p>
 <ul>
-<li><a href="templates">Templates</a>, which provides a more depth overview of the Scriggo
+<li><a href="/templates">Templates</a>, which provides a more depth overview of the Scriggo
 template.</li>
-<li><a href="get-started-2#execute-templates-in-your-application">Get started with templates</a>,
+<li><a href="/get-started-2#execute-templates-in-your-application">Get started with templates</a>,
 which provides a tutorial on embedding Scriggo templates in your Go application.</li>
-<li><a href="template-spec">The Scriggo Templates Specification</a>, which expands the <a href="https://golang.org/ref/spec">Go
+<li><a href="/templates/specification">The Scriggo Template Specification</a>, which expands the <a href="https://golang.org/ref/spec">Go
 language specification</a> covering every aspect of the
 Scriggo template in detail.</li>
 </ul>
