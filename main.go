@@ -20,6 +20,7 @@ import (
 	"github.com/open2b/scriggo/native"
 
 	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html"
 )
@@ -41,7 +42,8 @@ func main() {
 
 	md := goldmark.New(
 		goldmark.WithRendererOptions(html.WithUnsafe()),
-		goldmark.WithParserOptions(parser.WithAutoHeadingID()))
+		goldmark.WithParserOptions(parser.WithAutoHeadingID()),
+		goldmark.WithExtensions(extension.GFM))
 
 	buildOptions := &scriggo.BuildOptions{
 		Globals: make(native.Declarations, len(globals)+1),
