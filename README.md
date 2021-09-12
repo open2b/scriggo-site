@@ -18,13 +18,12 @@ Contributions to the scriggo.com site are greatly appreciated, as new documentat
 * if you find an issue on the site, [open an issue](https://github.com/open2b/scriggo/issues/new) on Scriggo.
 * if you want to write new documentation, as "Switch from X to Scriggo", [discuss with us](https://github.com/open2b/scriggo/discussions) and after it is approved open a PR on this repository.
 * if you use Scriggo at work, let us know.
-
 ### Running the website
 
-The scriggo.com site is a Scriggo template, and you can use the [scriggo command](https://scriggo.com/scriggo-command) to run it locally:
+The scriggo.com site is a Scriggo template. You can use the [scriggo command](https://scriggo.com/scriggo-command) to run it locally:
 
 ```
-cd template
+cd site
 scriggo serve
 ```
 
@@ -36,4 +35,4 @@ To build the pages of the website, execute the following command in the root dir
 go run .
 ```
 
-It will create the site pages in the "public" directory.
+It will create a new directory named "public" with the compiled site pages. If the directory already exists, it will be deleted first.
