@@ -97,6 +97,15 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 
 .article pre + .result { border-top-left-radius: 0; border-top: 1px solid #dfdad3; border-top-right-radius: 0; margin-top: -17px; padding-top: 16px; }
 
+.article table { border-left: 1px solid #e6e6e6; border-spacing: 0; border-top: 1px solid #E6E6E6; margin: 20px 0; width: 100%; }
+.article table td, .article table th { border-bottom: 1px solid #e6e6e6; border-right: 1px solid #e6e6e6; font-weight: normal; padding: 12px; text-align: left; vertical-align: top; }
+
+.article .operators table td:first-child { text-align: center; width: 3rem; }
+.article .data-type-operators table td:first-child { width: 7rem; }
+.article .data-type-operators table td:last-child { word-spacing: .5rem; }
+.article .data-type-false table td:first-child { width: 6rem; }
+.article .assignments table td:first-child { width: 7rem; }
+
 #what-is-scriggo + p { color: #777; font-size: 1.2em; font-weight: bold; }
 
 .page-support h1 { margin: 1em auto 1em auto; text-align: center; }

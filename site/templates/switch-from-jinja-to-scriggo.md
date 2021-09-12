@@ -335,7 +335,7 @@ Jinja has the _tilde operator_ that converts the operands in strings and concate
 {{ "Hello " ~ name ~ "!" }}
 ```
 
-In Scriggo this can be achieved using a builtin function like `sprintf`:
+In Scriggo this can be achieved using a built-in function like `sprintf`:
 
 ```scriggo
 {% var name = "FooBar" %}
@@ -395,7 +395,7 @@ Here are some examples:
 ### Block Assignments
 
 Scriggo provides a mechanism similar to the block assignments in Jinja, through the
-`using` statement and the `itea` builtin identifier.
+`using` statement and the `itea` built-in identifier.
 
 So, for example, this code in Jinja:
 
@@ -438,7 +438,7 @@ becomes in Scriggo:
 ### Calls
 
 Call blocks can be reproduced in Scriggo using the `using` and `show` statements and
-the `itea` builtin identifier.
+the `itea` built-in identifier.
 
 For example this code in Jinja:
 
@@ -481,9 +481,9 @@ can be reproduce in Scriggo as:
 
 ### Filters
 
-Filters can be rewritten in Scriggo using builtin functions and syntactic constructs.
+Filters can be rewritten in Scriggo using built-in functions and syntactic constructs.
 
-See [builtin filters](#list-of-builtin-filters) for some examples.
+See [built-in filters](#list-of-built-in-filters) for some examples.
 
 ### Assignments
 
@@ -654,7 +654,7 @@ To import a template file, prepending a prefix to the imported declarations:
 {{ myfile.Content() }}
 ```
 
-## List of Builtin filters
+## List of built-in filters
 
 To get an overview about filters, see the [corresponding section](#filters).
 
@@ -668,7 +668,7 @@ Jinja:
 {{ -3|abs }}
 ```
 
-Scriggo has the builtin function `abs`:
+Scriggo has the built-in function `abs`:
 
 ```scriggo
 {{ abs(-3) }}
@@ -696,7 +696,7 @@ Note that if `foo` has no attribute `bar`, it results in a compilation error.
 
 ### `length`
 
-Scriggo offer the builtin function `runeCount` that returns the number of characters
+Scriggo offer the built-in function `runeCount` that returns the number of characters
 of a string.
 
 ```scriggo
@@ -709,7 +709,7 @@ renders to
 5
 ```
 
-Scriggo also offers the builtin function `len` that returns the number of elements in
+Scriggo also offers the built-in function `len` that returns the number of elements in
 slices and maps and the number of bytes in strings.
 
 ```scriggo

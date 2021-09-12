@@ -19,7 +19,7 @@ $29.99
 
 A show statement with a single expression can also be written as follows:
 
-```
+```scriggo
 {{ 5 + 2 }}
 {{ price }}
 ```
@@ -33,7 +33,7 @@ one or the other indifferently.
 
 Between `{%%` and `%%}` the show statement can be used as follows:
 
-```
+```scriggo
 {%%
   var value = 55
   if value < 100 {
@@ -47,7 +47,7 @@ Between `{%%` and `%%}` the show statement can be used as follows:
 
 The show statement shows the expressions based on the context in which it is used:
 
-```
+```scriggo
 {% var greeting = "hello" %}
 
 <div>{{ greeting }}</div>
