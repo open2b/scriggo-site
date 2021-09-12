@@ -104,10 +104,11 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .page-support .support > div { flex-basis: 0; flex-grow: 1; padding: 0 3rem; text-align: center; }
 .page-support .support > div:first-child { border-right: 1px solid #aaa; }
 .page-support .support h2 { margin-bottom: 0; }
-.page-support .support h2 + p { color: #666; margin: .5rem 0 3rem 0; }
-.page-support .support .github-discussions { color: #000; display: block; }
-.page-support .support .github-discussions svg { height: 72px; width: 72px; }
-.page-support .support .github-discussions + p { margin-top: 0; }
+.page-support .support h2 + p { color: #666; margin-bottom: 1rem; margin-top: 0; }
+.page-support .support .channel { align-items: center; color: #000; display: flex; margin: 1.5rem 0 0 1rem; width: 100%; }
+.page-support .support .channel > :first-child { text-align: center; width: 6rem; }
+.page-support .support .channel a { color: #222; }
+.page-support .support .channel.github-discussions svg { height: 5rem; width: 5rem; }
 
 @media only screen and (max-width: 767px) {
 
