@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <title>Scriggofile</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="Scriggofile">
+    <meta property="og:description" content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scriggo.com">
+    <meta property="og:image" content="https://scriggo.com/images/scriggo-card.png">
+    <meta name=twitter:title content="Scriggofile">
+    <meta name=twitter:description content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta name=twitter:image content="https://scriggo.com/images/scriggo-card.png">
+
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
+    <ul>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+    <a class="github-logo" href="https://github.com/open2b/scriggo/" alt="Scriggo on GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Github | Scriggo</title><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a></a>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="/what-is-scriggo" >What is Scriggo</a>
+</li>
+                <li><a href="/get-started" >Get Started</a>
+</li>
+                <li><a href="/scriggo-command" >Scriggo command</a>
+</li>
+                <li>
+                    <a href="/templates" >Templates</a>
+
+                    <ul>
+                        <li><a href="/templates/show" >Show</a>
+</li>
+                        <li><a href="/templates/render" >Render</a>
+</li>
+                        <li><a href="/templates/macro" >Macro</a>
+</li>
+                        <li><a href="/templates/extends-and-import" >Extends and Import</a>
+</li>
+                        <li><a href="/templates/if-for-switch" >If, For and Switch</a>
+</li>
+                        <li><a href="/templates/comments" >Comments</a>
+</li>
+                        <li><a href="/templates/operators" >Operators</a>
+</li>
+                        <li><a href="/templates/types" >Types</a>
+</li>
+                        <li><a href="/templates/variables" >Variables</a>
+</li>
+                        <li><a href="/templates/using" >Using</a>
+</li>
+                        <li><a href="/templates/specification" >Specification</a>
+</li>
+                        <li><a href="/templates/switch-from-jinja-to-scriggo" >Switch from Jinja</a>
+</li>
+                    </ul>
+                </li>
+                <li><a href="/scriggofile"  class="selected" >Scriggofile</a>
+</li>
+                <li><a href="/disassembler" >Disassembler</a>
+</li>
+                <li><a href="/limitations" >Limitations</a>
+</li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="scriggofile">Scriggofile</h1>
+<p>A Scriggofile is a text file with a specific format used by the <code>scriggo</code> command.
+The <code>scriggo</code> command uses the instructions in a Scriggofile to create an
+interpreter or to generate an importer to use in an existing application.</p>
+<p>A Scriggofile defines which packages a program, script or template can import,
+what exported declarations in a package can be imported and so on.</p>
+<h2 id="format">Format</h2>
+<p>The format of the Scriggofile is:</p>
+<pre><code># A comment
+INSTRUCTION arguments
+</code></pre>
+<p>A line starting with <code>#</code> is a comment, and the instructions are case
+insensitive but for convention are written in uppercase (the syntax recalls
+that used by Dockerfile).</p>
+<p>A Scriggofile must be encoded as UTF-8 and it should be named <code>Scriggofile</code>
+or with the extension <code>.Scriggofile</code> as for <code>example.Scriggofile</code>.</p>
+<h2 id="intructions">Intructions</h2>
+<p>The instructions are:</p>
+<h3 id="import-standard-library">IMPORT STANDARD LIBRARY</h3>
+<p>Makes almost all the packages in the Go standard library importable in a program, script or template
+executed by the application.</p>
+<p>To view all packages imported execute from a console:</p>
+<pre><code>$ scriggo stdlib
+</code></pre>
+<h3 id="import-ltpackagegt">IMPORT &lt;package&gt;</h3>
+<p>Make the package with path <code>package</code> importable.</p>
+<h3 id="import-ltpackagegt-including-ltagt-ltbgt-ltcgt">IMPORT &lt;package&gt; INCLUDING &lt;A&gt; &lt;B&gt; &lt;C&gt;</h3>
+<p>As for <code>IMPORT &lt;package&gt;</code> but only the exported names <code>A</code>, <code>B</code> and <code>C</code> are imported.</p>
+<h3 id="import-ltpackagegt-excluding-ltagt-ltbgt-ltcgt">IMPORT &lt;package&gt; EXCLUDING &lt;A&gt; &lt;B&gt; &lt;C&gt;</h3>
+<p>As for <code>IMPORT &lt;package&gt;</code> but the exported names <code>A</code>, <code>B</code> and <code>C</code> are not imported.</p>
+<h3 id="import-ltpackagegt-as-ltasgt">IMPORT &lt;package&gt; AS &lt;as&gt;</h3>
+<p>As for <code>IMPORT &lt;package&gt;</code> but the path with which it can be imported is named <code>as</code>.
+<code>INCLUDING</code> and <code>EXCLUDING</code> can be used as for the other forms of <code>IMPORT</code> at the end of
+the instruction. Is not possible to use a path <code>as</code> that would conflict with a Go
+standard library package path, even if this latter is not imported in the Scriggofile.</p>
+<h3 id="import-ltpackagegt-as-main">IMPORT &lt;package&gt; AS main</h3>
+<p>Make the package with path <code>package</code> imported as the main package in a script or template.
+It is the same as writing:</p>
+<pre><code>import . &quot;&lt;package&gt;&quot;
+</code></pre>
+<p>in a Go program.</p>
+<p><code>INCLUDING</code> and <code>EXCLUDING</code> can be used as for the other forms of <code>IMPORT</code> at the end
+of the instruction.</p>
+<h3 id="import-ltpackagegt-as-main-not-capitalized">IMPORT &lt;package&gt; AS main NOT CAPITALIZED</h3>
+<p>As for <code>IMPORT &lt;package&gt; AS main</code> but the exported names in the package will be imported
+not capitalized. For example a name <code>FooFoo</code> declared in the package will be imported in
+the script or template as <code>fooFoo</code>.</p>
+<h3 id="target-programs-scripts-templates">TARGET PROGRAMS SCRIPTS TEMPLATES</h3>
+<p>Indicates witch are the targets of the application. It will be able to execute only the
+type of sources listed in the <code>TARGET</code> instruction. This instruction is only read by the
+<code>build</code> and <code>install</code> commands.</p>
+<h3 id="set-variable-ltnamegt">SET VARIABLE &lt;name&gt;</h3>
+<p>Set the name of the variable to witch is assigned the value of type <code>scriggo.PackageLoader</code>
+with the packages to import. By default the name is <code>packages</code>. This instruction is only
+read by the <code>embed</code> command.</p>
+<h3 id="set-package-ltnamegt">SET PACKAGE &lt;name&gt;</h3>
+<p>Set the name of the package of the generated Go source file. By default the name of the
+package is <code>main</code>. This instruction is read only by the command <code>scriggo embed</code>.</p>
+<h3 id="goos-linux-windows">GOOS linux windows</h3>
+<p>Specifies the operating systems that will be supported by the built interpreter.
+If the GOOS at the time the Scriggofile is parsed is not listed in the <code>GOOS</code> instruction,
+the <code>init</code> and <code>embed</code> commands fail. If there is no <code>GOOS</code> instruction, all the
+operating systems are supported.</p>
+<p>To view possible GOOS values execute:</p>
+<pre><code>$ go tool dist list
+</code></pre>
+
+<div id="edit-on-github">
+  <a href="https://github.com/open2b/scriggo-site/blob/main/site/scriggofile.md" target="_blank">
+    ✍️ Edit on GitHub, PRs are welcome.
+  </a>
+</div>        </div>
+    </div>
+</article>
+<footer>
+  <div class="wrap">
+    <img class="gopher" src="/images/pilot-bust.svg" alt="The Go Gopher">
+    <ul>
+      <li><a href="/copyright">Copyright</a></li>
+      <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
+    </ul>
+    </div>
+  </div>
+</footer></body>
+</html>

@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <title>Switch from Jinja to Scriggo templates</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="Switch from Jinja to Scriggo templates">
+    <meta property="og:description" content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scriggo.com">
+    <meta property="og:image" content="https://scriggo.com/images/scriggo-card.png">
+    <meta name=twitter:title content="Switch from Jinja to Scriggo templates">
+    <meta name=twitter:description content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta name=twitter:image content="https://scriggo.com/images/scriggo-card.png">
+
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
+    <ul>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+    <a class="github-logo" href="https://github.com/open2b/scriggo/" alt="Scriggo on GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Github | Scriggo</title><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a></a>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="/what-is-scriggo" >What is Scriggo</a>
+</li>
+                <li><a href="/get-started" >Get Started</a>
+</li>
+                <li><a href="/scriggo-command" >Scriggo command</a>
+</li>
+                <li>
+                    <a href="/templates"  class="expanded">Templates</a>
+
+                    <ul>
+                        <li><a href="/templates/show" >Show</a>
+</li>
+                        <li><a href="/templates/render" >Render</a>
+</li>
+                        <li><a href="/templates/macro" >Macro</a>
+</li>
+                        <li><a href="/templates/extends-and-import" >Extends and Import</a>
+</li>
+                        <li><a href="/templates/if-for-switch" >If, For and Switch</a>
+</li>
+                        <li><a href="/templates/comments" >Comments</a>
+</li>
+                        <li><a href="/templates/operators" >Operators</a>
+</li>
+                        <li><a href="/templates/types" >Types</a>
+</li>
+                        <li><a href="/templates/variables" >Variables</a>
+</li>
+                        <li><a href="/templates/using" >Using</a>
+</li>
+                        <li><a href="/templates/specification" >Specification</a>
+</li>
+                        <li><a href="/templates/switch-from-jinja-to-scriggo"  class="selected" >Switch from Jinja</a>
+</li>
+                    </ul>
+                </li>
+                <li><a href="/scriggofile" >Scriggofile</a>
+</li>
+                <li><a href="/disassembler" >Disassembler</a>
+</li>
+                <li><a href="/limitations" >Limitations</a>
+</li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="switch-from-jinja-to-scriggo">Switch from Jinja to Scriggo</h1>
+<p>This page is targeted to users who are already familiar with designing templates in
+Python/Jinja but have a limited/no experience with Go/Scriggo.</p>
+<p>Here is provided a overview of the similarities and the differences between the two
+templating languages.</p>
+<blockquote>
+<p>Some examples on this page are taken from <a href="https://jinja.palletsprojects.com/en/3.0.x/templates/">the Jinja
+documentation</a> (copyright
+2007 Pallets).</p>
+</blockquote>
+<ul>
+<li><a href="#syntax">Syntax</a></li>
+<li><a href="#type-system">Type system</a></li>
+<li><a href="#escaping">Escaping</a></li>
+<li><a href="#tests">Tests</a></li>
+<li><a href="#comments">Comments</a></li>
+<li><a href="#expressions">Expressions</a>
+<ul>
+<li><a href="#literals">Literals</a>
+<ul>
+<li><a href="#strings">Strings</a></li>
+<li><a href="#lists">Lists</a></li>
+<li><a href="#dictionaries">Dictionaries</a></li>
+<li><a href="#tuples">Tuples</a></li>
+</ul>
+</li>
+<li><a href="#if-expression">If Expression</a></li>
+<li><a href="#math-and-comparisons">Math and comparisons</a></li>
+<li><a href="#logic">Logic</a></li>
+<li><a href="#operator-in">Operator <code>in</code></a></li>
+<li><a href="#operator--plus">Operator <code>+</code> (plus)</a></li>
+<li><a href="#operator--tilde">Operator <code>~</code> (tilde)</a></li>
+<li><a href="#methods">Methods</a></li>
+</ul>
+</li>
+<li><a href="#list-of-control-structures">List of control structures</a>
+<ul>
+<li><a href="#for">For</a></li>
+<li><a href="#if">If</a></li>
+<li><a href="#block-assignments">Block Assignments</a></li>
+<li><a href="#calls">Calls</a></li>
+<li><a href="#filters">Filters</a></li>
+<li><a href="#assignments">Assignments</a></li>
+</ul>
+</li>
+<li><a href="#template-inheritance">Template inheritance</a></li>
+<li><a href="#blocks-and-macros">Blocks and macros</a></li>
+<li><a href="#including-other-template-files">Including other template files</a></li>
+<li><a href="#importing-other-template-files">Importing other template files</a></li>
+<li><a href="#list-of-builtin-filters">List of Builtin filters</a>
+<ul>
+<li><a href="#abs"><code>abs</code></a></li>
+<li><a href="#attr"><code>attr</code></a></li>
+<li><a href="#length"><code>length</code></a></li>
+</ul>
+</li>
+<li><a href="#html-escaping">HTML Escaping</a>
+<ul>
+<li><a href="#automatic-contextual-escaping">Automatic contextual escaping</a></li>
+</ul>
+</li>
+<li><a href="#continue-to-learn">Continue to learn</a></li>
+</ul>
+<h2 id="syntax">Syntax</h2>
+<p>Jinja and Scriggo share the same syntax for enclosing statements, rendering
+expressions and commenting.</p>
+<ul>
+<li><code>{% .. %}</code> for statements</li>
+<li><code>{{ .. }}</code> for expressions</li>
+<li><code>{# .. #}</code> for comments</li>
+</ul>
+<p>Some statements need an <em>end</em> tag to be closed.</p>
+<p>For example:</p>
+<pre><code class="language-scriggo">{% if condition %}
+    ...
+{% end %}
+</code></pre>
+<p>Note that in Scriggo, unlike Jinja, the statement name is optional and, if provided,
+it must be separated by the <code>end</code> keyword:</p>
+<pre><code class="language-scriggo">{% if condition %}
+    ...
+{% end if %}
+</code></pre>
+<h2 id="type-system">Type system</h2>
+<p>One of the biggest differences between Jinja and Scriggo is the type system.</p>
+<p>Jinja is based on Python, thus it offers a dynamically-typed template system, while
+Scriggo (which is based on Go) is statically typed.</p>
+<p>This means that, when writing templates in Scriggo, most of the errors will be catch
+at compile time.</p>
+<p>For example, writing this code in Scriggo:</p>
+<pre><code class="language-scriggo">{% var name string = &quot;hello&quot; %}
+{% name = 23 %}                     {# ← WRONG! #}
+</code></pre>
+<p>results in a <em>compilation error</em> like this:</p>
+<pre><code>cannot use 23 (type untyped int) as type string in assignment
+</code></pre>
+<h2 id="escaping">Escaping</h2>
+<p>Like in Jinja, the easiest way to output a string that is part of the Scriggo syntax
+is putting it inside a string literal and showing it:</p>
+<pre><code>{{ &quot;{{&quot; }}
+</code></pre>
+<p>For bigger sections, Scriggo makes available the <em>raw</em> block that acts the same as
+the <em>raw</em> block in Jinja:</p>
+<pre><code class="language-scriggo">{% raw %}
+    &lt;ul&gt;
+    {% for item in seq %}
+        &lt;li&gt;{{ item }}&lt;/li&gt;
+    {% end for %}
+    &lt;/ul&gt;
+{% end raw %}
+</code></pre>
+<blockquote>
+<p>Note that the <em>raw</em> block is closed by <code>{% end raw %}</code>, not <code>{% endraw %}</code>.</p>
+</blockquote>
+<h2 id="tests">Tests</h2>
+<p>Since Scriggo implements a full programming language, tests can be performed using
+any valid expression.</p>
+<p>For example this test in Jinja:</p>
+<pre><code class="language-jinja">{% if loop.index is divisibleby 3 %}
+</code></pre>
+<p>can be rewritten in Scriggo simply using arithmetic and comparison operators:</p>
+<pre><code class="language-scriggo">{% if loop.index % 3 == 0 %}
+</code></pre>
+<h2 id="comments">Comments</h2>
+<p>In Scriggo, just like Jinja, you can write commented code enclosing it between <code>{#</code>
+and <code>#}</code>. Commented portions of the template won't be rendered by Scriggo.</p>
+<p>Note that Scriggo, unlike Jinja, supports nested comments:</p>
+<pre><code class="language-scriggo">{#  {# This is a nested comment! #}  #}
+</code></pre>
+<h2 id="expressions">Expressions</h2>
+<h3 id="literals">Literals</h3>
+<h4 id="strings">Strings</h4>
+<p>Strings, in Scriggo, can be enclosed between double quotation marks or backticks.</p>
+<p>For example, these are valid string literals in Scriggo:</p>
+<pre><code class="language-scriggo">{{ &quot;hello&quot; }}
+{{ `hi!` }}
+</code></pre>
+<p>The single quotation mark is used to denote a <em>rune</em>, thus it can only enclose one
+character:</p>
+<pre><code class="language-scriggo">{% var mychar = 's' %}
+{{ mychar }}
+</code></pre>
+<h4 id="lists">Lists</h4>
+<p>Scriggo has a typed list type called <em>slice</em>, where the type must be specified at
+compilation-time. Also, slice elements must be enclosed between <code>{</code> and <code>}</code> instead
+of <code>[</code> and <code>]</code>.</p>
+<p>For example this code in Jinja:</p>
+<pre><code class="language-jinja">{% set l = [1, 2, 3] %}
+</code></pre>
+<p>can be written in Scriggo as:</p>
+<pre><code class="language-scriggo">{% var l = []int{1, 2, 3} %}
+</code></pre>
+<h4 id="dictionaries">Dictionaries</h4>
+<p>Scriggo has a typed dictionary type called <em>map</em>, where both the key and the value
+types must be specified at compile-time.</p>
+<p>So, this dictionary:</p>
+<pre><code class="language-jinja">{% set data = {'dict': 'of', 'key': 'and', 'value': 'pairs'} %}
+</code></pre>
+<p>can be written as:</p>
+<pre><code class="language-scriggo">{% var data = map[string]string{&quot;dict&quot;: &quot;of&quot;, &quot;key&quot;: &quot;and&quot;, &quot;value&quot;: &quot;pairs&quot;} %}
+</code></pre>
+<p>Note that maps in Scriggo, just like in Go, do not keep any information about keys
+ordering.</p>
+<h4 id="tuples">Tuples</h4>
+<p>Scriggo has no equivalent for tuples. In general, you may want to use slices for
+sorted values, and maps or structs for values with an associated key.</p>
+<p>For example, consider this tuple in Jinja, representing a date:</p>
+<pre><code class="language-jinja">{% set birthday = (1, 5, 2020) %}
+</code></pre>
+<p>This can be rewritten in Scriggo using a slice:</p>
+<pre><code class="language-scriggo">{% var birthday = []int{1, 5, 2020} %}
+</code></pre>
+<p>or, if you want named values, you can use a map:</p>
+<pre><code class="language-scriggo">{% var birthday = map[string]int{&quot;day&quot;: 1, &quot;month&quot;: 5, &quot;year&quot;: 2020} %}
+</code></pre>
+<p>or a struct:</p>
+<pre><code class="language-scriggo">{% type date struct { day, month, year int } %}
+{% var birthday = date{day: 1, month: 5, year: 2020} %}
+</code></pre>
+<h3 id="if-expression">If Expression</h3>
+<p>While Jinja does have <em>if expressions</em>, Scriggo doesn't.</p>
+<p>In Scriggo you can use an <em>if statement</em> to assign to a variable conditionally:</p>
+<pre><code class="language-scriggo">{% var title = &quot;bar&quot; %}
+{% if 2 + 2 == 4 %}
+    {% title = &quot;foo&quot; %}
+{% end %}
+&lt;h1&gt;{{ title }}&lt;/h1&gt;
+</code></pre>
+<h3 id="math-and-comparisons">Math and comparisons</h3>
+<p>Scriggo and Jinja shares a big part of their operators.</p>
+<p>For example this template code is valid both in Jinja and Scriggo:</p>
+<pre><code>{{ 3 + 10 }} {{ 32 - 2 }} {{ 5 / 2.5 }} {{ 11 % 2 }}
+{{ 24 == (2 + 5) }} {{ 1 &lt; 4 }}
+</code></pre>
+<h3 id="logic">Logic</h3>
+<p>Scriggo, just like Jinja, supports the <code>and</code>, <code>or</code> and <code>not</code> logic operators, but
+with a difference: while in Jinja (like in Python) the <code>and</code> and <code>or</code> expressions
+are evaluated as one of the two operands, in Scriggo they are always evaluated to a
+boolean value.</p>
+<p>Consider this:</p>
+<pre><code>{{ 0 or &quot;hello&quot; }}
+</code></pre>
+<p>Jinja renders:</p>
+<pre><code>hello
+</code></pre>
+<p>while Scriggo renders:</p>
+<pre><code>true
+</code></pre>
+<p>The behavior of the <code>not</code> operator is the same in Jinja and Scriggo, thus it always
+evaluates to a boolean.</p>
+<h3 id="operator-in">Operator <code>in</code></h3>
+<p>While Jinja has the <em>in</em> operator:</p>
+<pre><code class="language-jinja">{{ 1 in [1, 2, 3] }}
+{{ 3 not in [1, 2, 3] }}
+</code></pre>
+<p>Scriggo has the <em>contains</em> and <em>not contains</em> operators (note that the operands are
+reverted respect to the <em>in</em> operator):</p>
+<pre><code class="language-scriggo">{{ []int{1, 2, 3} contains 1 }}
+{{ []int{1, 2, 3} not contains 3 }}
+</code></pre>
+<h3 id="operator--plus">Operator <code>+</code> (plus)</h3>
+<p>The operator <code>+</code> in Scriggo, just like in Jinja, can also be used to concatenate
+strings.</p>
+<pre><code class="language-scriggo">{% var name = &quot;hello&quot; %}
+{{ name + &quot;, &quot; + &quot;world!&quot; }}
+</code></pre>
+<h3 id="operator--tilde">Operator <code>~</code> (tilde)</h3>
+<p>Jinja has the <em>tilde operator</em> that converts the operands in strings and concatenates them:</p>
+<pre><code class="language-jinja">{% set name = &quot;FooBar&quot; %}
+{{ &quot;Hello &quot; ~ name ~ &quot;!&quot; }}
+</code></pre>
+<p>In Scriggo this can be achieved using a built-in function like <code>sprintf</code>:</p>
+<pre><code class="language-scriggo">{% var name = &quot;FooBar&quot; %}
+{{ sprintf(&quot;Hello %s!&quot;, name) }}
+</code></pre>
+<p>If the operands are strings, you can use the <a href="#operator--plus">operator <code>+</code></a>.</p>
+<h3 id="methods">Methods</h3>
+<p>In Scriggo, just like in Jinja, you can call methods on values using the syntax:</p>
+<pre><code>{{ value.Method(a1, a2) }}
+</code></pre>
+<h2 id="list-of-control-structures">List of control structures</h2>
+<h3 id="for">For</h3>
+<p>Scriggo supports the <em>for loop</em> syntax used in Jinja, plus the ones used in Go.</p>
+<p>For example this code is valid both in Scriggo and Jinja:</p>
+<pre><code>&lt;h1&gt;Members&lt;/h1&gt;
+&lt;ul&gt;
+{% for user in users %}
+  &lt;li&gt;{{ user.username }}&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+</code></pre>
+<h3 id="if">If</h3>
+<p>Scriggo has the <em>if</em> statement with optional <em>else</em>.
+The condition can be any expression of any type.</p>
+<p>Here are some examples:</p>
+<pre><code class="language-scriggo">{% if 2 + 2 == 4 %}
+    Well!
+{% else %}
+    Bad...
+{% end if %}
+</code></pre>
+<pre><code class="language-scriggo">{% var primes = []int{2, 3, 5, 7, 11, 13} %}
+{% var n = 5 %}
+{% if primes contains n %}
+    {{ n }} is prime.
+{% end if %}
+</code></pre>
+<h3 id="block-assignments">Block Assignments</h3>
+<p>Scriggo provides a mechanism similar to the block assignments in Jinja, through the
+<code>using</code> statement and the <code>itea</code> built-in identifier.</p>
+<p>So, for example, this code in Jinja:</p>
+<pre><code class="language-jinja">{% set navigation %}
+    &lt;li&gt;&lt;a href=&quot;/&quot;&gt;Index&lt;/a&gt;
+    &lt;li&gt;&lt;a href=&quot;/downloads&quot;&gt;Downloads&lt;/a&gt;
+{% endset %}
+</code></pre>
+<p>can be reproduced in Scriggo as:</p>
+<pre><code class="language-scriggo">{% var navigation = itea; using %}
+    &lt;li&gt;&lt;a href=&quot;/&quot;&gt;Index&lt;/a&gt;
+    &lt;li&gt;&lt;a href=&quot;/downloads&quot;&gt;Downloads&lt;/a&gt;
+{% end using %}
+</code></pre>
+<p>Since <code>itea</code> is an identifier, it can be used in any expression, so it can also be
+passed as argument to builtin functions as you use filters in the block assignments
+in Jinja:</p>
+<pre><code class="language-jinja">{% set reply|upper %}
+    You wrote:
+    {{ message }}
+{% endset %}
+</code></pre>
+<p>becomes in Scriggo:</p>
+<pre><code class="language-scriggo">{% var reply = toUpper(itea); using string %}
+    You wrote:
+    {{ message }}
+{% end using %}
+</code></pre>
+<h3 id="calls">Calls</h3>
+<p>Call blocks can be reproduced in Scriggo using the <code>using</code> and <code>show</code> statements and
+the <code>itea</code> built-in identifier.</p>
+<p>For example this code in Jinja:</p>
+<pre><code class="language-jinja">{% macro render_dialog(title) %}
+    &lt;div&gt;
+        &lt;h2&gt;{{ title }}&lt;/h2&gt;
+        &lt;div class=&quot;contents&quot;&gt;
+            {{ caller() }}
+        &lt;/div&gt;
+    &lt;/div&gt;
+{% endmacro %}
+
+{% call render_dialog('Hello World') %}
+    This is a simple dialog rendered by using a macro and
+    a call block.
+{% endcall %}
+</code></pre>
+<p>can be reproduce in Scriggo as:</p>
+<pre><code class="language-scriggo">{% macro render_dialog(title string, contents macro() html) %}
+    &lt;div&gt;
+        &lt;h2&gt;{{ title }}&lt;/h2&gt;
+        &lt;div class=&quot;contents&quot;&gt;
+            {{ contents() }}
+        &lt;/div&gt;
+    &lt;/div&gt;
+{% end macro %}
+
+{% show render_dialog(&quot;Hello World&quot;, itea); using macro() html %}
+    This is a simple dialog rendered by using a macro and
+    a call block.
+{% end using %}
+</code></pre>
+<blockquote>
+<p>The <code>{% show .. %}</code> statement is equivalent to <code>{{ .. }}</code>, but the former is
+mandatory when used in combination with the <code>using</code> statement.</p>
+</blockquote>
+<h3 id="filters">Filters</h3>
+<p>Filters can be rewritten in Scriggo using built-in functions and syntactic constructs.</p>
+<p>See <a href="#list-of-built-in-filters">built-in filters</a> for some examples.</p>
+<h3 id="assignments">Assignments</h3>
+<p>In Jinja, you can assign values to variables using the <code>set</code> statement:</p>
+<pre><code class="language-jinja">{% set navigation = &quot;x.html&quot; %}
+{% set navigation = &quot;y.html&quot; %}
+{% set key, value = call_something() %}
+</code></pre>
+<p>In Scriggo (just like in Go) there are two main differences:</p>
+<ul>
+<li>variables must be declared before being assigned</li>
+<li>when declaring a variable, the <code>var</code> keyword is used instead of <code>set</code></li>
+</ul>
+<p>So the example above becomes:</p>
+<pre><code class="language-scriggo">{% var navigation = &quot;x.html&quot; %}
+{% navigation = &quot;y.html&quot; %}
+{% var key, value = call_something() %}
+</code></pre>
+<blockquote>
+<p>Scriggo (like Go) also supports the short variable declaration operator <code>:=</code>, which
+is not covered in this document.</p>
+</blockquote>
+<h2 id="template-inheritance">Template inheritance</h2>
+<p>Just like Jinja, Scriggo provides a mechanism to implement the template inheritance.</p>
+<p>The <em>extends</em> declaration can be used in Scriggo to extend another file, just like in Jijnja:</p>
+<pre><code>{% extends &quot;layout/default.html&quot; %}
+</code></pre>
+<h2 id="blocks-and-macros">Blocks and macros</h2>
+<p>Both the <em>blocks</em> and the <em>macros</em> of Jinja can be implemented in Scriggo using the flexible system of <em>macros</em>.</p>
+<p>For example, consider this template file in Jinja that extends another file:</p>
+<pre><code class="language-jinja">{% extends &quot;base.html&quot; %}
+{% block title %}Index{% endblock %}
+{% block head %}
+    {{ super() }}
+    &lt;style type=&quot;text/css&quot;&gt;
+        .important { color: #336699; }
+    &lt;/style&gt;
+{% endblock %}
+{% block content %}
+    &lt;h1&gt;Index&lt;/h1&gt;
+    &lt;p class=&quot;important&quot;&gt;
+      Welcome to my awesome homepage.
+    &lt;/p&gt;
+{% endblock %}
+</code></pre>
+<p>In Scriggo it becomes:</p>
+<pre><code class="language-scriggo">{% extends &quot;base.html&quot; %}
+{% macro Title %}Index{% end macro %}
+{% macro Head(super macro()) %}
+    {{ super() }}
+    &lt;style type=&quot;text/css&quot;&gt;
+        .important { color: #336699; }
+    &lt;/style&gt;
+{% end macro %}
+{% macro Content() %}
+    &lt;h1&gt;Index&lt;/h1&gt;
+    &lt;p class=&quot;important&quot;&gt;
+      Welcome to my awesome homepage.
+    &lt;/p&gt;
+{% end macro %}
+</code></pre>
+<p>Macros in Scriggo, just like macros in Jinja, can accept parameters.</p>
+<p>So, this template in Jinja:</p>
+<pre><code class="language-jinja">{% macro input(name, value='', type='text', size=20) %}
+    &lt;input type=&quot;{{ type }}&quot; name=&quot;{{ name }}&quot; value=&quot;{{
+        value|e }}&quot; size=&quot;{{ size }}&quot;&gt;
+{% endmacro %}
+
+{{ input(&quot;Car&quot;, &quot;Red &amp; Blue&quot;, size=30) }}
+</code></pre>
+<p>can be written in Scriggo as:</p>
+<pre><code class="language-scriggo">{% macro input(name, value, typ string, size int) %}
+    {% if typ == &quot;&quot; %}{% typ = &quot;text&quot; %}{% end if %}
+    {% if size == 0 %}{% size = 20 %}{% end if %}
+    &lt;input type=&quot;{{ typ }}&quot; name=&quot;{{ name }}&quot; value=&quot;{{
+        value }}&quot; size=&quot;{{ size }}&quot;&gt;
+{% end macro %}
+
+{{ input(&quot;Car&quot;, &quot;Red &amp; Blue&quot;, &quot;&quot;, 30) }}
+</code></pre>
+<p>As you may have noticed, there are some main differences:</p>
+<ul>
+<li>Scriggo macros declarations, just like function declarations in Go, does not
+provide a default mechanism for parameters, so their value must be explicitly set
+in the body of the macro.</li>
+<li>The types of the parameters, in Scriggo, must be explicitly declared. The compiler
+will check if the types of the argument passed to the macro call match the types of
+the parameters.</li>
+<li>Scriggo, just like Go, does not have named parameters.</li>
+</ul>
+<h2 id="including-other-template-files">Including other template files</h2>
+<p>Jinja uses the <em>include</em> statement:</p>
+<pre><code class="language-jinja">{% include 'header.html' %}
+</code></pre>
+<p>Scriggo uses a more flexible system making available the <em>render</em> operator that reads
+a template file and returns its rendered content.</p>
+<p>So, the example above may be written as:</p>
+<pre><code class="language-scriggo">{{ render &quot;header.html&quot; }}
+</code></pre>
+<p>The value returned by <em>render</em> can be used in any expression:</p>
+<pre><code class="language-scriggo">{% var content = render &quot;myfile.html&quot; %}
+File is {{ len(content) }} bytes long.
+</code></pre>
+<h2 id="importing-other-template-files">Importing other template files</h2>
+<p>Scriggo has the <em>import</em> declaration, just like Jinja, but with some differences.</p>
+<p>There are several form of <em>import</em> available.</p>
+<p>To import a template file specifying the declarations to import:</p>
+<pre><code class="language-scriggo">{% import &quot;path/to/file.html&quot; for Title, Content %}
+{{ Title() }}
+{{ Content() }}
+</code></pre>
+<p>To import every (exported) declaration from a template file:</p>
+<pre><code class="language-scriggo">{% import &quot;path/to/file.html&quot; %}
+{{ Title() }}
+{{ Content() }}
+</code></pre>
+<p>To import a template file, prepending a prefix to the imported declarations:</p>
+<pre><code class="language-scriggo">{% import myfile &quot;path/to/file.html&quot; %}
+{{ myfile.Title() }}
+{{ myfile.Content() }}
+</code></pre>
+<h2 id="list-of-built-in-filters">List of built-in filters</h2>
+<p>To get an overview about filters, see the <a href="#filters">corresponding section</a>.</p>
+<p>Here are just some examples:</p>
+<h3 id="abs"><code>abs</code></h3>
+<p>Jinja:</p>
+<pre><code class="language-jinja">{{ -3|abs }}
+</code></pre>
+<p>Scriggo has the built-in function <code>abs</code>:</p>
+<pre><code class="language-scriggo">{{ abs(-3) }}
+</code></pre>
+<h3 id="attr"><code>attr</code></h3>
+<p>Jijna</p>
+<pre><code class="language-jinja">{{  foo|attr(&quot;bar&quot;) }}
+</code></pre>
+<p>In Scriggo you can access to attributes using a selector, just like in Jinja:</p>
+<pre><code>{{  foo.bar }}
+</code></pre>
+<p>Note that if <code>foo</code> has no attribute <code>bar</code>, it results in a compilation error.</p>
+<blockquote>
+<p>In general, attributes names in Scriggo begins with an uppercase letter: that means
+that such field is exported. In Scriggo, just like in Go, only exported fields can
+be accessed by other packages from the one that declared such type.</p>
+</blockquote>
+<h3 id="length"><code>length</code></h3>
+<p>Scriggo offer the built-in function <code>runeCount</code> that returns the number of characters
+of a string.</p>
+<pre><code class="language-scriggo">{{ runeCount(&quot;hellò&quot;) }}
+</code></pre>
+<p>renders to</p>
+<pre><code>5
+</code></pre>
+<p>Scriggo also offers the built-in function <code>len</code> that returns the number of elements in
+slices and maps and the number of bytes in strings.</p>
+<pre><code class="language-scriggo">{{ len([]int{10, 20, 30}) }}
+{{ len(&quot;hellò&quot;) }}
+</code></pre>
+<p>renders to:</p>
+<pre><code>3
+6
+</code></pre>
+<h2 id="html-escaping">HTML Escaping</h2>
+<p>In Jinja the escaping can be achieved both manually (using the
+<a href="https://jinja.palletsprojects.com/en/3.0.x/templates/#jinja-filters.escape">e</a>
+filter) or automatically.</p>
+<p>In Scriggo the code is always escaped before being rendered in a given context.</p>
+<p>For example:</p>
+<pre><code class="language-scriggo">{{ &quot;&lt;b&gt;Not real bold...&lt;/b&gt;&quot; }}
+</code></pre>
+<p>renders as:</p>
+<pre><code>&amp;lt;b&amp;gt;Not real bold...&amp;lt;/b&amp;gt;
+</code></pre>
+<p>This happens because the rendered value has type <a href="/templates/types#strings">string</a>, so it must be escaped before being
+rendered in a <em>HTML</em> context.</p>
+<p>For this reason, if you write something like:</p>
+<pre><code class="language-scriggo">{{ html(&quot;&lt;b&gt;Real bold!&lt;/b&gt;&quot;) }}
+</code></pre>
+<p>this is rendered as:</p>
+<pre><code>&lt;b&gt;Real bold!&lt;/b&gt;
+</code></pre>
+<p>because the value type is explicitly set to the <code>html</code> type, so Scriggo won't escape it.</p>
+<h3 id="automatic-contextual-escaping">Automatic contextual escaping</h3>
+<p>Scriggo also offers an automatic contextual escaping.
+For example consider this:</p>
+<pre><code class="language-scriggo">{% var value = &quot;&lt; is more&quot; %}
+&lt;p&gt;{{ value }}&lt;/p&gt;
+&lt;a href=&quot;{{ value }}&quot;&gt;&lt;/a&gt;
+</code></pre>
+<p>It is rendered as:</p>
+<pre><code>&lt;p&gt;&amp;lt; is more&lt;/p&gt;
+&lt;a href=&quot;%3c is more&quot;&gt;&lt;/a&gt;
+</code></pre>
+<p>As you may notice, the string <code>&lt; is more</code> is automatically escaped using two
+different algorithms:</p>
+<ul>
+<li>in the context of HTML it becomes: <code>&amp;lt; is more</code>.</li>
+<li>in the context of an attribute value, that is automatically detected by the Scriggo
+parser, it is escaped as <code>%3c is more</code>.</li>
+</ul>
+<h2 id="continue-to-learn">Continue to learn</h2>
+<p>Now you can checkout this resources:</p>
+<ul>
+<li><a href="/templates">Templates</a>, which provides a more depth overview of the Scriggo
+template.</li>
+<li><a href="/get-started-2#execute-templates-in-your-application">Get started with templates</a>,
+which provides a tutorial on embedding Scriggo templates in your Go application.</li>
+<li><a href="/templates/specification">The Scriggo Template Specification</a>, which expands the <a href="https://golang.org/ref/spec">Go
+language specification</a> covering every aspect of the
+Scriggo template in detail.</li>
+</ul>
+
+<div id="edit-on-github">
+  <a href="https://github.com/open2b/scriggo-site/blob/main/site/templates/switch-from-jinja-to-scriggo.md" target="_blank">
+    ✍️ Edit on GitHub, PRs are welcome.
+  </a>
+</div>        </div>
+    </div>
+</article>
+<footer>
+  <div class="wrap">
+    <img class="gopher" src="/images/pilot-bust.svg" alt="The Go Gopher">
+    <ul>
+      <li><a href="/copyright">Copyright</a></li>
+      <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
+    </ul>
+    </div>
+  </div>
+</footer></body>
+</html>

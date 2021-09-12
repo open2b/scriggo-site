@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <title>Get Started</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="Get Started">
+    <meta property="og:description" content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scriggo.com">
+    <meta property="og:image" content="https://scriggo.com/images/scriggo-card.png">
+    <meta name=twitter:title content="Get Started">
+    <meta name=twitter:description content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta name=twitter:image content="https://scriggo.com/images/scriggo-card.png">
+
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
+    <ul>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+    <a class="github-logo" href="https://github.com/open2b/scriggo/" alt="Scriggo on GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Github | Scriggo</title><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a></a>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="/what-is-scriggo" >What is Scriggo</a>
+</li>
+                <li><a href="/get-started" >Get Started</a>
+</li>
+                <li><a href="/scriggo-command" >Scriggo command</a>
+</li>
+                <li>
+                    <a href="/templates" >Templates</a>
+
+                    <ul>
+                        <li><a href="/templates/show" >Show</a>
+</li>
+                        <li><a href="/templates/render" >Render</a>
+</li>
+                        <li><a href="/templates/macro" >Macro</a>
+</li>
+                        <li><a href="/templates/extends-and-import" >Extends and Import</a>
+</li>
+                        <li><a href="/templates/if-for-switch" >If, For and Switch</a>
+</li>
+                        <li><a href="/templates/comments" >Comments</a>
+</li>
+                        <li><a href="/templates/operators" >Operators</a>
+</li>
+                        <li><a href="/templates/types" >Types</a>
+</li>
+                        <li><a href="/templates/variables" >Variables</a>
+</li>
+                        <li><a href="/templates/using" >Using</a>
+</li>
+                        <li><a href="/templates/specification" >Specification</a>
+</li>
+                        <li><a href="/templates/switch-from-jinja-to-scriggo" >Switch from Jinja</a>
+</li>
+                    </ul>
+                </li>
+                <li><a href="/scriggofile" >Scriggofile</a>
+</li>
+                <li><a href="/disassembler" >Disassembler</a>
+</li>
+                <li><a href="/limitations" >Limitations</a>
+</li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="get-started-with-templates">Get Started With Templates</h1>
+<p>In the first step you have learned how to <a href="/get-started">embed Go programs</a>.
+In this second step you will learn how to execute Scriggo templates in your applications.</p>
+<p>It requires 10 minutes to be completed.</p>
+<p>Before you start using Scriggo in a Go application you must <a href="https://golang.org/dl/">download and install Go</a>.</p>
+<h2 id="execute-templates-in-your-application">Execute templates in your application</h2>
+<p>Scriggo, in templates, supports inheritance, macros, partials, imports and contextual autoescaping but most of all it uses the Go
+language as the template scripting language.</p>
+<p>Scriggo templates can be written with plain text, HTML, Markdown, CSS, JavaScript and JSON.</p>
+<p>Open a terminal and create a new directory for the application:</p>
+<pre><code>$ mkdir hello-template
+$ cd hello-template
+</code></pre>
+<p>Initialize a Go module in the previous created directory:</p>
+<pre><code>$ go mod init hello-template
+</code></pre>
+<p>Create a file <code>main.go</code> with the following source code:</p>
+<pre><code class="language-go">// Build and run a Scriggo template.
+package main
+
+import (
+    &quot;github.com/open2b/scriggo&quot;
+    &quot;log&quot;
+    &quot;os&quot;
+)
+
+func main() {
+
+    // Content of the template file to run.
+    content := []byte(`
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;Hello&lt;/head&gt; 
+    &lt;body&gt;
+        {% who := &quot;World&quot; %}
+        Hello, {{ who }}!
+    &lt;/body&gt;
+    &lt;/html&gt;
+    `)
+
+    // Create a file system with the file of the template to run.
+    fsys := scriggo.Files{&quot;index.html&quot;: content}
+
+    // Build the template.
+    template, err := scriggo.BuildTemplate(fsys, &quot;index.html&quot;, nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+ 
+    // Run the template and print it to the standard output.
+    err = template.Run(os.Stdout, nil, nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+}
+</code></pre>
+<p>Execute <code>go mod tidy</code> and build the application directly from the <code>hello-template</code> directory.</p>
+<pre><code>$ go mod tidy
+$ go build
+</code></pre>
+<p>Execute the application:</p>
+<pre><code>$ ./hello-template
+
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;Hello&lt;/head&gt; 
+    &lt;body&gt;
+        Hello, World!
+    &lt;/body&gt;
+    &lt;/html&gt;
+ 
+</code></pre>
+<h2 id="globals">Globals</h2>
+<p>A template executed by Scriggo, apart from the Go builtins, can only use explicitly passed globals with the <code>Globals</code>
+option and can only import packages whose importer has been passed with the <code>Packages</code> option.</p>
+<p>Scriggo provides some useful globals, in the <a href="https://pkg.go.dev/github.com/open2b/scriggo/builtin">github.com/open2b/scriggo/builtin</a>
+package, that can be used in templates.</p>
+<p>Replace the content of the <code>main.go</code> file with the following:</p>
+<pre><code class="language-go">// Build and run a Scriggo template.
+package main
+
+import (
+    &quot;github.com/open2b/scriggo&quot;
+    &quot;github.com/open2b/scriggo/builtin&quot;
+    &quot;github.com/open2b/scriggo/native&quot;
+    &quot;log&quot;
+    &quot;os&quot;
+)
+
+func main() {
+
+    // Content of the template file to run.
+    content := []byte(`
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;Hello&lt;/head&gt; 
+    &lt;body&gt;
+        {% who := &quot;World&quot; %}
+        Hello, {{ replace(who, &quot;World&quot;, &quot;世界&quot;, 1) }}!
+    &lt;/body&gt;
+    &lt;/html&gt;
+    `)
+
+    // Create a file system with the file of the template to run.
+    fsys := scriggo.Files{&quot;index.html&quot;: content}
+
+    // Allow to use the &quot;replace&quot; built-in in the template file.
+    globals := native.Declarations{
+        &quot;replace&quot;: builtin.Replace,
+    }
+    opts := scriggo.Options{Globals: globals}
+
+    // Build the template.
+    template, err := scriggo.BuildTemplate(fsys, &quot;index.html&quot;, opts)
+    if err != nil {
+        log.Fatal(err)
+    }
+ 
+    // Run the template and print it to the standard output.
+    err = template.Run(os.Stdout, nil, nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+}
+</code></pre>
+<p>Rebuild the application directly from the <code>hello-template</code> directory.</p>
+<pre><code>$ go build
+</code></pre>
+<p>Execute the application:</p>
+<pre><code>$ ./hello-template
+
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;Hello&lt;/head&gt; 
+    &lt;body&gt;
+        Hello, 世界!
+    &lt;/body&gt;
+    &lt;/html&gt;
+ 
+</code></pre>
+<h3 id="use-your-globals">Use your globals</h3>
+<p>The following code defines a global function called &quot;printHello&quot; and passes it to the <code>BuildTemplate</code> function.</p>
+<pre><code class="language-go">globals := native.Declarations{
+    &quot;printHello&quot;: func (who string) string { return fmt.Sprintf(&quot;Hello, %s!&quot;, who) },
+}
+opts := scriggo.Options{Globals: globals}
+template, err := scriggo.BuildTemplate(fsys, &quot;index.html&quot;, opts)
+</code></pre>
+<p>Globals can be functions, variables, constants, types and even packages.</p>
+
+<div id="edit-on-github">
+  <a href="https://github.com/open2b/scriggo-site/blob/main/site/get-started-2.md" target="_blank">
+    ✍️ Edit on GitHub, PRs are welcome.
+  </a>
+</div>        </div>
+    </div>
+</article>
+<footer>
+  <div class="wrap">
+    <img class="gopher" src="/images/pilot-bust.svg" alt="The Go Gopher">
+    <ul>
+      <li><a href="/copyright">Copyright</a></li>
+      <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
+    </ul>
+    </div>
+  </div>
+</footer></body>
+</html>

@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <title>Scriggo templates: the variables</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="Scriggo templates: the variables">
+    <meta property="og:description" content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scriggo.com">
+    <meta property="og:image" content="https://scriggo.com/images/scriggo-card.png">
+    <meta name=twitter:title content="Scriggo templates: the variables">
+    <meta name=twitter:description content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta name=twitter:image content="https://scriggo.com/images/scriggo-card.png">
+
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
+    <ul>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+    <a class="github-logo" href="https://github.com/open2b/scriggo/" alt="Scriggo on GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Github | Scriggo</title><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a></a>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="/what-is-scriggo" >What is Scriggo</a>
+</li>
+                <li><a href="/get-started" >Get Started</a>
+</li>
+                <li><a href="/scriggo-command" >Scriggo command</a>
+</li>
+                <li>
+                    <a href="/templates"  class="expanded">Templates</a>
+
+                    <ul>
+                        <li><a href="/templates/show" >Show</a>
+</li>
+                        <li><a href="/templates/render" >Render</a>
+</li>
+                        <li><a href="/templates/macro" >Macro</a>
+</li>
+                        <li><a href="/templates/extends-and-import" >Extends and Import</a>
+</li>
+                        <li><a href="/templates/if-for-switch" >If, For and Switch</a>
+</li>
+                        <li><a href="/templates/comments" >Comments</a>
+</li>
+                        <li><a href="/templates/operators" >Operators</a>
+</li>
+                        <li><a href="/templates/types" >Types</a>
+</li>
+                        <li><a href="/templates/variables"  class="selected" >Variables</a>
+</li>
+                        <li><a href="/templates/using" >Using</a>
+</li>
+                        <li><a href="/templates/specification" >Specification</a>
+</li>
+                        <li><a href="/templates/switch-from-jinja-to-scriggo" >Switch from Jinja</a>
+</li>
+                    </ul>
+                </li>
+                <li><a href="/scriggofile" >Scriggofile</a>
+</li>
+                <li><a href="/disassembler" >Disassembler</a>
+</li>
+                <li><a href="/limitations" >Limitations</a>
+</li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="variables">Variables</h1>
+<p>Scriggo allows you to declare new variables in a template in addition to the global ones.</p>
+<h2 id="declaration">Declaration</h2>
+<p>A variable to be used, must first be declared with the <code>var</code> keyword:</p>
+<pre><code class="language-scriggo">{% var welcome = &quot;hello&quot; %}
+</code></pre>
+<p>or with a short assignment:</p>
+<pre><code class="language-scriggo">{% welcome := &quot;hello&quot; %}
+</code></pre>
+<p>Variables declared in a template can be used in the same way as the global variables:</p>
+<pre><code class="language-scriggo">{% var amount = 50 %}
+
+shipping is free for an amount of at least ${{ amount }} 
+</code></pre>
+<pre class="result">shipping is free for an amount of at least $50</pre>
+<h2 id="variables-type">Variable's type</h2>
+<p>Each variable has a type and its type is the type of the value assigned to it at declaration time. The type can also be
+specified explicitly in the declaration. For example:</p>
+<pre><code class="language-scriggo">{% var a string %}    a has type string and value &quot;&quot;
+{% var b int %}       b has type int and value 0
+{% var c bool %}      c has type bool and value false
+{% var e []string %}  e has type []string and value nil
+</code></pre>
+<p>The following declarations are like the previous ones but with an initial value:</p>
+<pre><code class="language-scriggo">{% var a = &quot;hello&quot; %}                    a has type string and value &quot;hello&quot;
+{% var b = 5 %}                          b has type int and value 5
+{% var c = true %}                       c has type bool and value true
+{% var e = []string{&quot;ciao&quot;, &quot;hello&quot;} %}  e has type []string and value []string{&quot;hello&quot;, &quot;ciao&quot;}
+</code></pre>
+<h2 id="assignment">Assignment</h2>
+<p>Once a variable is declared, its value can be changed at any time with an assignment. The type, on the other hand,
+cannot change, so only values of the same type can be assigned to the variable.</p>
+<pre><code class="language-scriggo">{% greatings = &quot;hello&quot; %}
+</code></pre>
+<p>There are several other assignment statements that combine the assignment with an operator:</p>
+<div class="assignments">
+<table>
+<thead>
+<tr>
+<th>Writing</th>
+<th>is like writing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a++</td>
+<td>a = a + 1</td>
+</tr>
+<tr>
+<td>a--</td>
+<td>a = a - 1</td>
+</tr>
+<tr>
+<td>a += b</td>
+<td>a = a + b</td>
+</tr>
+<tr>
+<td>a -= b</td>
+<td>a = a - b</td>
+</tr>
+<tr>
+<td>a *= b</td>
+<td>a = a * b</td>
+</tr>
+<tr>
+<td>a /= b</td>
+<td>a = a / b</td>
+</tr>
+<tr>
+<td>a %= b</td>
+<td>a = a % b</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="visibility">Visibility</h3>
+<p>The global variables are visible in all template files and in any part of the code. Instead, the visibility of the
+variables declared in the code depends on where they are declared:</p>
+<ul>
+<li>
+<p>if a variable is declared in a file with an extends statement or in an imported file, and not in a block (like the
+body of a macro, function or statement), it is visible in all file.</p>
+</li>
+<li>
+<p>if a variable is declared in a block (like the body of a macro, function or statement), it is visible from its
+declaration up to the end of the block.</p>
+</li>
+<li>
+<p>in the other cases it is visible from its declaration to the end of the file.</p>
+</li>
+</ul>
+<h3 id="examples">Examples</h3>
+<p>In the following example, the variable <code>n</code> is visible both inside and outside the <code>if</code> statement. The variable <code>s</code> is
+visible only in the body of the <code>if</code>.</p>
+<pre><code class="language-scriggo">{% var n = 3 %}
+{% if n &gt; 2 %}
+  {% var s = &quot;hello&quot; %}
+  {{ n }}{{ s }}
+{% end if %}
+{{ n }}
+</code></pre>
+<p>In this other example, the <code>n</code> variable is not visible in the &quot;column.html&quot; file.</p>
+<pre><code class="language-scriggo">{% n := 3 %}
+{{ render &quot;column.html&quot; }}
+</code></pre>
+<p>A <a href="/templates/macro">macro</a> can be used to make its value available in another file. In this other example, the value of
+the variable <code>n</code> is passed as an argument to the <code>Column</code> macro which could be declared in another file:</p>
+<pre><code class="language-scriggo">{% n := 3 %}
+{{ Column(n) }}
+</code></pre>
+<h3 id="multiple-declarations-and-assignments">Multiple declarations and assignments</h3>
+<p>Declarations and assignments with <code>=</code> allow you to declare and assign more variable at the same time.</p>
+<p>This example:</p>
+<pre><code class="language-scriggo">{% var n, s = 5, &quot;ciao&quot; %}
+
+{% n, s = 2, &quot;hello&quot; %}
+</code></pre>
+<p>is equivalent to this one:</p>
+<pre><code class="language-scriggo">{% var n = 5 %}
+{% var s = &quot;ciao&quot; %}
+
+{% n = 2 %}
+{% s = &quot;hello&quot; %}
+</code></pre>
+<p>The short assignment is a bit more complex, therefore read the
+<a href="https://golang.org/doc/effective_go#redeclaration">Go language documentation</a> before using it with multiple variables.</p>
+<p>Multiple assignment is useful for example for swap the values of two variables:</p>
+<pre><code class="language-scriggo">{% a, b = b, a %}
+</code></pre>
+<p>and multiple declaration and assignment are useful for assigning the return values of a function call that return two or
+more values:</p>
+<pre><code class="language-scriggo">{% var d, err = parseDecimal(&quot;12.99&quot;) %}
+</code></pre>
+
+<div id="edit-on-github">
+  <a href="https://github.com/open2b/scriggo-site/blob/main/site/templates/variables.md" target="_blank">
+    ✍️ Edit on GitHub, PRs are welcome.
+  </a>
+</div>        </div>
+    </div>
+</article>
+<footer>
+  <div class="wrap">
+    <img class="gopher" src="/images/pilot-bust.svg" alt="The Go Gopher">
+    <ul>
+      <li><a href="/copyright">Copyright</a></li>
+      <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
+    </ul>
+    </div>
+  </div>
+</footer></body>
+</html>

@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <title>Scriggo command</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="Scriggo command">
+    <meta property="og:description" content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scriggo.com">
+    <meta property="og:image" content="https://scriggo.com/images/scriggo-card.png">
+    <meta name=twitter:title content="Scriggo command">
+    <meta name=twitter:description content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta name=twitter:image content="https://scriggo.com/images/scriggo-card.png">
+
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
+    <ul>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+    <a class="github-logo" href="https://github.com/open2b/scriggo/" alt="Scriggo on GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Github | Scriggo</title><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a></a>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="/what-is-scriggo" >What is Scriggo</a>
+</li>
+                <li><a href="/get-started" >Get Started</a>
+</li>
+                <li><a href="/scriggo-command" >Scriggo command</a>
+</li>
+                <li>
+                    <a href="/templates" >Templates</a>
+
+                    <ul>
+                        <li><a href="/templates/show" >Show</a>
+</li>
+                        <li><a href="/templates/render" >Render</a>
+</li>
+                        <li><a href="/templates/macro" >Macro</a>
+</li>
+                        <li><a href="/templates/extends-and-import" >Extends and Import</a>
+</li>
+                        <li><a href="/templates/if-for-switch" >If, For and Switch</a>
+</li>
+                        <li><a href="/templates/comments" >Comments</a>
+</li>
+                        <li><a href="/templates/operators" >Operators</a>
+</li>
+                        <li><a href="/templates/types" >Types</a>
+</li>
+                        <li><a href="/templates/variables" >Variables</a>
+</li>
+                        <li><a href="/templates/using" >Using</a>
+</li>
+                        <li><a href="/templates/specification" >Specification</a>
+</li>
+                        <li><a href="/templates/switch-from-jinja-to-scriggo" >Switch from Jinja</a>
+</li>
+                    </ul>
+                </li>
+                <li><a href="/scriggofile" >Scriggofile</a>
+</li>
+                <li><a href="/disassembler"  class="selected" >Disassembler</a>
+</li>
+                <li><a href="/limitations" >Limitations</a>
+</li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="disassembler">Disassembler</h1>
+<p>When Scriggo runs a program, script or template, first compiles it into a byte code and then runs it on the Scriggo Virtual Machine.</p>
+<h2 id="how-to-disassemble">How to disassemble</h2>
+<p>To disassemble a program, script or a template you can:</p>
+<ul>
+<li>
+<p>in the <a href="https://play.scriggo.com/">Scriggo Playground</a> click on the <code>Disassemble</code> button to show the disassembled program.</p>
+</li>
+<li>
+<p>with the scriggo package, call the method <code>Disassemble</code> on the value returned by the <code>Build</code> method to disassemble a named package:</p>
+<pre><code>asm, err = program.Disassemble(&quot;main&quot;)
+</code></pre>
+</li>
+<li>
+<p>with the scriggo package, call the method <code>Disassemble</code> on the value returned by the <code>BuildTemplate</code> method to disassemble the template:</p>
+<pre><code>asm = template.Disassemble(-1)
+</code></pre>
+</li>
+</ul>
+<h2 id="registers">Registers</h2>
+<p>The Scriggo Virtual Machine has 500 registers for each called function to store its local variables:</p>
+<ul>
+<li>125 integer registers: <code>i1</code>, <code>i2</code>, ..., <code>i125</code></li>
+<li>125 floating-point registers: <code>f1</code>, <code>f2</code>, ..., <code>f125</code></li>
+<li>125 string registers: <code>s1</code>, <code>s2</code>, ..., <code>s125</code></li>
+<li>125 general registers: <code>g1</code>, <code>g2</code>, ..., <code>g125</code></li>
+</ul>
+<p>Local variables with basic type an integer or boolean type are stored in the int registers:</p>
+<pre><code class="language-go">var a int
+var b uint32
+var c rune
+var d time.Duration = 5 * time.Second
+var e bool // false is stored as 0
+var f MyBool = true // true is stored as 1
+</code></pre>
+<p>Local variables with basic type a floating-point type are stored in the float registers:</p>
+<pre><code class="language-go">var a float32
+var b float64
+var d MyFloat = 3.2
+</code></pre>
+<p>Local variables with basic type string are stored in the string registers:</p>
+<pre><code class="language-go">var a string
+var b MyString = &quot;hello&quot;
+</code></pre>
+<p>All other local variables are stored in the general registers:</p>
+<pre><code class="language-go">var a []int
+var b map[string]string
+var c interface{}
+var d time.Time
+var e *S
+</code></pre>
+<h2 id="emokem-flag"><em>ok</em> flag</h2>
+<p>In addition to the registers for called functions, there is special boolean <code>ok</code> flag used by <code>Assert</code>, <code>Receive</code> and <code>If</code> instructions.</p>
+<h2 id="package-clause">Package clause</h2>
+<p>The clause <code>Package</code> begins a disassembled code and defines the package to which the code belongs.</p>
+<pre><code class="language-go">Syntax:  Package name ; description: package name
+</code></pre>
+<h2 id="import-declaration">Import declaration</h2>
+<p>The declaration <code>Import</code> states that the disassembled package uses exported identifiers of the imported package.</p>
+<pre><code class="language-go">Syntax:  Import &quot;pkg&quot; ; description: import &quot;pkg&quot;
+</code></pre>
+<h2 id="func-declaration">Func declaration</h2>
+<p>The declaration <code>Func</code> declares a function with its body and specifies the number of registers that it uses.</p>
+<pre><code class="language-go">Syntax:  Func f(a1, ...an) (r1, ...rn) ; func f(a1, ...an) (r1, ...rn) 
+                 ; regs(ni,nf,ns,ng)
+</code></pre>
+<pre><code class="language-go">Example: Func sum(i1, i2 int) (i3 int)
+                 ; regs(3,0,0,0)
+</code></pre>
+<h2 id="macro-declaration">Macro declaration</h2>
+<p>The declaration <code>Macro</code> declares a macro with its body and specifies the number of registers that it uses.</p>
+<pre><code class="language-go">Syntax:  Macro m(a1, ...an) T ; {% macro m(a1, ...an) T %} ... {% end %}
+                 ; regs(ni,nf,ns,ng)
+</code></pre>
+<pre><code class="language-go">Example: Macro Head(s5 markdown) (s7 markdown)
+                 ; regs(1,0,3,0)
+</code></pre>
+<h2 id="assembly-instructions">Assembly instructions</h2>
+<p>The Scriggo assembly is an abstraction above the virtual machine instructions. Some assembly instructions have a direct representation in a virtual machine instruction but some do not.</p>
+<p>There are 72 assembly instructions:</p>
+<ol>
+  <li><a href="#add">Add</a></li>
+  <li><a href="#addr">Addr</a></li>
+  <li><a href="#and">And</a></li>
+  <li><a href="#andnot">AndNot</a></li>
+  <li><a href="#append">Append</a></li>
+  <li><a href="#appendslice">AppendSlice</a></li>
+  <li><a href="#assert">Assert</a></li>
+  <li><a href="#break">Break</a></li>
+  <li><a href="#call">Call</a></li>
+  <li><a href="#cap">Cap</a></li>
+  <li><a href="#case">Case</a></li>
+  <li><a href="#close">Close</a></li>
+  <li><a href="#complex64">Complex64</a></li>
+  <li><a href="#complex128">Complex128</a></li>
+  <li><a href="#continue">Continue</a></li>
+  <li><a href="#convertnumber">ConvertNumber</a></li>
+  <li><a href="#convertslice">ConvertSlice</a></li>
+  <li><a href="#convertstring">ConvertString</a></li>
+  <li><a href="#concat">Concat</a></li>
+  <li><a href="#copy">Copy</a></li>
+  <li><a href="#defer">Defer</a></li>
+  <li><a href="#delete">Delete</a></li>
+  <li><a href="#div">Div</a></li>
+  <li><a href="#field">Field</a></li>
+  <li><a href="#func">Func</a></li>
+  <li><a href="#getvar">GetVar</a></li>
+  <li><a href="#getvaraddr">GetVarAddr</a></li>
+  <li><a href="#go">Go</a></li>
+  <li><a href="#goto">Goto</a></li>
+  <li><a href="#if">If</a></li>
+  <li><a href="#index">Index</a></li>
+  <li><a href="#len">Len</a></li>
+  <li><a href="#load">Load</a></li>
+  <li><a href="#loadfunc">LoadFunc</a></li>
+  <li><a href="#makearray">MakeArray</a></li>
+  <li><a href="#makechan">MakeChan</a></li>
+  <li><a href="#makemap">MakeMap</a></li>
+  <li><a href="#makeslice">MakeSlice</a></li>
+  <li><a href="#makestruct">MakeStruct</a></li>
+  <li><a href="#mapindex">MapIndex</a></li>
+  <li><a href="#methodvalue">MethodValue</a></li>
+  <li><a href="#move">Move</a></li>
+  <li><a href="#mul">Mul</a></li>
+  <li><a href="#neg">Neg</a></li>
+  <li><a href="#new">New</a></li>
+  <li><a href="#notzero">NotZero</a></li>
+  <li><a href="#or">Or</a></li>
+  <li><a href="#panic">Panic</a></li>
+  <li><a href="#print">Print</a></li>
+  <li><a href="#range">Range</a></li>
+  <li><a href="#realimag">RealImag</a></li>
+  <li><a href="#receive">Receive</a></li>
+  <li><a href="#recover">Recover</a></li>
+  <li><a href="#rem">Rem</a></li>
+  <li><a href="#return">Return</a></li>
+  <li><a href="#select">Select</a></li>
+  <li><a href="#send">Send</a></li>
+  <li><a href="#setfield">SetField</a></li>
+  <li><a href="#setmap">SetMap</a></li>
+  <li><a href="#setslice">SetSlice</a></li>
+  <li><a href="#setvar">SetVar</a></li>
+  <li><a href="#shl">Shl</a></li>
+  <li><a href="#show">Show</a></li>
+  <li><a href="#shr">Shr</a></li>
+  <li><a href="#slice">Slice</a></li>
+  <li><a href="#sub">Sub</a></li>
+  <li><a href="#subinv">SubInv</a></li>
+  <li><a href="#tailcall">TailCall</a></li>
+  <li><a href="#text">Text</a></li>
+  <li><a href="#typify">Typify</a></li>
+  <li><a href="#xor">Xor</a></li>
+  <li><a href="#zero">Zero</a></li>
+</ol>
+<h3 id="add">Add</h3>
+<p>The instruction <code>Add</code> sums two integers or two floats. <code>Add</code> has two forms.</p>
+<p>The first form sums the operands addressed by <code>a</code> and <code>b</code> and stores the result in <code>c</code>, the type of operands is <code>int</code> or <code>float64</code>.</p>
+<p>The second form adds the operand addressed by <code>b</code> and <code>c</code> and stores the result in <code>c</code>. <code>type</code> is the type of the operands.</p>
+<p><code>b</code> can be an integer constant between 0 and 255.</p>
+<pre><code class="language-go">Syntax:  Add a b c    ; description: c = a + b // int and float64 types
+         Add type b c ; description: c += b
+</code></pre>
+<pre><code class="language-go">Example:  Add i12 8 i7
+          Add f2 f9 f5
+          Add uint8 i2 i6
+          Add float32 50 f2
+</code></pre>
+<h3 id="addr">Addr</h3>
+<p>The instruction <code>Addr</code> takes the address of a slice element or struct pointer field and stores it in <code>p</code>. For slices, the slice is addressed by <code>s</code> and the index of the element is addressed by <code>i</code>. For struct pointers, the struct pointer is addressed by <code>s</code> and the field index is addressed by <code>i</code>.</p>
+<pre><code class="language-go">Syntax:  Addr s i p ; description: p = &amp;s[i]
+         Addr s i p ;              p = &amp;s.f // where f if the field of s at index i
+</code></pre>
+<h3 id="and">And</h3>
+<p>The instruction <code>And</code> computes the bitwise AND of the operands addressed by <code>a</code> and <code>b</code> and stores the result in <code>c</code>.</p>
+<pre><code class="language-go">Syntax:  And a b c  ; description: c = a &amp; b
+</code></pre>
+<h3 id="andnot">AndNot</h3>
+<p>The instruction <code>AndNot</code> computes the AND NOT (bit clear) of the operands addressed by <code>a</code> and <code>b</code> and stores the result in <code>c</code>.</p>
+<pre><code class="language-go">Syntax:  AndNot a b c ; description: c = a &amp;^ b
+</code></pre>
+<h3 id="append">Append</h3>
+<p>The instruction <code>Append</code> appends values to the slice addressed by <code>s</code> and store the resulting slice in <code>s</code>. The appended values are the values in the registers starting from the register <code>start</code> and ending to the register <code>end</code>. The registers with the values to append are consecutive and their type depends on the type of the slice's element.</p>
+<pre><code class="language-go">Syntax:  Append start end s ; description: s = append(s, start, ..., end)
+</code></pre>
+<pre><code class="language-go">Example:  Append s3 s5 g2 ; append the values in the s3, s4 and s5 registers 
+</code></pre>
+<h3 id="appendslice">AppendSlice</h3>
+<p>The instruction <code>AppendSlice</code> appends the slice addressed by <code>s1</code> to the slice addressed by <code>s2</code> and stores the resulting slice in <code>s2</code>.</p>
+<pre><code class="language-go">Syntax:  AppendSlice s1 s2 ; description: s2 = append(s2, s1...)
+</code></pre>
+<h3 id="assert">Assert</h3>
+<p>The instruction <code>Assert</code> asserts that the value addressed by <code>x</code> is not <code>nil</code> and it is of type <code>T</code>.</p>
+<pre><code class="language-go">Syntax:  Assert x T v ; description: v, ok = x.(T)
+</code></pre>
+<p>If the type assertion holds, it stores the the resulting value into the register <code>v</code> (the register type depends on the type <code>T</code>), sets the <code>ok</code> flag to <code>true</code> and skips the next instruction.</p>
+<p>If the type assertion is false, it sets the <code>ok</code> flag to <code>false</code> and, if the next instruction is a <code>Panic</code>, does a run-time panic. TODO: document the <code>Panic</code> operand.</p>
+<h3 id="break">Break</h3>
+<p>The instruction <code>Break</code> breaks a previous executed <code>Range</code> instruction at label <code>label</code>.</p>
+<pre><code class="language-go">Syntax:  Break label ; description: break label
+</code></pre>
+<h3 id="call">Call</h3>
+<p>The instruction <code>Call</code> calls the function, or macro, with name <code>name</code> or the function, or macro, addressed by <code>fn</code> with arguments addressed by <code>i</code>, <code>f</code>, <code>s</code> and <code>g</code>.</p>
+<ol>
+<li><code>i</code> is the first integer register of the integer parameters.</li>
+<li><code>f</code> is the first floating point register of the floating point parameters.</li>
+<li><code>s</code> is the first string register of the string parameters.</li>
+<li><code>g</code> is the first general register of the other parameters.</li>
+</ol>
+<p><code>i</code>, <code>f</code>, <code>s</code> and <code>g</code> may be the blank identifier if there are no such arguments.</p>
+<pre><code class="language-go">Syntax:  Call name i f s g ; description: name(...)
+         Call (fn) i f s g ;              fn(...)
+</code></pre>
+<pre><code class="language-go">Example: Call fmt.Printf _ _ s3 g2
+         Call (g8) i2 _ s4 _
+</code></pre>
+<p>In a function call, consecutive registers are used to store the return values and the arguments to the function. For example for a call to the function <code>sum</code>:</p>
+<pre><code class="language-go">func sum(a, b int) int {
+    return a + b
+}
+</code></pre>
+<p>three consecutive integer register are used for the parameters. The first is reserved for the return parameter, the second and third for the parameters <code>a</code> and <code>b</code>. So the following example:</p>
+<pre><code class="language-go">s := sum(1, 2)
+print(s)
+</code></pre>
+<p>could be compiled to:</p>
+<pre><code class="language-go">Move 1 i6          ; store a into the register i6
+Move 2 i7          ; store b into the register i7
+Call sum i5 _ _ _  ; call sum
+Print i5           ; print the return value stored in the register i5 
+</code></pre>
+<p>where the register <code>i5</code> is reserved for the return parameter, the registers <code>i6</code> and <code>i7</code> respectively for the parameters <code>a</code> and <code>b</code>.</p>
+<p>This little more complex example:</p>
+<pre><code class="language-go">split := strings.SplitN(&quot;a,b,c&quot;, &quot;,&quot;, 2)
+n := len(split)
+</code></pre>
+<p>could be compiled to:</p>
+<pre><code class="language-go">Move &quot;a,b,c&quot; s5                 ; store the string to split into s5
+Move &quot;,&quot; s6                     ; store the separator into s6
+Move 2 i3                       ; store the count into i3
+Call strings.SplitN i3 _ s5 g2  ; call strings.SplitN
+Len g2 i2                       ; get the length of the returned slice
+</code></pre>
+<h3 id="cap">Cap</h3>
+<p>The instruction <code>Cap</code> gets the cap of the slice or channel addresses by <code>s</code> and stores it in <code>c</code>.</p>
+<pre><code class="language-go">Syntax:  Cap s c ; description: c = cap(s)
+</code></pre>
+<h3 id="case">Case</h3>
+<p>The instruction <code>Case</code> defines a new case that can be chosen by a subsequent <code>Select</code> instruction.</p>
+<p>If the instruction <code>Select</code> chooses a <code>Send</code> case, it sends the value addressed by <code>v</code> to the channel <code>ch</code>.
+If the instruction <code>Select</code> chooses a <code>Recv</code> case, it receives from the channel addressed by <code>ch</code> and stores the value in <code>v</code>.
+If the instruction <code>Select</code> chooses a <code>Default</code> case, it does nothing.</p>
+<p>See the <a href="#select">Select</a> instruction for how to use <code>Case</code> with <code>Select</code>.</p>
+<pre><code class="language-go">Syntax:  Case Send v ch ; description: case ch &lt;- v:
+         Case Recv ch v ; description: case v = &lt;-ch:
+         Case Default   ; description: default:
+</code></pre>
+<h3 id="close">Close</h3>
+<p>The instruction <code>Close</code> closes the channel addressed by <code>ch</code>. Closing a closed channel or a <code>nil</code> channel causes a run-time panic.</p>
+<pre><code class="language-go">Syntax:  Close ch ; description: close(ch)
+</code></pre>
+<h3 id="complex64">Complex64</h3>
+<p>The instruction <code>Complex64</code> assembles a <code>complex64</code> value from the <code>float32</code> values addressed by <code>re</code> and <code>im</code> and stores the resulting complex in <code>c</code>.</p>
+<pre><code class="language-go">Syntax:  Complex64 re im c ; description: c = complex(re, im)
+</code></pre>
+<h3 id="complex128">Complex128</h3>
+<p>The instruction <code>Complex128</code> assembles a <code>complex128</code> value from the <code>float64</code> values addressed by <code>re</code> and <code>im</code> and stores the resulting complex in <code>c</code>.</p>
+<pre><code class="language-go">Syntax:  Complex128 re im c ; description: c = complex(re, im)
+</code></pre>
+<h3 id="continue">Continue</h3>
+<p>The instruction <code>Continue</code> begins the next iteration of the previous executed <code>Range</code> instruction at label <code>label</code>.</p>
+<pre><code class="language-go">Syntax:  Continue label ; description: continue label
+</code></pre>
+<h3 id="convertnumber">ConvertNumber</h3>
+<p>The instruction <code>ConvertNumber</code> explicitly converts the numeric operand addressed by <code>x</code> from the kind <code>xKind</code> to the kind <code>yKind</code> and stores it in <code>y</code>.</p>
+<pre><code class="language-go">Syntax:  ConvertNumber x xKind yKind y
+</code></pre>
+<p><code>xKind</code> and <code>yKind</code> can be <code>Int</code>, <code>Int8</code>, <code>Int16</code>, <code>Int32</code>, <code>Uint</code>, <code>Uint8</code>, <code>Uint16</code>, <code>Uint32</code>, <code>Float32</code>, <code>Float64</code>, <code>Complex64</code> or <code>Complex128</code>. <code>yKind</code> can also be <code>String</code> if <code>xKind</code> is a integer kind.</p>
+<pre><code class="language-go">Example: ConvertNumber i7 Int32 Uint i4 
+         ConvertNumber f2 Float64 Float32 f6
+         ConvertNumber g5 Complex128 Complex64 g4
+         ConvertNumber f11 Float32 Complex128 g2
+         ConvertNumber i3 Int String s7
+</code></pre>
+<h3 id="convertslice">ConvertSlice</h3>
+<p>The instruction <code>ConvertSlice</code> explicitly converts the slice of bytes or runes addressed by <code>x</code> to a value of type <code>string</code> and stores it in <code>y</code>.</p>
+<pre><code class="language-go">Syntax:  ConvertSlice x y ; description: y = string(x)
+</code></pre>
+<h3 id="convertstring">ConvertString</h3>
+<p>The instruction <code>ConvertString</code> explicitly converts the string operand addressed by <code>x</code> to a slice of bytes or runes value of type <code>T</code> and stores it in <code>y</code>.</p>
+<p>As a special case, if <code>T</code> is the format type <code>html</code>, <code>ConvertString</code> explicitly converts a value of type <code>markdown</code> to a value of type <code>html</code>.</p>
+<pre><code class="language-go">Syntax:  ConvertString x T y ; description: y = T(x)
+</code></pre>
+<pre><code class="language-go">Example:  ConvertString s3 []byte g5
+          ConvertString s8 []rune g2
+          ConvertString s6 html s7
+</code></pre>
+<h3 id="concat">Concat</h3>
+<p>The instruction <code>Concat</code> concatenates the string operands addressed by <code>s1</code> and <code>s2</code> and stores the resulting string in <code>s3</code>.</p>
+<pre><code class="language-go">Syntax:  Concat s1 s2 s3 ; description: s3 = s1 + s2
+</code></pre>
+<h3 id="copy">Copy</h3>
+<p>The instruction <code>Copy</code> copies the elements of the slice addressed by <code>src</code> to the slice addressed by <code>dst</code>. If the operand <code>n</code> is not zero, <code>Copy</code> stores in the integer register addressed by <code>n</code> the number of elements copied .</p>
+<pre><code class="language-go">Syntax:  Copy src n dst ; description: n = copy(dst, src)
+</code></pre>
+<h3 id="defer">Defer</h3>
+<p>The instruction <code>Defer</code> defers the execution of the function addressed by <code>f</code>.</p>
+<pre><code class="language-go">Syntax:  Defer f ; description: defer f() { ... }
+</code></pre>
+<p>TODO: to be completed.</p>
+<h3 id="delete">Delete</h3>
+<p>The instruction <code>Delete</code> removes from the map addressed by <code>m</code> the element with key addressed by <code>k</code>.</p>
+<pre><code class="language-go">  Syntax:  Delete m k ; description: delete(m, k)
+</code></pre>
+<h3 id="div">Div</h3>
+<p>The instruction <code>Div</code> divides two integers or two floats. <code>Div</code> has two forms.</p>
+<p>The first form divides the operands addressed by <code>a</code> and the operand addressed by <code>b</code> and stores the result in <code>c</code>, the type of operands is <code>int</code> or <code>float64</code>.</p>
+<p>The second form divides the operand addressed by <code>c</code> and the operand addressed by <code>b</code> and stores the result in <code>c</code>. <code>type</code> is the type of the operands.</p>
+<p><code>b</code> can be an integer constant between -128 and 127, excluding zero.</p>
+<pre><code class="language-go">Syntax:  Div a b c    ; description: c = a / b // int and float64 types
+         Div type b c ; description: c /= b
+</code></pre>
+<pre><code class="language-go">Example:  Div i10 4 i7
+          Div f3 f4 f5
+          Div int8 -6 i3
+          Div float64 f2 f1
+</code></pre>
+<h3 id="field">Field</h3>
+<p>The instruction <code>Field</code> gets from the struct pointer referred by <code>s</code> the field at the index referred by <code>i</code> and stores its value in <code>v</code>.</p>
+<pre><code class="language-go">  Syntax:  Field s i v ; description: v = s.f // where f is the field of s at index i
+</code></pre>
+<h3 id="func">Func</h3>
+<p>The instruction <code>Func</code> combines a function literal declaration with a load of the function (a closure to be precise) into <code>fn</code>.</p>
+<pre><code class="language-go">Syntax:  Func fn ; description: fn = func(...) { ... }
+             &lt;function body&gt;
+</code></pre>
+<pre><code class="language-go">Example: Move 2 i1
+         Func g3
+             Move 2 i3
+             Add i1 1 i2
+             Return
+         Call (g3) i1 _ _ _
+</code></pre>
+<p>See the <a href="#loadfunc">LoadFunc</a> instruction for how to load a non-literal function.</p>
+<h3 id="getvar">GetVar</h3>
+<p>The instruction <code>GetVar</code> gets (TODO).</p>
+<pre><code class="language-go">Syntax:  GetVar i c ; description:
+</code></pre>
+<h3 id="getvaraddr">GetVarAddr</h3>
+<p>The instruction <code>GetVarAddr</code> gets (TODO).</p>
+<pre><code class="language-go">Syntax:  GetVarAddr i c ; description:
+</code></pre>
+<h3 id="go">Go</h3>
+<p>The instruction <code>Go</code> runs the following <code>Call</code> or <code>CallIndirect</code> instruction in a new goroutine.</p>
+<pre><code class="language-go">Syntax:  Go ; description: go
+</code></pre>
+<p>Example:</p>
+<pre><code class="language-go">Go
+Call Serve i2 _ s1 _
+</code></pre>
+<h3 id="goto">Goto</h3>
+<p>The instruction <code>Goto</code> transfers control to the instruction with the corresponding label within the same function.</p>
+<pre><code class="language-go">Syntax:  Goto label ; description: goto label
+</code></pre>
+<h3 id="if">If</h3>
+<p>The instruction <code>If</code> checks its condition and skips the next instruction if it is satisfied.</p>
+<pre><code class="language-go">Syntax:  If Zero a                   ; description: if a == 0
+         If NotZero a                ;              if a != 0
+
+         If Nil a                    ;              if a == nil
+         If NotNil a                 ;              if a != nil
+
+         If NilInterface a           ;              if a == nil // a has an interface type
+         If NotNilInterface a        ;              if a != nil // a has an interface type
+
+         If a Equal b                ;              if a == b
+         If a NotEqual b             ;              if a != b
+         If a Less b                 ;              if a &lt; b
+         If a LessEqual b            ;              if a &lt;= b
+         If a Greater b              ;              if a &gt; b
+         If a GreaterEqual b         ;              if a &gt;= b
+
+         If a LenEqual b             ;              if len(a) == b
+         If a LenNotEqual b          ;              if len(a) != b
+         If a LenLess b              ;              if len(a) &lt; b
+         If a LenLessEqual b         ;              if len(a) &lt;= b
+         If a LenGreater b           ;              if len(a) &gt; b
+         If a LenGreaterEqual b      ;              if len(a) &gt;= b
+
+         If a ContainsSubstring b    ;              if a contains b   // as substring
+         If a ContainsRune b         ;              if a contains b   // as rune
+         If a ContainsElement b      ;              if a contains b   // as element
+         If a ContainsKey b          ;              if a contains b   // as key
+         If a ContainsNil            ;              if a contains nil // as element or key
+
+         If a NotContainsSubstring b ;              if a not contains b   // as substring
+         If a NotContainsRune b      ;              if a not contains b   // as rune
+         If a NotContainsElement b   ;              if a not contains b   // as element
+         If a NotContainsKey b       ;              if a not contains b   // as key
+         If a NotContainsNil         ;              if a not contains nil // as element or key
+
+         If OK                       ;              if ok  // ok is the ok flag
+         If NotOK                    ;              if !ok // ok is the ok flag
+</code></pre>
+<h3 id="index">Index</h3>
+<p>The instruction <code>Index</code> gets, from the slice or string referred by <code>s</code>, the element at the index referred by <code>i</code> and stores its value in <code>v</code>.</p>
+<pre><code class="language-go">Syntax:  Index s i v ; description: v = s[i]
+</code></pre>
+<h3 id="len">Len</h3>
+<p>The instruction <code>Len</code> gets the length of the slice, string or channel addressed by <code>s</code> and stores it in <code>n</code>.</p>
+<pre><code class="language-go">Syntax:  Len s n ; description: n = len(s)
+</code></pre>
+<h3 id="load">Load</h3>
+<p>The instruction <code>Load</code> loads a value <code>v</code> and stores it by copy into <code>dst</code>.</p>
+<pre><code class="language-go">Syntax:  Load v dst ; description: dst = v
+</code></pre>
+<pre><code class="language-go">Example: Load 64 i3
+         Load 3.14 f7
+         Load &quot;a&quot; s1
+         Load [2]int{} g3
+         Load nil g5
+</code></pre>
+<h3 id="loadfunc">LoadFunc</h3>
+<p>The instruction <code>LoadFunc</code> loads the function with name <code>name</code> into <code>fn</code>.</p>
+<pre><code class="language-go">Syntax:  LoadFunc name fn ; description: fn = name
+</code></pre>
+<pre><code class="language-go">Example: LoadFunc strings.HasPrefix g2
+         Call (g2) i1 _ s3 _
+</code></pre>
+<p>See the <a href="#func">Func</a> instruction for how to declare and load a function literal.</p>
+<h3 id="makearray">MakeArray</h3>
+<p>The instruction <code>MakeArray</code> makes an array with type <code>T</code> and stores it in <code>a</code>.</p>
+<pre><code class="language-go">Syntax: MakeArray T a ; description: var a T
+</code></pre>
+<h3 id="makechan">MakeChan</h3>
+<p>The instruction <code>MakeChan</code> makes a channel with type <code>T</code> and buffer size addressed by <code>s</code> and stores it in <code>ch</code>.</p>
+<pre><code class="language-go">Syntax:  MakeChan T s ch ; description: ch = make(T, s)
+</code></pre>
+<h3 id="makemap">MakeMap</h3>
+<p>The instruction <code>MakeMap</code> makes a map with type <code>T</code> and size addressed by <code>s</code> and stores it in <code>m</code>.</p>
+<pre><code class="language-go">Syntax:  MakeMap T s m ; description: m = make(T, s)
+</code></pre>
+<h3 id="makeslice">MakeSlice</h3>
+<p>The instruction <code>MakeSlice</code> makes a slice with element type <code>T</code>, length addressed by <code>n</code>, cap addressed by <code>c</code> and stores it in <code>s</code>.</p>
+<pre><code class="language-go">Syntax:  MakeSlice T n c s ; description: s = make(T, n, c)
+</code></pre>
+<h3 id="makestruct">MakeStruct</h3>
+<p>The instruction <code>MakeStruct</code> makes a struct with type <code>T</code> and stores it in <code>s</code>.</p>
+<pre><code class="language-go">Syntax: MakeStruct T s ; description: var s T
+</code></pre>
+<h3 id="mapindex">MapIndex</h3>
+<p>The instruction <code>MapIndex</code> gets from the map addressed by <code>m</code> the element with key addressed by <code>k</code> and stores its value in <code>v</code>.</p>
+<pre><code class="language-go">Syntax:  MapIndex m k v ; description: v = m[k]
+</code></pre>
+<h3 id="methodvalue">MethodValue</h3>
+<p>TODO</p>
+<h3 id="move">Move</h3>
+<p>The instruction <code>Move</code> copies the value addressed by <code>s</code> to <code>d</code>.</p>
+<pre><code class="language-go">Syntax:  Move s d ; description: d = s
+</code></pre>
+<h3 id="mul">Mul</h3>
+<p>The instruction <code>Mul</code> multiplies two integers or two floats. <code>Mul</code> has two forms.</p>
+<p>The first form multiplies the operands addressed by <code>a</code> and the operand addressed by <code>b</code> and stores the result in <code>c</code>, the type of operands is <code>int</code> or <code>float64</code>.</p>
+<p>The second form multiplies the operand addressed by <code>c</code> and the operand addressed by <code>b</code> and stores the result in <code>c</code>. <code>type</code> is the type of the operands.</p>
+<p><code>b</code> can be an integer constant between -128 and 127.</p>
+<pre><code class="language-go">Syntax:  Mul a b c    ; description: c = a * b // int and float64 types
+         Mul type b c ; description: c *= b
+</code></pre>
+<pre><code class="language-go">Example:  Mul i2 i4 i3
+          Mul f9 12 f2
+          Mul uint16 i3 i1
+          Mul float32 f5 f6
+</code></pre>
+<h3 id="neg">Neg</h3>
+<p>The instruction <code>Neg</code> negates the operand addresses by <code>b</code>, with an integer or floating point type, and stores the result into <code>c</code>.</p>
+<p>If <code>b</code> does not have <code>int</code> or <code>float64</code> type, <code>type</code> indicates its type.</p>
+<pre><code class="language-go">Syntax:  Neg b c      ; description: c = -b // for int and float64 types
+         Neg type b c ; description: c = -b // for the other integer and floating point types
+</code></pre>
+<pre><code class="language-go">Example:  Neg f2 f3
+          Neg i4 i4
+          Neg float32 f5 f8
+</code></pre>
+<h3 id="new">New</h3>
+<p>The instruction <code>New</code> allocates storage for a variable of type <code>T</code> and stores a pointer to this variable in <code>v</code>.</p>
+<pre><code class="language-go">Syntax:  New T v ; description: v = new(T)
+</code></pre>
+<h3 id="notzero">NotZero</h3>
+<p>The instruction <code>NotZero</code> checks if the value addressed by the register <code>b</code> is not a zero value; if so, then stores <code>1</code> in the integer register <code>c</code>, otherwise stores <code>0</code>.</p>
+<p>As special cases, if the value addressed by <code>b</code> is an empty slice or an empty
+channel the instruction <code>NotZero</code> stores <code>0</code>.</p>
+<p>Moreover, if the value addressed by <code>b</code> has type interface and it is not <code>nil</code>,
+the instruction <code>NotZero</code> evaluates its dynamic value.</p>
+<pre><code>Syntax: NotZero b c ; description: c = 1 if b is not the zero value for its type
+                                   c = 0 otherwise
+</code></pre>
+<pre><code>Example:  NotZero i1 i2
+          NotZero s1 i3
+</code></pre>
+<p>See also the <a href="#zero">Zero</a> instruction.</p>
+<h3 id="or">Or</h3>
+<p>The instruction <code>Or</code> computes the bitwise OR of the operands addressed by <code>a</code> and <code>b</code> and stores the result in <code>c</code>.</p>
+<pre><code class="language-go">Syntax:  Or a b c ; description: c = a | b
+</code></pre>
+<h3 id="panic">Panic</h3>
+<p>The instruction <code>Panic</code> panics with the value addressed by <code>v</code>.</p>
+<pre><code class="language-go">Syntax:  Panic v ; description: panic(v)
+</code></pre>
+<h3 id="print">Print</h3>
+<p>The instruction <code>Print</code> formats the operand addressed by <code>v</code> as does the built-in <code>print</code> and writes the result to standard error.</p>
+<pre><code class="language-go">Syntax:  Print v ; description: print(v)
+</code></pre>
+<h3 id="range">Range</h3>
+<p>The instruction <code>Range</code> does an iteration through the entries of a slice, string, map or channel.</p>
+<ol>
+<li>For a slice, the iteration is on the slice addressed by <code>s</code> and the instruction <code>Range</code> stores the iteration index in <code>i</code> and the element in <code>e</code>.</li>
+<li>For a string, the iteration is on the string addressed by <code>s</code> and the instruction <code>Range</code> stores the iteration index in <code>i</code> and the rune in <code>r</code>.</li>
+<li>For a map, the iteration is on the map addressed by <code>m</code> and the instruction <code>Range</code> stores the key in <code>k</code> and the value in <code>v</code>.</li>
+<li>For a channel, the iteration is on the values received on the channel addressed by <code>ch</code> and the instruction <code>Range</code> stores the value in <code>v</code>.</li>
+</ol>
+<p>The instruction that follow <code>Range</code> is executed only when there are no more values ​​to iterate over, during the iteration this instruction is skipped.</p>
+<p>The second and third operands can be the blank identifier.</p>
+<pre><code class="language-go">Syntax:  Range s i e ; description: for i, e = range s // for a slice
+         Range s i r ; description: for i, r = range s // for a string 
+         Range m k v ; description: for k, v = range m // for a map 
+         Range ch v  ; description: for v = range ch   // for a channel
+</code></pre>
+<p>The instruction <code>Range</code> is used in combination to the instructions <code>Goto</code>, <code>Continue</code> and <code>Break</code> to implement a <code>for range</code> statement.</p>
+<p>For example a range over the first five elements of a slice:</p>
+<pre><code class="language-go">for i, e := range s {
+    if i == 5 {
+        break
+    }
+    print(i)
+    print(e)
+}
+return
+</code></pre>
+<p>could be compiled to assembly:</p>
+<pre><code class="language-go">1: Range g2 i1 s7
+   Goto 3
+   If i1 Equal 5
+   Goto 2
+   Break 1
+2: Print i1
+   Print s7
+   Continue 1
+3: Return
+</code></pre>
+<h3 id="realimag">RealImag</h3>
+<p>The instruction <code>RealImag</code> extracts the real and imaginary parts of the complex number addressed by <code>c</code> and stores the real part in <code>re</code> and the imaginary part in <code>im</code>.</p>
+<pre><code class="language-go">Syntax:  RealImag c re im ; description: re, im = real(c), imag(c)
+</code></pre>
+<h3 id="receive">Receive</h3>
+<p>The instruction <code>Receive</code> receive a value from the channel addressed by <code>ch</code> and stores the value in <code>v</code>. Also it sets the <code>ok</code> flag to <code>true</code> if the value received was delivered by a successful send operation, or <code>false</code> if a zero value was stored in <code>v</code> because the channel is closed and empty.</p>
+<pre><code class="language-go">Syntax:  Receive ch v ; description: v, ok = &lt;-ch
+</code></pre>
+<h3 id="recover">Recover</h3>
+<p>The instruction <code>Recover</code> recovers a panicking goroutine and stores in <code>v</code> the value passed to the call of panic. If the goroutine is not panicking or <code>Recover</code> was not executed directly by a deferred function it stores <code>nil</code> in <code>v</code>. <code>v</code> can be the blank identifier.</p>
+<pre><code class="language-go">Syntax:  Recover v ; description: v = recover()
+</code></pre>
+<p>As a special case, compiling the statement <code>defer recover()</code> the following assembly line is generated:</p>
+<pre><code class="language-go">Recover DownTheStack v
+</code></pre>
+<h3 id="rem">Rem</h3>
+<p>The instruction <code>Rem</code> computes the remainder of two integers. <code>Rem</code> has two forms.</p>
+<p>The first form computes the remainder of the operands addressed by <code>a</code> and the operand addressed by <code>b</code> and stores the result in <code>c</code>, the type of operands is <code>int</code>.</p>
+<p>The second form computes the remainder of the operand addressed by <code>c</code> and the operand addressed by <code>b</code> and stores the result in <code>c</code>. <code>type</code> is the type of the operands.</p>
+<p><code>b</code> can be an integer constant between 1 and 255.</p>
+<pre><code class="language-go">Syntax:  Rem a b c    ; description: c = a % b // int type
+         Rem type b c ; description: c %= b
+</code></pre>
+<pre><code class="language-go">Example:  Rem i10 12 i2
+          Rem uint32 i7 i8
+</code></pre>
+<h3 id="return">Return</h3>
+<p>The instruction <code>Return</code> returns from the current running function. Any functions deferred with the <code>Defer</code> instruction in the current function are executed before returning.</p>
+<pre><code class="language-go">Syntax:  Return ; description: return
+</code></pre>
+<h3 id="select">Select</h3>
+<p>The instruction <code>Select</code> selects a case from one of the cases defined by previously executed <code>Case</code> instructions, executes a send or receive depending on the case, clears all the cases previously defined and jumps to the instruction that follows the selected <code>Case</code> instruction.</p>
+<pre><code class="language-go">Syntax:  Select ; description: select
+</code></pre>
+<p>The instruction <code>Select</code> is used in combination to the instruction <a href="#case">Case</a> to implement a <code>select</code> statement.</p>
+<p>For example the select statement:</p>
+<pre><code class="language-go">select {
+case a &lt;-tick:
+	print(a)
+case b &lt;-boom:
+	print(b)
+default:
+	print(3)
+}
+return
+</code></pre>
+<p>could be compiled to this assembly:</p>
+<pre><code class="language-go">   Case Recv i5 g2  ; case a &lt;-tick:
+   Goto 1
+   Case Recv s3 g1  ; case b &lt;-boom:
+   Goto 2
+   Case Default     ; default
+   Goto 3
+   Select           ; select
+1: Print i5         ; print(a)
+   Goto 4
+2: Print s3         ; print(b)
+   Goto 4
+3: Print 3          ; print(3)
+   Goto 4
+4: Return           ; return
+</code></pre>
+<h3 id="send">Send</h3>
+<p>The instruction <code>Send</code> sends the value addressed by <code>v</code> on the channel <code>ch</code>.</p>
+<pre><code class="language-go">Syntax:  Send v ch ; description: ch &lt;- v
+</code></pre>
+<h3 id="setfield">SetField</h3>
+<p>The instruction <code>SetField</code> stores the value addressed by <code>v</code> into the field with index <code>i</code> of the struct addressed by <code>s</code>.</p>
+<pre><code class="language-go">Syntax:  SetField v s i ; description: s.f = v // where f is the field of s at index i
+</code></pre>
+<h3 id="setmap">SetMap</h3>
+<p>The instruction <code>SetMap</code> sets the value of the map addressed by <code>m</code> and indexed by the key <code>k</code> with the value addressed by <code>v</code>.</p>
+<pre><code class="language-go">Syntax:  SetMap v m k ; description: m[k] = v
+</code></pre>
+<h3 id="setslice">SetSlice</h3>
+<p>The instruction <code>SetSlice</code> sets the value of the slice addressed by <code>s</code> at the index <code>i</code> with the value addressed by <code>v</code>.</p>
+<pre><code class="language-go">Syntax:  SetSlice v s i ; description: s[i] = v
+</code></pre>
+<h3 id="setvar">SetVar</h3>
+<p>The instruction <code>SetVar</code> sets the value of the global or closure variable at index <code>i</code> with the value addressed by <code>v</code>.</p>
+<pre><code class="language-go">Syntax:  SetVar v i ; description: vars[i] = v
+</code></pre>
+<h3 id="shl">Shl</h3>
+<p>The instruction <code>Shl</code> computes the left shift of an integer. <code>Shl</code> has two forms.</p>
+<p>The first form computes the left shift of the operands addressed by <code>a</code> with shift count <code>n</code> and stores the result in <code>c</code>, the type of operands <code>a</code> and <code>c</code> is <code>int</code>.</p>
+<p>The second form computes the left shift of the operand addressed by <code>c</code> with shift count <code>n</code> and stores the result in <code>c</code>. <code>type</code> is the type of <code>c</code>.</p>
+<p><code>n</code> can be an integer constant between 0 and 255.</p>
+<pre><code class="language-go">Syntax:  Shl a n c    ; description: c = a &lt;&lt; n // int type
+         Shl type n c ; description: c &lt;&lt;= n
+</code></pre>
+<pre><code class="language-go">Example:  Shl i3 5 i2
+          Shl uint16 i5 i6
+</code></pre>
+<h3 id="show">Show</h3>
+<p>The instruction <code>Show</code> formats the value addresses by <code>v</code> based on the context <code>ctx</code> and writes the result to the template out writer.</p>
+<pre><code class="language-go">Syntax:  Show T v (ctx); description: out.Write(format(v, ctx))
+</code></pre>
+<h3 id="shr">Shr</h3>
+<p>The instruction <code>Shr</code> computes the right shift of an integer. <code>Shr</code> has two forms.</p>
+<p>The first form computes the right shift of the operands addressed by <code>a</code> with shift count <code>n</code> and stores the result in <code>c</code>, the type of operands <code>a</code> and <code>c</code> is <code>int</code>.</p>
+<p>The second form computes the right shift of the operand addressed by <code>c</code> with shift count <code>n</code> and stores the result in <code>c</code>. <code>type</code> is the type of <code>c</code>.</p>
+<p><code>n</code> can be an integer constant between 0 and 255.</p>
+<pre><code class="language-go">Syntax:  Shr a n c    ; description: c = a &gt;&gt; n // int type
+         Shr type n c ; description: c &gt;&gt;= n
+</code></pre>
+<pre><code class="language-go">Example:  Shr i7 2 i3
+          Shr int8 i9 i3
+</code></pre>
+<h3 id="slice">Slice</h3>
+<p>The instruction <code>Slice</code> slices the slice or the string addressed by <code>s1</code> and stores the resulting slice or string into <code>s2</code>. The values addressed by <code>low</code>, <code>high</code> and <code>max</code> are the low, high and max indices. <code>max</code> is optional for slices and it is never present for strings.</p>
+<pre><code class="language-go">Syntax:  Slice s1 low high s2     ; description: s2 = s1[low:high]
+         Slice s1 low high max s2 ;              s2 = s1[low:high:max]
+</code></pre>
+<h3 id="sub">Sub</h3>
+<p>The instruction <code>Sub</code> subtracts two integers or two floats. <code>Sub</code> has two forms.</p>
+<p>The first form subtracts the operands addressed by <code>b</code> from the operand addressed by <code>a</code> and stores the result in <code>c</code>, the type of operands is <code>int</code> or <code>float64</code>.</p>
+<p>The second form subtracts the operand addressed by <code>b</code> from the operand addressed by <code>c</code> and stores the result in <code>c</code>. <code>type</code> is the type of the operands.</p>
+<p><code>b</code> can be an integer constant between 0 and 255.</p>
+<pre><code class="language-go">Syntax:  Sub a b c    ; description: c = a - b // int and float64 types
+         Sub type b c ; description: c -= b
+</code></pre>
+<pre><code class="language-go">Example:  Sub i3 i9 i2
+          Sub f8 23 f2
+          Sub int64 i7 i1
+          Sub float64 f14 f21
+</code></pre>
+<h3 id="subinv">SubInv</h3>
+<p>The instruction <code>SubInv</code> subtracts two integers or two floats. <code>SubInv</code> has two forms.</p>
+<p>The first form subtracts the operand addressed by <code>a</code> from the operand addressed by <code>b</code> and stores the result in <code>c</code>, the type of operands is <code>int</code> or <code>float64</code>.</p>
+<p>The second form subtracts the constant addressed by <code>b</code> from the operand addressed by <code>c</code> and stores the result in <code>c</code>. <code>type</code> is the type of the operands.</p>
+<p>The operand <code>b</code> is an integer constant between -128 and 127.</p>
+<pre><code class="language-go">Syntax:  SubInv a b c    ; description: c = b - a // int and float64 types
+         SubInv type b c ; description: c = b - c
+</code></pre>
+<pre><code class="language-go">Example:  SubInv i3 i9 i2
+          SubInv f8 -23 f2
+          SubInv int64 i7 i1
+          SubInv float64 f14 f21
+</code></pre>
+<h3 id="tailcall">TailCall</h3>
+<p>TODO</p>
+<h3 id="text">Text</h3>
+<p>The instruction <code>Text</code> writes the text <code>txt</code> to the template out writer.</p>
+<pre><code class="language-go">Syntax:  Text txt ; description: out.Write(txt)
+</code></pre>
+<pre><code class="language-go">Example: Text &quot;&lt;h1&gt;About us&lt;/h1&gt;&quot;
+</code></pre>
+<h3 id="typify">Typify</h3>
+<p>The instruction <code>Typify</code> gets the value addressed by <code>v1</code>, convert it to type <code>T</code> and stores the resulting value into <code>v2</code>.</p>
+<pre><code class="language-go">Syntax:  Typify T v1 v2 ; description: var v2 T = v1
+</code></pre>
+<h3 id="xor">Xor</h3>
+<p>The instruction <code>Xor</code> computes the bitwise XOR of the operands addressed by <code>a</code> and <code>b</code> and stores the result in <code>c</code>.</p>
+<pre><code class="language-go">Syntax:  Xor a b c ; description: c = a ^ b
+</code></pre>
+<h3 id="zero">Zero</h3>
+<p>The instruction <code>Zero</code> checks if the value addressed by the register <code>b</code> is a zero value; if so, then stores <code>1</code> in the integer register <code>c</code>, otherwise stores <code>0</code>.</p>
+<p>As special cases, if the value addressed by <code>b</code> is an empty slice or an empty
+channel the instruction <code>Zero</code> stores <code>1</code>.</p>
+<p>Moreover, if the value addressed by <code>b</code> has type interface and it is not <code>nil</code>,
+the instruction <code>Zero</code> evaluates its dynamic value.</p>
+<pre><code>Syntax: Zero b c ; description: c = 1 if b is the zero value for its type
+                                c = 0 otherwise
+</code></pre>
+<pre><code>Example:  Zero i1 i2
+          Zero s1 i3
+</code></pre>
+<p>See also the <a href="#notzero">NotZero</a> instruction.</p>
+
+<div id="edit-on-github">
+  <a href="https://github.com/open2b/scriggo-site/blob/main/site/disassembler.md" target="_blank">
+    ✍️ Edit on GitHub, PRs are welcome.
+  </a>
+</div>        </div>
+    </div>
+</article>
+<footer>
+  <div class="wrap">
+    <img class="gopher" src="/images/pilot-bust.svg" alt="The Go Gopher">
+    <ul>
+      <li><a href="/copyright">Copyright</a></li>
+      <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
+    </ul>
+    </div>
+  </div>
+</footer></body>
+</html>

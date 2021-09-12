@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <title>Scriggo templates: the using statement</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="Scriggo templates: the using statement">
+    <meta property="og:description" content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scriggo.com">
+    <meta property="og:image" content="https://scriggo.com/images/scriggo-card.png">
+    <meta name=twitter:title content="Scriggo templates: the using statement">
+    <meta name=twitter:description content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta name=twitter:image content="https://scriggo.com/images/scriggo-card.png">
+
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
+    <ul>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+    <a class="github-logo" href="https://github.com/open2b/scriggo/" alt="Scriggo on GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Github | Scriggo</title><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a></a>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="/what-is-scriggo" >What is Scriggo</a>
+</li>
+                <li><a href="/get-started" >Get Started</a>
+</li>
+                <li><a href="/scriggo-command" >Scriggo command</a>
+</li>
+                <li>
+                    <a href="/templates"  class="expanded">Templates</a>
+
+                    <ul>
+                        <li><a href="/templates/show" >Show</a>
+</li>
+                        <li><a href="/templates/render" >Render</a>
+</li>
+                        <li><a href="/templates/macro" >Macro</a>
+</li>
+                        <li><a href="/templates/extends-and-import" >Extends and Import</a>
+</li>
+                        <li><a href="/templates/if-for-switch" >If, For and Switch</a>
+</li>
+                        <li><a href="/templates/comments" >Comments</a>
+</li>
+                        <li><a href="/templates/operators" >Operators</a>
+</li>
+                        <li><a href="/templates/types" >Types</a>
+</li>
+                        <li><a href="/templates/variables" >Variables</a>
+</li>
+                        <li><a href="/templates/using"  class="selected" >Using</a>
+</li>
+                        <li><a href="/templates/specification" >Specification</a>
+</li>
+                        <li><a href="/templates/switch-from-jinja-to-scriggo" >Switch from Jinja</a>
+</li>
+                    </ul>
+                </li>
+                <li><a href="/scriggofile" >Scriggofile</a>
+</li>
+                <li><a href="/disassembler" >Disassembler</a>
+</li>
+                <li><a href="/limitations" >Limitations</a>
+</li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="using">Using</h1>
+<p>The using statement can be used in combination with other statements and declarations to render a piece of code and
+use the rendered code via the predeclared variable <em>itea</em>.</p>
+<p>In this example:</p>
+<pre><code class="language-scriggo">{% navigation := itea; using %}
+  &lt;li&gt;&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;
+  &lt;li&gt;&lt;a href=&quot;/about-us&quot;&gt;About Us&lt;/a&gt;
+{% end using %}
+</code></pre>
+<p>the body of the <em>using</em> statement:</p>
+<pre><code class="language-scriggo">  &lt;li&gt;&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;
+  &lt;li&gt;&lt;a href=&quot;/about-us&quot;&gt;About Us&lt;/a&gt;
+</code></pre>
+<p>is rendered and the result, represented by the predeclared variable <em>itea</em>, is assigned to the <em>navigation</em> variable.</p>
+<p>Therefore, the body of the <em>using</em> statement is rendered first, and after that the statement or declaration that
+precedes the <em>using</em> statement is evaluated with the <em>itea</em> variable containing the rendered value.</p>
+<p>In this other example, <em>itea</em> is used as argument for a function call:</p>
+<pre><code class="language-scriggo">{% sendmail(from, name, wordwrap(itea)); using %}
+Hello {{ name }}, thanks for your kind reply.
+{% end %}
+</code></pre>
+<h3 id="one-more-example">One more example</h3>
+<p>Given this macro declaration:</p>
+<pre><code class="language-scriggo">{% macro Dialog(title string, content html) %}
+&lt;div class=&quot;dialog&quot;&gt;
+  &lt;h1&gt;{{ title }}&lt;/h1&gt;
+  &lt;div class=&quot;content&quot;&gt;{{ content }}&lt;/div&gt;
+&lt;/div&gt;
+{% end %}
+</code></pre>
+<p>You can show the dialog as follows:</p>
+<pre><code class="language-scriggo">{% show Dialog(&quot;You wrote&quot;, itea); using %}
+  You wrote:
+  {{ message }}
+{% end %}
+</code></pre>
+<p>Without the <em>using</em> statement, you would have had to write instead:</p>
+<pre><code class="language-scriggo">{% macro content %}
+  You wrote:
+  {{ message }}
+{% end %}
+
+{{ Dialog(title, content()) }}
+</code></pre>
+<h2 id="using-macro">Using macro</h2>
+<p>In some cases one would not want to immediately evaluate the body of the <em>using</em> statement.</p>
+<p>Look at this example:</p>
+<pre><code class="language-scriggo">{% show Header(itea); using %}
+  &lt;title&gt;My Site&lt;/title&gt;
+  {{ socials() }}
+{% end %}
+</code></pre>
+<p>The body is rendered and its value is passed to the <code>Header</code> macro. If in certain circumstances you implement the
+<code>Header</code> macro so that it doesn't use its argument, the body was rendered anyway and the <code>socials</code> macro was called
+anyway.</p>
+<p>In this case you could change <code>Header</code> to take a macro instead of a string value, so <code>Header</code> calls the macro only if it
+wants to render it. Now you can write <code>using macro</code> instead of <code>using</code> only:</p>
+<pre><code class="language-scriggo">{% show Header(itea); using macro %}
+  &lt;title&gt;My Site&lt;/title&gt;
+  {{ socials() }}
+{% end %}
+</code></pre>
+<p>In this case <em>itea</em> is a macro with body the body of the <em>using</em> statement. Only if and when <code>Header</code> calls the macro,
+the body is rendered.</p>
+<p>Below we will look at a more complex use case.</p>
+<h3 id="using-macro-with-parameters">Using macro with parameters</h3>
+<p>The following macro <code>Users</code> renders a slice of <code>User</code> using a macro passed as argument to render each single user:</p>
+<pre><code class="language-scriggo">{% macro Users(users []User, one macro(user User) html) %}
+&lt;div class=&quot;users&quot;&gt;
+  &lt;h2&gt;Users&lt;/h2&gt;
+  {% for user in users %}
+  &lt;div class=&quot;user&quot;&gt;{{ one(user) }}&lt;/div&gt;
+  {% end %}
+&lt;/div&gt;
+{% end %}
+</code></pre>
+<p>You can call this macro to show all the users in this way:</p>
+<pre><code class="language-scriggo">{% show Users(users, itea); using macro(user User) %}
+&lt;dl&gt;
+  &lt;dt&gt;First name&lt;/dt&gt;
+  &lt;dd&gt;{{ user.FirstName }}&lt;/dd&gt;
+  &lt;dt&gt;Lat name&lt;/dt&gt;
+  &lt;dd&gt;{{ user.LastName }}&lt;/dd&gt;
+&lt;/dl&gt;
+{% end %}
+</code></pre>
+<h2 id="learn-more-about--using-">Learn more about <em>using</em></h2>
+<p>Now that you have learned, with examples of increasing complexity, how <em>using</em> works, you can find out more by reading
+the template specification of the <a href="/templates/specification#using-statement">using statement</a>.</p>
+
+<div id="edit-on-github">
+  <a href="https://github.com/open2b/scriggo-site/blob/main/site/templates/using.md" target="_blank">
+    ✍️ Edit on GitHub, PRs are welcome.
+  </a>
+</div>        </div>
+    </div>
+</article>
+<footer>
+  <div class="wrap">
+    <img class="gopher" src="/images/pilot-bust.svg" alt="The Go Gopher">
+    <ul>
+      <li><a href="/copyright">Copyright</a></li>
+      <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
+    </ul>
+    </div>
+  </div>
+</footer></body>
+</html>

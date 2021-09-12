@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <title>Scriggo templates: the extends and import declarations</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="Scriggo templates: the extends and import declarations">
+    <meta property="og:description" content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scriggo.com">
+    <meta property="og:image" content="https://scriggo.com/images/scriggo-card.png">
+    <meta name=twitter:title content="Scriggo templates: the extends and import declarations">
+    <meta name=twitter:description content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
+    <meta name=twitter:image content="https://scriggo.com/images/scriggo-card.png">
+
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
+    <ul>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+    <a class="github-logo" href="https://github.com/open2b/scriggo/" alt="Scriggo on GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Github | Scriggo</title><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a></a>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <nav>
+            <ul>
+                <li><a href="/what-is-scriggo" >What is Scriggo</a>
+</li>
+                <li><a href="/get-started" >Get Started</a>
+</li>
+                <li><a href="/scriggo-command" >Scriggo command</a>
+</li>
+                <li>
+                    <a href="/templates"  class="expanded">Templates</a>
+
+                    <ul>
+                        <li><a href="/templates/show" >Show</a>
+</li>
+                        <li><a href="/templates/render" >Render</a>
+</li>
+                        <li><a href="/templates/macro" >Macro</a>
+</li>
+                        <li><a href="/templates/extends-and-import"  class="selected" >Extends and Import</a>
+</li>
+                        <li><a href="/templates/if-for-switch" >If, For and Switch</a>
+</li>
+                        <li><a href="/templates/comments" >Comments</a>
+</li>
+                        <li><a href="/templates/operators" >Operators</a>
+</li>
+                        <li><a href="/templates/types" >Types</a>
+</li>
+                        <li><a href="/templates/variables" >Variables</a>
+</li>
+                        <li><a href="/templates/using" >Using</a>
+</li>
+                        <li><a href="/templates/specification" >Specification</a>
+</li>
+                        <li><a href="/templates/switch-from-jinja-to-scriggo" >Switch from Jinja</a>
+</li>
+                    </ul>
+                </li>
+                <li><a href="/scriggofile" >Scriggofile</a>
+</li>
+                <li><a href="/disassembler" >Disassembler</a>
+</li>
+                <li><a href="/limitations" >Limitations</a>
+</li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="extends-and-import">Extends and Import</h1>
+<p>The <a href="#extends">extends</a> and <a href="#import">import</a> declarations allow you to structure the template in order to write some
+code once and then call it in different parts of the template.</p>
+<h2 id="extends">Extends</h2>
+<p>The <em>extends</em> declaration allows a file, that contains some content, to extend another file that defines its layout.
+Such file is called extended file or layout file.</p>
+<p>The following is an example of layout file:</p>
+<pre><code class="language-scriggo">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;{{ Title() }}&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  {{ Header() }}
+  {{ Body() }}
+&lt;/body&gt;
+&lt;/head&gt;
+</code></pre>
+<p>It contains show statements that call the macros <code>Title</code>, <code>Header</code> and <code>Body</code>. Note that a call to a macro looks
+like a function call, and this is because macros are functions. Declaration syntax is different.</p>
+<p>These three macros are not declared in the file itself, but they will be declared in files that extend the layout file:</p>
+<pre><code class="language-scriggo">{% extends &quot;/layouts/standard.html&quot; %}
+{% macro Title %}Awesome product{% end %}
+{% macro Header %}
+ &lt;header&gt;An awesome product&lt;/header&gt;
+{% end %}
+{% macro Body %}
+  This awesome product is...
+{% end %}
+</code></pre>
+<pre class="result">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Awesome product&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header>An awesome product&lt;/header&gt;
+  This awesome product is...
+&lt;/body&gt;
+&lt;/head&gt;
+</pre>
+<p>The extends declaration should be at the beginning of the file, before others declarations, and the file declares macros
+called but not declared in the layout file. These macros should have the first letter in uppercase to be visible and
+callable in the extended file.</p>
+<p>The page can have other declarations, such as variables and macros, used in the same file, but it cannot have any content
+other than the one contained within the macros.</p>
+<p>The previous example used only macro with no parameters, but there is nothing preventing the use of macro with
+parameters.</p>
+<h2 id="import">Import</h2>
+<p>The <em>import</em> declaration imports declarations from another file into the current file, so you can access its variables
+or call its macros. Only the exported declarations (declarations with the first letter in upper case) are imported.</p>
+<p>Imported files can only contain declarations and cannot have content, other than that inside the macros. They define
+macros and variables that can be referred in other parts of the template by importing their file.</p>
+<p>For example, if the file &quot;images.html&quot; defines the following macro:</p>
+<pre><code class="language-scriggo">{% macro Image(url string, width, height int) %}
+  &lt;img src=&quot;{{ url }}&quot; width=&quot;{{ width }}&quot; height=&quot;{{ height }}&quot;&gt;
+{% end %}
+</code></pre>
+<p>after importing the file, it is possible to call the macro:</p>
+<pre><code class="language-scriggo">{% import &quot;images.html&quot; %}
+{{ Image(&quot;offer.png&quot;, 200, 200) }}
+</code></pre>
+<pre class="result">&lt;img src="offer.png" width="200" height="200"&gt;</pre>
+<p>Import declarations should be at the beginning of the file, before anything else, but after an extends declaration if
+it is present.</p>
+<h3 id="import-for">Import for</h3>
+<p>As an alternative, you can also indicate the names you want to import into the current file from the other file. In
+this case only these names will be imported.</p>
+<pre><code class="language-scriggo">{% import &quot;images.html&quot; for Image, Banner %}
+{{ Image(&quot;offer.png&quot;, 200, 200) }}
+</code></pre>
+<h3 id="import-prefix">Import prefix</h3>
+<p>As an alternative, the import declaration allows you to indicate an identifier to be used as a prefix to access the
+declarations in the imported file.</p>
+<pre><code class="language-scriggo">{% import images &quot;images.html&quot; %}
+{{ images.Image(&quot;offer.png&quot;, 200, 200) }}
+</code></pre>
+
+<div id="edit-on-github">
+  <a href="https://github.com/open2b/scriggo-site/blob/main/site/templates/extends-and-import.md" target="_blank">
+    ✍️ Edit on GitHub, PRs are welcome.
+  </a>
+</div>        </div>
+    </div>
+</article>
+<footer>
+  <div class="wrap">
+    <img class="gopher" src="/images/pilot-bust.svg" alt="The Go Gopher">
+    <ul>
+      <li><a href="/copyright">Copyright</a></li>
+      <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
+    </ul>
+    </div>
+  </div>
+</footer></body>
+</html>
