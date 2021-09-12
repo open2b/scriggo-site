@@ -43,9 +43,7 @@
                     <a href="/templates"  class="expanded">Templates</a>
 
                     <ul>
-                        <li><a href="/templates/show" >Show</a>
-</li>
-                        <li><a href="/templates/render" >Render</a>
+                        <li><a href="/templates/show-render" >Show and Render</a>
 </li>
                         <li><a href="/templates/macro" >Macro</a>
 </li>
@@ -142,7 +140,7 @@ wants to render it. Now you can write <code>using macro</code> instead of <code>
 {% end %}
 </code></pre>
 <p>In this case <em>itea</em> is a macro with body the body of the <em>using</em> statement. Only if and when <code>Header</code> calls the macro,
-the body is rendered.</p>
+the body is rendered and consequently the <code>socials</code> macro id called.</p>
 <p>Below we will look at a more complex use case.</p>
 <h3 id="using-macro-with-parameters">Using macro with parameters</h3>
 <p>The following macro <code>Users</code> renders a slice of <code>User</code> using a macro passed as argument to render each single user:</p>

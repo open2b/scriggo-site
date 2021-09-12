@@ -99,7 +99,7 @@ wants to render it. Now you can write `using macro` instead of `using` only:
 ```
 
 In this case _itea_ is a macro with body the body of the _using_ statement. Only if and when `Header` calls the macro,
-the body is rendered.
+the body is rendered and consequently the `socials` macro id called.
 
 Below we will look at a more complex use case.
 

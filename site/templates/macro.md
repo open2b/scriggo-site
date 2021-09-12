@@ -64,7 +64,7 @@ previous one but uses a distraction free macro declaration:
 ```
 
 In a distraction free declaration, the `macro` keyword and the terminating `{% end %}` or `{% end macro %}` are omitted
-and the macro ends at the end of the file. It means that all the code after the declaration and up to the end of the
+and the macro ends at the end of the file. It means that all the code after the declaration end up to the end of the
 file is the body of the macro.
 
 Note that in Scriggo the code `{% Ident %}`, where `Ident` is an exported identifier (the first letter is in uppercase),

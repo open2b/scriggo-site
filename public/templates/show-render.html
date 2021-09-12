@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="en" class="article">
 <head>
-    <title>Scriggo templates: the show statement</title>
+    <title>Scriggo templates: the show statement and the render operator</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="Scriggo templates: the show statement">
+    <meta property="og:title" content="Scriggo templates: the show statement and the render operator">
     <meta property="og:description" content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://scriggo.com">
     <meta property="og:image" content="https://scriggo.com/images/scriggo-card.png">
-    <meta name=twitter:title content="Scriggo templates: the show statement">
+    <meta name=twitter:title content="Scriggo templates: the show statement and the render operator">
     <meta name=twitter:description content="Scriggo is a fast, modern and secure Go language template engine and embeddable runtime">
     <meta name=twitter:image content="https://scriggo.com/images/scriggo-card.png">
 
@@ -43,9 +43,7 @@
                     <a href="/templates"  class="expanded">Templates</a>
 
                     <ul>
-                        <li><a href="/templates/show"  class="selected" >Show</a>
-</li>
-                        <li><a href="/templates/render" >Render</a>
+                        <li><a href="/templates/show-render"  class="selected" >Show and Render</a>
 </li>
                         <li><a href="/templates/macro" >Macro</a>
 </li>
@@ -79,8 +77,11 @@
             </nav>
         </aside>
         <div class="content">
-            <h1 id="show">Show</h1>
-<p>The <em>show</em> statement followed by one or more expressions, evaluates them and shows the results:</p>
+            <h1 id="show-and-render">Show and Render</h1>
+<p>The <a href="#show">show</a> statement renders values and shows them, while the <a href="#render">render</a> operator renders a template file
+but without showing it. It is usually used with a show statement to show the rendered file.</p>
+<h2 id="show">Show</h2>
+<p>The <em>show</em> statement followed by one or more values, renders the values and shows the result.</p>
 <pre><code class="language-scriggo">{% show 5 + 2, &quot; = &quot;, 7 %}
 {% show price %}
 </code></pre>
@@ -88,7 +89,7 @@
 7 = 7
 $29.99
 </pre>
-<p>A show statement with a single expression can also be written as follows:</p>
+<p>A show statement with a single value can also be written as follows:</p>
 <pre><code class="language-scriggo">{{ 5 + 2 }}
 {{ price }}
 </code></pre>
@@ -96,7 +97,7 @@ $29.99
 7
 $29.99
 </pre>
-<p>This short form, for a single expression, is the most used because it is easier to write and read, but you can use
+<p>This short form, for a single value, is the most used because it is easier to write and read, but you can use
 one or the other indifferently.</p>
 <p>Between <code>{%%</code> and <code>%%}</code> the show statement can be used as follows:</p>
 <pre><code class="language-scriggo">{%%
@@ -109,7 +110,7 @@ one or the other indifferently.</p>
 %%}
 </code></pre>
 <pre class="result">value is 55</pre>
-<p>The show statement shows the expressions based on the context in which it is used:</p>
+<p>The show statement shows a value based on its type and the current context:</p>
 <pre><code class="language-scriggo">{% var greeting = &quot;hello&quot; %}
 
 &lt;div&gt;{{ greeting }}&lt;/div&gt;
@@ -127,9 +128,48 @@ one or the other indifferently.</p>
   var b = 'hello world';
 &lt;/script&gt;
 </pre>
+<h2 id="render">Render</h2>
+<p>The <em>render</em> operator, when used with a <em>show</em> statement, as between <code>{{</code> and <code>}}</code>:</p>
+<pre><code class="language-scriggo">{{ render path }}
+</code></pre>
+<p>renders the template file with the named path and shows its content. A file rendered with render is called <em>partial</em>
+because contains only a part of the content that will be rendered:</p>
+<pre><code class="language-scriggo">{{ render &quot;/promotion.html&quot; }}
+</code></pre>
+<p>The path of the partial file can also be relative to the file that contains the render operator:</p>
+<pre><code class="language-scriggo">{{ render &quot;../header.html&quot; }}
+{{ render &quot;socials.html&quot; }}
+</code></pre>
+<p>When a partial file is rendered, the code of the file does not see the variables declared in the file that contain the
+render operator, and it does not see the other declarations in this file. For this purpose, macros with parameters are
+used, such as:</p>
+<pre><code class="language-scriggo">{{ Image(&quot;picture.jpg&quot;, 400, 500) }}
+</code></pre>
+<p>See the <a href="macro">macro statement</a> for details.</p>
+<h3 id="more-general-use">More general use</h3>
+<p>Render is a Scriggo operator and as such it can be used in any expression like any other operator, not only with a
+<em>show</em> statement. For example, it is possible to assign its evaluation for later use:</p>
+<pre><code class="language-scriggo">{% var email = render &quot;email.html&quot; %}
+</code></pre>
+<p>or use it as part of another expression:</p>
+<pre><code class="language-scriggo">{%%
+    if discount {
+        show &quot;Offer: &quot; + render &quot;offer.html&quot;
+    }
+%%}
+</code></pre>
+<p>Its evaluation results in a string value. The specific type of the string depends on the format of the rendered file.
+For example, if the rendered file is in HTML format, the resulting string will have the type <em>html</em>.</p>
+<h3 id="non-existent-files">Non-existent files</h3>
+<p>If the file to render does not exist, a compilation error occurs. On the other hand, if you want to handle the case in
+which the file does not exist, you can use a <em>default</em> expression:</p>
+<pre><code class="language-scriggo">{% promo := render &quot;extra.html&quot; default &quot;opts!&quot; %}
+</code></pre>
+<p>If a template file with path &quot;extra.html&quot; exists, <code>promo</code> will contain the result of its rendering, otherwise it will be
+<code>&quot;opts!&quot;</code>.</p>
 
 <div id="edit-on-github">
-  <a href="https://github.com/open2b/scriggo-site/blob/main/site/templates/show.md" target="_blank">
+  <a href="https://github.com/open2b/scriggo-site/blob/main/site/templates/show-render.md" target="_blank">
     ✍️ Edit on GitHub, PRs are welcome.
   </a>
 </div>        </div>

@@ -43,9 +43,7 @@
                     <a href="/templates"  class="expanded">Templates</a>
 
                     <ul>
-                        <li><a href="/templates/show" >Show</a>
-</li>
-                        <li><a href="/templates/render" >Render</a>
+                        <li><a href="/templates/show-render" >Show and Render</a>
 </li>
                         <li><a href="/templates/macro"  class="selected" >Macro</a>
 </li>
@@ -121,7 +119,7 @@ previous one but uses a distraction free macro declaration:</p>
 &lt;/ul&gt;
 </code></pre>
 <p>In a distraction free declaration, the <code>macro</code> keyword and the terminating <code>{% end %}</code> or <code>{% end macro %}</code> are omitted
-and the macro ends at the end of the file. It means that all the code after the declaration and up to the end of the
+and the macro ends at the end of the file. It means that all the code after the declaration end up to the end of the
 file is the body of the macro.</p>
 <p>Note that in Scriggo the code <code>{% Ident %}</code>, where <code>Ident</code> is an exported identifier (the first letter is in uppercase),
 is always a distraction free macro declaration.</p>
