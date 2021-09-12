@@ -91,6 +91,10 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .article blockquote div + p { margin-top: 0; }
 .article img { max-width: 100%; }
 
+#edit-on-github { font-size: .9rem; font-weight: bold; margin-top: 4rem; text-align: right; }
+#edit-on-github a { color: #777; }
+#edit-on-github a:hover { color: #222; }
+
 .article pre + .result { border-top-left-radius: 0; border-top: 1px solid #dfdad3; border-top-right-radius: 0; margin-top: -17px; padding-top: 16px; }
 
 #what-is-scriggo + p { color: #777; font-size: 1.2em; font-weight: bold; }
@@ -140,5 +144,5 @@ footer img.gopher { width: 5rem; }
 footer ul { display: flex; flex: 1; flex-wrap: wrap; list-style: none; }
 footer ul li { padding: 0 1rem; }
 footer ul li a { color: #333; }
+footer ul li a:hover { color: #e6a62f; }
 footer .generator { align-self: center; }
-footer .generator a { color: #e6a62f; }
