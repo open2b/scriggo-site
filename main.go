@@ -53,7 +53,7 @@ func main() {
 		buildOptions.Globals[n] = v
 	}
 
-	srcFS := os.DirFS("template")
+	srcFS := os.DirFS("site")
 
 	err = fs.WalkDir(srcFS, ".", func(name string, d fs.DirEntry, err error) error {
 		if err != nil {
