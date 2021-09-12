@@ -1,10 +1,12 @@
 {% import "/imports/meta.html" for Meta %}
+{% import highlight "/imports/highlight.html" %}
 <!doctype html>
 <html lang="en" class="article">
 <head>
     {% title := Title() default "" %}
     <title>{{ title }}</title>
     {{ Meta(title) }}
+    {{ highlight.Style() }}
 </head>
 <body>
 {{ render "/partials/nav.html" }}
@@ -49,5 +51,6 @@
     </div>
 </article>
 {{ render "/partials/footer.html" }}
+{{ highlight.JS() }}
 </body>
 </html>
