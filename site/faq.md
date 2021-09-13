@@ -1,5 +1,4 @@
-{% extends "/layouts/page.html" %}
-{% var Page = "faq" %} 
+{% extends "/layouts/page.html" %} 
 {% macro Title string %}Scriggo Frequently Asked Questions (FAQ){% end %}
 {% Content %}
 

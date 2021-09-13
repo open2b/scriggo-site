@@ -1,6 +1,6 @@
 {% import "/imports/meta.html" for Meta %}
 <!doctype html>
-<html class="article page-{{ Page }}" lang="en">
+<html class="article page-{{ toKebab(filepath) }}" lang="en">
 <head>
     {% title := Title() default "" %}
     <title>{{ title }}</title>

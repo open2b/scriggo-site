@@ -1,5 +1,4 @@
 {% extends "/layouts/page.html" %}
-{% var Page = "support" %}
 {% macro Title string %}Support{% end %}
 {% macro Content html %}
 

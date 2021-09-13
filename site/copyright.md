@@ -1,5 +1,4 @@
 {% extends "/layouts/page.html" %}
-{% var Page = "copyright" %}
 {% macro Title string %}Copyright{% end %}
 {% Content %}
 
