@@ -34,8 +34,6 @@
         <aside>
             <nav>
             <ul>
-                <li><a href="/what-is-scriggo"  class="selected" >What is Scriggo</a>
-</li>
                 <li><a href="/get-started" >Get Started</a>
 </li>
                 <li><a href="/scriggo-command" >Scriggo command</a>
@@ -78,17 +76,45 @@
             </nav>
         </aside>
         <div class="content">
-            <h1 id="what-is-scriggo">What is Scriggo</h1>
-<p>Scriggo is a fast, modern and secure Go language template engine and embeddable runtime.</p>
-<p>As template engine, it allows to use the Go language as a scripting language inside templates.</p>
-<p>Scriggo can be easily included in any application and does not require Go installed on the client or server because
-Scriggo implements the Go programming language with its own compiler and virtual machine written from scratch.</p>
-<p>Scriggo is written in pure Go, so it can run on servers, desktops, mobile devises and also on serverless platforms
+            <h1 id="what-is-scriggo">What is Scriggo?</h1>
+<p>Scriggo is a fast, modern and secure Go language template engine and embeddable interpreter.</p>
+<ul>
+<li>Fast, a very fast embeddable pure Go language runtime.</li>
+<li>Modern and powerful Template Engine with Go as scripting language.</li>
+<li>Native support for Markdown in templates.</li>
+<li>Secure by default. No access to packages unless explicitly enabled.</li>
+<li>Easy to embed and to interop with any Go application.</li>
+</ul>
+<p>To start using Scriggo just get it:</p>
+<div class="get-scriggo">go get <span class="scriggo-path">github.com/open2b/scriggo</span></div>
+<p>Scriggo imported into a Go application has no dependencies other than the Go standard library.</p>
+<h2 id="template-engine">Template Engine</h2>
+<p>Scriggo is the most powerful template engine for Go:</p>
+<ul>
+<li>support inheritance, macros, partials, imports and contextual autoescaping.</li>
+<li>native support for Markdown, inside or without HTML.</li>
+<li>use the Go as advanced template scripting language.</li>
+<li>static type checking to catch errors as early as possible, and not at runtime.</li>
+<li>allow importing Go packages in templates.</li>
+<li>templates compiled to bytecode and executed on the Scriggo virtual machine.</li>
+</ul>
+<p>Scriggo has a simple and familiar syntax that is quick to learn whether you know Go or not yet. Documentation does not
+assume you already know Go, but by reading the Scriggo documentation you can also learn Go.</p>
+<h2 id="embeddable-go-interpreter">Embeddable Go Interpreter</h2>
+<p>Scriggo is also a fast embeddable interpreter for Go programs. It lets you build and run Go programs directly in your
+application, nothing else. It does not require any Go installation to build and run Go programs.</p>
+<ul>
+<li>one of the fastest Go embeddable interpreters.</li>
+<li>programs compiled to bytecode and executed on the Scriggo virtual machine.</li>
+<li>easy integration with your Go application.</li>
+<li>pure Go and no dependencies beyond the Go standard library.</li>
+</ul>
+<h2 id="where-run-scriggo-applications">Where run Scriggo applications</h2>
+<p>Scriggo can run on servers, desktops, mobile devices and also on serverless platforms
 like <a href="https://aws.amazon.com/lambda/">Amazon Lambda</a>,
 <a href="https://cloud.google.com/appengine/">Google App Engine</a> and
-<a href="https://azure.microsoft.com/services/functions/">Azure Functions</a>.</p>
-<p>It's fast. Executes code as fast as mainstream languages like Ruby, Python and Lua.</p>
-<h2 id="why-use-scriggo">Why use Scriggo</h2>
+<a href="https://azure.microsoft.com/services/functions/">Azure Functions</a>. It can also be compiled to Web Assembly
+to run Go programs and templates in browsers or in a sandboxed environment in your application.</p>
 
 <div id="edit-on-github">
   <a href="https://github.com/open2b/scriggo-site/blob/main/site/what-is-scriggo.md" target="_blank">

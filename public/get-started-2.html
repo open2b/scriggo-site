@@ -34,8 +34,6 @@
         <aside>
             <nav>
             <ul>
-                <li><a href="/what-is-scriggo" >What is Scriggo</a>
-</li>
                 <li><a href="/get-started" >Get Started</a>
 </li>
                 <li><a href="/scriggo-command" >Scriggo command</a>
@@ -94,6 +92,9 @@ $ cd hello-template
 <p>Initialize a Go module in the previous created directory:</p>
 <pre><code>$ go mod init hello-template
 </code></pre>
+<p>Get the scriggo package:</p>
+<pre><code>$ go get github.com/open2b/scriggo
+</code></pre>
 <p>Create a file <code>main.go</code> with the following source code:</p>
 <pre><code class="language-go">// Build and run a Scriggo template.
 package main
@@ -135,9 +136,8 @@ func main() {
 
 }
 </code></pre>
-<p>Execute <code>go mod tidy</code> and build the application directly from the <code>hello-template</code> directory.</p>
-<pre><code>$ go mod tidy
-$ go build
+<p>Build the application directly from the <code>hello-template</code> directory.</p>
+<pre><code>$ go build
 </code></pre>
 <p>Execute the application:</p>
 <pre><code>$ ./hello-template
