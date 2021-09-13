@@ -29,6 +29,12 @@ Initialize a Go module in the previous created directory:
 $ go mod init hello
 ```
 
+Get the scriggo package:
+
+```
+$ go get github.com/open2b/scriggo
+```
+
 Create a file `main.go` with the following source code: 
 
 ```go
@@ -68,10 +74,9 @@ func main() {
 }
 ```
 
-Execute `go mod tidy` and build the application directly from the `hello` directory.
+Build the application directly from the `hello` directory.
 
 ```
-$ go mod tidy
 $ go build
 ```
 

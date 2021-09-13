@@ -31,6 +31,12 @@ Initialize a Go module in the previous created directory:
 $ go mod init hello-template
 ```
 
+Get the scriggo package:
+
+```
+$ go get github.com/open2b/scriggo
+```
+
 Create a file `main.go` with the following source code:
 
 {% raw %}
@@ -77,10 +83,9 @@ func main() {
 ```
 {% end raw %}
 
-Execute `go mod tidy` and build the application directly from the `hello-template` directory.
+Build the application directly from the `hello-template` directory.
 
 ```
-$ go mod tidy
 $ go build
 ```
 
