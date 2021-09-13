@@ -2,20 +2,50 @@
 {% macro Title string %}What is Scriggo{% end %} 
 {% Article %}
 
-# What is Scriggo
+# What is Scriggo?
 
-Scriggo is a fast, modern and secure Go language template engine and embeddable runtime.
+Scriggo is a fast, modern and secure Go language template engine and embeddable interpreter.
 
-As template engine, it allows to use the Go language as a scripting language inside templates.
+* Fast, a very fast embeddable pure Go language runtime.
+* Modern and powerful Template Engine with Go as scripting language.
+* Native support for Markdown in templates.
+* Secure by default. No access to packages unless explicitly enabled.
+* Easy to embed and to interop with any Go application.
 
-Scriggo can be easily included in any application and does not require Go installed on the client or server because
-Scriggo implements the Go programming language with its own compiler and virtual machine written from scratch.
+To start using Scriggo just get it:
 
-Scriggo is written in pure Go, so it can run on servers, desktops, mobile devises and also on serverless platforms
+<div class="get-scriggo">go get <span class="scriggo-path">github.com/open2b/scriggo</span></div>
+
+Scriggo imported into a Go application has no dependencies other than the Go standard library.
+
+## Template Engine
+
+Scriggo is the most powerful template engine for Go:
+
+* support inheritance, macros, partials, imports and contextual autoescaping.
+* native support for Markdown, inside or without HTML.
+* use the Go as advanced template scripting language.
+* static type checking to catch errors as early as possible, and not at runtime. 
+* allow importing Go packages in templates.
+* templates compiled to bytecode and executed on the Scriggo virtual machine.
+
+Scriggo has a simple and familiar syntax that is quick to learn whether you know Go or not yet. Documentation does not
+assume you already know Go, but by reading the Scriggo documentation you can also learn Go.
+
+## Embeddable Go Interpreter
+
+Scriggo is also a fast embeddable interpreter for Go programs. It lets you build and run Go programs directly in your
+application, nothing else. It does not require any Go installation to build and run Go programs.
+
+* one of the fastest Go embeddable interpreters.
+* programs compiled to bytecode and executed on the Scriggo virtual machine.
+* easy integration with your Go application.
+* pure Go and no dependencies beyond the Go standard library.
+
+## Where run Scriggo applications 
+
+Scriggo can run on servers, desktops, mobile devices and also on serverless platforms
 like <a href="https://aws.amazon.com/lambda/">Amazon Lambda</a>,
 <a href="https://cloud.google.com/appengine/">Google App Engine</a> and
-<a href="https://azure.microsoft.com/services/functions/">Azure Functions</a>.
-
-It's fast. Executes code as fast as mainstream languages like Ruby, Python and Lua. 
-
-## Why use Scriggo
+<a href="https://azure.microsoft.com/services/functions/">Azure Functions</a>. It can also be compiled to Web Assembly
+to run Go programs and templates in browsers or in a sandboxed environment in your application. 

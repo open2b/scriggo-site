@@ -108,7 +108,10 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .article .data-type-false table td:first-child { width: 6rem; }
 .article .assignments table td:first-child { width: 7rem; }
 
-#what-is-scriggo + p { color: #777; font-size: 1.2em; font-weight: bold; }
+#what-is-scriggo + p { color: #777; font-size: 1.2em; }
+.get-scriggo { background: #f9f6f1; font-family: monospace; font-weight: bold; padding: 1rem; }
+.get-scriggo .scriggo-path { color: #d18c00; }
+.get-scriggo:before { content: '$'; padding-right: .5rem; }
 
 .page-support h1 { margin: 1em auto 1em auto; text-align: center; }
 .page-support .support { display: flex; font-size: 1rem; margin: 0 auto; max-width: 800px;  }
@@ -141,6 +144,8 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
     .benchmark, .benchmark + .benchmark { padding: 0; width: auto; }
 
     .article aside { display: none; }
+
+    .get-scriggo { font-size: .9rem; }
 
     footer { font-size: 0.8rem; text-align: center; }
 
