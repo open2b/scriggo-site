@@ -107,8 +107,7 @@ $ scriggo init [dir]
 where `dir` is the directory in which to create the files. If no argument is given, `scriggo init` uses the current directory.
 If the directory already contains ".go" files or a "vendor" directory, the command fails. 
 
-If the directory contains a Scriggofile called `Scriggofile`, the command reads it for the instructions, otherwise creates
-a Scriggofile with the instruction to create an importer for the Go standard library.
+The command creates a Scriggofile with the instruction to create an importer for the Go standard library.
 
 If the directory does not contain a `go.mod` file, the command creates it and as module path uses the directory name.
 

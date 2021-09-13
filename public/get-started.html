@@ -161,6 +161,9 @@ IMPORT github.com/fatih/color
 </code></pre>
 <p>The Scriggo Import command reads the instructions in the Scriggofile and generates the source code of an importer that
 imports the packages of the Go standard library and the <code>github.com/fatih/color</code> package.</p>
+<p>Get the <code>github.com/fatih/color</code> module:</p>
+<pre><code>$ go get github.com/fatih/color
+</code></pre>
 <p>Execute <code>scriggo import</code> command in the module directory:</p>
 <pre><code>$ scriggo import -o packages.go
 </code></pre>
@@ -169,8 +172,11 @@ imports the packages of the Go standard library and the <code>github.com/fatih/c
 
 import (
     &quot;github.com/open2b/scriggo&quot;
+    &quot;github.com/open2b/scriggo/native&quot;
     &quot;log&quot;
 )
+
+var packages native.Packages
 
 func main() {
 

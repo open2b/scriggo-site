@@ -122,6 +122,12 @@ IMPORT github.com/fatih/color
 The Scriggo Import command reads the instructions in the Scriggofile and generates the source code of an importer that
 imports the packages of the Go standard library and the `github.com/fatih/color` package.
 
+Get the `github.com/fatih/color` module:
+
+```
+$ go get github.com/fatih/color
+```
+
 Execute `scriggo import` command in the module directory:
 
 ```
@@ -135,8 +141,11 @@ package main
 
 import (
     "github.com/open2b/scriggo"
+    "github.com/open2b/scriggo/native"
     "log"
 )
+
+var packages native.Packages
 
 func main() {
 

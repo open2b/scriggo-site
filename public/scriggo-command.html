@@ -142,8 +142,7 @@ n &lt; 0: all text
 </code></pre>
 <p>where <code>dir</code> is the directory in which to create the files. If no argument is given, <code>scriggo init</code> uses the current directory.
 If the directory already contains &quot;.go&quot; files or a &quot;vendor&quot; directory, the command fails.</p>
-<p>If the directory contains a Scriggofile called <code>Scriggofile</code>, the command reads it for the instructions, otherwise creates
-a Scriggofile with the instruction to create an importer for the Go standard library.</p>
+<p>The command creates a Scriggofile with the instruction to create an importer for the Go standard library.</p>
 <p>If the directory does not contain a <code>go.mod</code> file, the command creates it and as module path uses the directory name.</p>
 <h2 id="generate-a-package-importer">Generate a package importer</h2>
 <p>The Scriggo Import command generate the code for a package importer. An importer is used by Scriggo to import a package
