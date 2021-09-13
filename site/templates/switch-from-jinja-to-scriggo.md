@@ -15,42 +15,43 @@ templating languages.
 > documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/) (copyright
 > 2007 Pallets).
 
-- [Syntax](#syntax)
-- [Type system](#type-system)
-- [Escaping](#escaping)
-- [Tests](#tests)
-- [Comments](#comments)
-- [Expressions](#expressions)
-  - [Literals](#literals)
-    - [Strings](#strings)
-    - [Lists](#lists)
-    - [Dictionaries](#dictionaries)
-    - [Tuples](#tuples)
-  - [If Expression](#if-expression)
-  - [Math and comparisons](#math-and-comparisons)
-  - [Logic](#logic)
-  - [Operator `in`](#operator-in)
-  - [Operator `+` (plus)](#operator--plus)
-  - [Operator `~` (tilde)](#operator--tilde)
-  - [Methods](#methods)
-- [List of control structures](#list-of-control-structures)
-  - [For](#for)
-  - [If](#if)
-  - [Block Assignments](#block-assignments)
-  - [Calls](#calls)
-  - [Filters](#filters)
-  - [Assignments](#assignments)
-- [Template inheritance](#template-inheritance)
-- [Blocks and macros](#blocks-and-macros)
-- [Including other template files](#including-other-template-files)
-- [Importing other template files](#importing-other-template-files)
-- [List of Builtin filters](#list-of-builtin-filters)
-  - [`abs`](#abs)
-  - [`attr`](#attr)
-  - [`length`](#length)
-- [HTML Escaping](#html-escaping)
-  - [Automatic contextual escaping](#automatic-contextual-escaping)
-- [Continue to learn](#continue-to-learn)
+- [Switch from Jinja to Scriggo](#switch-from-jinja-to-scriggo)
+  - [Syntax](#syntax)
+  - [Type system](#type-system)
+  - [Escaping](#escaping)
+  - [Tests](#tests)
+  - [Comments](#comments)
+  - [Expressions](#expressions)
+    - [Literals](#literals)
+      - [Strings](#strings)
+      - [Lists](#lists)
+      - [Dictionaries](#dictionaries)
+      - [Tuples](#tuples)
+    - [If Expression](#if-expression)
+    - [Math and comparisons](#math-and-comparisons)
+    - [Logic](#logic)
+    - [Operator `in`](#operator-in)
+    - [Operator `+` (plus)](#operator--plus)
+    - [Operator `~` (tilde)](#operator--tilde)
+    - [Methods](#methods)
+  - [List of control structures](#list-of-control-structures)
+    - [For](#for)
+    - [If](#if)
+    - [Block Assignments](#block-assignments)
+    - [Calls](#calls)
+    - [Filters](#filters)
+    - [Assignments](#assignments)
+  - [Template inheritance](#template-inheritance)
+  - [Blocks and macros](#blocks-and-macros)
+  - [Including other template files](#including-other-template-files)
+  - [Importing other template files](#importing-other-template-files)
+  - [List of built-in filters](#list-of-built-in-filters)
+    - [`abs`](#abs)
+    - [`attr`](#attr)
+    - [`length`](#length)
+  - [HTML Escaping](#html-escaping)
+    - [Automatic contextual escaping](#automatic-contextual-escaping)
+  - [Continue to learn](#continue-to-learn)
 
 ## Syntax
 
@@ -358,14 +359,25 @@ In Scriggo, just like in Jinja, you can call methods on values using the syntax:
 
 Scriggo supports the _for loop_ syntax used in Jinja, plus the ones used in Go.
 
-For example this code is valid both in Scriggo and Jinja:
+For example this for loop in Jinja:
 
-```
+```jinja
 <h1>Members</h1>
 <ul>
 {% for user in users %}
   <li>{{ user.username }}</li>
 {% endfor %}
+</ul>
+```
+
+can be rewritten in Scriggo just changing the closing tag:
+
+```scriggo
+<h1>Members</h1>
+<ul>
+{% for user in users %}
+  <li>{{ user.username }}</li>
+{% end for %}
 </ul>
 ```
 

@@ -87,6 +87,8 @@ documentation</a> (copyright
 2007 Pallets).</p>
 </blockquote>
 <ul>
+<li><a href="#switch-from-jinja-to-scriggo">Switch from Jinja to Scriggo</a>
+<ul>
 <li><a href="#syntax">Syntax</a></li>
 <li><a href="#type-system">Type system</a></li>
 <li><a href="#escaping">Escaping</a></li>
@@ -125,7 +127,7 @@ documentation</a> (copyright
 <li><a href="#blocks-and-macros">Blocks and macros</a></li>
 <li><a href="#including-other-template-files">Including other template files</a></li>
 <li><a href="#importing-other-template-files">Importing other template files</a></li>
-<li><a href="#list-of-builtin-filters">List of Builtin filters</a>
+<li><a href="#list-of-built-in-filters">List of built-in filters</a>
 <ul>
 <li><a href="#abs"><code>abs</code></a></li>
 <li><a href="#attr"><code>attr</code></a></li>
@@ -138,6 +140,8 @@ documentation</a> (copyright
 </ul>
 </li>
 <li><a href="#continue-to-learn">Continue to learn</a></li>
+</ul>
+</li>
 </ul>
 <h2 id="syntax">Syntax</h2>
 <p>Jinja and Scriggo share the same syntax for enclosing statements, rendering
@@ -319,12 +323,20 @@ strings.</p>
 <h2 id="list-of-control-structures">List of control structures</h2>
 <h3 id="for">For</h3>
 <p>Scriggo supports the <em>for loop</em> syntax used in Jinja, plus the ones used in Go.</p>
-<p>For example this code is valid both in Scriggo and Jinja:</p>
-<pre><code>&lt;h1&gt;Members&lt;/h1&gt;
+<p>For example this for loop in Jinja:</p>
+<pre><code class="language-jinja">&lt;h1&gt;Members&lt;/h1&gt;
 &lt;ul&gt;
 {% for user in users %}
   &lt;li&gt;{{ user.username }}&lt;/li&gt;
 {% endfor %}
+&lt;/ul&gt;
+</code></pre>
+<p>can be rewritten in Scriggo just changing the closing tag:</p>
+<pre><code class="language-scriggo">&lt;h1&gt;Members&lt;/h1&gt;
+&lt;ul&gt;
+{% for user in users %}
+  &lt;li&gt;{{ user.username }}&lt;/li&gt;
+{% end for %}
 &lt;/ul&gt;
 </code></pre>
 <h3 id="if">If</h3>
