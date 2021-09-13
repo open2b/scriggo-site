@@ -80,7 +80,7 @@
         <div class="content">
             <h1 id="using">Using</h1>
 <p>The using statement can be used in combination with other statements and declarations to render a piece of code and
-use the rendered code via the predeclared variable <em>itea</em>.</p>
+use the rendered code via the predeclared identifier <em>itea</em>.</p>
 <p>In this example:</p>
 <pre><code class="language-scriggo">{% navigation := itea; using %}
   &lt;li&gt;&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;
@@ -91,9 +91,9 @@ use the rendered code via the predeclared variable <em>itea</em>.</p>
 <pre><code class="language-scriggo">  &lt;li&gt;&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;
   &lt;li&gt;&lt;a href=&quot;/about-us&quot;&gt;About Us&lt;/a&gt;
 </code></pre>
-<p>is rendered and the result, represented by the predeclared variable <em>itea</em>, is assigned to the <em>navigation</em> variable.</p>
+<p>is rendered and the result, represented by the predeclared identifier <em>itea</em>, is assigned to the <em>navigation</em> variable.</p>
 <p>Therefore, the body of the <em>using</em> statement is rendered first, and after that the statement or declaration that
-precedes the <em>using</em> statement is evaluated with the <em>itea</em> variable containing the rendered value.</p>
+precedes the <em>using</em> statement is evaluated with the <em>itea</em> identifier representing the rendered value.</p>
 <p>In this other example, <em>itea</em> is used as argument for a function call:</p>
 <pre><code class="language-scriggo">{% sendmail(from, name, wordwrap(itea)); using %}
 Hello {{ name }}, thanks for your kind reply.
@@ -140,8 +140,8 @@ wants to render it. Now you can write <code>using macro</code> instead of <code>
   {{ socials() }}
 {% end %}
 </code></pre>
-<p>In this case <em>itea</em> is a macro with body the body of the <em>using</em> statement. Only if and when <code>Header</code> calls the macro,
-the body is rendered and consequently the <code>socials</code> macro id called.</p>
+<p>In this case <em>itea</em> represents a macro with body the body of the <em>using</em> statement. Only if and when <code>Header</code> calls
+the macro, the body is rendered and consequently the <code>socials</code> macro id called.</p>
 <p>Below we will look at a more complex use case.</p>
 <h3 id="using-macro-with-parameters">Using macro with parameters</h3>
 <p>The following macro <code>Users</code> renders a slice of <code>User</code> using a macro passed as argument to render each single user:</p>

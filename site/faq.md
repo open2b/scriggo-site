@@ -31,6 +31,7 @@
     <dd><a href="#can-you-implement-x-functionality-in-templates-even-if-it-is-not-present-in-go">Can you implement X functionality in templates even if it is not present in Go?</a></dd>
     <dd><a href="#why-isnt-the--operator-supported-in-templates">Why isn't the ?: operator supported in templates?</a></dd>
     <dd><a href="#why-is-a-string-value-not-convertible-to-html-type-in-the-templates">Why is a string value not convertible to html type in the templates?</a></dd>
+    <dd><a href="#what-is-the-predeclared-identifier-itea">What is the predeclared identifier itea?</a></dd>
     <dt><a href="#implementation">Implementation</a></dt>
     <dd><a href="#how-is-the-compiler-written">How is the compiler written?</a></dd>
     <dd><a href="#how-does-the-runtime-work">How does the runtime work?</a></dd>
@@ -154,8 +155,8 @@ The condition of the _if_ statement can have any type and is _true_ if it is tru
 truthful and therefore in the context of the _if_ condition, `len(products) == 0` can be replaced with
 `not products`.
 
-`and`,` or` and `not` are three boolean operators, available in templates, which are based on the concept of
-truthful values. For more details you can see the [documentation](/templates/operators#and-or-not) and the
+`and`, `or` and `not` are three boolean operators, available in templates, which are based on the concept of
+truthful values. For more details you can see the [documentation](/templates/operators#and-or-and-not) and the
 [template specification](/templates/specification#truthful-values).
 
 ### Can you implement X functionality in templates even if it is not present in Go?
@@ -185,6 +186,14 @@ can be written in Scriggo as
 Only untyped string constants are convertible to the _html_ type. The same is true for the _markdown_, _css_, _js_, and _json_ 
 types. This helps to limit cross-site scripting (XSS) vulnerabilities that the template writer might unintentionally 
 introduce.
+
+### What is the predeclared identifier itea? 
+
+The predeclared identifier _itea_ represents the body of a _using_ statement. It is the rendered body or a macro
+with that body.
+
+We were looking for a name that was as short as Go's _iota_ and was not in common use. Hence, "itea". If you are 
+curious, itea is a genus of shrubs and small trees, commonly called sweetspires (Wikipedia). 
 
 ## Implementation
 

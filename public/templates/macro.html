@@ -94,6 +94,26 @@ file before the macro declaration. For example:</p>
 </code></pre>
 <pre class="result">An awesome tablet</pre>
 <p>A variable declared in a body of a macro is not visible outside the macro.</p>
+<h2 id="macro-with-parameters">Macro with parameters</h2>
+<p>A macro can have parameters as any other function. Parameters are declared in parentheses, separated by a comma and
+the type must be indicated in addition to the name of the parameter.</p>
+<p>The following declaration declares a macro, called &quot;image&quot;, with three parameters:</p>
+<pre><code class="language-scriggo">{% macro image(url string, width int, height int) %}
+  &lt;img src=&quot;{{ url }}&quot; width=&quot;{{ width }}&quot; height=&quot;{{ height }}&quot;&gt;
+{% end %}
+</code></pre>
+<p>A macro should be called with the same number of arguments, in the same order and with the same type of the parameters
+in the declaration.</p>
+<pre><code class="language-scriggo">{{ image(&quot;picture.jpg&quot;, 400, 500) }}
+</code></pre>
+<pre class="result">
+&lt;img src="picture.jpg" width="400" height="500"&gt;
+</pre>
+<p>A type can be omitted if the next parameter has the same type. The previous declaration can be rewritten as:</p>
+<pre><code class="language-scriggo">{% macro image(url string, width, height int) %}
+  &lt;img src=&quot;{{ url }}&quot; width=&quot;{{ width }}&quot; height=&quot;{{ height }}&quot;&gt;
+{% end %}
+</code></pre>
 <h2 id="distraction-free-declaration">Distraction free declaration</h2>
 <p>If a macro is declared in a file with an extends declaration, to be called in the extended file, and the macro has no
 parameters, as in this example:</p>
@@ -124,26 +144,6 @@ and the macro ends at the end of the file. It means that all the code after the 
 file is the body of the macro.</p>
 <p>Note that in Scriggo the code <code>{% Ident %}</code>, where <code>Ident</code> is an exported identifier (the first letter is in uppercase),
 is always a distraction free macro declaration.</p>
-<h2 id="macro-with-parameters">Macro with parameters</h2>
-<p>A macro can have parameters as any other function. Parameters are declared in parentheses, separated by a comma and
-the type must be indicated in addition to the name of the parameter.</p>
-<p>The following declaration declares a macro, called &quot;image&quot;, with three parameters:</p>
-<pre><code class="language-scriggo">{% macro image(url string, width int, height int) %}
-  &lt;img src=&quot;{{ url }}&quot; width=&quot;{{ width }}&quot; height=&quot;{{ height }}&quot;&gt;
-{% end %}
-</code></pre>
-<p>A macro should be called with the same number of arguments, in the same order and with the same type of the parameters
-in the declaration.</p>
-<pre><code class="language-scriggo">{{ image(&quot;picture.jpg&quot;, 400, 500) }}
-</code></pre>
-<pre class="result">
-&lt;img src="picture.jpg" width="400" height="500"&gt;
-</pre>
-<p>A type can be omitted if the next parameter has the same type. The previous declaration can be rewritten as:</p>
-<pre><code class="language-scriggo">{% macro image(url string, width, height int) %}
-  &lt;img src=&quot;{{ url }}&quot; width=&quot;{{ width }}&quot; height=&quot;{{ height }}&quot;&gt;
-{% end %}
-</code></pre>
 <h2 id="call-a-macro-declared-in-another-file">Call a macro declared in another file</h2>
 <p>To call a macro declared in another file, such as a file that declares macros useful in various parts of the template,
 you have to import the file with an import declaration.</p>

@@ -55,6 +55,7 @@
     <dd><a href="#can-you-implement-x-functionality-in-templates-even-if-it-is-not-present-in-go">Can you implement X functionality in templates even if it is not present in Go?</a></dd>
     <dd><a href="#why-isnt-the--operator-supported-in-templates">Why isn't the ?: operator supported in templates?</a></dd>
     <dd><a href="#why-is-a-string-value-not-convertible-to-html-type-in-the-templates">Why is a string value not convertible to html type in the templates?</a></dd>
+    <dd><a href="#what-is-the-predeclared-identifier-itea">What is the predeclared identifier itea?</a></dd>
     <dt><a href="#implementation">Implementation</a></dt>
     <dd><a href="#how-is-the-compiler-written">How is the compiler written?</a></dd>
     <dd><a href="#how-does-the-runtime-work">How does the runtime work?</a></dd>
@@ -128,8 +129,8 @@ discourage people approaching a template language without coding skills.</p>
 <p>The condition of the <em>if</em> statement can have any type and is <em>true</em> if it is truthful. A <em>nil</em> or empty slice is not
 truthful and therefore in the context of the <em>if</em> condition, <code>len(products) == 0</code> can be replaced with
 <code>not products</code>.</p>
-<p><code>and</code>,<code> or</code> and <code>not</code> are three boolean operators, available in templates, which are based on the concept of
-truthful values. For more details you can see the <a href="/templates/operators#and-or-not">documentation</a> and the
+<p><code>and</code>, <code>or</code> and <code>not</code> are three boolean operators, available in templates, which are based on the concept of
+truthful values. For more details you can see the <a href="/templates/operators#and-or-and-not">documentation</a> and the
 <a href="/templates/specification#truthful-values">template specification</a>.</p>
 <h3 id="can-you-implement-x-functionality-in-templates-even-if-it-is-not-present-in-go">Can you implement X functionality in templates even if it is not present in Go?</h3>
 <p>If the X functionality is templates specific and does not also concern the Go language, then it can be evaluated. If, on
@@ -148,6 +149,11 @@ the Go specification.</p>
 <p>Only untyped string constants are convertible to the <em>html</em> type. The same is true for the <em>markdown</em>, <em>css</em>, <em>js</em>, and <em>json</em>
 types. This helps to limit cross-site scripting (XSS) vulnerabilities that the template writer might unintentionally
 introduce.</p>
+<h3 id="what-is-the-predeclared-identifier-itea">What is the predeclared identifier itea?</h3>
+<p>The predeclared identifier <em>itea</em> represents the body of a <em>using</em> statement. It is the rendered body or a macro
+with that body.</p>
+<p>We were looking for a name that was as short as Go's <em>iota</em> and was not in common use. Hence, &quot;itea&quot;. If you are
+curious, itea is a genus of shrubs and small trees, commonly called sweetspires (Wikipedia).</p>
 <h2 id="implementation">Implementation</h2>
 <h3 id="how-is-the-compiler-written">How is the compiler written?</h3>
 <p>Scriggo's compiler is written in Go, entirely from scratch and therefore does not rely on any other previously written

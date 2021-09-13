@@ -7,7 +7,7 @@
 # Using
 
 The using statement can be used in combination with other statements and declarations to render a piece of code and
-use the rendered code via the predeclared variable _itea_.
+use the rendered code via the predeclared identifier _itea_.
 
 In this example:
 
@@ -25,10 +25,10 @@ the body of the _using_ statement:
   <li><a href="/about-us">About Us</a>
 ```
 
-is rendered and the result, represented by the predeclared variable _itea_, is assigned to the _navigation_ variable.
+is rendered and the result, represented by the predeclared identifier _itea_, is assigned to the _navigation_ variable.
 
 Therefore, the body of the _using_ statement is rendered first, and after that the statement or declaration that
-precedes the _using_ statement is evaluated with the _itea_ variable containing the rendered value.
+precedes the _using_ statement is evaluated with the _itea_ identifier representing the rendered value.
 
 In this other example, _itea_ is used as argument for a function call:  
 
@@ -98,8 +98,8 @@ wants to render it. Now you can write `using macro` instead of `using` only:
 {% end %}
 ```
 
-In this case _itea_ is a macro with body the body of the _using_ statement. Only if and when `Header` calls the macro,
-the body is rendered and consequently the `socials` macro id called.
+In this case _itea_ represents a macro with body the body of the _using_ statement. Only if and when `Header` calls
+the macro, the body is rendered and consequently the `socials` macro id called.
 
 Below we will look at a more complex use case.
 

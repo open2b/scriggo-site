@@ -8,7 +8,7 @@ In this get started you will learn how to embed Go programs in your applications
 <a href="/get-started-2"> execute Scriggo templates</a>.
 
 1. [Embed Go programs in your application](#embed-go-programs-in-your-application)
-2. [Execute templates in your application](/get-started-2#execute-templates-in-your-application)
+2. [Execute templates in your application](/get-started-2)
 
 It requires 10 minutes to be completed.
 

@@ -31,6 +31,37 @@ file before the macro declaration. For example:
 
 A variable declared in a body of a macro is not visible outside the macro.
 
+## Macro with parameters
+
+A macro can have parameters as any other function. Parameters are declared in parentheses, separated by a comma and
+the type must be indicated in addition to the name of the parameter.
+
+The following declaration declares a macro, called "image", with three parameters:   
+
+```scriggo
+{% macro image(url string, width int, height int) %}
+  <img src="{{ url }}" width="{{ width }}" height="{{ height }}">
+{% end %}
+```
+
+A macro should be called with the same number of arguments, in the same order and with the same type of the parameters
+in the declaration.
+
+```scriggo
+{{ image("picture.jpg", 400, 500) }}
+```
+<pre class="result">
+&lt;img src="picture.jpg" width="400" height="500"&gt;
+</pre>
+
+A type can be omitted if the next parameter has the same type. The previous declaration can be rewritten as:
+
+```scriggo
+{% macro image(url string, width, height int) %}
+  <img src="{{ url }}" width="{{ width }}" height="{{ height }}">
+{% end %}
+```
+
 ## Distraction free declaration
 
 If a macro is declared in a file with an extends declaration, to be called in the extended file, and the macro has no
@@ -69,37 +100,6 @@ file is the body of the macro.
 
 Note that in Scriggo the code `{% Ident %}`, where `Ident` is an exported identifier (the first letter is in uppercase),
 is always a distraction free macro declaration.
-
-## Macro with parameters
-
-A macro can have parameters as any other function. Parameters are declared in parentheses, separated by a comma and
-the type must be indicated in addition to the name of the parameter.
-
-The following declaration declares a macro, called "image", with three parameters:   
-
-```scriggo
-{% macro image(url string, width int, height int) %}
-  <img src="{{ url }}" width="{{ width }}" height="{{ height }}">
-{% end %}
-```
-
-A macro should be called with the same number of arguments, in the same order and with the same type of the parameters
-in the declaration.
-
-```scriggo
-{{ image("picture.jpg", 400, 500) }}
-```
-<pre class="result">
-&lt;img src="picture.jpg" width="400" height="500"&gt;
-</pre>
-
-A type can be omitted if the next parameter has the same type. The previous declaration can be rewritten as:
-
-```scriggo
-{% macro image(url string, width, height int) %}
-  <img src="{{ url }}" width="{{ width }}" height="{{ height }}">
-{% end %}
-```
 
 ## Call a macro declared in another file
 
