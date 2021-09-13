@@ -6,9 +6,9 @@
 
 Scriggo has a command line interface, the `scriggo` command, that allows to:
 
-* serve templates with support for Markdown
-* initialize an interpreter for Go programs
-* generate the code for package importers
+* [serve templates with support for Markdown](#serve-a-template)
+* [initialize an interpreter for Go programs](#initialize-an-interpreter)
+* [generate the code for package importers](#generate-a-package-importer)
 
 ### Install `scriggo` command
 
