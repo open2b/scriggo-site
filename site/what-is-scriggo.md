@@ -42,10 +42,10 @@ application, nothing else. It does not require any Go installation to build and 
 * Easy integration with your Go application.
 * Written in pure Go and no dependencies beyond the Go standard library.
 
-## Where run Scriggo applications 
+## Where run Scriggo applications
 
-Scriggo can run on servers, desktops, mobile devices and also on serverless platforms
-like <a href="https://aws.amazon.com/lambda/">Amazon Lambda</a>,
+Scriggo can run on servers, desktops, mobile devices and on serverless platforms like
+<a href="https://aws.amazon.com/lambda/">Amazon Lambda</a>,
 <a href="https://cloud.google.com/appengine/">Google App Engine</a> and
 <a href="https://azure.microsoft.com/services/functions/">Azure Functions</a>. It can also be compiled to Web Assembly
-to run Go programs and templates in browsers or in a sandboxed environment in your application. 
+to run Go programs and templates in browsers or in a sandboxed environment embedded in your application.

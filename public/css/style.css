@@ -34,8 +34,8 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .index header { margin: 1.6rem; margin-top: 4.6rem; }
 .index header section { margin: 0 auto; text-align: center; width: 65%; }
 
-.index header img.logo { max-width: 80%; }
-.index header h2 { color: #000; font-size: 2.6em; font-weight: 200; line-height: 1.2em; margin: 2.1rem auto; max-width: 830px; }
+.index header .logo { max-width: 80%; width: 450px; height: auto; }
+.index header h2 { color: #000; font-size: 2.6em; font-weight: 200; line-height: 1.2em; margin: 2.1rem auto; max-width: 730px; }
 .index header h3 { color: #666; font-size: 1.4em; font-weight: 200; letter-spacing: .02rem; line-height: 1.5em; margin: .5rem; }
 .index header .button { background: #e6a621; border-radius: 3px; color: #fff6ED; cursor: pointer; display: inline-block; font-size: 1.1em; font-weight: bold; margin-top: 2rem; text-transform: uppercase; padding: .8rem 1.8rem .7em 1.8em; }
 .index header .button:hover { background: #f3ad20; border-radius: 3px; color: #fff6ED; cursor: pointer; display: inline-block; font-size: 1.1em; font-weight: bold; margin-top: 2rem; text-transform: uppercase; padding: .8rem 1.8rem .7em 1.8em; }
