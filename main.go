@@ -70,13 +70,23 @@ func main() {
 		ext := filepath.Ext(name)
 		switch ext {
 		case ".html":
+			var dir string
+			if p := strings.Index(name, "/"); p > 0 {
+				dir = name[0:p]
+			}
+			switch dir {
+			case "imports", "layouts", "partials":
+				return nil
+			}
+			fallthrough
 		case ".md":
-			buildOptions.Globals["filepath"] = strings.TrimSuffix(name, ".md")
+			fpath := strings.TrimSuffix(name, ext)
+			buildOptions.Globals["filepath"] = fpath
 			template, err := scriggo.BuildTemplate(srcFS, name, buildOptions)
 			if err != nil {
 				return err
 			}
-			name := filepath.Join(dstDir, name[:len(name)-3]) + ".html"
+			name := filepath.Join(dstDir, fpath) + ".html"
 			fi, err := os.OpenFile(name, os.O_WRONLY|os.O_CREATE, 0600)
 			if err != nil {
 				return err
