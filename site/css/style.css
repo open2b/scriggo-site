@@ -11,7 +11,7 @@ dl { line-height: 1.60; margin: 1.25rem; }
 dd { margin-left: 1.5rem; }
 ol li { line-height: 2; }
 
-nav.top { align-items: center; display: flex; justify-content: flex-start; flex-wrap: wrap; padding: 2rem 0; width: 100%; }
+nav.top { align-items: center; display: flex; justify-content: flex-start; flex-wrap: wrap; height: 6rem; padding: 2rem 0; width: 100%; }
 nav.top .logo { margin-left: 3rem; }
 nav.top .logo img { vertical-align: bottom; }
 nav.top .version { color: #999; font-size: .7rem; padding: 6px 0 0 .5rem; }
