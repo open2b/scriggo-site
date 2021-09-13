@@ -22,12 +22,12 @@ Scriggo imported into a Go application has no dependencies other than the Go sta
 
 Scriggo is the most powerful template engine for Go:
 
-* support inheritance, macros, partials, imports and contextual autoescaping.
-* native support for Markdown, inside or without HTML.
-* use the Go as advanced template scripting language.
-* static type checking to catch errors as early as possible, and not at runtime. 
-* allow importing Go packages in templates.
-* templates compiled to bytecode and executed on the Scriggo virtual machine.
+* Support inheritance, macros, partials, imports and contextual autoescaping.
+* Native support for Markdown, inside or without HTML.
+* Use the Go as advanced template scripting language.
+* Static type checking to catch errors as early as possible, and not at runtime. 
+* Allow importing Go packages in templates.
+* Templates compiled to bytecode and executed on the Scriggo virtual machine.
 
 Scriggo has a simple and familiar syntax that is quick to learn whether you know Go or not yet. Documentation does not
 assume you already know Go, but by reading the Scriggo documentation you can also learn Go.
@@ -37,10 +37,10 @@ assume you already know Go, but by reading the Scriggo documentation you can als
 Scriggo is also a fast embeddable interpreter for Go programs. It lets you build and run Go programs directly in your
 application, nothing else. It does not require any Go installation to build and run Go programs.
 
-* one of the fastest Go embeddable interpreters.
-* programs compiled to bytecode and executed on the Scriggo virtual machine.
-* easy integration with your Go application.
-* pure Go and no dependencies beyond the Go standard library.
+* One of the fastest Go embeddable interpreters.
+* Programs compiled to bytecode and executed on the Scriggo virtual machine.
+* Easy integration with your Go application.
+* Pure Go and no dependencies beyond the Go standard library.
 
 ## Where run Scriggo applications 
 
