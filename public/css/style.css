@@ -14,6 +14,8 @@ ol li { line-height: 2; }
 nav.top { align-items: center; display: flex; justify-content: flex-start; flex-wrap: wrap; padding: 2rem 0; width: 100%; }
 nav.top .logo { margin-left: 3rem; }
 nav.top .logo img { vertical-align: bottom; }
+nav.top .version { color: #999; font-size: .7rem; padding: 6px 0 0 .5rem; }
+nav.top .version:hover { color: #e5a62e; }
 nav.top ul { display: inline-block; list-style-type: none; margin: 0 .5em; vertical-align: middle; }
 nav.top li { display: inline-block; padding: 0 1rem; }
 nav.top ul a { color: #333; }
@@ -123,6 +125,7 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 
     nav.top { padding: 1em; }
     nav.top .logo { flex: 0 0 100%;  font-size: 2em; margin: 0; text-align: center; }
+    nav.top .version { margin: 0 auto; }
     nav.top ul { margin: 1rem auto; padding: 0; text-align: center; }
 
     .index header { margin: 1rem; }
