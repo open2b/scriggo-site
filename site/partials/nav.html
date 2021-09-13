@@ -1,11 +1,20 @@
+{%%
+    var isDocFile = func(name string) bool {
+         switch name {
+         case "what-is-scriggo", "get-started", "scriggo-command", "templates", "scriggofile", "disassembler", "limitations":
+             return true
+         }
+         return hasPrefix(name, "templates/")
+    }
+%%}
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
     <a class="version" href="https://github.com/open2b/scriggo/releases">v0.51.0</a>
     <ul>
        {# <li><a href="/news">News</a></li> #}
-        <li><a href="/what-is-scriggo">Documentation</a></li>
-        <li><a href="/support">Support</a></li>
-        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/what-is-scriggo"{% if isDocFile(filepath) %} class="selected"{% end %}>Documentation</a></li>
+        <li><a href="/support"{% if filepath == `support` %} class="selected"{% end %}>Support</a></li>
+        <li><a href="/faq"{% if filepath == `faq` %} class="selected"{% end %}>FAQ</a></li>
         <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
     </ul>
     <a class="github-logo" href="https://github.com/open2b/scriggo/" alt="Scriggo on GitHub">{{ render "github-logo.html" }}</a>

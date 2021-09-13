@@ -19,7 +19,7 @@ nav.top .version:hover { color: #e5a62e; }
 nav.top ul { display: inline-block; list-style-type: none; margin: 0 .5em; vertical-align: middle; }
 nav.top li { display: inline-block; padding: 0 1rem; }
 nav.top ul a { color: #333; }
-nav.top ul a:hover { color: #e5a62e; }
+nav.top ul a:hover, nav.top ul a.selected { color: #d18c00; }
 nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width: 1.8rem; }
 
 .content { margin: 0 20px; }
