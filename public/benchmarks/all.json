@@ -1,0 +1,139 @@
+[
+    {
+        "Program": "Fibonacci-10",
+        "Results": {
+            "go-lua": {
+                "Time": 50439,
+                "Allocs": 319
+            },
+            "goja": {
+                "Time": 281745,
+                "Allocs": 1874
+            },
+            "gopher-lua": {
+                "Time": 95907,
+                "Allocs": 247
+            },
+            "scriggo": {
+                "Time": 31036,
+                "Allocs": 11
+            },
+            "tengo": {
+                "Time": 156631,
+                "Allocs": 638
+            },
+            "yaegi": {
+                "Time": 204628,
+                "Allocs": 2307
+            }
+        }
+    },
+    {
+        "Program": "Fibonacci-35",
+        "Results": {
+            "go-lua": {
+                "Time": 6098240439,
+                "Allocs": 39088310
+            },
+            "goja": {
+                "Time": 7071025456,
+                "Allocs": 48247
+            },
+            "gopher-lua": {
+                "Time": 6541278043,
+                "Allocs": 4040
+            },
+            "scriggo": {
+                "Time": 2533204486,
+                "Allocs": 13
+            },
+            "tengo": {
+                "Time": 3513278597,
+                "Allocs": 39088586
+            },
+            "yaegi": {
+                "Time": 25250780073,
+                "Allocs": 283677612
+            }
+        }
+    },
+    {
+        "Program": "closures",
+        "Results": {
+            "go-lua": {
+                "Time": 34017255,
+                "Allocs": 360087
+            },
+            "goja": {
+                "Time": 148275304,
+                "Allocs": 1081331
+            },
+            "gopher-lua": {
+                "Time": 33929424,
+                "Allocs": 98620
+            },
+            "scriggo": {
+                "Time": 30137289,
+                "Allocs": 180009
+            },
+            "tengo": {
+                "Time": 12816051,
+                "Allocs": 180277
+            },
+            "yaegi": {
+                "Time": 78739229,
+                "Allocs": 540515
+            }
+        }
+    },
+    {
+        "Program": "iterations",
+        "Results": {
+            "go-lua": {
+                "Time": 32757354,
+                "Allocs": 322111
+            },
+            "goja": {
+                "Time": 137370169,
+                "Allocs": 772259
+            },
+            "gopher-lua": {
+                "Time": 47441700,
+                "Allocs": 326059
+            },
+            "scriggo": {
+                "Time": 13189727,
+                "Allocs": 8
+            },
+            "tengo": {
+                "Time": 46213939,
+                "Allocs": 803199
+            },
+            "yaegi": {
+                "Time": 9986679,
+                "Allocs": 1031
+            }
+        }
+    },
+    {
+        "Program": "strings",
+        "Results": {
+            "goja": {
+                "Time": 734536,
+                "Allocs": 4236
+            },
+            "scriggo": {
+                "Time": 195300,
+                "Allocs": 805
+            },
+            "tengo": {
+                "Time": 310193,
+                "Allocs": 2695
+            },
+            "yaegi": {
+                "Time": 371228,
+                "Allocs": 1879
+            }
+        }
+    }
+]

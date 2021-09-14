@@ -1,0 +1,399 @@
+<!doctype html>
+<html class="article page-benchmarks" lang="en">
+<head>
+    <title>Benchmarks</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="Benchmarks">
+    <meta property="og:description" content="Scriggo is a fast, modern and secure Go language template engine and embeddable interpreter">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scriggo.com">
+    <meta property="og:image" content="https://scriggo.com/images/scriggo-card.png">
+    <meta name=twitter:title content="Benchmarks">
+    <meta name=twitter:description content="Scriggo is a fast, modern and secure Go language template engine and embeddable interpreter">
+    <meta name=twitter:image content="https://scriggo.com/images/scriggo-card.png">
+
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.51.0</a>
+    <ul>
+        <li><a href="/what-is-scriggo">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="https://play.scriggo.com/" target="_blank" class="playground">Playground</a></li>
+    </ul>
+    <a class="github-logo" href="https://github.com/open2b/scriggo/" alt="Scriggo on GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Github | Scriggo</title><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a></a>
+</nav><article>
+    <div class="wrap">
+        <div class="content">
+            
+<h1>Go embedded languages benchmarks</h1>
+<p>
+    Here are some benchmarks that compare Go embedded interpreters. The benchmark code can be found <a href="https://github.com/open2b/scriggo-bench" target="_blank">on this repository</a>, contributions to improve the accuracy of these benchmarks are welcome.
+</p>
+
+<p>
+    The results presented in this page have been obtained with the following configuration:
+    <pre>goos: linux
+goarch: amd64
+pkg: scriggo-bench
+cpu: Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz
+</pre>
+</p>
+
+<h3>Fibonacci 10</h3>
+<p>Execution of a recursive algorithm for the calculation of Fibonacci(10)</p>
+<section class="benchmark">
+    
+<div class="graph Fibonacci-10">
+    <p class="program"><span></span></p>
+    <div class="interpreter scriggo">
+        <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter tengo">
+        <p><a href="https://github.com/d5/tengo" target="_blank">Tengo</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter goja">
+        <p><a href="https://github.com/dop251/goja" target="_blank">goja</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter gopher-lua">
+        <p><a href="https://github.com/yuin/gopher-lua" target="_blank">GopherLua</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter go-lua">
+        <p><a href="https://github.com/Shopify/go-lua" target="_blank">go-lua</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter yaegi">
+        <p><a href="https://github.com/containous/yaegi" target="_blank">Yaegi</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="allocations">
+        <h3>Allocations&nbsp;<span>(allocs/op)</span></h3>
+        <div class="data">
+            <div class="interpreter scriggo">
+                <span>Scriggo:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter tengo">
+                <span>Tengo:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter goja">
+                <span>goja:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter gopher-lua">
+                <span>GopherLua:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter go-lua">
+                <span>go-lua:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter yaegi">
+                <span>Yaegi:</span><span class="allocs"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</section>
+<pre>
+BenchmarkScriggo/Fibonacci-10.go-4         	  119041	     31036 ns/op	   32016 B/op	      11 allocs/op
+BenchmarkYaegi/Fibonacci-10.go-4           	   17040	    204628 ns/op	  107994 B/op	    2307 allocs/op
+BenchmarkTengo/Fibonacci-10.tengo-4        	   28179	    156631 ns/op	  127315 B/op	     638 allocs/op
+BenchmarkGoLua/Fibonacci-10.lua-4          	   71122	     50439 ns/op	    9360 B/op	     319 allocs/op
+BenchmarkGopherLua/Fibonacci-10.lua-4      	   37770	     95907 ns/op	   52608 B/op	     247 allocs/op
+BenchmarkGoja/Fibonacci-10.js-4            	   12464	    281745 ns/op	  148735 B/op	    1874 allocs/op
+</pre>
+
+<h3>Fibonacci 35</h3>
+<p>Execution of a recursive algorithm for the calculation of Fibonacci(35)</p>
+<section class="benchmark">
+
+<div class="graph Fibonacci-35">
+    <p class="program"><span></span></p>
+    <div class="interpreter scriggo">
+        <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter tengo">
+        <p><a href="https://github.com/d5/tengo" target="_blank">Tengo</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter goja">
+        <p><a href="https://github.com/dop251/goja" target="_blank">goja</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter gopher-lua">
+        <p><a href="https://github.com/yuin/gopher-lua" target="_blank">GopherLua</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter go-lua">
+        <p><a href="https://github.com/Shopify/go-lua" target="_blank">go-lua</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter yaegi">
+        <p><a href="https://github.com/containous/yaegi" target="_blank">Yaegi</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="allocations">
+        <h3>Allocations&nbsp;<span>(allocs/op)</span></h3>
+        <div class="data">
+            <div class="interpreter scriggo">
+                <span>Scriggo:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter tengo">
+                <span>Tengo:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter goja">
+                <span>goja:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter gopher-lua">
+                <span>GopherLua:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter go-lua">
+                <span>go-lua:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter yaegi">
+                <span>Yaegi:</span><span class="allocs"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</section>
+<pre>
+BenchmarkScriggo/Fibonacci-35.go-4         	       2	2533204486 ns/op	   41232 B/op	      13 allocs/op
+BenchmarkYaegi/Fibonacci-35.go-4           	       1	25250780073 ns/op	12541598176 B/op	283677612 allocs/op
+BenchmarkTengo/Fibonacci-35.tengo-4        	       1	3513278597 ns/op	312832672 B/op	39088586 allocs/op
+BenchmarkGoLua/Fibonacci-35.lua-4          	       1	6098240439 ns/op	312721184 B/op	39088310 allocs/op
+BenchmarkGopherLua/Fibonacci-35.lua-4      	       1	6541278043 ns/op	 1023624 B/op	    4040 allocs/op
+BenchmarkGoja/Fibonacci-35.js-4            	       1	7071025456 ns/op	  531568 B/op	   48247 allocs/op
+</pre>
+
+<h3>Closures</h3>
+<p>Declaration and execution of a closure inside a loop</p>
+<section class="benchmark">
+    
+<div class="graph closures">
+    <p class="program"><span></span></p>
+    <div class="interpreter scriggo">
+        <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter tengo">
+        <p><a href="https://github.com/d5/tengo" target="_blank">Tengo</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter goja">
+        <p><a href="https://github.com/dop251/goja" target="_blank">goja</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter gopher-lua">
+        <p><a href="https://github.com/yuin/gopher-lua" target="_blank">GopherLua</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter go-lua">
+        <p><a href="https://github.com/Shopify/go-lua" target="_blank">go-lua</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter yaegi">
+        <p><a href="https://github.com/containous/yaegi" target="_blank">Yaegi</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="allocations">
+        <h3>Allocations&nbsp;<span>(allocs/op)</span></h3>
+        <div class="data">
+            <div class="interpreter scriggo">
+                <span>Scriggo:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter tengo">
+                <span>Tengo:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter goja">
+                <span>goja:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter gopher-lua">
+                <span>GopherLua:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter go-lua">
+                <span>go-lua:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter yaegi">
+                <span>Yaegi:</span><span class="allocs"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</section>
+<pre>
+BenchmarkScriggo/closures.go-4             	     100	  30137289 ns/op	 7949160 B/op	  180009 allocs/op
+BenchmarkYaegi/closures.go-4               	      46	  78739229 ns/op	69149390 B/op	  540515 allocs/op
+BenchmarkTengo/closures.tengo-4            	     284	  12816051 ns/op	 1563110 B/op	  180277 allocs/op
+BenchmarkGoLua/closures.lua-4              	     100	  34017255 ns/op	 3607691 B/op	  360087 allocs/op
+BenchmarkGopherLua/closures.lua-4          	     100	  33929424 ns/op	 7968536 B/op	   98620 allocs/op
+BenchmarkGoja/closures.js-4                	      22	 148275304 ns/op	69984461 B/op	 1081331 allocs/op
+</pre>
+
+<h3>Iterations</h3>
+<p>Nested iterations and assignments on a slice of integers</p>
+<section class="benchmark">
+    
+<div class="graph iterations">
+    <p class="program"><span></span></p>
+    <div class="interpreter scriggo">
+        <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter tengo">
+        <p><a href="https://github.com/d5/tengo" target="_blank">Tengo</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter goja">
+        <p><a href="https://github.com/dop251/goja" target="_blank">goja</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter gopher-lua">
+        <p><a href="https://github.com/yuin/gopher-lua" target="_blank">GopherLua</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter go-lua">
+        <p><a href="https://github.com/Shopify/go-lua" target="_blank">go-lua</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter yaegi">
+        <p><a href="https://github.com/containous/yaegi" target="_blank">Yaegi</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="allocations">
+        <h3>Allocations&nbsp;<span>(allocs/op)</span></h3>
+        <div class="data">
+            <div class="interpreter scriggo">
+                <span>Scriggo:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter tengo">
+                <span>Tengo:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter goja">
+                <span>goja:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter gopher-lua">
+                <span>GopherLua:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter go-lua">
+                <span>go-lua:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter yaegi">
+                <span>Yaegi:</span><span class="allocs"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</section>
+
+<pre>
+BenchmarkScriggo/iterations.go-4           	     266	  13189727 ns/op	   32264 B/op	       8 allocs/op
+BenchmarkYaegi/iterations.go-4             	     356	   9986679 ns/op	   53830 B/op	    1031 allocs/op
+BenchmarkTengo/iterations.tengo-4          	      70	  46213939 ns/op	 9150638 B/op	  803199 allocs/op
+BenchmarkGoLua/iterations.lua-4            	     100	  32757354 ns/op	 2601145 B/op	  322111 allocs/op
+BenchmarkGopherLua/iterations.lua-4        	      80	  47441700 ns/op	 3897215 B/op	  326059 allocs/op
+BenchmarkGoja/iterations.js-4              	      25	 137370169 ns/op	12806214 B/op	  772259 allocs/op
+</pre>
+
+<h3>Strings</h3>
+<p>Strings concatenation and rune search
+    <div class="note">go-lua and GopherLua are not represented here as the test program was not portable to Lua5.1</div>
+</p>
+<section class="benchmark">
+    
+<div class="graph strings">
+    <p class="program"><span></span></p>
+    <div class="interpreter scriggo">
+        <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter tengo">
+        <p><a href="https://github.com/d5/tengo" target="_blank">Tengo</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter goja">
+        <p><a href="https://github.com/dop251/goja" target="_blank">goja</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter gopher-lua">
+        <p><a href="https://github.com/yuin/gopher-lua" target="_blank">GopherLua</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter go-lua">
+        <p><a href="https://github.com/Shopify/go-lua" target="_blank">go-lua</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter yaegi">
+        <p><a href="https://github.com/containous/yaegi" target="_blank">Yaegi</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="allocations">
+        <h3>Allocations&nbsp;<span>(allocs/op)</span></h3>
+        <div class="data">
+            <div class="interpreter scriggo">
+                <span>Scriggo:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter tengo">
+                <span>Tengo:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter goja">
+                <span>goja:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter gopher-lua">
+                <span>GopherLua:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter go-lua">
+                <span>go-lua:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter yaegi">
+                <span>Yaegi:</span><span class="allocs"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</section>
+
+<pre>
+BenchmarkScriggo/strings.go-4              	   18784	    195300 ns/op	   51769 B/op	     805 allocs/op
+BenchmarkYaegi/strings.go-4                	   10000	    371228 ns/op	  202841 B/op	    1879 allocs/op
+BenchmarkTengo/strings.tengo-4             	   10000	    310193 ns/op	  172660 B/op	    2695 allocs/op
+BenchmarkGoja/strings.js-4                 	    4629	    734536 ns/op	  216695 B/op	    4236 allocs/op
+</pre>
+
+<script src="/js/jquery-3.6.0.min.js"></script>
+<script src="/js/benchGraph.js"></script>
+<script>
+    $.getJSON("benchmarks/all.json", function(data) { new BenchGraph(data).Render(); })
+</script>
+
+
+        </div>
+    </div>
+</article>
+<footer>
+  <div class="wrap">
+    <img class="gopher" src="/images/pilot-bust.svg" alt="The Go Gopher">
+    <ul>
+      <li><a href="/copyright">Copyright</a></li>
+      <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
+    </ul>
+    </div>
+  </div>
+</footer></body>
+</html>

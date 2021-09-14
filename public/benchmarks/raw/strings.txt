@@ -1,0 +1,4 @@
+BenchmarkScriggo/strings.go-4              	   18784	    195300 ns/op	   51769 B/op	     805 allocs/op
+BenchmarkYaegi/strings.go-4                	   10000	    371228 ns/op	  202841 B/op	    1879 allocs/op
+BenchmarkTengo/strings.tengo-4             	   10000	    310193 ns/op	  172660 B/op	    2695 allocs/op
+BenchmarkGoja/strings.js-4                 	    4629	    734536 ns/op	  216695 B/op	    4236 allocs/op

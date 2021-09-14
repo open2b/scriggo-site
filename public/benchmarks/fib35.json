@@ -1,0 +1,31 @@
+[
+    {
+        "Program": "Fibonacci-35",
+        "Results": {
+            "go-lua": {
+                "Time": 6098240439,
+                "Allocs": 39088310
+            },
+            "goja": {
+                "Time": 7071025456,
+                "Allocs": 48247
+            },
+            "gopher-lua": {
+                "Time": 6541278043,
+                "Allocs": 4040
+            },
+            "scriggo": {
+                "Time": 2533204486,
+                "Allocs": 13
+            },
+            "tengo": {
+                "Time": 3513278597,
+                "Allocs": 39088586
+            },
+            "yaegi": {
+                "Time": 25250780073,
+                "Allocs": 283677612
+            }
+        }
+    }
+]
