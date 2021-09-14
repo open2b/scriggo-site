@@ -13,8 +13,8 @@
     <ul>
        {# <li><a href="/news">News</a></li> #}
         <li><a href="/what-is-scriggo"{% if isDocFile(filepath) %} class="selected"{% end %}>Documentation</a></li>
-        <li><a href="/support"{% if filepath == `support` %} class="selected"{% end %}>Support</a></li>
         <li><a href="/faq"{% if filepath == `faq` %} class="selected"{% end %}>FAQ</a></li>
+        <li><a href="https://github.com/open2b/scriggo/discussions" target="_blank">Community</a></li>
         <li class="playground"><a href="https://play.scriggo.com/" target="_blank">Playground</a></li>
     </ul>
     <a class="github-logo" href="https://github.com/open2b/scriggo/" alt="Scriggo on GitHub">{{ render "github-logo.html" }}</a>
