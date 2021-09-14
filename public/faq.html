@@ -21,8 +21,8 @@
     <a class="version" href="https://github.com/open2b/scriggo/releases">v0.51.0</a>
     <ul>
         <li><a href="/what-is-scriggo">Documentation</a></li>
-        <li><a href="/support">Support</a></li>
         <li><a href="/faq" class="selected">FAQ</a></li>
+        <li><a href="https://github.com/open2b/scriggo/discussions" target="_blank">Community</a></li>
         <li class="playground"><a href="https://play.scriggo.com/" target="_blank">Playground</a></li>
     </ul>
     <a class="github-logo" href="https://github.com/open2b/scriggo/" alt="Scriggo on GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Github | Scriggo</title><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a></a>
@@ -32,6 +32,7 @@
             <h1 id="frequently-asked-questions">Frequently Asked Questions</h1>
 <dl>
     <dt><a href="#origin-and-nature-of-the-project">Origin and nature of the project</a></dt>
+    <dd><a href="#what-is-the-story-of-this-project">What is the story of this project?</a></dd>
     <dd><a href="#is-scriggo-open-source">Is Scriggo Open Source?</a></dd>
     <dd><a href="#what-is-the-relationship-between-scriggo-and-google">What is the relationship between Scriggo and Google?</a></dd>
     <dd><a href="#can-i-contribute-to-scriggo">Can I contribute to Scriggo?</a></dd>
@@ -62,6 +63,28 @@
     <dt><a href="#how-are-the-dependencies-in-the-gomod-file-used">How are the dependencies in the go.mod file used?</a></dt>
 </dl>
 <h2 id="origin-and-nature-of-the-project">Origin and nature of the project</h2>
+<h3 id="what-is-the-story-of-this-project">What is the story of this project?</h3>
+<p>Scriggo was initially (around 2018 when it still didn't have a name) the porting from Perl to Go of a template engine
+that we, at Open2b, used for our ecommerce platform. While porting the platform to Go, we realized that the previous
+template engine was too limited for the new platform. This is why we looked around for a valid alternative.</p>
+<p>Maybe because Go is a young project compared to other languages or maybe because it is not a dynamic language and
+therefore unwilling to be used as a scripting language, that we did not find an adequate solution to our needs.
+Such as it could be, but just to name one, Jinja for Python.</p>
+<p>We found that template engines available in Go either weren't exactly immediate to use for the audience we were
+targeting, or they were too limited in the possibilities of integration with our platform, or they were too limited in
+functionality. Many of the systems that we evaluated were not adequately supported, not to say almost left to
+themselves.</p>
+<p>For these reasons, we thought about the possibility of expanding the system in Go, which we had ported, in order to
+add more advanced scripting functionalities. That was the moment when Scriggo began to take its current form.</p>
+<p>Some choices, such as the use of the same code base for the template engine and for the Go interpreter and the creation
+of a virtual machine, were two decisive choices, among many, to give Scriggo its clean design and its execution
+efficiency.</p>
+<p>Scriggo could have been publicly released in 2020, but a further year of use in production served us to make profound
+improvements, mainly to the template engine, which have given it immediacy in use, making it a natural extension of
+the Go language.</p>
+<p>On September 2021, Scriggo was made public by Open2b as an open source project for the Go community and beyond,
+with the hope that it will further contribute to its growth. Scriggo, which includes a template engine and a Go
+embeddable interpreter, provides a stable base for creating applications, sites, and projects of various kinds.</p>
 <h3 id="is-scriggo-open-source">Is Scriggo Open Source?</h3>
 <p>Yes, it is distributed under a BSD license, the same as Go.</p>
 <h3 id="what-is-the-relationship-between-scriggo-and-google">What is the relationship between Scriggo and Google?</h3>

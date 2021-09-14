@@ -8,6 +8,7 @@
 
 <dl>
     <dt><a href="#origin-and-nature-of-the-project">Origin and nature of the project</a></dt>
+    <dd><a href="#what-is-the-story-of-this-project">What is the story of this project?</a></dd>
     <dd><a href="#is-scriggo-open-source">Is Scriggo Open Source?</a></dd>
     <dd><a href="#what-is-the-relationship-between-scriggo-and-google">What is the relationship between Scriggo and Google?</a></dd>
     <dd><a href="#can-i-contribute-to-scriggo">Can I contribute to Scriggo?</a></dd>
@@ -39,6 +40,36 @@
 </dl>
 
 ## Origin and nature of the project
+
+### What is the story of this project?
+
+Scriggo was initially (around 2018 when it still didn't have a name) the porting from Perl to Go of a template engine
+that we, at Open2b, used for our ecommerce platform. While porting the platform to Go, we realized that the previous
+template engine was too limited for the new platform. This is why we looked around for a valid alternative.
+
+Maybe because Go is a young project compared to other languages or maybe because it is not a dynamic language and
+therefore unwilling to be used as a scripting language, that we did not find an adequate solution to our needs.
+Such as it could be, but just to name one, Jinja for Python.
+
+We found that template engines available in Go either weren't exactly immediate to use for the audience we were
+targeting, or they were too limited in the possibilities of integration with our platform, or they were too limited in
+functionality. Many of the systems that we evaluated were not adequately supported, not to say almost left to
+themselves.
+
+For these reasons, we thought about the possibility of expanding the system in Go, which we had ported, in order to
+add more advanced scripting functionalities. That was the moment when Scriggo began to take its current form.
+
+Some choices, such as the use of the same code base for the template engine and for the Go interpreter and the creation
+of a virtual machine, were two decisive choices, among many, to give Scriggo its clean design and its execution
+efficiency.
+
+Scriggo could have been publicly released in 2020, but a further year of use in production served us to make profound
+improvements, mainly to the template engine, which have given it immediacy in use, making it a natural extension of
+the Go language.
+
+On September 2021, Scriggo was made public by Open2b as an open source project for the Go community and beyond,
+with the hope that it will further contribute to its growth. Scriggo, which includes a template engine and a Go
+embeddable interpreter, provides a stable base for creating applications, sites, and projects of various kinds.
 
 ### Is Scriggo Open Source?
 
