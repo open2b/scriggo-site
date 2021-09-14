@@ -28,6 +28,8 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .cols-2 > div { padding: 2em 5rem; width: 50%; }
 
 .index a { color: #fff; }
+.index footer a { color: #333; }
+.index footer a:hover { color: #e6a62f; }
 
 .index nav.top .logo { cursor: default; pointer-events: none; }
 
@@ -87,7 +89,7 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 
 .wrap { margin: 0 auto; max-width: 1280px; }
 
-.article article { background: #fff; min-height: 100vh; }
+.article article { background: #fff; min-height: 100vh; overflow: hidden; }
 .article article > .wrap { display: flex; font-size: 1rem; padding: 0 1rem; }
 .article aside { margin-right: 3rem; margin-top: 1.80rem; }
 .article aside button { display: none; }
@@ -144,6 +146,20 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .page-support .support .channel a { color: #222; }
 .page-support .support .channel.github-discussions svg { height: 5rem; width: 5rem; }
 
+code.language-jinja {
+    color: rgb(136, 136, 136);
+}
+
+footer { border-top: 1px solid #dcdee0; }
+footer > div { display: flex; padding-top: .6rem; }
+footer > div > * { align-self: flex-end; }
+footer img.gopher { width: 5rem; }
+footer ul { display: flex; flex: 1; flex-wrap: wrap; list-style: none; }
+footer ul li { padding: 0 1rem; }
+footer ul li a { color: #333; }
+footer ul li a:hover { color: #e6a62f; }
+footer .generator { align-self: center; }
+
 @media only screen and (max-width: 767px) {
 
     nav.top ul { margin: 1rem auto; padding: 0; text-align: center; }
@@ -175,26 +191,6 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 
 }
 
-code.language-jinja {
-    color: rgb(136, 136, 136);
-}
-
-footer { border-top: 1px solid #dcdee0; }
-footer > div { display: flex; padding-top: .6rem; }
-footer > div > * { align-self: flex-end; }
-footer img.gopher { width: 5rem; }
-footer ul { display: flex; flex: 1; flex-wrap: wrap; list-style: none; }
-footer ul li { padding: 0 1rem; }
-footer ul li a { color: #333; }
-footer ul li a:hover { color: #e6a62f; }
-footer .generator { align-self: center; }
-
-@media screen and (max-width:1152px) {
-    .cols-2 > div { padding: 1em 1.5rem; }
-
-    .benchmark .allocations { top: 52px; }
-}
-
 @media screen and (max-width:1023px) {
     nav.top { height: auto; padding: 1rem 0; }
     nav.top ul  { margin-bottom: 0; }
@@ -224,4 +220,9 @@ footer .generator { align-self: center; }
     .page-support .support > div:first-child { border: none; }
     .page-support .support .channel { margin-left: 0; }
 
+}
+
+@media screen and (max-width:1152px) {
+    .cols-2 > div { padding: 1em 1.5rem; }
+    .benchmark .allocations { top: 52px; }
 }
