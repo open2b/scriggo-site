@@ -87,7 +87,7 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 
 .wrap { margin: 0 auto; max-width: 1280px; }
 
-.article article { background: #fff; min-height: 100vh; }
+.article article { background: #fff; min-height: 100vh; overflow: hidden; }
 .article article > .wrap { display: flex; font-size: 1rem; padding: 0 1rem; }
 .article aside { margin-right: 3rem; margin-top: 1.80rem; }
 .article aside button { display: none; }
