@@ -28,6 +28,8 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .cols-2 > div { padding: 2em 5rem; width: 50%; }
 
 .index a { color: #fff; }
+.index footer a { color: #333; }
+.index footer a:hover { color: #e6a62f; }
 
 .index nav.top .logo { cursor: default; pointer-events: none; }
 
