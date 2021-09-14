@@ -52,15 +52,15 @@
 </li>
                         <li><a href="/templates/if-for-switch" >If, For and Switch</a>
 </li>
-                        <li><a href="/templates/comments" >Comments</a>
+                        <li><a href="/templates/using" >Using and itea</a>
 </li>
                         <li><a href="/templates/operators" >Operators</a>
 </li>
-                        <li><a href="/templates/types"  class="selected" >Types</a>
-</li>
                         <li><a href="/templates/variables" >Variables</a>
 </li>
-                        <li><a href="/templates/using" >Using</a>
+                        <li><a href="/templates/types"  class="selected" >Types</a>
+</li>
+                        <li><a href="/templates/comments" >Comments</a>
 </li>
                         <li><a href="/templates/specification" >Specification</a>
 </li>
@@ -83,44 +83,36 @@
 are documented here.</p>
 <p>All values in Scriggo have a type and there are several basic types.</p>
 <h2 id="booleans">Booleans</h2>
-<p>Boolean values are the <code>true</code> and <code>false</code> values. A Boolean variable can be declared in one of the following ways:</p>
+<p>Boolean values are the <code>true</code> and <code>false</code> values. These are examples of boolean variable declarations:</p>
 <pre><code class="language-scriggo">{% var a bool %}     a is false
-{% var b = false %}  b is false
-{% var c = true %}   c is true
-{% d := true %}      d is true
-{% e := false %}     e is false
+{% var b = true %}   b is true
+{% c := false %}     c is false
 </code></pre>
 <h2 id="strings">Strings</h2>
-<p>Strings are written with double quotes, as &quot;hello&quot;, or with a grave accent, as <code>hello</code>. A string variable can be
-declared in one of the following ways:</p>
+<p>Strings are written with double quotes, as &quot;hello&quot;, or with a grave accent, as `hello`. These are examples of string variable declarations:</p>
 <pre><code class="language-scriggo">{% var a string %}     a is an empty string
-{% var b = &quot;&quot; %}       b is an empty string
-{% var c = &quot;hello&quot; %}  c is the string &quot;hello&quot;
-{% d := &quot;hello&quot; %}     d is the string &quot;hello&quot;
+{% var b = &quot;hello&quot; %}  b is the string &quot;hello&quot;
+{% c := &quot;world&quot; %}     c is the string &quot;world&quot;
 </code></pre>
 <p>To read the length in bytes of a string use the <code>len</code> function, instead to read the length in characters use the
 <code>runeCount</code> function. The name of the <code>runeCount</code> function comes from &quot;rune&quot; which is the term used in Go to name the
 characters. For a more accurate explanation you can read
 <a href="https://go.dev/blog/strings">Strings, bytes, runes and characters in Go</a>.</p>
 <h2 id="integers">Integers</h2>
-<p>Values with type <code>int</code> are integer numbers (in a range from -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
-on 64-bit architectures). An <code>int</code> variable can be declared in one of the following ways:</p>
+<p>Values with type <code>int</code> are integer numbers. These are examples of int variable declarations:</p>
 <pre><code class="language-scriggo">{% var a int %}  a is 0
-{% var b = 0 %}  b is 0
-{% var c = 5 %}  c is 5
-{% d := 7 %}     d is 7
+{% var b = 5 %}  b is 5
+{% c := 7 %}     c is 7
 </code></pre>
 <h2 id="slices">Slices</h2>
 <p>A slice is a numbered sequence of elements of the same type. For example <code>[]int{5, 2, 7, 9}</code> is a slice of <code>int</code>
 values and <code>[]string{&quot;hello&quot;, &quot;ciao&quot;}</code> is a slice of <code>string</code> values. A slice can be <code>nil</code> which is a value other than
 an empty slice.</p>
-<p>A <code>slice</code> variable can be declared in one of the following ways:</p>
+<p>These are examples of slice variable declarations:</p>
 <pre><code class="language-scriggo">{% var a []int %}                a is a nil int slice
-{% var b []int = nil %}          b is a nil int slice
-{% var c = []int{} %}            c is an empty int slice
-{% var d = []int{3, 0, 7, 2} %}  d is an int slice with elements 3, 0, 7 and 2
-{% e := []int{} %}               e is an empty int slice
-{% f := []int{2, 9, 5} %}        f is an int slice with elements 2, 9 and 5
+{% var b = []int{} %}            b is an empty int slice
+{% var c = []int{3, 0, 7, 2} %}  c is an int slice with elements 3, 0, 7 and 2
+{% d := []int{2, 9, 5} %}        d is an int slice with elements 2, 9 and 5
 </code></pre>
 <h3 id="length">Length</h3>
 <p>The <code>len</code> built-in function is used to read the length of a slice, ie the number of elements it contains.</p>
@@ -136,9 +128,9 @@ an empty slice.</p>
 </code></pre>
 <pre class="result">a e c</pre>
 <p>To access to the last element of a slice <code>s</code> you can write <code>s[len(s)-1]</code>.</p>
-<p>Accessing a nil slice or index that does not exist is an error.</p>
+<p>Accessing a nil slice or accessing a index that does not exist is an error.</p>
 <h3 id="iterate-over-the-elements-of-a-slice">Iterate over the elements of a slice</h3>
-<p>To iterate over the elements of a slice use the for statement. For example:</p>
+<p>To iterate over the elements of an slice use the <em>for</em> statement. For example:</p>
 <pre><code class="language-scriggo">{% var greetings = []string{&quot;Hello&quot;, &quot;Ciao&quot;, &quot;你好&quot;} %}
 
 {% for greeting in greetings %}
@@ -160,14 +152,10 @@ initial and final indexes separated with a colon <code>:</code>. The final index
 b
 c
 </pre>
-<pre><code class="language-scriggo">{% for e in s[2:5] %}
-{{ e }}
-{% end %}
+<pre><code class="language-scriggo">{% for x in s[2:5] %} {{ x }} {% end %}
 </code></pre>
 <pre class="result">
-c
-d
-e
+ c  d  e 
 </pre>
 <p>A slicing operation does not copy the elements, as a consequence the resulting slice refers the same elements of the
 original slice.</p>

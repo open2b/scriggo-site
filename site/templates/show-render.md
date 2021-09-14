@@ -6,12 +6,12 @@
 
 # Show and Render 
 
-The [show](#show) statement renders values and shows them, while the [render](#render) operator renders a template file
-but without showing it. It is usually used with a show statement to show the rendered file.
+The [show](#show) statement renders values and shows them, while the [render](#render) operator renders a template file.
+The render operator it is usually used in a show statement to show the rendered file.
 
 ## Show
 
-The _show_ statement followed by one or more values, renders the values and shows the result.
+The _show_ statement, followed by one or more expressions, renders the evaluation of expressions and shows the results.
 
 ```scriggo
 {% show 5 + 2, " = ", 7 %}
@@ -22,7 +22,7 @@ The _show_ statement followed by one or more values, renders the values and show
 $29.99
 </pre>
 
-A show statement with a single value can also be written as follows:
+A show statement with a single expression can also be written as follows:
 
 ```scriggo
 {{ 5 + 2 }}
@@ -33,7 +33,7 @@ A show statement with a single value can also be written as follows:
 $29.99
 </pre>
 
-This short form, for a single value, is the most used because it is easier to write and read, but you can use
+This short form, for a single expression, is the most used because it is easier to write and read, but you can use
 one or the other indifferently.
 
 Between `{%%` and `%%}` the show statement can be used as follows:
@@ -73,7 +73,7 @@ The show statement shows a value based on its type and the current context:
 
 ## Render
 
-The _render_ operator, when used with a _show_ statement, as between `{{` and `}}`:
+The _render_ operator, when used with a _show_ statement, for example between `{{` and `}}`:
 
 ```scriggo
 {{ render path }}

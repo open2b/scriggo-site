@@ -105,7 +105,7 @@ visible only in the body of the `if`.
 {{ n }}
 ```
 
-In this other example, the `n` variable is not visible in the "column.html" file.
+In this other example, the variable `n` is not visible in the "column.html" file.
 
 ```scriggo
 {% n := 3 %}

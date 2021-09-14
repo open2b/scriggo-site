@@ -32,7 +32,7 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .index nav.top .logo { cursor: default; pointer-events: none; }
 
 .index header { margin: 1.6rem; margin-top: 4.6rem; }
-.index header section { margin: 0 auto; text-align: center; width: 65%; }
+.index header section { margin: 0 auto; text-align: center; }
 
 .index header .logo { max-width: 80%; width: 450px; height: auto; }
 .index header h2 { color: #000; font-size: 2.6em; font-weight: 200; line-height: 1.2em; margin: 2.1rem auto; max-width: 730px; }
@@ -132,6 +132,7 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
     nav.top ul { margin: 1rem auto; padding: 0; text-align: center; }
 
     .index header { margin: 1rem; }
+    .index header .logo { display: none; }
     .index header section { width: auto; }
     .index header h1 { font-size: 5rem; }
     .index header h2 { font-size: 1.6em; }

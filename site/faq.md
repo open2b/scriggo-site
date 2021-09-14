@@ -105,7 +105,7 @@ Once version 1.0.0 is released, patches for the current and previous minor will 
 
 Scriggo v0.45.0 is currently used in production and the latest version will be soon. It is not yet in version 1.0 as
 there are some part of the Go specification to implement, and we still want to be free to make small and limited
-changes to the template specification and packages after receiving feedback.
+changes to the template specification and packages after receiving feedback from the community.
 
 ## Performance
 

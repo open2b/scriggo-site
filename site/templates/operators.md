@@ -48,11 +48,11 @@ For example:
 There are other operator, but they are not discussed in this documentation (see the
 [Go specification](https://golang.org/ref/spec#Operators)). 
 
-The following table shows which operators can be used with which data type:
+The following table shows which operators can be used with which type:
 
 <div class="data-type-operators">
 
-|  Data type  |  Operators                       |
+|  Type       |  Operators                       |
 |-------------|----------------------------------|
 | Numeric     | ==  !=  <  <=  >  >=  +  -  *  / |
 | Integer     | %                                |
@@ -90,7 +90,7 @@ For the `and`, `or` and `not` operators all values are true, except for the foll
 
 <div class="data-type-false">
 
-|  Data type  |  "false" value  |
+|  Type       |  "false" value  |
 |-------------|-----------------|
 | bool        | false           |
 | int         | 0               |

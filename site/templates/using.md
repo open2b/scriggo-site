@@ -1,10 +1,10 @@
 {% extends "/layouts/doc.html" %}
-{% macro Title string %}Scriggo templates: the using statement{% end %}
+{% macro Title string %}Scriggo templates: the using statement and itea {% end %}
 {% Article %}
 
 {% raw doc %}
 
-# Using
+# Using and itea
 
 The using statement can be used in combination with other statements and declarations to render a piece of code and
 use the rendered code via the predeclared identifier _itea_.

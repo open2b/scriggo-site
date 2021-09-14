@@ -13,26 +13,22 @@ All values in Scriggo have a type and there are several basic types.
 
 ## Booleans
 
-Boolean values are the `true` and `false` values. A Boolean variable can be declared in one of the following ways:
+Boolean values are the `true` and `false` values. These are examples of boolean variable declarations:
 
 ```scriggo
 {% var a bool %}     a is false
-{% var b = false %}  b is false
-{% var c = true %}   c is true
-{% d := true %}      d is true
-{% e := false %}     e is false
+{% var b = true %}   b is true
+{% c := false %}     c is false
 ```
 
 ## Strings
 
-Strings are written with double quotes, as "hello", or with a grave accent, as `hello`. A string variable can be
-declared in one of the following ways:
+Strings are written with double quotes, as "hello", or with a grave accent, as \`hello\`. These are examples of string variable declarations:
 
 ```scriggo
 {% var a string %}     a is an empty string
-{% var b = "" %}       b is an empty string
-{% var c = "hello" %}  c is the string "hello"
-{% d := "hello" %}     d is the string "hello"
+{% var b = "hello" %}  b is the string "hello"
+{% c := "world" %}     c is the string "world"
 ```
 
 To read the length in bytes of a string use the `len` function, instead to read the length in characters use the
@@ -42,14 +38,12 @@ characters. For a more accurate explanation you can read
 
 ## Integers
 
-Values with type `int` are integer numbers (in a range from -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
-on 64-bit architectures). An `int` variable can be declared in one of the following ways:
+Values with type `int` are integer numbers. These are examples of int variable declarations:
 
 ```scriggo
 {% var a int %}  a is 0
-{% var b = 0 %}  b is 0
-{% var c = 5 %}  c is 5
-{% d := 7 %}     d is 7
+{% var b = 5 %}  b is 5
+{% c := 7 %}     c is 7
 ```
 
 ## Slices
@@ -58,15 +52,13 @@ A slice is a numbered sequence of elements of the same type. For example `[]int{
 values and `[]string{"hello", "ciao"}` is a slice of `string` values. A slice can be `nil` which is a value other than
 an empty slice.
 
-A `slice` variable can be declared in one of the following ways:
+These are examples of slice variable declarations:
 
 ```scriggo
 {% var a []int %}                a is a nil int slice
-{% var b []int = nil %}          b is a nil int slice
-{% var c = []int{} %}            c is an empty int slice
-{% var d = []int{3, 0, 7, 2} %}  d is an int slice with elements 3, 0, 7 and 2
-{% e := []int{} %}               e is an empty int slice
-{% f := []int{2, 9, 5} %}        f is an int slice with elements 2, 9 and 5
+{% var b = []int{} %}            b is an empty int slice
+{% var c = []int{3, 0, 7, 2} %}  c is an int slice with elements 3, 0, 7 and 2
+{% d := []int{2, 9, 5} %}        d is an int slice with elements 2, 9 and 5
 ```
 
 ### Length
@@ -92,11 +84,11 @@ To access an element of a slice use square brackets `[` and `]` with its index s
 
 To access to the last element of a slice `s` you can write `s[len(s)-1]`.
 
-Accessing a nil slice or index that does not exist is an error.
+Accessing a nil slice or accessing a index that does not exist is an error.
 
 ### Iterate over the elements of a slice
 
-To iterate over the elements of a slice use the for statement. For example:
+To iterate over the elements of an slice use the _for_ statement. For example:
 
 ```scriggo
 {% var greetings = []string{"Hello", "Ciao", "你好"} %}
@@ -126,14 +118,10 @@ c
 </pre>
 
 ```scriggo
-{% for e in s[2:5] %}
-{{ e }}
-{% end %}
+{% for x in s[2:5] %} {{ x }} {% end %}
 ```
 <pre class="result">
-c
-d
-e
+ c  d  e 
 </pre>
 
 A slicing operation does not copy the elements, as a consequence the resulting slice refers the same elements of the

@@ -52,15 +52,15 @@
 </li>
                         <li><a href="/templates/if-for-switch" >If, For and Switch</a>
 </li>
-                        <li><a href="/templates/comments" >Comments</a>
+                        <li><a href="/templates/using" >Using and itea</a>
 </li>
                         <li><a href="/templates/operators" >Operators</a>
 </li>
-                        <li><a href="/templates/types" >Types</a>
-</li>
                         <li><a href="/templates/variables" >Variables</a>
 </li>
-                        <li><a href="/templates/using" >Using</a>
+                        <li><a href="/templates/types" >Types</a>
+</li>
+                        <li><a href="/templates/comments" >Comments</a>
 </li>
                         <li><a href="/templates/specification" >Specification</a>
 </li>
@@ -79,10 +79,10 @@
         </aside>
         <div class="content">
             <h1 id="show-and-render">Show and Render</h1>
-<p>The <a href="#show">show</a> statement renders values and shows them, while the <a href="#render">render</a> operator renders a template file
-but without showing it. It is usually used with a show statement to show the rendered file.</p>
+<p>The <a href="#show">show</a> statement renders values and shows them, while the <a href="#render">render</a> operator renders a template file.
+The render operator it is usually used in a show statement to show the rendered file.</p>
 <h2 id="show">Show</h2>
-<p>The <em>show</em> statement followed by one or more values, renders the values and shows the result.</p>
+<p>The <em>show</em> statement, followed by one or more expressions, renders the evaluation of expressions and shows the results.</p>
 <pre><code class="language-scriggo">{% show 5 + 2, &quot; = &quot;, 7 %}
 {% show price %}
 </code></pre>
@@ -90,7 +90,7 @@ but without showing it. It is usually used with a show statement to show the ren
 7 = 7
 $29.99
 </pre>
-<p>A show statement with a single value can also be written as follows:</p>
+<p>A show statement with a single expression can also be written as follows:</p>
 <pre><code class="language-scriggo">{{ 5 + 2 }}
 {{ price }}
 </code></pre>
@@ -98,7 +98,7 @@ $29.99
 7
 $29.99
 </pre>
-<p>This short form, for a single value, is the most used because it is easier to write and read, but you can use
+<p>This short form, for a single expression, is the most used because it is easier to write and read, but you can use
 one or the other indifferently.</p>
 <p>Between <code>{%%</code> and <code>%%}</code> the show statement can be used as follows:</p>
 <pre><code class="language-scriggo">{%%
@@ -130,7 +130,7 @@ one or the other indifferently.</p>
 &lt;/script&gt;
 </pre>
 <h2 id="render">Render</h2>
-<p>The <em>render</em> operator, when used with a <em>show</em> statement, as between <code>{{</code> and <code>}}</code>:</p>
+<p>The <em>render</em> operator, when used with a <em>show</em> statement, for example between <code>{{</code> and <code>}}</code>:</p>
 <pre><code class="language-scriggo">{{ render path }}
 </code></pre>
 <p>renders the template file with the named path and shows its content. A file rendered with render is called <em>partial</em>

@@ -62,7 +62,7 @@ A type can be omitted if the next parameter has the same type. The previous decl
 {% end %}
 ```
 
-## Distraction free declaration
+## Distraction free macro declaration
 
 If a macro is declared in a file with an extends declaration, to be called in the extended file, and the macro has no
 parameters, as in this example:

@@ -52,15 +52,15 @@
 </li>
                         <li><a href="/templates/if-for-switch"  class="selected" >If, For and Switch</a>
 </li>
-                        <li><a href="/templates/comments" >Comments</a>
+                        <li><a href="/templates/using" >Using and itea</a>
 </li>
                         <li><a href="/templates/operators" >Operators</a>
 </li>
-                        <li><a href="/templates/types" >Types</a>
-</li>
                         <li><a href="/templates/variables" >Variables</a>
 </li>
-                        <li><a href="/templates/using" >Using</a>
+                        <li><a href="/templates/types" >Types</a>
+</li>
+                        <li><a href="/templates/comments" >Comments</a>
 </li>
                         <li><a href="/templates/specification" >Specification</a>
 </li>
@@ -79,29 +79,30 @@
         </aside>
         <div class="content">
             <h1 id="if-for-and-switch">If, For and Switch</h1>
-<p>The <a href="#if">if statement</a> is used to execute code based on a condition, the <a href="#for">for statement</a> to iterate over a
+<p>The <a href="#if">if statement</a> is used to execute code based on a condition, the <a href="#for">for statement</a> is used to iterate over a
 <a href="/templates/types#slices">slice</a>, and the <a href="#switch">switch statement</a> allows a variable to be tested for equality
 against a list of values.</p>
 <h2 id="if">If</h2>
-<p>The <code>if</code> instruction executes its body if the condition, that can have any type, is valuated to true. For example the
+<p>The <code>if</code> statement executes its body if the condition, that can have any type, is valuated to true. For example the
 following statement:</p>
 <pre><code class="language-scriggo">{% if stock &gt; 10 %}
   Wide availability
 {% end %}
 </code></pre>
-<p>if <em>stock</em> is greater than 10 shows &quot;Wide availability&quot;.</p>
+<p>shows &quot;Wide availability&quot; if <em>stock</em> is greater than 10.</p>
 <blockquote>
 <p>Note that in programs, unlike in templates, the <em>if</em> condition can only be a boolean value.</p>
 </blockquote>
 <p>A condition is false for the values <code>false</code>, <code>0</code>, <code>0.0</code>, <code>&quot;&quot;</code> and <code>nil</code>, for nil or empty slices and maps. Apart from <a href="/template-spec#truthful-values">some
 special cases</a>, it is true for all other values.</p>
 <p>For example:</p>
-<pre><code class="language-scriggo">&quot;0&quot;              // is true, it is a non empty string
+<pre><code class="language-scriggo">&quot;&quot;               // is false, it is an empty string
+&quot;0&quot;              // is true
 true             // is true
 []string{}       // is false, it is an empty slice
 map[int]string{} // is false, it is an empty map
-0.1              // is true, it is a not zero floating point value  
-[]int{1,2}       // is true, it is a non empty slice
+0.1              // is true 
+[]int{1,2}       // is true
 </code></pre>
 <p>If you want to execute one code or another based on a condition, you can write:</p>
 <pre><code class="language-scriggo">{% if stock &gt; 10 %}
@@ -147,7 +148,7 @@ from zero:</p>
 </code></pre>
 <p>As with the <em>if</em> statement, the condition of the <em>for</em> statement can have any type.</p>
 <h3 id="for-loop">for loop</h3>
-<p>The <em>for</em> instruction alone, without a condition, executes its body until it is interrupted with a <em>break</em> statement.</p>
+<p>The <em>for</em> statement alone, without a condition, executes its body until it is interrupted with a <em>break</em> statement.</p>
 <pre><code class="language-scriggo">{% for %}
   {% var v = value() %}
   {% if not v %}{% break %}{% end %}
@@ -155,15 +156,15 @@ from zero:</p>
 </code></pre>
 <h3 id="for-init-condition-post">for init; condition; post</h3>
 <p>The <em>for init; condition; post</em> form has three parts separated by a semicolon. The first part declares or assigns to a
-variable before the first iteration. The second part is the condition and the last part increases a variable before
-the next iteration.</p>
+variable before the first iteration. The second part is the condition and the last part usually increases a variable
+before the next iteration.</p>
 <p>The iteration continues as long as the condition is true.</p>
 <pre><code class="language-scriggo">{% for i := 0; i &lt; len(articles); i++ %}
   &lt;div&gt;{{ i+1 }}. {{ articles[i].Name }}&lt;/div&gt;
 {% end %}
 </code></pre>
 <h3 id="continue">continue</h3>
-<p>The <em>continue</em> instruction can be used in the body of a <em>for</em> instruction to terminate the current iteration and
+<p>The <em>continue</em> statement can be used in the body of a <em>for</em> statement to terminate the current iteration and
 continue with the next one.</p>
 <p>For example, the following code shows only products with a price:</p>
 <pre><code class="language-scriggo">{% for product in products %}
@@ -174,7 +175,7 @@ continue with the next one.</p>
 {% end %}
 </code></pre>
 <h3 id="break">break</h3>
-<p>The <em>break</em> instruction can be used to stop the execution of the <em>for</em> statement.</p>
+<p>The <em>break</em> statement can be used to stop the execution of a <em>for</em> statement.</p>
 <p>For example, the following code shows only <code>1 2 3</code>.</p>
 <pre><code class="language-scriggo">{% for n in []int{1, 2, 3, 4, 5} %}
   {% if n &gt; 3 %}
@@ -184,8 +185,8 @@ continue with the next one.</p>
 {% end %}
 </code></pre>
 <h2 id="switch">Switch</h2>
-<p>The <em>switch instruction</em> can be used as an alternative to the <em>if</em> statement when the condition is not simply true or
-false. This instruction executes the code based on the value of its condition.</p>
+<p>The <em>switch</em> statement can be used as an alternative to the <em>if</em> statement when the condition is not simply true or
+false. This statement executes a <em>case</em> based on the value of its condition.</p>
 <pre><code class="language-scriggo">{% switch department.Name %}
 {% case &quot;Tappeti&quot; %}
   Rugs and rugs on offer for yuor home
@@ -197,9 +198,9 @@ false. This instruction executes the code based on the value of its condition.</
 </code></pre>
 <pre class="result">Offers for the bedroom</pre>
 <p>Case values must have the same type of the condition. The cases are evaluated in order and only the first case that has
-the same value as the condition is executed. If there are no cases with that value and there is a default case, the
+the same value as the condition is executed. If there are no cases with that value and there is a <em>default</em> case, the
 default case is executed.</p>
-<p>The switch may or may not have a condition. If it doesn't, the case expressions must be boolean.</p>
+<p>A switch may or may not have a condition. If it doesn't, the case expressions must be boolean.</p>
 <pre><code class="language-scriggo">{% switch %}
 {% case stock &gt; 10 %}
   Available
