@@ -80,6 +80,7 @@ var BenchGraph = (function () {
 				langContainer.css({ display : 'table-row' });
 				graphContainer.find('.allocations .data').append(langContainer);
 			}
+			graphContainer.append(graphContainer.find('.allocations'));
 		}
 
 	}

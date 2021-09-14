@@ -90,6 +90,7 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .article article { background: #fff; min-height: 100vh; }
 .article article > .wrap { display: flex; font-size: 1rem; padding: 0 1rem; }
 .article aside { margin-right: 3rem; margin-top: 1.80rem; }
+.article aside button { display: none; }
 .article aside ul { list-style-type: none; padding: 0; }
 .article aside > ul { margin-top: 3rem; }
 .article aside li > ul { padding-left: 1rem; }
@@ -145,9 +146,6 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 
 @media only screen and (max-width: 767px) {
 
-    nav.top { padding: 1em; }
-    nav.top .logo { flex: 0 0 100%;  font-size: 2em; margin: 0; text-align: center; }
-    nav.top .version { margin: 0 auto; }
     nav.top ul { margin: 1rem auto; padding: 0; text-align: center; }
 
     .index header { margin: 1rem; }
@@ -163,7 +161,13 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 
     .benchmark, .benchmark + .benchmark { padding: 0; width: auto; }
 
-    .article aside { display: none; }
+    .article aside { margin: 1rem 0; }
+    .article aside button { background: #f4f6f8; border: 0; cursor: pointer; display: block; font-size: 14px; font-weight: bold; line-height: 19px; padding-right: 40px; padding: 12px; text-align: left; width: 100%; }
+    .article aside button span { background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pjxzdmcgdmlld0JveD0iMCAwIDQ4IDQ4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xNC44MyAxNi40Mmw5LjE3IDkuMTcgOS4xNy05LjE3IDIuODMgMi44My0xMiAxMi0xMi0xMnoiLz48cGF0aCBkPSJNMC0uNzVoNDh2NDhoLTQ4eiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==') no-repeat center 1px; display: block; float: right; height: 18px; width: 18px; }
+    .article aside nav { display: none; padding: 0 1rem; }
+    .article aside.expanded nav { display: block; }
+    .article aside ul a { font-size: .9rem; }
+    .article article > .wrap { display: block; padding-top: 1em; }
 
     .get-scriggo { font-size: .9rem; }
 
@@ -184,3 +188,40 @@ footer ul li { padding: 0 1rem; }
 footer ul li a { color: #333; }
 footer ul li a:hover { color: #e6a62f; }
 footer .generator { align-self: center; }
+
+@media screen and (max-width:1152px) {
+    .cols-2 > div { padding: 1em 1.5rem; }
+
+    .benchmark .allocations { top: 52px; }
+}
+
+@media screen and (max-width:1023px) {
+    nav.top { height: auto; padding: 1rem 0; }
+    nav.top ul  { margin-bottom: 0; }
+    nav.top li { padding: .4rem 1rem; }
+    nav.top li.playground { display: none; }
+    nav.top .logo { margin-left: 1rem; font-size: 0; }
+    nav.top .github-logo { position: absolute; right: .8rem; top: 1rem; }
+
+    .index body > section.benchmark { padding: 20px; }
+    .index body > section.benchmark h2 span { display: block; font-size: 1.5rem; }
+    .page-benchmarks section.benchmark { padding: 10px 30px 20px 30px; }
+    .benchmark h2 { font-size: 1.5rem; }
+    .benchmark .allocations { position: static; margin-top: 1.5rem; font-size: .8em; }
+    .benchmark .bar { max-width: 80%; }
+    .benchmark span.time { font-size: 14px; }
+
+    h1, .article h1 { font-size: 2rem; }
+    .index .why h2 { font-size: 1.5rem; }
+    .index body > section.benchmark > div:first-child    { display: block; margin-bottom: 0; position: static; }
+    .index body > section.benchmark > div:first-child h2 { font-size: 1.8rem; }
+    .index body > section.benchmark > div:first-child a  { float: none; }
+
+    pre { font-size: .8rem; }
+
+    .page-support .support { display: block; }
+    .page-support .support > div { margin: 2rem 0; }
+    .page-support .support > div:first-child { border: none; }
+    .page-support .support .channel { margin-left: 0; }
+
+}
