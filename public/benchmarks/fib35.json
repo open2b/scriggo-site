@@ -1,0 +1,31 @@
+[
+    {
+        "Program": "fib35",
+        "Results": {
+            "go-lua": {
+                "Time": 6280394891,
+                "Allocs": 39088307
+            },
+            "goja": {
+                "Time": 7139806249,
+                "Allocs": 48243
+            },
+            "gopher-lua": {
+                "Time": 6211002581,
+                "Allocs": 4041
+            },
+            "scriggo": {
+                "Time": 2519615999,
+                "Allocs": 13
+            },
+            "tengo": {
+                "Time": 3506251659,
+                "Allocs": 39088582
+            },
+            "yaegi": {
+                "Time": 24979832819,
+                "Allocs": 283677529
+            }
+        }
+    }
+]

@@ -1,10 +1,13 @@
 {% import "/imports/meta.html" for Meta %}
+{% import "/imports/graph.html" for Graph %}
 <!doctype html>
 <html lang="en" class="index">
 <head>
     <title>Scriggo: The Go language template engine and embeddable interpreter"</title>
     <meta name="description" content="Scriggo is a fast, modern and secure Go language template engine and embeddable interpreter. it is distributed under a BSD license">
     {{ Meta("The Go language template engine and embeddable interpreter") }}
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/benchGraph.js"></script>
 </head>
 <body>
 {{ render "/partials/nav.html" }}
@@ -60,48 +63,14 @@
     </div>
 </section>
 <section class="benchmark">
-    <h2>Scriggo, a fast pure Go language runtime</h2>
-    <p></p>
     <div>
-        <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a> <span>2.23s</span></p>
-        <div class="bar bar-scriggo"></div>
+        <h2>Scriggo, a fast pure Go language runtime</h2>
+        <a href="benchmarks.html">See all benchmarks</a>
     </div>
-    <div>
-        <p><a href="https://github.com/d5/tengo" target="_blank">Tengo</a> <span>3.36s</span></p>
-        <div class="bar bar-tengo"></div>
-    </div>
-    <div>
-        <p><a href="https://github.com/yuin/gopher-lua" target="_blank">GopherLua</a> <span>5.13s</span></p>
-        <div class="bar bar-gopher-lua"></div>
-    </div>
-    <div>
-        <p><a href="https://github.com/Shopify/go-lua" target="_blank">Go Lua</a> <span>5.20s</span></p>
-        <div class="bar bar-go-lua"></div>
-    </div>
-    <div>
-        <p><a href="https://github.com/containous/yaegi" target="_blank">Yaegi</a> <span>18.22s</span></p>
-        <div class="bar bar-yaegi"></div>
-    </div>
-</section>
-<section class="benchmark">
-    <h2>Scriggo compared to mainstream languages</h2>
-    <p></p>
-    <div>
-        <p><a href="https://github.com/open2b/scriggo" target="_blank">Go</a> <span>0.06s</span></p>
-        <div class="bar bar-go"></div>
-    </div>
-    <div>
-        <p><a href="https://github.com/open2b/scriggo" target="_blank">Ruby</a> <span>1.12s</span></p>
-        <div class="bar bar-ruby"></div>
-    </div>
-    <div>
-        <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a> <span>2.23s</span></p>
-        <div class="bar bar-scriggo-2"></div>
-    </div>
-    <div>
-        <p><a href="https://github.com/d5/tengo" target="_blank">Python</a> <span>3.02s</span></p>
-        <div class="bar bar-python"></div>
-    </div>
+    {{ Graph("fib35") }}
+    <script>
+        $.getJSON("benchmarks/fib35.json", function(data) { new BenchGraph(data).Render(); })
+    </script>
 </section>
 {{ render "/partials/footer.html" }}
 </body>

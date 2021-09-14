@@ -1,0 +1,55 @@
+
+{% macro Graph(class string) %}
+
+<div class="graph {{ class }}">
+    <p class="program">Execution of <span></span></p>
+    <div class="interpreter scriggo">
+        <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter tengo">
+        <p><a href="https://github.com/d5/tengo" target="_blank">Tengo</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter goja">
+        <p><a href="https://github.com/dop251/goja" target="_blank">goja</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter gopher-lua">
+        <p><a href="https://github.com/yuin/gopher-lua" target="_blank">GopherLua</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter go-lua">
+        <p><a href="https://github.com/Shopify/go-lua" target="_blank">go-lua</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="interpreter yaegi">
+        <p><a href="https://github.com/containous/yaegi" target="_blank">Yaegi</a></p>
+        <div class="bar time"></div><span class="time"></span>
+    </div>
+    <div class="allocations">
+        <h3>Allocations&nbsp;<span>(allocs/op)</span></h3>
+        <div class="data">
+            <div class="interpreter scriggo">
+                <span>Scriggo:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter tengo">
+                <span>Tengo:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter goja">
+                <span>goja:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter gopher-lua">
+                <span>GopherLua:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter go-lua">
+                <span>go-lua:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter yaegi">
+                <span>Yaegi:</span><span class="allocs"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% end macro %}

@@ -1,0 +1,72 @@
+{% extends "/layouts/page.html" %}
+{% import "/imports/graph.html" for Graph %}
+{% var Page = "benchmarks" %}
+{% macro Title string %}Benchmarks{% end %}
+{% Content %}
+
+<h1>Benchmarks</h1>
+<p>
+    Scriggo a fast pure Go language runtime, here are some benchmarks that compares it with some popular go embedded interpreters.
+    The benchmarks code can be found <a href="https://github.com/open2b/scriggo-bench" target="_blank">on this repository</a>.
+</p>
+
+<p>
+    The results presented in this page have been obtained with the following configuration:
+    <pre>{{ render "/benchmarks/raw/head.txt" }}</pre>
+</p>
+
+<h3>Fib(10)</h3>
+<p>Execution of a recursive algorithm for the calculation of Fibonacci(10)</p>
+<section class="benchmark">
+    {{ Graph("fib10") }}
+</section>
+<pre>
+    {{ render "/benchmarks/raw/fib10.txt" }}
+</pre>
+
+<h3>Fib(35)</h3>
+<p>Execution of a recursive algorithm for the calculation of Fibonacci(35)</p>
+<section class="benchmark">
+{{ Graph("fib35") }}
+</section>
+<pre>
+    {{ render "/benchmarks/raw/fib35.txt" }}
+</pre>
+
+<h3>Closures</h3>
+<p>Declaration and execution of a closure inside a loop</p>
+<section class="benchmark">
+    {{ Graph("closures") }}
+</section>
+<pre>
+    {{ render "/benchmarks/raw/closures.txt" }}
+</pre>
+
+<h3>Iterations</h3>
+<p>Nested iterations and assignments on a slice of integers</p>
+<section class="benchmark">
+    {{ Graph("iterations") }}
+</section>
+
+<pre>
+    {{ render "/benchmarks/raw/iterations.txt" }}
+</pre>
+
+<h3>Strings</h3>
+<p>Strings concatenation and rune search
+    <div class="note">go-lua and GopherLua are not represented here as the test program was not portable to Lua5.1</div>
+</p>
+<section class="benchmark">
+    {{ Graph("strings") }}
+</section>
+
+<pre>
+    {{ render "/benchmarks/raw/strings.txt" }}
+</pre>
+
+<script src="/js/jquery-3.6.0.min.js"></script>
+<script src="/js/benchGraph.js"></script>
+<script>
+    $.getJSON("benchmarks/all.json", function(data) { new BenchGraph(data).Render(); })
+</script>
+

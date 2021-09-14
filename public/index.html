@@ -15,6 +15,8 @@
     <meta name=twitter:description content="Scriggo is a fast, modern and secure Go language template engine and embeddable interpreter">
     <meta name=twitter:image content="https://scriggo.com/images/scriggo-card.png">
 
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/benchGraph.js"></script>
 </head>
 <body>
 <nav class="top">
@@ -79,48 +81,66 @@
     </div>
 </section>
 <section class="benchmark">
-    <h2>Scriggo, a fast pure Go language runtime</h2>
-    <p></p>
     <div>
-        <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a> <span>2.23s</span></p>
-        <div class="bar bar-scriggo"></div>
+        <h2>Scriggo, a fast pure Go language runtime</h2>
+        <a href="benchmarks.html">See all benchmarks</a>
     </div>
-    <div>
-        <p><a href="https://github.com/d5/tengo" target="_blank">Tengo</a> <span>3.36s</span></p>
-        <div class="bar bar-tengo"></div>
+    
+<div class="graph fib35">
+    <p class="program">Execution of <span></span></p>
+    <div class="interpreter scriggo">
+        <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a></p>
+        <div class="bar time"></div><span class="time"></span>
     </div>
-    <div>
-        <p><a href="https://github.com/yuin/gopher-lua" target="_blank">GopherLua</a> <span>5.13s</span></p>
-        <div class="bar bar-gopher-lua"></div>
+    <div class="interpreter tengo">
+        <p><a href="https://github.com/d5/tengo" target="_blank">Tengo</a></p>
+        <div class="bar time"></div><span class="time"></span>
     </div>
-    <div>
-        <p><a href="https://github.com/Shopify/go-lua" target="_blank">Go Lua</a> <span>5.20s</span></p>
-        <div class="bar bar-go-lua"></div>
+    <div class="interpreter goja">
+        <p><a href="https://github.com/dop251/goja" target="_blank">goja</a></p>
+        <div class="bar time"></div><span class="time"></span>
     </div>
-    <div>
-        <p><a href="https://github.com/containous/yaegi" target="_blank">Yaegi</a> <span>18.22s</span></p>
-        <div class="bar bar-yaegi"></div>
+    <div class="interpreter gopher-lua">
+        <p><a href="https://github.com/yuin/gopher-lua" target="_blank">GopherLua</a></p>
+        <div class="bar time"></div><span class="time"></span>
     </div>
-</section>
-<section class="benchmark">
-    <h2>Scriggo compared to mainstream languages</h2>
-    <p></p>
-    <div>
-        <p><a href="https://github.com/open2b/scriggo" target="_blank">Go</a> <span>0.06s</span></p>
-        <div class="bar bar-go"></div>
+    <div class="interpreter go-lua">
+        <p><a href="https://github.com/Shopify/go-lua" target="_blank">go-lua</a></p>
+        <div class="bar time"></div><span class="time"></span>
     </div>
-    <div>
-        <p><a href="https://github.com/open2b/scriggo" target="_blank">Ruby</a> <span>1.12s</span></p>
-        <div class="bar bar-ruby"></div>
+    <div class="interpreter yaegi">
+        <p><a href="https://github.com/containous/yaegi" target="_blank">Yaegi</a></p>
+        <div class="bar time"></div><span class="time"></span>
     </div>
-    <div>
-        <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a> <span>2.23s</span></p>
-        <div class="bar bar-scriggo-2"></div>
+    <div class="allocations">
+        <h3>Allocations&nbsp;<span>(allocs/op)</span></h3>
+        <div class="data">
+            <div class="interpreter scriggo">
+                <span>Scriggo:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter tengo">
+                <span>Tengo:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter goja">
+                <span>goja:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter gopher-lua">
+                <span>GopherLua:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter go-lua">
+                <span>go-lua:</span><span class="allocs"></span>
+            </div>
+            <div class="interpreter yaegi">
+                <span>Yaegi:</span><span class="allocs"></span>
+            </div>
+        </div>
     </div>
-    <div>
-        <p><a href="https://github.com/d5/tengo" target="_blank">Python</a> <span>3.02s</span></p>
-        <div class="bar bar-python"></div>
-    </div>
+</div>
+
+
+    <script>
+        $.getJSON("benchmarks/fib35.json", function(data) { new BenchGraph(data).Render(); })
+    </script>
 </section>
 <footer>
   <div class="wrap">

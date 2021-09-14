@@ -1,0 +1,4 @@
+goos: linux
+goarch: amd64
+pkg: scriggo-bench
+cpu: Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz

@@ -1,0 +1,6 @@
+BenchmarkScriggo/fib35.go-4            	       2	2519615999 ns/op	   41232 B/op	      13 allocs/op
+BenchmarkYaegi/fib35.go-4              	       1	24979832819 ns/op	12541592296 B/op	283677529 allocs/op
+BenchmarkTengo/fib35.tengo-4           	       1	3506251659 ns/op	312832552 B/op	39088582 allocs/op
+BenchmarkGoLua/fib35.lua-4             	       1	6280394891 ns/op	312720976 B/op	39088307 allocs/op
+BenchmarkGopherLua/fib35.lua-4         	       1	6211002581 ns/op	 1023880 B/op	    4041 allocs/op
+BenchmarkGoja/fib35.js-4               	       1	7139806249 ns/op	  530400 B/op	   48243 allocs/op
