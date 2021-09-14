@@ -4,10 +4,9 @@
 {% macro Title string %}Benchmarks{% end %}
 {% Content %}
 
-<h1>Benchmarks</h1>
+<h1>Go embedded languages benchmarks</h1>
 <p>
-    Scriggo a fast pure Go language runtime, here are some benchmarks that compares it with some popular go embedded interpreters.
-    The benchmarks code can be found <a href="https://github.com/open2b/scriggo-bench" target="_blank">on this repository</a>.
+    Here are some benchmarks that compare Go embedded interpreters. The benchmark code can be found <a href="https://github.com/open2b/scriggo-bench" target="_blank">on this repository</a>, contributions to improve the accuracy of these benchmarks are welcome.
 </p>
 
 <p>
@@ -15,19 +14,19 @@
     <pre>{{ render "/benchmarks/raw/head.txt" }}</pre>
 </p>
 
-<h3>Fib(10)</h3>
+<h3>Fibonacci 10</h3>
 <p>Execution of a recursive algorithm for the calculation of Fibonacci(10)</p>
 <section class="benchmark">
-    {{ Graph("fib10") }}
+    {{ Graph("Fibonacci-10") }}
 </section>
 <pre>
     {{ render "/benchmarks/raw/fib10.txt" }}
 </pre>
 
-<h3>Fib(35)</h3>
+<h3>Fibonacci 35</h3>
 <p>Execution of a recursive algorithm for the calculation of Fibonacci(35)</p>
 <section class="benchmark">
-{{ Graph("fib35") }}
+{{ Graph("Fibonacci-35") }}
 </section>
 <pre>
     {{ render "/benchmarks/raw/fib35.txt" }}

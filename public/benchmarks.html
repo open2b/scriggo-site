@@ -30,10 +30,9 @@
     <div class="wrap">
         <div class="content">
             
-<h1>Benchmarks</h1>
+<h1>Go embedded languages benchmarks</h1>
 <p>
-    Scriggo a fast pure Go language runtime, here are some benchmarks that compares it with some popular go embedded interpreters.
-    The benchmarks code can be found <a href="https://github.com/open2b/scriggo-bench" target="_blank">on this repository</a>.
+    Here are some benchmarks that compare Go embedded interpreters. The benchmark code can be found <a href="https://github.com/open2b/scriggo-bench" target="_blank">on this repository</a>, contributions to improve the accuracy of these benchmarks are welcome.
 </p>
 
 <p>
@@ -45,12 +44,12 @@ cpu: Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz
 </pre>
 </p>
 
-<h3>Fib(10)</h3>
+<h3>Fibonacci 10</h3>
 <p>Execution of a recursive algorithm for the calculation of Fibonacci(10)</p>
 <section class="benchmark">
     
-<div class="graph fib10">
-    <p class="program">Execution of <span></span></p>
+<div class="graph Fibonacci-10">
+    <p class="program"><span></span></p>
     <div class="interpreter scriggo">
         <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a></p>
         <div class="bar time"></div><span class="time"></span>
@@ -103,20 +102,20 @@ cpu: Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz
 
 </section>
 <pre>
-BenchmarkScriggo/fib10.go-4            	  115525	     29809 ns/op	   32016 B/op	      11 allocs/op
-BenchmarkYaegi/fib10.go-4              	   16239	    202051 ns/op	  108006 B/op	    2307 allocs/op
-BenchmarkTengo/fib10.tengo-4           	   32164	    112193 ns/op	  127314 B/op	     638 allocs/op
-BenchmarkGoLua/fib10.lua-4             	   70012	     51901 ns/op	    9360 B/op	     319 allocs/op
-BenchmarkGopherLua/fib10.lua-4         	   37641	     95869 ns/op	   52608 B/op	     247 allocs/op
-BenchmarkGoja/fib10.js-4               	   13126	    272616 ns/op	  148735 B/op	    1874 allocs/op
+BenchmarkScriggo/Fibonacci-10.go-4         	  119041	     31036 ns/op	   32016 B/op	      11 allocs/op
+BenchmarkYaegi/Fibonacci-10.go-4           	   17040	    204628 ns/op	  107994 B/op	    2307 allocs/op
+BenchmarkTengo/Fibonacci-10.tengo-4        	   28179	    156631 ns/op	  127315 B/op	     638 allocs/op
+BenchmarkGoLua/Fibonacci-10.lua-4          	   71122	     50439 ns/op	    9360 B/op	     319 allocs/op
+BenchmarkGopherLua/Fibonacci-10.lua-4      	   37770	     95907 ns/op	   52608 B/op	     247 allocs/op
+BenchmarkGoja/Fibonacci-10.js-4            	   12464	    281745 ns/op	  148735 B/op	    1874 allocs/op
 </pre>
 
-<h3>Fib(35)</h3>
+<h3>Fibonacci 35</h3>
 <p>Execution of a recursive algorithm for the calculation of Fibonacci(35)</p>
 <section class="benchmark">
 
-<div class="graph fib35">
-    <p class="program">Execution of <span></span></p>
+<div class="graph Fibonacci-35">
+    <p class="program"><span></span></p>
     <div class="interpreter scriggo">
         <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a></p>
         <div class="bar time"></div><span class="time"></span>
@@ -169,12 +168,12 @@ BenchmarkGoja/fib10.js-4               	   13126	    272616 ns/op	  148735 B/op	
 
 </section>
 <pre>
-BenchmarkScriggo/fib35.go-4            	       2	2519615999 ns/op	   41232 B/op	      13 allocs/op
-BenchmarkYaegi/fib35.go-4              	       1	24979832819 ns/op	12541592296 B/op	283677529 allocs/op
-BenchmarkTengo/fib35.tengo-4           	       1	3506251659 ns/op	312832552 B/op	39088582 allocs/op
-BenchmarkGoLua/fib35.lua-4             	       1	6280394891 ns/op	312720976 B/op	39088307 allocs/op
-BenchmarkGopherLua/fib35.lua-4         	       1	6211002581 ns/op	 1023880 B/op	    4041 allocs/op
-BenchmarkGoja/fib35.js-4               	       1	7139806249 ns/op	  530400 B/op	   48243 allocs/op
+BenchmarkScriggo/Fibonacci-35.go-4         	       2	2533204486 ns/op	   41232 B/op	      13 allocs/op
+BenchmarkYaegi/Fibonacci-35.go-4           	       1	25250780073 ns/op	12541598176 B/op	283677612 allocs/op
+BenchmarkTengo/Fibonacci-35.tengo-4        	       1	3513278597 ns/op	312832672 B/op	39088586 allocs/op
+BenchmarkGoLua/Fibonacci-35.lua-4          	       1	6098240439 ns/op	312721184 B/op	39088310 allocs/op
+BenchmarkGopherLua/Fibonacci-35.lua-4      	       1	6541278043 ns/op	 1023624 B/op	    4040 allocs/op
+BenchmarkGoja/Fibonacci-35.js-4            	       1	7071025456 ns/op	  531568 B/op	   48247 allocs/op
 </pre>
 
 <h3>Closures</h3>
@@ -182,7 +181,7 @@ BenchmarkGoja/fib35.js-4               	       1	7139806249 ns/op	  530400 B/op	
 <section class="benchmark">
     
 <div class="graph closures">
-    <p class="program">Execution of <span></span></p>
+    <p class="program"><span></span></p>
     <div class="interpreter scriggo">
         <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a></p>
         <div class="bar time"></div><span class="time"></span>
@@ -235,12 +234,12 @@ BenchmarkGoja/fib35.js-4               	       1	7139806249 ns/op	  530400 B/op	
 
 </section>
 <pre>
-BenchmarkScriggo/closures.go-4         	     122	  29535668 ns/op	 7949175 B/op	  180009 allocs/op
-BenchmarkYaegi/closures.go-4           	      48	  77146004 ns/op	69149460 B/op	  540515 allocs/op
-BenchmarkTengo/closures.tengo-4        	     278	  13072221 ns/op	 1563090 B/op	  180277 allocs/op
-BenchmarkGoLua/closures.lua-4          	      92	  35054843 ns/op	 3607691 B/op	  360087 allocs/op
-BenchmarkGopherLua/closures.lua-4      	     100	  33976927 ns/op	 7968533 B/op	   98620 allocs/op
-BenchmarkGoja/closures.js-4            	      27	 145650287 ns/op	69984364 B/op	 1081331 allocs/op
+BenchmarkScriggo/closures.go-4             	     100	  30137289 ns/op	 7949160 B/op	  180009 allocs/op
+BenchmarkYaegi/closures.go-4               	      46	  78739229 ns/op	69149390 B/op	  540515 allocs/op
+BenchmarkTengo/closures.tengo-4            	     284	  12816051 ns/op	 1563110 B/op	  180277 allocs/op
+BenchmarkGoLua/closures.lua-4              	     100	  34017255 ns/op	 3607691 B/op	  360087 allocs/op
+BenchmarkGopherLua/closures.lua-4          	     100	  33929424 ns/op	 7968536 B/op	   98620 allocs/op
+BenchmarkGoja/closures.js-4                	      22	 148275304 ns/op	69984461 B/op	 1081331 allocs/op
 </pre>
 
 <h3>Iterations</h3>
@@ -248,7 +247,7 @@ BenchmarkGoja/closures.js-4            	      27	 145650287 ns/op	69984364 B/op	
 <section class="benchmark">
     
 <div class="graph iterations">
-    <p class="program">Execution of <span></span></p>
+    <p class="program"><span></span></p>
     <div class="interpreter scriggo">
         <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a></p>
         <div class="bar time"></div><span class="time"></span>
@@ -302,12 +301,12 @@ BenchmarkGoja/closures.js-4            	      27	 145650287 ns/op	69984364 B/op	
 </section>
 
 <pre>
-BenchmarkScriggo/iterations.go-4       	     270	  13124931 ns/op	   32264 B/op	       8 allocs/op
-BenchmarkYaegi/iterations.go-4         	     351	  10375293 ns/op	   53766 B/op	    1031 allocs/op
-BenchmarkTengo/iterations.tengo-4      	      72	  47643964 ns/op	 9150662 B/op	  803200 allocs/op
-BenchmarkGoLua/iterations.lua-4        	     100	  34664298 ns/op	 2601146 B/op	  322111 allocs/op
-BenchmarkGopherLua/iterations.lua-4    	      75	  47975331 ns/op	 3897222 B/op	  326059 allocs/op
-BenchmarkGoja/iterations.js-4          	      26	 136761288 ns/op	12806211 B/op	  772259 allocs/op
+BenchmarkScriggo/iterations.go-4           	     266	  13189727 ns/op	   32264 B/op	       8 allocs/op
+BenchmarkYaegi/iterations.go-4             	     356	   9986679 ns/op	   53830 B/op	    1031 allocs/op
+BenchmarkTengo/iterations.tengo-4          	      70	  46213939 ns/op	 9150638 B/op	  803199 allocs/op
+BenchmarkGoLua/iterations.lua-4            	     100	  32757354 ns/op	 2601145 B/op	  322111 allocs/op
+BenchmarkGopherLua/iterations.lua-4        	      80	  47441700 ns/op	 3897215 B/op	  326059 allocs/op
+BenchmarkGoja/iterations.js-4              	      25	 137370169 ns/op	12806214 B/op	  772259 allocs/op
 </pre>
 
 <h3>Strings</h3>
@@ -317,7 +316,7 @@ BenchmarkGoja/iterations.js-4          	      26	 136761288 ns/op	12806211 B/op	
 <section class="benchmark">
     
 <div class="graph strings">
-    <p class="program">Execution of <span></span></p>
+    <p class="program"><span></span></p>
     <div class="interpreter scriggo">
         <p><a href="https://github.com/open2b/scriggo" target="_blank">Scriggo</a></p>
         <div class="bar time"></div><span class="time"></span>
@@ -371,10 +370,10 @@ BenchmarkGoja/iterations.js-4          	      26	 136761288 ns/op	12806211 B/op	
 </section>
 
 <pre>
-BenchmarkScriggo/strings.go-4          	   18801	    192991 ns/op	   51769 B/op	     805 allocs/op
-BenchmarkYaegi/strings.go-4            	   10000	    359169 ns/op	  202841 B/op	    1879 allocs/op
-BenchmarkTengo/strings.tengo-4         	   10000	    309809 ns/op	  172652 B/op	    2695 allocs/op
-BenchmarkGoja/strings.js-4             	    4852	    710641 ns/op	  216707 B/op	    4236 allocs/op
+BenchmarkScriggo/strings.go-4              	   18784	    195300 ns/op	   51769 B/op	     805 allocs/op
+BenchmarkYaegi/strings.go-4                	   10000	    371228 ns/op	  202841 B/op	    1879 allocs/op
+BenchmarkTengo/strings.tengo-4             	   10000	    310193 ns/op	  172660 B/op	    2695 allocs/op
+BenchmarkGoja/strings.js-4                 	    4629	    734536 ns/op	  216695 B/op	    4236 allocs/op
 </pre>
 
 <script src="/js/jquery-3.6.0.min.js"></script>

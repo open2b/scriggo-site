@@ -64,10 +64,10 @@
 </section>
 <section class="benchmark">
     <div>
-        <h2>Scriggo, a fast pure Go language runtime</h2>
-        <a href="benchmarks.html">See all benchmarks</a>
+        <h2>Benchmarks. Go embedded languages</h2>
+        <a href="/benchmarks">See all benchmarks</a>
     </div>
-    {{ Graph("fib35") }}
+    {{ Graph("Fibonacci-35") }}
     <script>
         $.getJSON("benchmarks/fib35.json", function(data) { new BenchGraph(data).Render(); })
     </script>

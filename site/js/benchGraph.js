@@ -8,7 +8,7 @@ var BenchGraph = (function () {
 				console.warn('no container found for ' + bench.Program + ' graph');
 				continue
 			}
-			graphContainer.find('.program span').text(bench.Program);
+			graphContainer.find('.program span').text(bench.Program.replace('-', ' '));
 			var maxTime = 0;
 			var minTime = 9999999999999;
 			for (const interpreter in bench.Results) {

@@ -46,9 +46,11 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .index .why h2 { color: #ebb951; font-size: 1.8rem; font-weight: normal; }
 .index .why p { color: #333; font-size: 1.3rem; font-weight: 200; line-height: 1.9rem; }
 
-.index body > section.benchmark { background: #0a1922; color: #FFF; margin: 0; padding: 4rem 9rem; }
+.index body > section.benchmark { background: #0a1922; color: #FFF; margin: 0; padding: 4.5rem 9rem; }
 .index body > section.benchmark > div:first-child { display: inline-block; margin-bottom: -40px; position: relative; z-index: 2; }
-.index body > section.benchmark > div:first-child a { float: right; font-size: .9em; }
+.index body > section.benchmark > div:first-child h2 { margin-top: 0; }
+.index body > section.benchmark > div:first-child a { color: #ebb951; float: right; font-size: .9em; }
+.index body > section.benchmark > div:first-child a:hover { color: #ffd858; }
 
 .benchmark h2 { font-size: 2rem; font-weight: normal; margin-bottom: .5rem; }
 .benchmark h2 + p { color: #ddd; margin-bottom: 3rem; margin-top: .5rem; }

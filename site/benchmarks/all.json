@@ -1,18 +1,88 @@
 [
     {
-        "Program": "foo",
+        "Program": "Fibonacci-10",
         "Results": {
+            "go-lua": {
+                "Time": 50439,
+                "Allocs": 319
+            },
+            "goja": {
+                "Time": 281745,
+                "Allocs": 1874
+            },
+            "gopher-lua": {
+                "Time": 95907,
+                "Allocs": 247
+            },
             "scriggo": {
-                "Time": 88996772,
-                "Allocs": 80226
+                "Time": 31036,
+                "Allocs": 11
             },
             "tengo": {
-                "Time": 1501004,
-                "Allocs": 20381
+                "Time": 156631,
+                "Allocs": 638
             },
             "yaegi": {
-                "Time": 2461026,
-                "Allocs": 10578
+                "Time": 204628,
+                "Allocs": 2307
+            }
+        }
+    },
+    {
+        "Program": "Fibonacci-35",
+        "Results": {
+            "go-lua": {
+                "Time": 6098240439,
+                "Allocs": 39088310
+            },
+            "goja": {
+                "Time": 7071025456,
+                "Allocs": 48247
+            },
+            "gopher-lua": {
+                "Time": 6541278043,
+                "Allocs": 4040
+            },
+            "scriggo": {
+                "Time": 2533204486,
+                "Allocs": 13
+            },
+            "tengo": {
+                "Time": 3513278597,
+                "Allocs": 39088586
+            },
+            "yaegi": {
+                "Time": 25250780073,
+                "Allocs": 283677612
+            }
+        }
+    },
+    {
+        "Program": "closures",
+        "Results": {
+            "go-lua": {
+                "Time": 34017255,
+                "Allocs": 360087
+            },
+            "goja": {
+                "Time": 148275304,
+                "Allocs": 1081331
+            },
+            "gopher-lua": {
+                "Time": 33929424,
+                "Allocs": 98620
+            },
+            "scriggo": {
+                "Time": 30137289,
+                "Allocs": 180009
+            },
+            "tengo": {
+                "Time": 12816051,
+                "Allocs": 180277
+            },
+            "yaegi": {
+                "Time": 78739229,
+                "Allocs": 540515
             }
         }
     },
@@ -20,27 +90,27 @@
         "Program": "iterations",
         "Results": {
             "go-lua": {
-                "Time": 34664298,
+                "Time": 32757354,
                 "Allocs": 322111
             },
             "goja": {
-                "Time": 136761288,
+                "Time": 137370169,
                 "Allocs": 772259
             },
             "gopher-lua": {
-                "Time": 47975331,
+                "Time": 47441700,
                 "Allocs": 326059
             },
             "scriggo": {
-                "Time": 13124931,
+                "Time": 13189727,
                 "Allocs": 8
             },
             "tengo": {
-                "Time": 47643964,
-                "Allocs": 803200
+                "Time": 46213939,
+                "Allocs": 803199
             },
             "yaegi": {
-                "Time": 10375293,
+                "Time": 9986679,
                 "Allocs": 1031
             }
         }
@@ -49,107 +119,20 @@
         "Program": "strings",
         "Results": {
             "goja": {
-                "Time": 710641,
+                "Time": 734536,
                 "Allocs": 4236
             },
             "scriggo": {
-                "Time": 192991,
+                "Time": 195300,
                 "Allocs": 805
             },
             "tengo": {
-                "Time": 309809,
+                "Time": 310193,
                 "Allocs": 2695
             },
             "yaegi": {
-                "Time": 359169,
+                "Time": 371228,
                 "Allocs": 1879
-            }
-        }
-    },
-    {
-        "Program": "closures",
-        "Results": {
-            "go-lua": {
-                "Time": 35054843,
-                "Allocs": 360087
-            },
-            "goja": {
-                "Time": 145650287,
-                "Allocs": 1081331
-            },
-            "gopher-lua": {
-                "Time": 33976927,
-                "Allocs": 98620
-            },
-            "scriggo": {
-                "Time": 29535668,
-                "Allocs": 180009
-            },
-            "tengo": {
-                "Time": 13072221,
-                "Allocs": 180277
-            },
-            "yaegi": {
-                "Time": 77146004,
-                "Allocs": 540515
-            }
-        }
-    },
-    {
-        "Program": "fib10",
-        "Results": {
-            "go-lua": {
-                "Time": 51901,
-                "Allocs": 319
-            },
-            "goja": {
-                "Time": 272616,
-                "Allocs": 1874
-            },
-            "gopher-lua": {
-                "Time": 95869,
-                "Allocs": 247
-            },
-            "scriggo": {
-                "Time": 29809,
-                "Allocs": 11
-            },
-            "tengo": {
-                "Time": 112193,
-                "Allocs": 638
-            },
-            "yaegi": {
-                "Time": 202051,
-                "Allocs": 2307
-            }
-        }
-    },
-    {
-        "Program": "fib35",
-        "Results": {
-            "go-lua": {
-                "Time": 6280394891,
-                "Allocs": 39088307
-            },
-            "goja": {
-                "Time": 7139806249,
-                "Allocs": 48243
-            },
-            "gopher-lua": {
-                "Time": 6211002581,
-                "Allocs": 4041
-            },
-            "scriggo": {
-                "Time": 2519615999,
-                "Allocs": 13
-            },
-            "tengo": {
-                "Time": 3506251659,
-                "Allocs": 39088582
-            },
-            "yaegi": {
-                "Time": 24979832819,
-                "Allocs": 283677529
             }
         }
     }
