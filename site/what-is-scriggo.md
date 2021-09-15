@@ -4,7 +4,7 @@
 
 # What is Scriggo?
 
-Scriggo is the world’s powerful template engine and Go embeddable interpreter.
+Scriggo is the world’s most powerful template engine and Go embeddable interpreter.
 
 * Fast, a very fast embeddable pure Go language interpreter.
 * Modern template engine with Go as scripting language.
@@ -20,7 +20,7 @@ Scriggo imported into a Go application has no dependencies other than the Go sta
 
 ## Template Engine
 
-Scriggo is the world’s powerful template engine:
+Scriggo is the world’s most powerful template engine:
 
 * Support inheritance, macros, partials, imports and contextual autoescaping.
 * Native support for Markdown, inside or without HTML.
