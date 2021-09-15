@@ -67,7 +67,7 @@ Scriggo could have been publicly released in 2020, but a further year of use in 
 improvements, mainly to the template engine, which have given it immediacy in use, making it a natural extension of
 the Go language.
 
-On September 2021, Scriggo was made public by Open2b as an open source project for the Go community and beyond,
+On September 15, 2021, Scriggo was made public by Open2b as an open source project for the Go community and beyond,
 with the hope that it will further contribute to its growth. Scriggo, which includes a template engine and a Go
 embeddable interpreter, provides a stable base for creating applications, sites, and projects of various kinds.
 
