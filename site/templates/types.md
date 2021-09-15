@@ -11,7 +11,7 @@ are documented here.
 
 All values in Scriggo have a type and there are several basic types.
 
-## Booleans
+## bool
 
 Boolean values are the `true` and `false` values. These are examples of boolean variable declarations:
 
@@ -21,7 +21,7 @@ Boolean values are the `true` and `false` values. These are examples of boolean 
 {% c := false %}     c is false
 ```
 
-## Strings
+## string
 
 Strings are written with double quotes, as "hello", or with a grave accent, as \`hello\`. These are examples of string variable declarations:
 
@@ -36,7 +36,53 @@ To read the length in bytes of a string use the `len` function, instead to read 
 characters. For a more accurate explanation you can read
 [Strings, bytes, runes and characters in Go](https://go.dev/blog/strings).
 
-## Integers
+## html
+
+The _html_ type is a string type representing HTML code. Unlike the type string, _show_ does not escape a html value in 
+an HTML context. For example:
+
+```scriggo
+<div>
+    {{ "<b>this is bold</b>" }}           {# is escaped #}
+    {{ html("<b>this is bold</b>") }}     {# is not escaped #}
+</div>
+```
+<pre class="result">
+&amp;lt;b&amp;gt;this is bold&amp;lt;/b&amp;gt;
+&lt;b&gt;this is bold&lt;/b&gt;
+</pre>
+
+A value with type string can be converted to the html type only if it is an untyped constant, as `"<b>this is bold</b>"`. 
+If it is a variable, it cannot be converted. On the other hand, a html type value can always be converted to the
+string type. 
+
+```scriggo
+{%%
+    var a html = "<b>this is bold</b>"  // "<b>this is bold</b>" can be converted to html
+    var b string = a                    // a cannot be coverted to b
+    var c html = b                      // ERROR: b is not an untyped constant
+%%}
+```
+
+## markdown
+
+The _markdown_ type is a string type representing Markdown code. Unlike the type string, _show_ does not escape a 
+markdown value in a Markdown context. For example, supposing a Markdown context:
+
+```scriggo 
+{{ "# This is a title" }}
+{{ markdown("# This Is A Title") }}
+```
+<pre class="result">
+\# This is a title
+# This is a title
+</pre>
+
+The markdown type, the html type and the _css_, _js_ and _json_ types are called format types. These format types
+can be converted to the string type only if the value to convert is an untyped constant as seen in the example for the 
+html type.
+
+## int
 
 Values with type `int` are integer numbers. These are examples of int variable declarations:
 
@@ -46,7 +92,7 @@ Values with type `int` are integer numbers. These are examples of int variable d
 {% c := 7 %}     c is 7
 ```
 
-## Slices
+## slice
 
 A slice is a numbered sequence of elements of the same type. For example `[]int{5, 2, 7, 9}` is a slice of `int`
 values and `[]string{"hello", "ciao"}` is a slice of `string` values. A slice can be `nil` which is a value other than

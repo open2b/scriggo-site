@@ -45,7 +45,7 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .index body > section { margin: 4rem; }
 
 .index .why { color: #fff; margin-bottom: 2rem; }
-.index .why h2 { color: #ebb951; font-size: 1.8rem; font-weight: normal; }
+.index .why h2 { color: #e6a621; font-size: 1.8rem; font-weight: normal; }
 .index .why p { color: #333; font-size: 1.3rem; font-weight: 200; line-height: 1.9rem; }
 
 .index body > section.benchmark { background: #0a1922; color: #FFF; margin: 0; padding: 4.5rem 9rem; }
@@ -158,7 +158,7 @@ footer ul { display: flex; flex: 1; flex-wrap: wrap; list-style: none; }
 footer ul li { padding: 0 1rem; }
 footer ul li a { color: #333; }
 footer ul li a:hover { color: #e6a62f; }
-footer .generator { align-self: center; }
+footer .company { flex: 2; text-align: right; }
 
 @media only screen and (max-width: 767px) {
 
@@ -188,6 +188,7 @@ footer .generator { align-self: center; }
     .get-scriggo { font-size: .9rem; }
 
     footer { font-size: 0.8rem; text-align: center; }
+    footer ul { padding-left: 0; }
 
 }
 

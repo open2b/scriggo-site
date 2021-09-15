@@ -81,8 +81,7 @@
         </aside>
         <div class="content">
             <h1 id="using-and-itea">Using and itea</h1>
-<p>The using statement can be used in combination with other statements and declarations to render a piece of code and
-use the rendered code via the predeclared identifier <em>itea</em>.</p>
+<p>The <em>using</em> statement is used to evaluate a block of content and then use it, via a predeclared identifier named <em>itea</em>, in a statement or declaration.</p>
 <p>In this example:</p>
 <pre><code class="language-scriggo">{% navigation := itea; using %}
   &lt;li&gt;&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;
@@ -93,15 +92,14 @@ use the rendered code via the predeclared identifier <em>itea</em>.</p>
 <pre><code class="language-scriggo">  &lt;li&gt;&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;
   &lt;li&gt;&lt;a href=&quot;/about-us&quot;&gt;About Us&lt;/a&gt;
 </code></pre>
-<p>is rendered and the result, represented by the predeclared identifier <em>itea</em>, is assigned to the <em>navigation</em> variable.</p>
-<p>Therefore, the body of the <em>using</em> statement is rendered first, and after that the statement or declaration that
-precedes the <em>using</em> statement is evaluated with the <em>itea</em> identifier representing the rendered value.</p>
-<p>In this other example, <em>itea</em> is used as argument for a function call:</p>
-<pre><code class="language-scriggo">{% sendmail(from, name, wordwrap(itea)); using %}
+<p>is evaluated and the result, represented by the identifier <em>itea</em>, is assigned to the <em>navigation</em> variable.</p>
+<p>The body of the using statement can contain any content, including other declarations and statements, and <em>itea</em> can be
+used like any other identifier. In the following example, the body also contains a show statement and <em>itea</em> is passed
+to a function:</p>
+<pre><code class="language-scriggo">{% sendmail(from, to, wordwrap(itea)); using %}
 Hello {{ name }}, thanks for your kind reply.
 {% end %}
 </code></pre>
-<h3 id="one-more-example">One more example</h3>
 <p>Given this macro declaration:</p>
 <pre><code class="language-scriggo">{% macro Dialog(title string, content html) %}
 &lt;div class=&quot;dialog&quot;&gt;
@@ -110,53 +108,59 @@ Hello {{ name }}, thanks for your kind reply.
 &lt;/div&gt;
 {% end %}
 </code></pre>
-<p>You can show the dialog as follows:</p>
+<p>you can call it like this:</p>
 <pre><code class="language-scriggo">{% show Dialog(&quot;You wrote&quot;, itea); using %}
-  You wrote:
-  {{ message }}
+  &lt;p&gt;You wrote:&lt;/p&gt;
+  &lt;cite&gt;{{ message }}&lt;/cite&gt;
 {% end %}
 </code></pre>
-<p>Without the <em>using</em> statement, you would have had to write instead:</p>
-<pre><code class="language-scriggo">{% macro content %}
-  You wrote:
-  {{ message }}
+<p>In the previous example itea must have type <a href="types#html">html</a> in order to be passed to the <code>Dialog</code> macro. The type of
+itea depends on the context of the using statement. In the example above, assuming the context is HTML, itea has the
+type <a href="types#html">html</a>.</p>
+<p>You can specify the type for itea among the format types <em>string</em>, <em>html</em>, <em>markdown</em>, <em>css</em>, <em>js</em> and <em>json</em>.</p>
+<p>Look at this example:</p>
+<pre><code class="language-scriggo">{% show itea; using markdown %}
+# The ancient art of tea
+The Ancient Art of Tea is a delightful glimpse into
+the philosophy, history and culture of tea in China.
 {% end %}
-
-{{ Dialog(title, content()) }}
 </code></pre>
-<h2 id="using-macro">Using macro</h2>
-<p>In some cases one would not want to immediately evaluate the body of the <em>using</em> statement.</p>
+<pre class="result">
+&lt;h1&gt;The ancient art of tea&lt;/h1&gt;
+&lt;p&gt;The Ancient Art of Tea is a delightful glimpse into
+the philosophy, history and culture of tea in China.&lt;/p&gt;
+</pre>
+<p>The body is evaluated as Markdown because we have explicitly specified the type of itea by writing <code>using markdown</code>. If the context of the show statement is HTML, the show statement then converts the value of itea from markdown to html and shows it.</p>
+<h2 id="itea-with-a-macro-type">Itea with a macro type</h2>
+<p>In some cases, you may not want to immediately evaluate the body of the <em>using</em> statement.</p>
 <p>Look at this example:</p>
 <pre><code class="language-scriggo">{% show Header(itea); using %}
   &lt;title&gt;My Site&lt;/title&gt;
   {{ socials() }}
 {% end %}
 </code></pre>
-<p>The body is rendered and its value is passed to the <code>Header</code> macro. If in certain circumstances you implement the
-<code>Header</code> macro so that it doesn't use its argument, the body was rendered anyway and the <code>socials</code> macro was called
-anyway.</p>
-<p>In this case you could change <code>Header</code> to take a macro instead of a string value, so <code>Header</code> calls the macro only if it
-wants to render it. Now you can write <code>using macro</code> instead of <code>using</code> only:</p>
+<p>The body is evaluated and the result is passed to the <code>Header</code> macro. If <code>Header</code> doesn't use its argument, Scriggo still executes the body and calls the <code>socials</code> function.</p>
+<p>To avoid this, you can change <code>Header</code> by passing them a macro instead of a string. <code>Header</code> will only call the macro if it wants to render it. Now you can write <code>using macro</code> instead of <code>using</code> only:</p>
 <pre><code class="language-scriggo">{% show Header(itea); using macro %}
   &lt;title&gt;My Site&lt;/title&gt;
   {{ socials() }}
 {% end %}
 </code></pre>
-<p>In this case <em>itea</em> represents a macro with body the body of the <em>using</em> statement. Only if and when <code>Header</code> calls
-the macro, the body is rendered and consequently the <code>socials</code> macro id called.</p>
-<p>Below we will look at a more complex use case.</p>
-<h3 id="using-macro-with-parameters">Using macro with parameters</h3>
-<p>The following macro <code>Users</code> renders a slice of <code>User</code> using a macro passed as argument to render each single user:</p>
-<pre><code class="language-scriggo">{% macro Users(users []User, one macro(user User) html) %}
+<p>In this case <em>itea</em> represents a macro with body the body of the <em>using</em> statement. The body is evaluated and the
+<code>socials</code> macro is called only when <code>Header</code> calls the macro.</p>
+<h3 id="parameters">Parameters</h3>
+<p>The following <code>Users</code> macro shows the users that have been passed to them. To show each user, it calls the macro
+<code>getUser</code>, also passed as an argument:</p>
+<pre><code class="language-scriggo">{% macro Users(users []User, getUser macro(user User) html) %}
 &lt;div class=&quot;users&quot;&gt;
   &lt;h2&gt;Users&lt;/h2&gt;
   {% for user in users %}
-  &lt;div class=&quot;user&quot;&gt;{{ one(user) }}&lt;/div&gt;
+  &lt;div class=&quot;user&quot;&gt;{{ getUser(user) }}&lt;/div&gt;
   {% end %}
 &lt;/div&gt;
 {% end %}
 </code></pre>
-<p>You can call this macro to show all the users in this way:</p>
+<p>You can put together the call to <code>Users</code> with the macro showing a user, as follows:</p>
 <pre><code class="language-scriggo">{% show Users(users, itea); using macro(user User) %}
 &lt;dl&gt;
   &lt;dt&gt;First name&lt;/dt&gt;
@@ -182,7 +186,9 @@ the template specification of the <a href="/templates/specification#using-statem
     <img class="gopher" src="/images/pilot-bust.svg" alt="The Go Gopher">
     <ul>
       <li><a href="/copyright">Copyright</a></li>
+      <li><a href="mailto:info@open2b.com">Contact Us</a></li>
       <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
+      <li class="company"><a href="https://www.open2b.com/" target="_blank">Open2b</a></li>
     </ul>
   </div>
 </footer><script src="/js/highlight.min.js"></script>

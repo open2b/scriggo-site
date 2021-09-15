@@ -84,13 +84,13 @@
 <p>Scriggo implements all <a href="https://golang.org/ref/spec#Types">types of Go</a> but only the most common types
 are documented here.</p>
 <p>All values in Scriggo have a type and there are several basic types.</p>
-<h2 id="booleans">Booleans</h2>
+<h2 id="bool">bool</h2>
 <p>Boolean values are the <code>true</code> and <code>false</code> values. These are examples of boolean variable declarations:</p>
 <pre><code class="language-scriggo">{% var a bool %}     a is false
 {% var b = true %}   b is true
 {% c := false %}     c is false
 </code></pre>
-<h2 id="strings">Strings</h2>
+<h2 id="string">string</h2>
 <p>Strings are written with double quotes, as &quot;hello&quot;, or with a grave accent, as `hello`. These are examples of string variable declarations:</p>
 <pre><code class="language-scriggo">{% var a string %}     a is an empty string
 {% var b = &quot;hello&quot; %}  b is the string &quot;hello&quot;
@@ -100,13 +100,47 @@ are documented here.</p>
 <code>runeCount</code> function. The name of the <code>runeCount</code> function comes from &quot;rune&quot; which is the term used in Go to name the
 characters. For a more accurate explanation you can read
 <a href="https://go.dev/blog/strings">Strings, bytes, runes and characters in Go</a>.</p>
-<h2 id="integers">Integers</h2>
+<h2 id="html">html</h2>
+<p>The <em>html</em> type is a string type representing HTML code. Unlike the type string, <em>show</em> does not escape a html value in
+an HTML context. For example:</p>
+<pre><code class="language-scriggo">&lt;div&gt;
+    {{ &quot;&lt;b&gt;this is bold&lt;/b&gt;&quot; }}           {# is escaped #}
+    {{ html(&quot;&lt;b&gt;this is bold&lt;/b&gt;&quot;) }}     {# is not escaped #}
+&lt;/div&gt;
+</code></pre>
+<pre class="result">
+&amp;lt;b&amp;gt;this is bold&amp;lt;/b&amp;gt;
+&lt;b&gt;this is bold&lt;/b&gt;
+</pre>
+<p>A value with type string can be converted to the html type only if it is an untyped constant, as <code>&quot;&lt;b&gt;this is bold&lt;/b&gt;&quot;</code>.
+If it is a variable, it cannot be converted. On the other hand, a html type value can always be converted to the
+string type.</p>
+<pre><code class="language-scriggo">{%%
+    var a html = &quot;&lt;b&gt;this is bold&lt;/b&gt;&quot;  // &quot;&lt;b&gt;this is bold&lt;/b&gt;&quot; can be converted to html
+    var b string = a                    // a cannot be coverted to b
+    var c html = b                      // ERROR: b is not an untyped constant
+%%}
+</code></pre>
+<h2 id="markdown">markdown</h2>
+<p>The <em>markdown</em> type is a string type representing Markdown code. Unlike the type string, <em>show</em> does not escape a
+markdown value in a Markdown context. For example, supposing a Markdown context:</p>
+<pre><code class="language-scriggo">{{ &quot;# This is a title&quot; }}
+{{ markdown(&quot;# This Is A Title&quot;) }}
+</code></pre>
+<pre class="result">
+\# This is a title
+# This is a title
+</pre>
+<p>The markdown type, the html type and the <em>css</em>, <em>js</em> and <em>json</em> types are called format types. These format types
+can be converted to the string type only if the value to convert is an untyped constant as seen in the example for the
+html type.</p>
+<h2 id="int">int</h2>
 <p>Values with type <code>int</code> are integer numbers. These are examples of int variable declarations:</p>
 <pre><code class="language-scriggo">{% var a int %}  a is 0
 {% var b = 5 %}  b is 5
 {% c := 7 %}     c is 7
 </code></pre>
-<h2 id="slices">Slices</h2>
+<h2 id="slice">slice</h2>
 <p>A slice is a numbered sequence of elements of the same type. For example <code>[]int{5, 2, 7, 9}</code> is a slice of <code>int</code>
 values and <code>[]string{&quot;hello&quot;, &quot;ciao&quot;}</code> is a slice of <code>string</code> values. A slice can be <code>nil</code> which is a value other than
 an empty slice.</p>
@@ -199,7 +233,9 @@ longer slice. The append operation is done with the <code>append</code> built-in
     <img class="gopher" src="/images/pilot-bust.svg" alt="The Go Gopher">
     <ul>
       <li><a href="/copyright">Copyright</a></li>
+      <li><a href="mailto:info@open2b.com">Contact Us</a></li>
       <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
+      <li class="company"><a href="https://www.open2b.com/" target="_blank">Open2b</a></li>
     </ul>
   </div>
 </footer><script src="/js/highlight.min.js"></script>

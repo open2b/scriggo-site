@@ -6,8 +6,7 @@
 
 # Using and itea
 
-The using statement can be used in combination with other statements and declarations to render a piece of code and
-use the rendered code via the predeclared identifier _itea_.
+The _using_ statement is used to evaluate a block of content and then use it, via a predeclared identifier named _itea_, in a statement or declaration.
 
 In this example:
 
@@ -25,20 +24,17 @@ the body of the _using_ statement:
   <li><a href="/about-us">About Us</a>
 ```
 
-is rendered and the result, represented by the predeclared identifier _itea_, is assigned to the _navigation_ variable.
+is evaluated and the result, represented by the identifier _itea_, is assigned to the _navigation_ variable.
 
-Therefore, the body of the _using_ statement is rendered first, and after that the statement or declaration that
-precedes the _using_ statement is evaluated with the _itea_ identifier representing the rendered value.
-
-In this other example, _itea_ is used as argument for a function call:  
+The body of the using statement can contain any content, including other declarations and statements, and _itea_ can be
+used like any other identifier. In the following example, the body also contains a show statement and _itea_ is passed
+to a function:  
 
 ```scriggo
-{% sendmail(from, name, wordwrap(itea)); using %}
+{% sendmail(from, to, wordwrap(itea)); using %}
 Hello {{ name }}, thanks for your kind reply.
 {% end %}
 ```
-
-### One more example
 
 Given this macro declaration:  
 
@@ -51,29 +47,41 @@ Given this macro declaration:
 {% end %}
 ```
 
-You can show the dialog as follows:
+you can call it like this:
 
 ```scriggo
 {% show Dialog("You wrote", itea); using %}
-  You wrote:
-  {{ message }}
+  <p>You wrote:</p>
+  <cite>{{ message }}</cite>
 {% end %}
 ```
 
-Without the _using_ statement, you would have had to write instead:
+In the previous example itea must have type [html](types#html) in order to be passed to the `Dialog` macro. The type of
+itea depends on the context of the using statement. In the example above, assuming the context is HTML, itea has the
+type [html](types#html).
+
+You can specify the type for itea among the format types _string_, _html_, _markdown_, _css_, _js_ and _json_.
+
+Look at this example:
 
 ```scriggo
-{% macro content %}
-  You wrote:
-  {{ message }}
+{% show itea; using markdown %}
+# The ancient art of tea
+The Ancient Art of Tea is a delightful glimpse into
+the philosophy, history and culture of tea in China.
 {% end %}
-
-{{ Dialog(title, content()) }}
 ```
+<pre class="result">
+&lt;h1&gt;The ancient art of tea&lt;/h1&gt;
+&lt;p&gt;The Ancient Art of Tea is a delightful glimpse into
+the philosophy, history and culture of tea in China.&lt;/p&gt;
+</pre>
 
-## Using macro
+The body is evaluated as Markdown because we have explicitly specified the type of itea by writing `using markdown`. If the context of the show statement is HTML, the show statement then converts the value of itea from markdown to html and shows it.
 
-In some cases one would not want to immediately evaluate the body of the _using_ statement.
+## Itea with a macro type
+
+In some cases, you may not want to immediately evaluate the body of the _using_ statement.
 
 Look at this example:
 
@@ -84,12 +92,9 @@ Look at this example:
 {% end %}
 ```
 
-The body is rendered and its value is passed to the `Header` macro. If in certain circumstances you implement the
-`Header` macro so that it doesn't use its argument, the body was rendered anyway and the `socials` macro was called
-anyway.
+The body is evaluated and the result is passed to the `Header` macro. If `Header` doesn't use its argument, Scriggo still executes the body and calls the `socials` function.
 
-In this case you could change `Header` to take a macro instead of a string value, so `Header` calls the macro only if it
-wants to render it. Now you can write `using macro` instead of `using` only: 
+To avoid this, you can change `Header` by passing them a macro instead of a string. `Header` will only call the macro if it wants to render it. Now you can write `using macro` instead of `using` only: 
 
 ```scriggo
 {% show Header(itea); using macro %}
@@ -98,27 +103,26 @@ wants to render it. Now you can write `using macro` instead of `using` only:
 {% end %}
 ```
 
-In this case _itea_ represents a macro with body the body of the _using_ statement. Only if and when `Header` calls
-the macro, the body is rendered and consequently the `socials` macro id called.
+In this case _itea_ represents a macro with body the body of the _using_ statement. The body is evaluated and the 
+`socials` macro is called only when `Header` calls the macro.
 
-Below we will look at a more complex use case.
+### Parameters
 
-### Using macro with parameters
-
-The following macro `Users` renders a slice of `User` using a macro passed as argument to render each single user:   
+The following `Users` macro shows the users that have been passed to them. To show each user, it calls the macro
+`getUser`, also passed as an argument:
 
 ```scriggo
-{% macro Users(users []User, one macro(user User) html) %}
+{% macro Users(users []User, getUser macro(user User) html) %}
 <div class="users">
   <h2>Users</h2>
   {% for user in users %}
-  <div class="user">{{ one(user) }}</div>
+  <div class="user">{{ getUser(user) }}</div>
   {% end %}
 </div>
 {% end %}
 ```
 
-You can call this macro to show all the users in this way:
+You can put together the call to `Users` with the macro showing a user, as follows:
 
 ```scriggo
 {% show Users(users, itea); using macro(user User) %}
