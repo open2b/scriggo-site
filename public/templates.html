@@ -95,17 +95,17 @@ the Go language as the template scripting language.</p>
     {{ Banner() }}
 {% end %}
 </code></pre>
-<p>The double curly brackets:</p>
+<p>The double curly braces:</p>
 <pre><code>{{ product.Name }}
 </code></pre>
-<p>show the content of a variable and in general the result of the evaluation of an expression.</p>
-<p>Single curly brackets with a percent sign:</p>
+<p>shows the content of a variable and in general the result of the evaluation of an expression.</p>
+<p>Single curly braces with a percent sign:</p>
 <pre><code>{% if product.Stock &gt; 10 %} good availability {% end %}
 </code></pre>
 <p>are statements or declarations that allow you to define the layout, execute repeated or condition-based code, and
 declare and assign variables (and also define constants and types).</p>
 <h3 id="multiline-statements">Multiline statements</h3>
-<p>Single curly brackets with a double percent sign:</p>
+<p>Single curly braces with a double percent sign:</p>
 <pre><code>{%%
     for product in products {
         if product.Stock == 0 {
@@ -118,8 +118,10 @@ declare and assign variables (and also define constants and types).</p>
     }
 %%}
 </code></pre>
+<p>is called a multiline statement and can contain multiple statements and declarations. The syntax is the same as the Go
+language, apart from some specific Scriggo constructs.</p>
 <h3 id="comments">Comments</h3>
-<p>Single curly brackets with a single hash sign:</p>
+<p>Single curly braces with a single hash sign:</p>
 <pre><code class="language-scriggo">{# review the following code #}
 </code></pre>
 <p>are comments. Comments are discarded when the template is rendered and consequently are not present in the resulted

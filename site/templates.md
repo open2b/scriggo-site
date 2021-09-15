@@ -27,15 +27,15 @@ The following is a minimal example of a template file written with Scriggo:
 {% end %}
 ```
 
-The double curly brackets:
+The double curly braces:
 
 ```
 {{ product.Name }}
 ```
 
-show the content of a variable and in general the result of the evaluation of an expression.
+shows the content of a variable and in general the result of the evaluation of an expression.
 
-Single curly brackets with a percent sign:
+Single curly braces with a percent sign:
 
 ```
 {% if product.Stock > 10 %} good availability {% end %}
@@ -46,7 +46,7 @@ declare and assign variables (and also define constants and types).
 
 ### Multiline statements
 
-Single curly brackets with a double percent sign:
+Single curly braces with a double percent sign:
 
 ```
 {%%
@@ -62,9 +62,12 @@ Single curly brackets with a double percent sign:
 %%}
 ```
 
+is called a multiline statement and can contain multiple statements and declarations. The syntax is the same as the Go
+language, apart from some specific Scriggo constructs.
+
 ### Comments
 
-Single curly brackets with a single hash sign:
+Single curly braces with a single hash sign:
 
 ```scriggo
 {# review the following code #}
