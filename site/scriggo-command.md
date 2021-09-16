@@ -44,7 +44,7 @@ $ scriggo help
 ## Serve a template
 
 The Scriggo Serve command runs a web server and serves the template rooted at the current directory.
-All Scriggo builtins are available in template files. It is useful to learn Scriggo templates.
+All Scriggo builtins are available in template files. It is useful to learn [Scriggo templates](/templates).
 
 The basic Serve command takes this form:
 
@@ -67,7 +67,7 @@ Serving a URL terminating with a slash:
 it renders "blog/index.html" or "blog/index.md". 
 
 Markdown is converted to HTML with the [Goldmark](https://github.com/yuin/goldmark) parser with the options
-`html.WithUnsafe` and `parser.WithAutoHeadingID`.
+`html.WithUnsafe`, `parser.WithAutoHeadingID` and `extension.GFM`.
 
 Templates are automatically rebuilt when a file changes.
 

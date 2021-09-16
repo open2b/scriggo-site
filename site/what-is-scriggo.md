@@ -29,9 +29,9 @@ Scriggo is the world’s most powerful template engine:
 * Allow importing Go packages in templates.
 * Templates are compiled to bytecode and executed on a fast virtual machine.
 
-Scriggo templates have a simple and familiar syntax that is quick to learn, whether you know Go or not yet.
-Documentation does not assume you already know Go, but by reading the Scriggo documentation you can also learn the Go 
-language.
+[Scriggo templates](/templates) have a simple and familiar syntax that is quick to learn, whether you know Go or not
+yet. Documentation does not assume you already know Go, but by reading the Scriggo documentation you can also learn the
+Go language.
 
 ## Embeddable Go Interpreter
 

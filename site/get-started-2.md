@@ -5,7 +5,7 @@
 # Get Started With Templates
 
 In the first step you have learned how to <a href="/get-started">embed Go programs</a>.
-In this second step you will learn how to execute Scriggo templates in your applications.
+In this second step you will learn how to execute [Scriggo templates](/templates) in your applications.
 
 It requires 10 minutes to be completed.
 
@@ -13,10 +13,10 @@ Before you start using Scriggo in a Go application you must <a href="https://gol
 
 ## Execute templates in your application
 
-Scriggo, in templates, supports inheritance, macros, partials, imports and contextual autoescaping but most of all it uses the Go
-language as the template scripting language. 
+Scriggo, in templates, supports inheritance, macros, partials, imports and contextual autoescaping but most of all it
+uses the Go language as the template scripting language. 
 
-Scriggo templates can be written with plain text, HTML, Markdown, CSS, JavaScript and JSON.
+[Scriggo templates](/templates) can be written with plain text, HTML, Markdown, CSS, JavaScript and JSON.
 
 Open a terminal and create a new directory for the application: 
 
