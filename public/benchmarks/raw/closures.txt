@@ -1,6 +1,0 @@
-BenchmarkScriggo/closures.go-4             	     100	  30137289 ns/op	 7949160 B/op	  180009 allocs/op
-BenchmarkYaegi/closures.go-4               	      46	  78739229 ns/op	69149390 B/op	  540515 allocs/op
-BenchmarkTengo/closures.tengo-4            	     284	  12816051 ns/op	 1563110 B/op	  180277 allocs/op
-BenchmarkGoLua/closures.lua-4              	     100	  34017255 ns/op	 3607691 B/op	  360087 allocs/op
-BenchmarkGopherLua/closures.lua-4          	     100	  33929424 ns/op	 7968536 B/op	   98620 allocs/op
-BenchmarkGoja/closures.js-4                	      22	 148275304 ns/op	69984461 B/op	 1081331 allocs/op

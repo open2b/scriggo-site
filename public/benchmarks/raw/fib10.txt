@@ -1,6 +1,0 @@
-BenchmarkScriggo/Fibonacci-10.go-4         	  119041	     31036 ns/op	   32016 B/op	      11 allocs/op
-BenchmarkYaegi/Fibonacci-10.go-4           	   17040	    204628 ns/op	  107994 B/op	    2307 allocs/op
-BenchmarkTengo/Fibonacci-10.tengo-4        	   28179	    156631 ns/op	  127315 B/op	     638 allocs/op
-BenchmarkGoLua/Fibonacci-10.lua-4          	   71122	     50439 ns/op	    9360 B/op	     319 allocs/op
-BenchmarkGopherLua/Fibonacci-10.lua-4      	   37770	     95907 ns/op	   52608 B/op	     247 allocs/op
-BenchmarkGoja/Fibonacci-10.js-4            	   12464	    281745 ns/op	  148735 B/op	    1874 allocs/op
