@@ -11,16 +11,17 @@ dl { line-height: 1.60; margin: 1.25rem; }
 dd { margin-left: 1.5rem; }
 ol li { line-height: 2; }
 
-nav.top { align-items: center; display: flex; justify-content: flex-start; flex-wrap: wrap; height: 6rem; padding: 2rem 0; width: 100%; }
+nav.top { align-items: center; background: #0a1922; display: flex; justify-content: flex-start; flex-wrap: wrap; height: 6rem; padding: 2rem 0; width: 100%; }
 nav.top .logo { margin-left: 3rem; }
 nav.top .logo img { vertical-align: bottom; }
-nav.top .version { color: #999; font-size: .7rem; padding: 6px 0 0 .5rem; }
+nav.top .version { color: #eee; font-size: .7rem; padding: 6px 0 0 .5rem; }
 nav.top .version:hover { color: #e5a62e; }
 nav.top ul { display: inline-block; list-style-type: none; margin: 0 .5em; vertical-align: middle; }
 nav.top li { display: inline-block; padding: 0 1rem; }
-nav.top ul a { color: #333; }
-nav.top ul a:hover, nav.top ul a.selected { color: #d18c00; }
+nav.top ul a { color: #e2e9ee; }
+nav.top ul a:hover, nav.top ul a.selected { color: #f3ad20; }
 nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width: 1.8rem; }
+nav.top .github-logo svg path { fill: #fff; }
 
 .content { margin: 0 20px; }
 
@@ -28,8 +29,7 @@ nav.top .github-logo { display: block; height: 1.8rem; margin-left: 1rem; width:
 .cols-2 > div { padding: 2em 5rem; width: 50%; }
 
 .index a { color: #fff; }
-.index footer a { color: #333; }
-.index footer a:hover { color: #e6a62f; }
+.index footer ul li a { color: #e2e9ee; }
 
 .index nav.top .logo { cursor: default; pointer-events: none; }
 
@@ -150,13 +150,13 @@ code.language-jinja {
     color: rgb(136, 136, 136);
 }
 
-footer { border-top: 1px solid #dcdee0; }
+footer { background: #0a1922; border-top: 1px solid #dcdee0; }
 footer > div { display: flex; padding-top: .6rem; }
 footer > div > * { align-self: flex-end; }
 footer img.gopher { width: 5rem; }
 footer ul { display: flex; flex: 1; flex-wrap: wrap; list-style: none; }
 footer ul li { padding: 0 1rem; }
-footer ul li a { color: #333; }
+footer ul li a { color: #e2e9ee; }
 footer ul li a:hover { color: #e6a62f; }
 footer .company { flex: 2; text-align: right; }
 
