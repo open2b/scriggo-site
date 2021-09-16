@@ -150,6 +150,9 @@ code.language-jinja {
     color: rgb(136, 136, 136);
 }
 
+.hljs-attribute, .hljs-doctag, .hljs-keyword, .hljs-meta .hljs-keyword, .hljs-name, .hljs-selector-tag, hljs-section, .hljs-title { font-weight: normal; }
+pre code { font-size: .9rem; }
+
 footer { background: #0a1922; border-top: 1px solid #dcdee0; }
 footer > div { display: flex; padding-top: .6rem; }
 footer > div > * { align-self: flex-end; }
@@ -214,7 +217,7 @@ footer .company { flex: 2; text-align: right; }
     .index body > section.benchmark > div:first-child h2 { font-size: 1.8rem; }
     .index body > section.benchmark > div:first-child a  { float: none; }
 
-    pre { font-size: .8rem; }
+    pre code { font-size: .8rem; }
 
     .page-support .support { display: block; }
     .page-support .support > div { margin: 2rem 0; }
