@@ -59,8 +59,8 @@ string type.
 ```scriggo
 {%%
     var a html = "<b>this is bold</b>"  // "<b>this is bold</b>" can be converted to html
-    var b string = a                    // a cannot be coverted to b
-    var c html = b                      // ERROR: b is not an untyped constant
+    var b string = a                    // a can be coverted to b
+    var c html = b                      // ERROR: b cannot be converted to html
 %%}
 ```
 
