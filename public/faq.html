@@ -180,8 +180,9 @@ curious, itea is a genus of shrubs and small trees, commonly called sweetspires 
 <h2 id="implementation">Implementation</h2>
 <h3 id="how-is-the-compiler-written">How is the compiler written?</h3>
 <p>Scriggo's compiler is written in Go, entirely from scratch and therefore does not rely on any other previously written
-compiler. The same compiler is able to compile both Go programs and Scriggo templates with the same code base. This
-allows to make fixes, improvements and new features at the same time for the compilation of programs and templates.</p>
+compiler. The same compiler is able to compile both Go programs and <a href="/templates">Scriggo templates</a> with the same code
+base. This allows to make fixes, improvements and new features at the same time for the compilation of programs and
+templates.</p>
 <p>The compiler consists of the parser, a completely handwritten and not self-generated recursive descent parser, the type
 checker and the emitter. The final result of the compilation is a set of data structures, one for each Scriggo
 function defined in the source code and one for each native function called by Scriggo functions. Templates have an

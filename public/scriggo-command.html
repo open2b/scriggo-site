@@ -103,7 +103,7 @@ defaults to <code>$GOPATH/bin</code> or, if the <code>GOPATH</code> environment 
 </code></pre>
 <h2 id="serve-a-template">Serve a template</h2>
 <p>The Scriggo Serve command runs a web server and serves the template rooted at the current directory.
-All Scriggo builtins are available in template files. It is useful to learn Scriggo templates.</p>
+All Scriggo builtins are available in template files. It is useful to learn <a href="/templates">Scriggo templates</a>.</p>
 <p>The basic Serve command takes this form:</p>
 <pre><code>$ scriggo serve
 </code></pre>
@@ -117,7 +117,7 @@ All Scriggo builtins are available in template files. It is useful to learn Scri
 </code></pre>
 <p>it renders &quot;blog/index.html&quot; or &quot;blog/index.md&quot;.</p>
 <p>Markdown is converted to HTML with the <a href="https://github.com/yuin/goldmark">Goldmark</a> parser with the options
-<code>html.WithUnsafe</code> and <code>parser.WithAutoHeadingID</code>.</p>
+<code>html.WithUnsafe</code>, <code>parser.WithAutoHeadingID</code> and <code>extension.GFM</code>.</p>
 <p>Templates are automatically rebuilt when a file changes.</p>
 <h3 id="complete-syntax">Complete syntax</h3>
 <p>The complete <code>scriggo serve</code> command takes this form:</p>
