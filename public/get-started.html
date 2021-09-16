@@ -222,8 +222,8 @@ func main() {
 <pre><code class="language-go">opts := &amp;scriggo.BuildOptions{Packages: packages}
 program, err := scriggo.Build(fsys, opts)
 </code></pre>
-<p>The importer, in the <code>packages</code> variable, is passed to the <code>Build</code> function. The <code>packages</code> variable is declared in the
-generated <code>packages.go</code> file.</p>
+<p>The importer, in the <code>packages</code> variable, is passed to the <code>Build</code> function. The <code>packages</code> variable is initialized in
+the generated <code>packages.go</code> file.</p>
 <h4 id="manually-create-an-importer">Manually create an importer</h4>
 <p>The following code defines a package with path &quot;acme.inc/colors&quot; and name &quot;colors&quot; and passes it to the <code>Build</code> function.
 The colors package exports the &quot;Red&quot; constant and the &quot;Print&quot; function.</p>

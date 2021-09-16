@@ -193,8 +193,8 @@ opts := &scriggo.BuildOptions{Packages: packages}
 program, err := scriggo.Build(fsys, opts)
 ```
 
-The importer, in the `packages` variable, is passed to the `Build` function. The `packages` variable is declared in the
-generated `packages.go` file.
+The importer, in the `packages` variable, is passed to the `Build` function. The `packages` variable is initialized in
+the generated `packages.go` file.
 
 #### Manually create an importer
 
