@@ -20,20 +20,20 @@ Scriggo templates can be written with plain text, HTML, Markdown, CSS, JavaScrip
 
 Open a terminal and create a new directory for the application: 
 
-```
+```shell
 $ mkdir hello-template
 $ cd hello-template
 ```
 
 Initialize a Go module in the previous created directory:
 
-```
+```shell
 $ go mod init hello-template
 ```
 
 Get the scriggo package:
 
-```
+```shell
 $ go get github.com/open2b/scriggo
 ```
 
@@ -85,13 +85,13 @@ func main() {
 
 Build the application directly from the `hello-template` directory.
 
-```
+```shell
 $ go build
 ```
 
 Execute the application:
 
-```
+```shell
 $ ./hello-template
 
     <!DOCTYPE html>
@@ -168,13 +168,13 @@ func main() {
 
 Rebuild the application directly from the `hello-template` directory.
 
-```
+```shell
 $ go build
 ```
 
 Execute the application:
 
-```
+```shell
 $ ./hello-template
 
     <!DOCTYPE html>

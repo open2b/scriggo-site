@@ -89,14 +89,14 @@
 <p>Before you start using Scriggo in a Go application you must <a href="https://golang.org/dl/">download and install Go</a>.</p>
 <h2 id="embed-go-programs-in-your-application">Embed Go programs in your application</h2>
 <p>Open a terminal and create a new directory for the application:</p>
-<pre><code>$ mkdir hello
+<pre><code class="language-shell">$ mkdir hello
 $ cd hello
 </code></pre>
 <p>Initialize a Go module in the previous created directory:</p>
-<pre><code>$ go mod init hello
+<pre><code class="language-shell">$ go mod init hello
 </code></pre>
 <p>Get the scriggo package:</p>
-<pre><code>$ go get github.com/open2b/scriggo
+<pre><code class="language-shell">$ go get github.com/open2b/scriggo
 </code></pre>
 <p>Create a file <code>main.go</code> with the following source code:</p>
 <pre><code class="language-go">package main
@@ -135,10 +135,10 @@ func main() {
 }
 </code></pre>
 <p>Build the application directly from the <code>hello</code> directory.</p>
-<pre><code>$ go build
+<pre><code class="language-shell">$ go build
 </code></pre>
 <p>Execute the application:</p>
-<pre><code>$ ./hello
+<pre><code class="language-shell">$ ./hello
 Hello, World!
 </code></pre>
 <h3 id="import-packages">Import packages</h3>
@@ -158,16 +158,16 @@ of the importer can be coded manually or can be generated from a Scriggofile wit
 <p>The <code>scriggo import</code> command allows to easily create an importer that imports the Go standard packages and other packages
 according to the instructions in a <a href="scriggofile">Scriggofile</a>.</p>
 <p>Create a file called &quot;Scriggofile&quot; with the following contents and put it in the module directory:</p>
-<pre><code>IMPORT STANDARD LIBRARY
+<pre><code class="language-scriggofile">IMPORT STANDARD LIBRARY
 IMPORT github.com/fatih/color
 </code></pre>
 <p>The Scriggo Import command reads the instructions in the Scriggofile and generates the source code of an importer that
 imports the packages of the Go standard library and the <code>github.com/fatih/color</code> package.</p>
 <p>Get the <code>github.com/fatih/color</code> module:</p>
-<pre><code>$ go get github.com/fatih/color
+<pre><code class="language-shell">$ go get github.com/fatih/color
 </code></pre>
 <p>Execute <code>scriggo import</code> command in the module directory:</p>
-<pre><code>$ scriggo import -o packages.go
+<pre><code class="language-shell">$ scriggo import -o packages.go
 </code></pre>
 <p>then replace the content of the <code>main.go</code> file with the following:</p>
 <pre><code class="language-go">package main

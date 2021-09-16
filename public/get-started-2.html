@@ -88,14 +88,14 @@ In this second step you will learn how to execute Scriggo templates in your appl
 language as the template scripting language.</p>
 <p>Scriggo templates can be written with plain text, HTML, Markdown, CSS, JavaScript and JSON.</p>
 <p>Open a terminal and create a new directory for the application:</p>
-<pre><code>$ mkdir hello-template
+<pre><code class="language-shell">$ mkdir hello-template
 $ cd hello-template
 </code></pre>
 <p>Initialize a Go module in the previous created directory:</p>
-<pre><code>$ go mod init hello-template
+<pre><code class="language-shell">$ go mod init hello-template
 </code></pre>
 <p>Get the scriggo package:</p>
-<pre><code>$ go get github.com/open2b/scriggo
+<pre><code class="language-shell">$ go get github.com/open2b/scriggo
 </code></pre>
 <p>Create a file <code>main.go</code> with the following source code:</p>
 <pre><code class="language-go">// Build and run a Scriggo template.
@@ -139,10 +139,10 @@ func main() {
 }
 </code></pre>
 <p>Build the application directly from the <code>hello-template</code> directory.</p>
-<pre><code>$ go build
+<pre><code class="language-shell">$ go build
 </code></pre>
 <p>Execute the application:</p>
-<pre><code>$ ./hello-template
+<pre><code class="language-shell">$ ./hello-template
 
     &lt;!DOCTYPE html&gt;
     &lt;html&gt;
@@ -208,10 +208,10 @@ func main() {
 }
 </code></pre>
 <p>Rebuild the application directly from the <code>hello-template</code> directory.</p>
-<pre><code>$ go build
+<pre><code class="language-shell">$ go build
 </code></pre>
 <p>Execute the application:</p>
-<pre><code>$ ./hello-template
+<pre><code class="language-shell">$ ./hello-template
 
     &lt;!DOCTYPE html&gt;
     &lt;html&gt;

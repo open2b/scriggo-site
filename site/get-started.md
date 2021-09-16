@@ -18,20 +18,20 @@ Before you start using Scriggo in a Go application you must <a href="https://gol
 
 Open a terminal and create a new directory for the application:
 
-```
+```shell
 $ mkdir hello
 $ cd hello
 ```
 
 Initialize a Go module in the previous created directory:
 
-```
+```shell
 $ go mod init hello
 ```
 
 Get the scriggo package:
 
-```
+```shell
 $ go get github.com/open2b/scriggo
 ```
 
@@ -76,13 +76,13 @@ func main() {
 
 Build the application directly from the `hello` directory.
 
-```
+```shell
 $ go build
 ```
 
 Execute the application:
 
-```
+```shell
 $ ./hello
 Hello, World!
 ```
@@ -114,7 +114,7 @@ according to the instructions in a <a href="scriggofile">Scriggofile</a>.
 
 Create a file called "Scriggofile" with the following contents and put it in the module directory:
 
-```
+```scriggofile
 IMPORT STANDARD LIBRARY
 IMPORT github.com/fatih/color
 ```
@@ -124,13 +124,13 @@ imports the packages of the Go standard library and the `github.com/fatih/color`
 
 Get the `github.com/fatih/color` module:
 
-```
+```shell
 $ go get github.com/fatih/color
 ```
 
 Execute `scriggo import` command in the module directory:
 
-```
+```shell
 $ scriggo import -o packages.go
 ```
 
