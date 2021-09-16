@@ -102,8 +102,8 @@ characters. For a more accurate explanation you can read
 <p>The <em>html</em> type is a string type representing HTML code. Unlike the type string, <em>show</em> does not escape a html value in
 an HTML context. For example:</p>
 <pre><code class="language-scriggo">&lt;div&gt;
-    {{ &quot;&lt;b&gt;this is bold&lt;/b&gt;&quot; }}           {# is escaped #}
-    {{ html(&quot;&lt;b&gt;this is bold&lt;/b&gt;&quot;) }}     {# is not escaped #}
+    {{ &quot;&lt;b&gt;this is bold&lt;/b&gt;&quot; }}           is escaped
+    {{ html(&quot;&lt;b&gt;this is bold&lt;/b&gt;&quot;) }}     is not escaped
 &lt;/div&gt;
 </code></pre>
 <pre class="result">
@@ -115,8 +115,8 @@ If it is a variable, it cannot be converted. On the other hand, a html type valu
 string type.</p>
 <pre><code class="language-scriggo">{%%
     var a html = &quot;&lt;b&gt;this is bold&lt;/b&gt;&quot;  // &quot;&lt;b&gt;this is bold&lt;/b&gt;&quot; can be converted to html
-    var b string = a                    // a cannot be coverted to b
-    var c html = b                      // ERROR: b is not an untyped constant
+    var b string = a                    // a can be coverted to b
+    var c html = b                      // ERROR: b cannot be converted to html
 %%}
 </code></pre>
 <h2 id="markdown">markdown</h2>
