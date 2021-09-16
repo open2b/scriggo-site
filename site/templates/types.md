@@ -43,8 +43,8 @@ an HTML context. For example:
 
 ```scriggo
 <div>
-    {{ "<b>this is bold</b>" }}           {# is escaped #}
-    {{ html("<b>this is bold</b>") }}     {# is not escaped #}
+    {{ "<b>this is bold</b>" }}           is escaped
+    {{ html("<b>this is bold</b>") }}     is not escaped
 </div>
 ```
 <pre class="result">
