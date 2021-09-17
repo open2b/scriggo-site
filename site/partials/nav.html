@@ -1,7 +1,8 @@
 {%%
     var isDocFile = func(name string) bool {
          switch name {
-         case "what-is-scriggo", "get-started", "scriggo-command", "templates", "scriggofile", "disassembler", "limitations":
+         case "what-is-scriggo", "get-started", "scriggo-command", "how-to-use", "templates", "scriggofile",
+             "disassembler", "limitations":
              return true
          }
          return hasPrefix(name, "templates/")
