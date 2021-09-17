@@ -1,7 +1,7 @@
 
 *, *:before, *:after { box-sizing: border-box; }
 
-body { background: #f5f4f4; font-family: muli,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; line-height: 1.45; margin: 0; }
+body { background: #0a1922; font-family: muli,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; line-height: 1.45; margin: 0; }
 
 a { text-decoration: none; }
 p { color: #444; line-height: 1.6; }
@@ -11,7 +11,7 @@ dl { line-height: 1.60; margin: 1.25rem; }
 dd { margin-left: 1.5rem; }
 ol li { line-height: 2; }
 
-nav.top { align-items: center; background: #0a1922; display: flex; justify-content: flex-start; flex-wrap: wrap; height: 6rem; padding: 2rem 0; width: 100%; }
+nav.top { align-items: center; display: flex; justify-content: flex-start; flex-wrap: wrap; height: 6rem; padding: 2rem 0; width: 100%; }
 nav.top .logo { margin-left: 3rem; }
 nav.top .logo img { vertical-align: bottom; }
 nav.top .version { color: #eee; font-size: .7rem; padding: 6px 0 0 .5rem; }
@@ -37,12 +37,12 @@ nav.top .github-logo svg path { fill: #fff; }
 .index header section { margin: 0 auto; text-align: center; }
 
 .index header .logo { max-width: 80%; width: 450px; height: auto; }
-.index header h2 { color: #000; font-size: 2.6em; font-weight: 200; line-height: 1.2em; margin: 2.1rem auto; max-width: 850px; }
-.index header h3 { color: #666; font-size: 1.4em; font-weight: 200; letter-spacing: .02rem; line-height: 1.5em; margin: .5rem; }
-.index header .button { background: #e6a621; border-radius: 3px; color: #fff6ED; cursor: pointer; display: inline-block; font-size: 1.1em; font-weight: bold; margin-top: 2rem; text-transform: uppercase; padding: .8rem 1.8rem .7em 1.8em; }
+.index header h2 { color: #fff; font-size: 2.6em; font-weight: 200; line-height: 1.2em; margin: 2.1rem auto; max-width: 850px; }
+.index header h3 { color: #ccc; font-size: 1.4em; font-weight: 200; letter-spacing: .02rem; line-height: 1.5em; margin: .5rem; }
+.index header .button { background: #e6a621; border-radius: 3px; color: #fff; cursor: pointer; display: inline-block; font-size: 1.1em; font-weight: bold; margin-top: 2rem; text-transform: uppercase; padding: .8rem 1.8rem .7em 1.8em; }
 .index header .button:hover { background: #f3ad20; border-radius: 3px; color: #fff6ED; cursor: pointer; display: inline-block; font-size: 1.1em; font-weight: bold; margin-top: 2rem; text-transform: uppercase; padding: .8rem 1.8rem .7em 1.8em; }
 
-.index body > section { margin: 4rem; }
+.index body > section { background: #fff; margin: 4rem 0; padding: 2rem 4rem; }
 
 .index .why { color: #fff; margin-bottom: 2rem; }
 .index .why h2 { color: #e6a621; font-size: 1.8rem; font-weight: normal; }
@@ -153,7 +153,8 @@ code.language-jinja {
 .hljs-attribute, .hljs-doctag, .hljs-keyword, .hljs-meta .hljs-keyword, .hljs-name, .hljs-selector-tag, hljs-section, .hljs-title { font-weight: normal; }
 pre code { font-size: .9rem; }
 
-footer { background: #0a1922; border-top: 1px solid #dcdee0; }
+footer { border-top: 1px solid #dcdee0; }
+.index footer { border-top: none; }
 footer > div { display: flex; padding-top: .6rem; }
 footer > div > * { align-self: flex-end; }
 footer img.gopher { width: 5rem; }
@@ -163,38 +164,6 @@ footer ul li a { color: #e2e9ee; }
 footer ul li a:hover { color: #e6a62f; }
 footer .company { flex: 2; text-align: right; }
 
-@media only screen and (max-width: 767px) {
-
-    nav.top ul { margin: 1rem auto; padding: 0; text-align: center; }
-
-    .index header { margin: 1rem; }
-    .index header .logo { display: none; }
-    .index header section { width: auto; }
-    .index header h1 { font-size: 5rem; }
-    .index header h2 { font-size: 1.6em; }
-    .index header h3 { font-size: 1.2em; }
-
-    .index body > section { margin: 1rem; }
-
-    .cols-2 > div { padding: 0; width: auto; }
-
-    .benchmark, .benchmark + .benchmark { padding: 0; width: auto; }
-
-    .article aside { margin: 1rem 0; }
-    .article aside button { background: #f4f6f8; border: 0; cursor: pointer; display: block; font-size: 14px; font-weight: bold; line-height: 19px; padding-right: 40px; padding: 12px; text-align: left; width: 100%; }
-    .article aside button span { background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pjxzdmcgdmlld0JveD0iMCAwIDQ4IDQ4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xNC44MyAxNi40Mmw5LjE3IDkuMTcgOS4xNy05LjE3IDIuODMgMi44My0xMiAxMi0xMi0xMnoiLz48cGF0aCBkPSJNMC0uNzVoNDh2NDhoLTQ4eiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==') no-repeat center 1px; display: block; float: right; height: 18px; width: 18px; }
-    .article aside nav { display: none; padding: 0 1rem; }
-    .article aside.expanded nav { display: block; }
-    .article aside ul a { font-size: .9rem; }
-    .article article > .wrap { display: block; padding-top: 1em; }
-
-    .get-scriggo { font-size: .9rem; }
-
-    footer { font-size: 0.8rem; text-align: center; }
-    footer ul { padding-left: 0; }
-
-}
-
 @media screen and (max-width:1023px) {
     nav.top { height: auto; padding: 1rem 0; }
     nav.top ul  { margin-bottom: 0; }
@@ -203,7 +172,7 @@ footer .company { flex: 2; text-align: right; }
     nav.top .logo { margin-left: 1rem; font-size: 0; }
     nav.top .github-logo { position: absolute; right: .8rem; top: 1rem; }
 
-    .index body > section.benchmark { padding: 20px; }
+    .index body > section.benchmark { padding: 3rem 5rem 1rem 5rem; }
     .index body > section.benchmark h2 span { display: block; font-size: 1.5rem; }
     .page-benchmarks section.benchmark { padding: 10px 30px 20px 30px; }
     .benchmark h2 { font-size: 1.5rem; }
@@ -226,7 +195,35 @@ footer .company { flex: 2; text-align: right; }
 
 }
 
-@media screen and (max-width:1152px) {
-    .cols-2 > div { padding: 1em 1.5rem; }
-    .benchmark .allocations { top: 52px; }
+@media only screen and (max-width: 767px) {
+
+    nav.top ul { margin: 1rem auto; padding: 0; text-align: center; }
+
+    .index header { margin: 1rem; }
+    .index header .logo { display: none; }
+    .index header section { width: auto; }
+    .index header h1 { font-size: 5rem; }
+    .index header h2 { font-size: 1.6em; }
+    .index header h3 { font-size: 1.2em; }
+
+    .index body > section { padding: 0 2rem; }
+
+    .cols-2 > div { width: auto; }
+
+    .index body > section.benchmark { padding: 1rem; }
+    .benchmark, .benchmark + .benchmark { padding: 0; width: auto; }
+
+    .article aside { margin: 1rem 0; }
+    .article aside button { background: #f4f6f8; border: 0; cursor: pointer; display: block; font-size: 14px; font-weight: bold; line-height: 19px; padding-right: 40px; padding: 12px; text-align: left; width: 100%; }
+    .article aside button span { background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pjxzdmcgdmlld0JveD0iMCAwIDQ4IDQ4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xNC44MyAxNi40Mmw5LjE3IDkuMTcgOS4xNy05LjE3IDIuODMgMi44My0xMiAxMi0xMi0xMnoiLz48cGF0aCBkPSJNMC0uNzVoNDh2NDhoLTQ4eiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==') no-repeat center 1px; display: block; float: right; height: 18px; width: 18px; }
+    .article aside nav { display: none; padding: 0 1rem; }
+    .article aside.expanded nav { display: block; }
+    .article aside ul a { font-size: .9rem; }
+    .article article > .wrap { display: block; padding-top: 1em; }
+
+    .get-scriggo { font-size: .9rem; }
+
+    footer { font-size: 0.8rem; text-align: center; }
+    footer ul { padding-left: 0; }
+
 }
