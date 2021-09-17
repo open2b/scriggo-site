@@ -164,6 +164,10 @@ footer ul li a { color: #e2e9ee; }
 footer ul li a:hover { color: #e6a62f; }
 footer .company { flex: 2; text-align: right; }
 
+@media screen and (max-width:1152px) {
+    .index .benchmark .allocations { top: 5rem; }
+}
+
 @media screen and (max-width:1023px) {
     nav.top { height: auto; padding: 1rem 0; }
     nav.top ul  { margin-bottom: 0; }
