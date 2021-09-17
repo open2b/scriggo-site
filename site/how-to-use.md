@@ -93,12 +93,12 @@ var v = "boo"
 type Foo struct{ s string }
 
 globals := native.Declarations{
-    "v": &v,                                   // a variable named "v"
-    "inc": func(i int) int { return i+1 },     // a function named "inc"
-    "Foo": reflect.TypeOf(Foo{}),              // a type named "Foo"
-    "limit" : 1024,                            // an int constant named "limit"
-    "Pi": native.UntypedNumericConst(math.Pi), // an untyped numeric constant named "Pi"
-    "colors": native.Package{                  // a package named "colors"
+    "v": &v,                                     // a variable named "v"
+    "inc": func(i int) int { return i+1 },       // a function named "inc"
+    "Foo": reflect.TypeOf(Foo{}),                // a type named "Foo"
+    "limit" : 1024,                              // an int constant named "limit"
+    "Pi": native.UntypedNumericConst("3.14159"), // an untyped numeric constant named "Pi"
+    "colors": native.Package{                    // a package named "colors"
         Name: "colors",
         Declaration: native.Declarations{
             "Red": "#FF0000",

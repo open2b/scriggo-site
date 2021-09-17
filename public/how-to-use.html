@@ -153,12 +153,12 @@ packages passed as globals when building a template, and can then be used in tem
 type Foo struct{ s string }
 
 globals := native.Declarations{
-    &quot;v&quot;: &amp;v,                                   // a variable named &quot;v&quot;
-    &quot;inc&quot;: func(i int) int { return i+1 },     // a function named &quot;inc&quot;
-    &quot;Foo&quot;: reflect.TypeOf(Foo{}),              // a type named &quot;Foo&quot;
-    &quot;limit&quot; : 1024,                            // an int constant named &quot;limit&quot;
-    &quot;Pi&quot;: native.UntypedNumericConst(math.Pi), // an untyped numeric constant named &quot;Pi&quot;
-    &quot;colors&quot;: native.Package{                  // a package named &quot;colors&quot;
+    &quot;v&quot;: &amp;v,                                     // a variable named &quot;v&quot;
+    &quot;inc&quot;: func(i int) int { return i+1 },       // a function named &quot;inc&quot;
+    &quot;Foo&quot;: reflect.TypeOf(Foo{}),                // a type named &quot;Foo&quot;
+    &quot;limit&quot; : 1024,                              // an int constant named &quot;limit&quot;
+    &quot;Pi&quot;: native.UntypedNumericConst(&quot;3.14159&quot;), // an untyped numeric constant named &quot;Pi&quot;
+    &quot;colors&quot;: native.Package{                    // a package named &quot;colors&quot;
         Name: &quot;colors&quot;,
         Declaration: native.Declarations{
             &quot;Red&quot;: &quot;#FF0000&quot;,
