@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <title>How to use Scriggo</title>
+    <link rel="stylesheet" href="/css/highlight.css" media="screen">
+<link rel="stylesheet" href="/css/github.css" media="screen">
+
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="How to use Scriggo">
+    <meta property="og:description" content="Scriggo is the world’s most powerful template engine and Go embeddable interpreter">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scriggo.com">
+    <meta property="og:image" content="https://scriggo.com/images/scriggo-card.png">
+    <meta name=twitter:title content="How to use Scriggo">
+    <meta name=twitter:description content="Scriggo is the world’s most powerful template engine and Go embeddable interpreter">
+    <meta name=twitter:image content="https://scriggo.com/images/scriggo-card.png">
+
+    <script src="../js/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.51.1</a>
+    <ul>
+        <li><a href="/what-is-scriggo" class="selected">Documentation</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="https://github.com/open2b/scriggo/discussions" target="_blank">Community</a></li>
+        <li class="playground"><a href="https://play.scriggo.com/" target="_blank">Playground</a></li>
+    </ul>
+    <a class="github-logo" href="https://github.com/open2b/scriggo/" title="Scriggo on GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Github | Scriggo</title><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <button onclick="$(this.parentNode).toggleClass('expanded')">In this section<span></span></button>
+            <nav>
+            <ul>
+                <li><a href="/what-is-scriggo" >What is Scriggo?</a>
+</li>
+                <li><a href="/get-started" >Get Started</a>
+</li>
+                <li><a href="/scriggo-command" >Scriggo command</a>
+</li>
+                <li><a href="/how-to-use"  class="selected" >How To Use</a>
+</li>
+                <li>
+                    <a href="/templates" >Templates</a>
+
+                    <ul>
+                        <li><a href="/templates/show-render" >Show and Render</a>
+</li>
+                        <li><a href="/templates/macro" >Macro</a>
+</li>
+                        <li><a href="/templates/extends-and-import" >Extends and Import</a>
+</li>
+                        <li><a href="/templates/if-for-switch" >If, For and Switch</a>
+</li>
+                        <li><a href="/templates/using" >Using and itea</a>
+</li>
+                        <li><a href="/templates/operators" >Operators</a>
+</li>
+                        <li><a href="/templates/variables" >Variables</a>
+</li>
+                        <li><a href="/templates/types" >Types</a>
+</li>
+                        <li><a href="/templates/specification" >Specification</a>
+</li>
+                        <li><a href="/templates/switch-from-jinja-to-scriggo" >Switch from Jinja</a>
+</li>
+                    </ul>
+                </li>
+                <li><a href="/scriggofile" >Scriggofile</a>
+</li>
+                <li><a href="/disassembler" >Disassembler</a>
+</li>
+                <li><a href="/limitations" >Limitations</a>
+</li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="how-to-use">How to use</h1>
+<p>This page explains how to use the Scriggo packages in Go programs to execute a template. If you want to learn the
+template language, see the <a href="/templates">templates</a> section instead.</p>
+<h3 id="the-first-program">The first program</h3>
+<p>Let's start with this program:</p>
+<pre><code class="language-go">package main
+
+import (
+	&quot;log&quot;
+	&quot;os&quot;
+
+	&quot;github.com/open2b/scriggo&quot;
+)
+
+func main() {
+	fsys := scriggo.Files{&quot;index.txt&quot;: []byte(`{{ &quot;hello&quot; }}`)}
+	template, err := scriggo.BuildTemplate(fsys, &quot;index.txt&quot;, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = template.Run(os.Stdout, nil, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+</code></pre>
+<p>A template consists of one or more files that Scriggo reads from a <a href="https://pkg.go.dev/io/fs#FS">file system</a>. The
+<code>scriggo.Build</code> function gets a file system <code>fsys</code>, the path of the template file and builds a template starting from
+this file. It returns a <code>*scriggo.Template</code> value that represents the compiled template.</p>
+<p>To execute the template, you call the <code>Run</code> method on the compiled template. It writes the resulting code to the
+<code>io.Writer</code> value passes as first argument. The <code>Run</code> method can be called several times even concurrently.</p>
+<h3 id="builtins">Builtins</h3>
+<p>By default, a template code can only use the Go builtins, but you can create new builtins to use as globals in a
+template.</p>
+<p>The package <a href="https://pkg.go.dev/github.com/open2b/scriggo/builtin">github.com/open2b/scriggo/builtin</a> has many useful
+builtins that you can use in a template. So, let's start using them.</p>
+<pre><code class="language-go">package main
+
+import (
+	&quot;log&quot;
+	&quot;os&quot;
+
+	&quot;github.com/open2b/scriggo&quot;
+	&quot;github.com/open2b/scriggo/builtin&quot;
+	&quot;github.com/open2b/scriggo/native&quot;
+)
+
+func main() {
+	fsys := scriggo.Files{&quot;index.txt&quot;: []byte(`{{ min(3, 4) }} {{ max(8, 5) }}`)}
+	globals := native.Declarations{
+		&quot;min&quot;: builtin.Min,
+		&quot;max&quot;: builtin.Max,
+	}
+	opts := &amp;scriggo.BuildOptions{
+		Globals: globals,
+	}
+	template, err := scriggo.BuildTemplate(fsys, &quot;index.txt&quot;, opts)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = template.Run(os.Stdout, nil, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+</code></pre>
+<p>The <code>native.Declarations</code> type is used to represent variables, constants (typed and untyped), functions, types and
+packages passed as globals when building a template, and can then be used in template code.</p>
+<p>The following example exemplifies how to pass globals to a template. Note that the variable <code>v</code> is passed by reference.</p>
+<pre><code class="language-go">var v = &quot;boo&quot;
+type Foo struct{ s string }
+
+globals := native.Declarations{
+    &quot;v&quot;: &amp;v,                                   // a variable named &quot;v&quot;
+    &quot;inc&quot;: func(i int) int { return i+1 },     // a function named &quot;inc&quot;
+    &quot;Foo&quot;: reflect.TypeOf(Foo{}),              // a type named &quot;Foo&quot;
+    &quot;limit&quot; : 1024,                            // an int constant named &quot;limit&quot;
+    &quot;Pi&quot;: native.UntypedNumericConst(math.Pi), // an untyped numeric constant named &quot;Pi&quot;
+    &quot;colors&quot;: native.Package{                  // a package named &quot;colors&quot;
+        Name: &quot;colors&quot;,
+        Declaration: native.Declarations{
+            &quot;Red&quot;: &quot;#FF0000&quot;,
+            &quot;Yellow&quot;: &quot;#FFFF00&quot;,
+        },
+    },
+}
+</code></pre>
+<p>They can be used in the template:</p>
+<pre><code class="language-scriggo">{{ v }}   {{ inc(5) }}  {{ Foo{&quot;foo&quot;}.s }}  {{ limit }}  {{ Pi }}  {{ colors.Red }}
+</code></pre>
+<h4 id="pass-a-variable-as-global">Pass a variable as global</h4>
+<p>If the template code assigns a new value to a global variable, the variable in the Go code will also have that value.</p>
+<p>If you don't want this behavior, pass a typed nil pointer to the <code>Build</code> function, then pass the initial value of
+the variable to the <code>Run</code> method. In this way, each execution of the template will have a different variable:</p>
+<pre><code class="language-go">package main
+
+import (
+	&quot;log&quot;
+	&quot;os&quot;
+
+	&quot;github.com/open2b/scriggo&quot;
+	&quot;github.com/open2b/scriggo/native&quot;
+)
+
+func main() {
+	fsys := scriggo.Files{&quot;index.txt&quot;: []byte(&quot;{{ v }}&quot;)}
+	globals := native.Declarations{
+		&quot;v&quot;: (*string)(nil), // the initial value is passed to the Run method.
+	}
+	opts := &amp;scriggo.BuildOptions{
+		Globals: globals,
+	}
+	template, err := scriggo.BuildTemplate(fsys, &quot;index.txt&quot;, opts)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = template.Run(os.Stdout, map[string]interface{}{&quot;v&quot;: &quot;foo&quot;}, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+</code></pre>
+
+<div id="edit-on-github">
+  <a href="https://github.com/open2b/scriggo-site/blob/main/site/how-to-use.md" target="_blank">
+    ✍️ Edit on GitHub, PRs are welcome.
+  </a>
+</div>        </div>
+    </div>
+</article>
+<footer>
+  <div class="wrap">
+    <img class="gopher" src="/images/pilot-bust.svg" alt="The Go Gopher">
+    <ul>
+      <li><a href="/copyright">Copyright</a></li>
+      <li><a href="mailto:info@open2b.com">Contact Us</a></li>
+      <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
+      <li class="company"><a href="https://www.open2b.com/" target="_blank">Open2b</a></li>
+    </ul>
+  </div>
+</footer><script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
