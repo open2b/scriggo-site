@@ -200,3 +200,10 @@ template, err := scriggo.BuildTemplate(fsys, "index.html", opts)
 ```
 
 Globals can be functions, variables, constants, types and even packages.
+
+## Continue to learn
+
+You can continue to learn with these resources:
+
+* [How to use the Scriggo packages to execute templates](/how-to-use)
+* [The Scriggo templates syntax](/templates)
