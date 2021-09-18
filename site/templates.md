@@ -1,5 +1,5 @@
 {% extends "/layouts/doc.html" %}
-{% macro Title string %}Scripts{% end %}
+{% macro Title string %}Scriggo templates{% end %}
 {% Article %}
 
 {% raw code %}

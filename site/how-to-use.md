@@ -37,8 +37,8 @@ func main() {
 ```
 
 A template consists of one or more files that Scriggo reads from a [file system](https://pkg.go.dev/io/fs#FS). The
-`scriggo.Build` function gets a file system `fsys`, the path of the template file and builds a template starting from
-this file. It returns a `*scriggo.Template` value that represents the compiled template.
+`scriggo.BuildTemplate` function gets a file system `fsys`, the path of the template file and builds a template
+starting from this file. It returns a `*scriggo.Template` value that represents the compiled template.
 
 To execute the template, you call the `Run` method on the compiled template. It writes the resulting code to the
 `io.Writer` value passes as first argument. The `Run` method can be called several times even concurrently.
@@ -118,8 +118,8 @@ They can be used in the template:
 
 If the template code assigns a new value to a global variable, the variable in the Go code will also have that value.
 
-If you don't want this behavior, pass a typed nil pointer to the `Build` function, then pass the initial value of
-the variable to the `Run` method. In this way, each execution of the template will have a different variable:
+If you don't want this behavior, pass a typed nil pointer to the `BuildTemplate` function, then pass the initial value
+of the variable to the `Run` method. In this way, each execution of the template will have a different variable:
 
 ```go
 package main

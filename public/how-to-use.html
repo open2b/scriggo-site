@@ -42,7 +42,7 @@
 </li>
                 <li><a href="/scriggo-command" >Scriggo command</a>
 </li>
-                <li><a href="/how-to-use"  class="selected" >How To Use</a>
+                <li><a href="/how-to-use"  class="selected" >How to use</a>
 </li>
                 <li>
                     <a href="/templates" >Templates</a>
@@ -107,8 +107,8 @@ func main() {
 }
 </code></pre>
 <p>A template consists of one or more files that Scriggo reads from a <a href="https://pkg.go.dev/io/fs#FS">file system</a>. The
-<code>scriggo.Build</code> function gets a file system <code>fsys</code>, the path of the template file and builds a template starting from
-this file. It returns a <code>*scriggo.Template</code> value that represents the compiled template.</p>
+<code>scriggo.BuildTemplate</code> function gets a file system <code>fsys</code>, the path of the template file and builds a template
+starting from this file. It returns a <code>*scriggo.Template</code> value that represents the compiled template.</p>
 <p>To execute the template, you call the <code>Run</code> method on the compiled template. It writes the resulting code to the
 <code>io.Writer</code> value passes as first argument. The <code>Run</code> method can be called several times even concurrently.</p>
 <h3 id="builtins">Builtins</h3>
@@ -172,8 +172,8 @@ globals := native.Declarations{
 </code></pre>
 <h4 id="pass-a-variable-as-global">Pass a variable as global</h4>
 <p>If the template code assigns a new value to a global variable, the variable in the Go code will also have that value.</p>
-<p>If you don't want this behavior, pass a typed nil pointer to the <code>Build</code> function, then pass the initial value of
-the variable to the <code>Run</code> method. In this way, each execution of the template will have a different variable:</p>
+<p>If you don't want this behavior, pass a typed nil pointer to the <code>BuildTemplate</code> function, then pass the initial value
+of the variable to the <code>Run</code> method. In this way, each execution of the template will have a different variable:</p>
 <pre><code class="language-go">package main
 
 import (
