@@ -137,4 +137,10 @@ which the file does not exist, you can use a _default_ expression:
 If a template file with path "extra.html" exists, `promo` will contain the result of its rendering, otherwise it will be
 `"oops!"`.
 
+To show a rendered template file but do nothing if it does not exist, you can write:
+
+```scriggo
+{{ render "specials.html" default "" }}
+```
+
 {% end raw doc %}

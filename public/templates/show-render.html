@@ -170,6 +170,9 @@ which the file does not exist, you can use a <em>default</em> expression:</p>
 </code></pre>
 <p>If a template file with path &quot;extra.html&quot; exists, <code>promo</code> will contain the result of its rendering, otherwise it will be
 <code>&quot;oops!&quot;</code>.</p>
+<p>To show a rendered template file but do nothing if it does not exist, you can write:</p>
+<pre><code class="language-scriggo">{{ render &quot;specials.html&quot; default &quot;&quot; }}
+</code></pre>
 
 <div id="edit-on-github">
   <a href="https://github.com/open2b/scriggo-site/blob/main/site/templates/show-render.md" target="_blank">
