@@ -800,7 +800,7 @@ different algorithms:
 
 ## Continue to learn
 
-Now you can checkout this resources:
+Now you can check out these resources:
 
 - [Templates](/templates), which provides a more depth overview of the Scriggo
   template.
