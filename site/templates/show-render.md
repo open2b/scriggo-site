@@ -4,7 +4,7 @@
 
 {% raw doc %}
 
-# Show and Render 
+# Show and Render
 
 The [show](#show) statement renders values and shows them, while the [render](#render) operator renders a template file.
 The render operator is usually used in a show statement to show the rendered file.
@@ -128,7 +128,7 @@ For example, if the rendered file is in HTML format, the resulting string will h
 ### Non-existent files
 
 If the file to render does not exist, a compilation error occurs. On the other hand, if you want to handle the case in
-which the file does not exist, you can use a _default_ expression:
+which the file does not exist, you can use a _default expression_:
 
 ```scriggo
 {% promo := render "extra.html" default "oops!" %}
@@ -141,6 +141,18 @@ To show a rendered template file but do nothing if it does not exist, you can wr
 
 ```scriggo
 {{ render "specials.html" default "" }}
+```
+
+You can use any expression as right operand of a _default expression_, for example you can call a function or macro:
+
+```scriggo
+{{ render "specials.html" default notify("specials.html does not exist") }}
+```
+
+or you can render another template file:
+
+```scriggo
+{{ render "specials.html" default render "no-specials.html" }}
 ```
 
 {% end raw doc %}

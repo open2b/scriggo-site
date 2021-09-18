@@ -165,13 +165,19 @@ used, such as:</p>
 For example, if the rendered file is in HTML format, the resulting string will have the type <em>html</em>.</p>
 <h3 id="non-existent-files">Non-existent files</h3>
 <p>If the file to render does not exist, a compilation error occurs. On the other hand, if you want to handle the case in
-which the file does not exist, you can use a <em>default</em> expression:</p>
+which the file does not exist, you can use a <em>default expression</em>:</p>
 <pre><code class="language-scriggo">{% promo := render &quot;extra.html&quot; default &quot;oops!&quot; %}
 </code></pre>
 <p>If a template file with path &quot;extra.html&quot; exists, <code>promo</code> will contain the result of its rendering, otherwise it will be
 <code>&quot;oops!&quot;</code>.</p>
 <p>To show a rendered template file but do nothing if it does not exist, you can write:</p>
 <pre><code class="language-scriggo">{{ render &quot;specials.html&quot; default &quot;&quot; }}
+</code></pre>
+<p>You can use any expression as right operand of a <em>default expression</em>, for example you can call a function or macro:</p>
+<pre><code class="language-scriggo">{{ render &quot;specials.html&quot; default notify(&quot;specials.html does not exist&quot;) }}
+</code></pre>
+<p>or you can render another template file:</p>
+<pre><code class="language-scriggo">{{ render &quot;specials.html&quot; default render &quot;no-specials.html&quot; }}
 </code></pre>
 
 <div id="edit-on-github">
