@@ -17,6 +17,7 @@ template language, see the [templates](/templates) section instead.
 * [Use Markdown](#use-markdown)
 * [Import Go packages](#import-go-packages)
 * [Do not parse {{ ... }}](#do-not-parse---)
+* [The execution environment (env)](#the-execution-environment-env)
 
 <div style="margin-top: 2rem;"></div>
 
@@ -457,5 +458,50 @@ opts := &scriggo.BuildOptions{
 ```
 
 Using this option, Scriggo does not parse the short show statements, and then you can use this syntax client-side. In Scriggo, you can continue to use the `{% show ... %}` syntax.
+
+### The execution environment (env)
+
+The execution environment, or simply env, is a value created at each template execution whose type implements the 
+[native.Env](https://pkg.go.dev/github.com/open2b/scriggo/native#Env) interface.
+
+A function or method, passed as global or imported into a template, receives env as first argument if its first
+parameter has type [native.Env](https://pkg.go.dev/github.com/open2b/scriggo/native#Env).
+
+The following program, passes a builtin named _exit_ to the template which, when called, terminates the execution of the
+template.
+
+```go
+package main
+
+import (
+    "log"
+    "os"
+
+    "github.com/open2b/scriggo"
+    "github.com/open2b/scriggo/native"
+)
+
+// Env terminates the template execution with status code.
+func Exit(env native.Env, code int) {
+    env.Exit(code)
+}
+
+func main() {
+    fsys := scriggo.Files{"index.txt": []byte(`{% exit(0) %}{{ "not displayed" }}`)}
+    opts := &scriggo.BuildOptions{
+        Globals: native.Declarations{"exit": Exit},
+    }
+    template, err := scriggo.BuildTemplate(fsys, "index.txt", opts)
+    if err != nil {
+        log.Fatal(err)
+    }
+    err = template.Run(os.Stdout, nil, nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+}
+```
+
+Note that template code does not see the env parameter of the Exit function and calls the exit builtin as `exit(0)`.
 
 {% end raw content %}
