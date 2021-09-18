@@ -131,10 +131,10 @@ If the file to render does not exist, a compilation error occurs. On the other h
 which the file does not exist, you can use a _default_ expression:
 
 ```scriggo
-{% promo := render "extra.html" default "opts!" %}
+{% promo := render "extra.html" default "oops!" %}
 ```
 
 If a template file with path "extra.html" exists, `promo` will contain the result of its rendering, otherwise it will be
-`"opts!"`.
+`"oops!"`.
 
 {% end raw doc %}

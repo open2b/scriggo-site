@@ -166,10 +166,10 @@ For example, if the rendered file is in HTML format, the resulting string will h
 <h3 id="non-existent-files">Non-existent files</h3>
 <p>If the file to render does not exist, a compilation error occurs. On the other hand, if you want to handle the case in
 which the file does not exist, you can use a <em>default</em> expression:</p>
-<pre><code class="language-scriggo">{% promo := render &quot;extra.html&quot; default &quot;opts!&quot; %}
+<pre><code class="language-scriggo">{% promo := render &quot;extra.html&quot; default &quot;oops!&quot; %}
 </code></pre>
 <p>If a template file with path &quot;extra.html&quot; exists, <code>promo</code> will contain the result of its rendering, otherwise it will be
-<code>&quot;opts!&quot;</code>.</p>
+<code>&quot;oops!&quot;</code>.</p>
 
 <div id="edit-on-github">
   <a href="https://github.com/open2b/scriggo-site/blob/main/site/templates/show-render.md" target="_blank">
