@@ -174,8 +174,8 @@ func main() {
 <p>By default, a template code can only use the Go builtins. To allow the template code to use other builtins, you can pass
 them as globals to the BuildTemplate function.</p>
 <p>Scriggo, with the package <a href="https://pkg.go.dev/github.com/open2b/scriggo/builtin">github.com/open2b/scriggo/builtin</a>,
-provides useful builtins ready-to-use. You can use all of them or just some. The following example uses the min and max
-builtins:</p>
+provides useful builtins ready-to-use. You can use all of them or just some. For example, the following program uses the
+min and max builtins:</p>
 <pre><code class="language-go">package main
 
 import (
@@ -207,7 +207,7 @@ func main() {
 }
 </code></pre>
 <h3 id="pass-variables-to-templates">Pass variables to templates</h3>
-<p>You can pass a variable as a global to the template, as you previously passed the Scriggo builtins but variables are
+<p>You can pass a variable as a global to the template, as you previously passed the Scriggo builtins, but variables are
 passed by reference. Scriggo supports several use cases for passing a variable to a template, but let's start with
 simpler case. Look at this example:</p>
 <pre><code class="language-go">package main
@@ -290,7 +290,7 @@ different executions, just pass, to the Run function, a pointer to the variable:
 <h3 id="use-other-types-of-globals">Use other types of globals</h3>
 <p>You can also pass functions, constants (typed and untyped), types and even packages to a template as globals. For
 functions, we have already seen the example of Scriggo's min and max builtins.</p>
-<p>The following example exemplifies all the types of globals that you can pass to a template:</p>
+<p>The following code exemplifies all the types of globals that you can pass to a template:</p>
 <pre><code class="language-go">native.Declarations{
     &quot;articles&quot;: &amp;articles,                       // a variable named &quot;articles&quot;
     &quot;inc&quot;: func(i int) int { return i+1 },       // a function named &quot;inc&quot;
@@ -362,9 +362,10 @@ func main() {
 </code></pre>
 <h3 id="import-go-packages">Import Go packages</h3>
 <p>You have already seen how to <a href="#use-other-types-of-globals">pass a package as global</a> to a template. In this case the
-template code not have to import the package to use it. You can also allow the import of packages.</p>
-<p>To import packages and their exported names, you need to pass an importer to the BuildTemplate function.
-The importer code can be also be <a href="#import-packages-with-the-import-command">generated with the scriggo import command</a>.</p>
+template code not have to import the package to use it.</p>
+<p>You can also allow the import of packages. To import packages and their exported names, you need to pass an importer to
+the BuildTemplate function. The importer code can be also be
+<a href="#import-packages-with-the-import-command">generated with the scriggo import command</a>.</p>
 <p>The following program defines a package with path &quot;acme.inc/colors&quot; and name &quot;colors&quot; and passes it to the
 <code>BuildTemplate</code> function. The colors package exports the &quot;Red&quot; constant and the &quot;Name&quot; function.</p>
 <pre><code class="language-go">package main
@@ -388,8 +389,8 @@ func main() {
         &quot;acme.inc/colors&quot; : native.Package{
             Name: &quot;colors&quot;,
             Declarations: native.Declarations{
-                &quot;Red&quot;   : &quot;#C0392B&quot;,
-                &quot;Name&quot; : func(color string) string {
+                &quot;Red&quot;: &quot;#C0392B&quot;,
+                &quot;Name&quot;: func(color string) string {
                     if color == &quot;#C0392B&quot; {
                         return &quot;Red&quot;
                     }
@@ -413,7 +414,7 @@ func main() {
 and <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#CombinedImporter">CombinedImporter</a> may be useful.</p>
 <h4 id="import-packages-with-the-import-command">Import packages with the import command</h4>
 <p>The <code>scriggo import</code> command allows to easily create an importer that imports the Go standard packages and other
-packages according to the instructions in a Scriggofile.</p>
+packages according to the instructions in a <a href="/Scriggofile">Scriggofile</a>.</p>
 <p>For example, create a file called &quot;Scriggofile&quot; with the following content and put it the root directory of a Go
 module:</p>
 <pre><code class="language-scriggofile">IMPORT STANDARD LIBRARY
@@ -424,9 +425,9 @@ imports the packages of the Go standard library.</p>
 <pre><code class="language-shell">$ scriggo import -o packages.go
 </code></pre>
 <p>Be patient and wait for its conclusion, it takes several seconds.</p>
-<p>The code in the <code>packages.go</code> file assigns a <em>packages</em> variable a
-<a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Packages">native.Packages</a> value with the packages indicated in
-the Scriggofile.</p>
+<p>The code in the <code>packages.go</code> file assigns a
+<a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Packages">native.Packages</a> value to the <em>packages</em> variable with the
+packages indicated in the Scriggofile.</p>
 <p>Then, you can pass the <em>packages</em> variable to the BuildTemplate function:</p>
 <pre><code class="language-go">package main
 

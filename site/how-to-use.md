@@ -91,8 +91,8 @@ By default, a template code can only use the Go builtins. To allow the template 
 them as globals to the BuildTemplate function.
 
 Scriggo, with the package [github.com/open2b/scriggo/builtin](https://pkg.go.dev/github.com/open2b/scriggo/builtin),
-provides useful builtins ready-to-use. You can use all of them or just some. The following example uses the min and max
-builtins:
+provides useful builtins ready-to-use. You can use all of them or just some. For example, the following program uses the 
+min and max builtins:
 
 ```go
 package main
@@ -128,7 +128,7 @@ func main() {
 
 ### Pass variables to templates
 
-You can pass a variable as a global to the template, as you previously passed the Scriggo builtins but variables are 
+You can pass a variable as a global to the template, as you previously passed the Scriggo builtins, but variables are 
 passed by reference. Scriggo supports several use cases for passing a variable to a template, but let's start with 
 simpler case. Look at this example:
 
@@ -230,7 +230,7 @@ err = template.Run(os.Stdout, map[string]interface{}{"who": &who}, nil)
 You can also pass functions, constants (typed and untyped), types and even packages to a template as globals. For
 functions, we have already seen the example of Scriggo's min and max builtins.
 
-The following example exemplifies all the types of globals that you can pass to a template:
+The following code exemplifies all the types of globals that you can pass to a template:
 
 ```go
 native.Declarations{
@@ -322,10 +322,11 @@ goldmark.New(
 ### Import Go packages
 
 You have already seen how to [pass a package as global](#use-other-types-of-globals) to a template. In this case the
-template code not have to import the package to use it. You can also allow the import of packages.
+template code not have to import the package to use it.
 
-To import packages and their exported names, you need to pass an importer to the BuildTemplate function.
-The importer code can be also be [generated with the scriggo import command](#import-packages-with-the-import-command). 
+You can also allow the import of packages. To import packages and their exported names, you need to pass an importer to 
+the BuildTemplate function. The importer code can be also be
+[generated with the scriggo import command](#import-packages-with-the-import-command). 
 
 The following program defines a package with path "acme.inc/colors" and name "colors" and passes it to the 
 `BuildTemplate` function. The colors package exports the "Red" constant and the "Name" function.
@@ -352,8 +353,8 @@ func main() {
         "acme.inc/colors" : native.Package{
             Name: "colors",
             Declarations: native.Declarations{
-                "Red"   : "#C0392B",
-                "Name" : func(color string) string {
+                "Red": "#C0392B",
+                "Name": func(color string) string {
                     if color == "#C0392B" {
                         return "Red"
                     }
@@ -380,7 +381,7 @@ and [CombinedImporter](https://pkg.go.dev/github.com/open2b/scriggo/native#Combi
 #### Import packages with the import command 
 
 The `scriggo import` command allows to easily create an importer that imports the Go standard packages and other
-packages according to the instructions in a Scriggofile.
+packages according to the instructions in a [Scriggofile](/Scriggofile).
 
 For example, create a file called "Scriggofile" with the following content and put it the root directory of a Go
 module:
@@ -400,9 +401,9 @@ $ scriggo import -o packages.go
 
 Be patient and wait for its conclusion, it takes several seconds.
 
-The code in the `packages.go` file assigns a _packages_ variable a
-[native.Packages](https://pkg.go.dev/github.com/open2b/scriggo/native#Packages) value with the packages indicated in
-the Scriggofile.
+The code in the `packages.go` file assigns a
+[native.Packages](https://pkg.go.dev/github.com/open2b/scriggo/native#Packages) value to the _packages_ variable with the
+packages indicated in the Scriggofile.
 
 Then, you can pass the _packages_ variable to the BuildTemplate function:
 
