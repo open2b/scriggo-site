@@ -7,7 +7,7 @@
 # Show and Render 
 
 The [show](#show) statement renders values and shows them, while the [render](#render) operator renders a template file.
-The render operator it is usually used in a show statement to show the rendered file.
+The render operator is usually used in a show statement to show the rendered file.
 
 ## Show
 
