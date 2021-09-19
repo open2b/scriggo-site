@@ -147,7 +147,7 @@ read from a directory as the file system returned by the <a href="https://pkg.go
 <p>it calls the <code>Format</code> method to get the file format.</p>
 <h3 id="build-and-run-templates">Build and run templates</h3>
 <p>A template is first compiled and then executed, even concurrently by multiple goroutines. The compilation parses, type
-checks and emits the template byte code. Execution is fast because it executes the byte code on a virtual machine.</p>
+checks and emits the template bytecode. Execution is fast because it executes the bytecode on a virtual machine.</p>
 <p>To compile a template, you pass the file system and the name of the template to the
 <a href="https://pkg.go.dev/github.com/open2b/scriggo#BuildTemplate">scriggo.BuildTemplate</a> function, then call the
 <a href="https://pkg.go.dev/github.com/open2b/scriggo#Template.Run">Run</a> method on the returned compiled template.</p>

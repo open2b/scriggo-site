@@ -6,7 +6,7 @@
 
 # Disassembler
 
-When Scriggo runs a program, script or template, first compiles it into a byte code and then runs it on the Scriggo Virtual Machine.
+When Scriggo runs a program, script or template, first compiles it into a bytecode and then runs it on the Scriggo Virtual Machine.
 
 ## How to disassemble
 
