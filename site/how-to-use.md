@@ -633,7 +633,7 @@ if err != nil {
     }
     // handle other errors returned by the out.Write method,
     // by the convert function, and the Err method of a context
-	// when it is cancelled.
+    // when it is cancelled.
 }
 ```
 
