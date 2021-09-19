@@ -171,11 +171,11 @@ who is "Scriggo"
 ```
 
 How you can see, the value assigned to the _who_ variable, in the Go code, has been modified by the template code. If
-you run the template concurrently, the goroutines that execute the template can access to the same variable at the same
-time. 
+you run the template concurrently, the goroutines that execute the template could access to the same variable at the
+same time, so it may be necessary to use a synchronization mechanism.
 
-Scriggo also allows you to pass different variables to each execution. To do this, you pass a nil pointer as a global to 
-the `BuildTemplate` function and the initial value of the variable to the `Run` method:
+If you want each execution to access its own variable, pass the variable pointer to the Run method instead of
+BuildTemplate, with a different variable for each execution.
 
 ```go
 package main
@@ -198,8 +198,9 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
+    // Use a different variable for each call to Run, for example using a closure.
     var who = "World"
-    err = template.Run(os.Stdout, map[string]interface{}{"who": who}, nil)
+    err = template.Run(os.Stdout, map[string]interface{}{"who": &who}, nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -207,24 +208,26 @@ func main() {
 }
 ```
 
-Note that we passed `(*string)(nil)` as global, so the compiler knows the type of the variable, and then we passed the
-initial "World" value to the Run method. If you execute the program, it prints:
+Note that we passed `(*string)(nil)` to BuildTemplate as global. This way the compiler know the type of the variable. 
+Then we passed the variable pointer to the Run method. If you execute the program, it prints again:
 
 ```go
 Hello World
-who is "World"
+who is "Scriggo"
 ```
 
-In this case, the template assign a different value to the variable, but the variable in the Go code remains unchanged.
-Note that if, for example, the variable is a slice or a pointer to a struct, the template code cannot assign a new
-value to the variable but can still change the elements of the slice and the field values.
+The printed value is not changed because the variable is still "shared" between the Go code and template code. But no
+between different executions, if a different variable was passed for each of them.
 
-As a last use case, If you want to "share" the variable between the Go code and the template code but not between
-different executions, just pass, to the Run function, a pointer to the variable:
+If you don't need to "share" the variable at all, pass the variable's value to the Run method instead of the pointer:
 
 ```go
-err = template.Run(os.Stdout, map[string]interface{}{"who": &who}, nil)
+err = template.Run(os.Stdout, map[string]interface{}{"who": "World"}, nil)
 ```
+
+In this case if the template code assigns a new value to the variable, no variables are changed in the Go code. But be 
+aware that if the variable is for example a slice, a map or a pointer value, the template code can still change the
+slice and map elements and the pointed value.
 
 ### Use other types of globals
 
