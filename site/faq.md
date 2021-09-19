@@ -169,9 +169,9 @@ templating languages like Jinja and Liquid.
 
 We wanted the template language to be easy to use even for non-programmers. A simple statement like the following:
 
-``
+```
 {% if len(products) == 0 %} There are no products {% end %}
-``
+```
 
 brings with it some concepts such as slices, the built-in `len` and the equality operator, which on the whole could 
 discourage people approaching a template language without coding skills.

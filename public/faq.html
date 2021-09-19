@@ -143,7 +143,8 @@ integrated programming language. Moreover, it has a non-immediate understanding 
 templating languages like Jinja and Liquid.</p>
 <h3 id="what-is-a-truthful-value-in-templates">What is a truthful value in templates?</h3>
 <p>We wanted the template language to be easy to use even for non-programmers. A simple statement like the following:</p>
-<p><code>{% if len(products) == 0 %} There are no products {% end %}</code></p>
+<pre><code>{% if len(products) == 0 %} There are no products {% end %}
+</code></pre>
 <p>brings with it some concepts such as slices, the built-in <code>len</code> and the equality operator, which on the whole could
 discourage people approaching a template language without coding skills.</p>
 <p>In Scriggo, therefore, the previous code can also be written in the following way:</p>
