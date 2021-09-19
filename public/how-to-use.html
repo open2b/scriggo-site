@@ -580,7 +580,7 @@ if err != nil {
         // handle compilation error.
     }
     // handle other errors returned by the file system methods,
-    // by the convert function and other internal errors.
+    // by the converter and other internal errors.
 }
 </code></pre>
 <p>If the file to be compiled does not exist, it returns an error satisfying <code>errors.Is(err, fs.ErrNotExist)</code>, while if a
@@ -589,7 +589,7 @@ file to extend, import or render does not exist, it returns a
 <p>A <a href="https://pkg.go.dev/github.com/open2b/scriggo#BuildError">*scriggo.BuildError</a> value is an error in the template code
 such as a syntax error, a type checking error, a cycle error and a limit exceeded error. You may show this error to
 the template author, so that she can fix it.</p>
-<p>Other errors are unexpected errors returned by a file system method, the convert function and other internal errors.</p>
+<p>Other errors are unexpected errors returned by a file system method, the converter and other internal errors.</p>
 <h4 id="run-errors">Run errors</h4>
 <p>The <a href="https://pkg.go.dev/github.com/open2b/scriggo#Template.Run">Run</a> method:</p>
 <pre><code class="language-go">err = template.Run(os.Stdout, nil, nil)
@@ -600,9 +600,8 @@ if err != nil {
     if err, ok := err.(*scriggo.ExitError); ok {
         // handle a call to env.Exit with a not zero code.
     }
-    // handle other errors returned by the out.Write method,
-    // by the convert function, and the Err method of a context
-    // when it is cancelled.
+    // handle other errors returned by the out.Write method, by the converter,
+    // and the Err method of a context when it is cancelled.
 }
 </code></pre>
 <p>If the template code calls the panic builtin or a panic is raised from a global function or method, and this panic is
@@ -612,7 +611,7 @@ browser.</p>
 <p>If the <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Exit">Env.Exit</a> method is called with a not zero code,
 Run returns a <a href="https://pkg.go.dev/github.com/open2b/scriggo#ExitError">*scriggo.ExitError</a> value. You may exit with
 this code, log the exit error, show the exit error on the console or return it to a browser.</p>
-<p>Other errors are unexpected errors returned by the output writer, the convert function, the error of a cancelled context
+<p>Other errors are unexpected errors returned by the output writer, the converter, the error of a cancelled context
 and other internal errors.</p>
 <p>The Run method panics if the <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Fatal">Env.Fatal</a> method is
 called.</p>
