@@ -290,6 +290,21 @@ between different executions, if a different variable was passed for each of the
 <p>In this case if the template code assigns a new value to the variable, no variables are changed in the Go code. But be
 aware that if the variable is for example a slice, a map or a pointer value, the template code can still change the
 slice and map elements and the pointed value.</p>
+<h4 id="how-to-pass-a-pointer-type">How to pass a pointer type</h4>
+<p>Passing a pointer type is the same as passing any other type, there is no special cases. To pass a variable <code>v</code> with
+type <code>*T</code>, write:</p>
+<pre><code class="language-go">opts := &amp;scriggo.BuildOptions{
+    Globals: native.Declarations{&quot;v&quot;: (**T)(nil)},
+}
+</code></pre>
+<p>To &quot;share&quot; the variable with the Go code, pass a pointer to the variable:</p>
+<pre><code class="language-go">v := &amp;T{}
+err = template.Run(os.Stdout, map[string]interface{}{&quot;v&quot;: &amp;v}, nil)
+</code></pre>
+<p>Otherwise, pass the value of the variable:</p>
+<pre><code class="language-go">v := &amp;T{}
+err = template.Run(os.Stdout, map[string]interface{}{&quot;v&quot;: v}, nil)
+</code></pre>
 <h3 id="use-other-types-of-globals">Use other types of globals</h3>
 <p>You can also pass functions, constants (typed and untyped), types and even packages to a template as globals. For
 functions, we have already seen the example of Scriggo's min and max builtins.</p>
