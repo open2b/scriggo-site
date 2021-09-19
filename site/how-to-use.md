@@ -59,7 +59,7 @@ it calls the `Format` method to get the file format.
 A template is first compiled and then executed, even concurrently by multiple goroutines. The compilation parses, type 
 checks and emits the template bytecode. Execution is fast because it executes the bytecode on a virtual machine.
 
-To compile a template, you pass the file system and the name of the template to the
+To compile a template, you pass the file system and the filename to the
 [scriggo.BuildTemplate](https://pkg.go.dev/github.com/open2b/scriggo#BuildTemplate) function, then call the 
 [Run](https://pkg.go.dev/github.com/open2b/scriggo#Template.Run) method on the returned compiled template.
 
