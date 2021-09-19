@@ -18,6 +18,7 @@ template language, see the [templates](/templates) section instead.
 * [Import Go packages](#import-go-packages)
 * [Do not parse {{ ... }}](#do-not-parse---)
 * [Execution environment (env)](#execution-environment-env)
+* [Implement IsTrue](#implement-istrue)
 
 <div style="margin-top: 2rem;"></div>
 
@@ -534,5 +535,38 @@ func main() {
 ```
 
 Note that template code does not see the env parameter of the Exit function and calls the exit builtin as `exit(0)`.
+
+### Implement IsTrue
+
+The IsTrue method can be implemented by struct and pointer to struct types that can be truthful or not truthful.
+See the [template specification](/templates/specification#truthful-values) for the details on truthful values.
+
+Given this type:
+
+```go
+type Slide struct {
+    Images []Image
+    Timing int
+}
+```
+
+a template writer would expect a Slide value to be truthful if it contains images and not truthful if it does not. So
+she can write:
+
+```scriggo
+{% if slide %}
+<div class="slide">
+  {% for image in slide.Images %}{{ image }}{% end %}
+</div>
+{% end if %}
+```
+
+To do this, add the IsTrue method to the Slide (or *Slice) type:  
+
+```go
+func (s Slide) IsTrue() bool {
+    return len(s.Images) > 0
+}
+```
 
 {% end raw content %}
