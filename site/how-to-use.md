@@ -44,7 +44,7 @@ By default, Scriggo gets the format of a file from the filename extension:
 | JSON       | .json                            |
 | Text       | all other extensions             |
 
-If the file system implements the `scriggo.FormatFS` interface:
+If the file system implements the [scriggo.FormatFS](https://pkg.go.dev/github.com/open2b/scriggo#FormatFS) interface:
 
 ```go
 type FormatFS interface {
@@ -53,12 +53,12 @@ type FormatFS interface {
 }
 ```
 
-it calls the `Format` method to get the file format.
+Scriggo calls the Format method to get the file format.
 
 ### Build and run templates
 
 A template is first compiled and then executed, even concurrently by multiple goroutines. The compilation parses, type 
-checks and emits the template bytecode. Execution is fast because it executes the bytecode on a virtual machine.
+checks and emits the template bytecode. Execution is fast because it executes the bytecode on its virtual machine.
 
 To compile a template, you pass the file system and the filename to the
 [scriggo.BuildTemplate](https://pkg.go.dev/github.com/open2b/scriggo#BuildTemplate) function, then call the 
