@@ -94,6 +94,7 @@ template language, see the <a href="/templates">templates</a> section instead.</
 <li><a href="#do-not-parse---">Do not parse {{ ... }}</a></li>
 <li><a href="#execution-environment-env">Execution environment (env)</a></li>
 <li><a href="#implement-istrue">Implement IsTrue</a></li>
+<li><a href="#allow-go-statement">Allow &quot;go&quot; statement</a></li>
 </ul>
 <div style="margin-top: 2rem;"></div>
 <h3 id="template-files">Template files</h3>
@@ -555,6 +556,15 @@ she can write:</p>
     return len(s.Images) &gt; 0
 }
 </code></pre>
+<h3 id="allow-go-statement">Allow &quot;go&quot; statement</h3>
+<p>By default, the <em>go</em> statement is not allowed, the compilation of a template with a <em>go</em> statement fails. You can allow
+the <em>go</em> statement using the AllowGoStmt option with the BuildTemplate function:</p>
+<pre><code class="language-go">opts := &amp;scriggo.BuildOptions{
+    AllowGoStmt: true,
+}
+</code></pre>
+<p>Note that currently the goroutines started by the template code do not terminate when the execution of the template
+ends. This behavior may change in a future version of Scriggo.</p>
 
 <div id="edit-on-github">
   <a href="https://github.com/open2b/scriggo-site/blob/main/site/how-to-use.md" target="_blank">

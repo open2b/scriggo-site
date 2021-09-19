@@ -19,6 +19,7 @@ template language, see the [templates](/templates) section instead.
 * [Do not parse {{ ... }}](#do-not-parse---)
 * [Execution environment (env)](#execution-environment-env)
 * [Implement IsTrue](#implement-istrue)
+* [Allow "go" statement](#allow-go-statement)
 
 <div style="margin-top: 2rem;"></div>
 
@@ -568,5 +569,19 @@ func (s Slide) IsTrue() bool {
     return len(s.Images) > 0
 }
 ```
+
+### Allow "go" statement
+
+By default, the _go_ statement is not allowed, the compilation of a template with a _go_ statement fails. You can allow
+the _go_ statement using the AllowGoStmt option with the BuildTemplate function:
+
+```go
+opts := &scriggo.BuildOptions{
+    AllowGoStmt: true,
+}
+```
+
+Note that currently the goroutines started by the template code do not terminate when the execution of the template
+ends. This behavior may change in a future version of Scriggo.
 
 {% end raw content %}
