@@ -95,6 +95,7 @@ template language, see the <a href="/templates">templates</a> section instead.</
 <li><a href="#execution-environment-env">Execution environment (env)</a></li>
 <li><a href="#implement-istrue">Implement IsTrue</a></li>
 <li><a href="#allow-go-statement">Allow &quot;go&quot; statement</a></li>
+<li><a href="#handle-build-and-run-errors">Handle build and run errors</a></li>
 </ul>
 <div style="margin-top: 2rem;"></div>
 <h3 id="template-files">Template files</h3>
@@ -565,6 +566,56 @@ the <em>go</em> statement using the AllowGoStmt option with the BuildTemplate fu
 </code></pre>
 <p>Note that currently the goroutines started by the template code do not terminate when the execution of the template
 ends. This behavior may change in a future version of Scriggo.</p>
+<h3 id="handle-build-and-run-errors">Handle build and run errors</h3>
+<p>How handle errors depends on the context in which templates are compiled and executed. Therefore, the way in which
+errors are handled may vary from application to application.</p>
+<h4 id="build-errors">Build errors</h4>
+<p>The <a href="https://pkg.go.dev/github.com/open2b/scriggo#BuildTemplate">BuildTemplate</a> function:</p>
+<pre><code class="language-go">template, err := scriggo.BuildTemplate(fsys, &quot;index.md&quot;, opts)
+if err != nil {
+    if errors.Is(err, fs.ErrNotExist) {
+        // handle do not exist error.
+    }
+    if err, ok := err.(*scriggo.BuildError); ok {
+        // handle compilation error.
+    }
+    // handle other errors returned by the file system methods,
+    // by the convert function and other internal errors.
+}
+</code></pre>
+<p>If the file to be compiled does not exist, it returns an error satisfying <code>errors.Is(err, fs.ErrNotExist)</code>, while if a
+file to extend, import or render does not exist, it returns a
+<a href="https://pkg.go.dev/github.com/open2b/scriggo#BuildError">*scriggo.BuildError</a> value.</p>
+<p>A <a href="https://pkg.go.dev/github.com/open2b/scriggo#BuildError">*scriggo.BuildError</a> value is an error in the template code
+such as a syntax error, a type checking error, a cycle error and a limit exceeded error. You may show this error to
+the template author, so that she can fix it.</p>
+<p>Other errors are unexpected errors returned by a file system method, the convert function and other internal errors.</p>
+<h4 id="run-errors">Run errors</h4>
+<p>The <a href="https://pkg.go.dev/github.com/open2b/scriggo#Template.Run">Run</a> method:</p>
+<pre><code class="language-go">err = template.Run(os.Stdout, nil, nil)
+if err != nil {
+    if err, ok := err.(*scriggo.PanicError); ok {
+        // handle a panic in the template code.
+    }
+    if err, ok := err.(*scriggo.ExitError); ok {
+        // handle a call to env.Exit with a not zero code.
+    }
+    // handle other errors returned by the out.Write method,
+    // by the convert function, and the Err method of a context
+	// when it is cancelled.
+}
+</code></pre>
+<p>If the template code calls the panic builtin or a panic is raised from a global function or method, and this panic is
+not recovered, the Run method returns a <a href="https://pkg.go.dev/github.com/open2b/scriggo#PanicError">*scriggo.PanicError</a>
+value. You may panic with the value <code>err.Error()</code>, log the error, show the error on the console or return it to a
+browser.</p>
+<p>If the <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Exit">Env.Exit</a> method is called with a not zero code,
+Run returns a <a href="https://pkg.go.dev/github.com/open2b/scriggo#ExitError">*scriggo.ExitError</a> value. You may exit with
+this code, log the exit error, show the exit error on the console or return it to a browser.</p>
+<p>Other errors are unexpected errors returned by the output writer, the convert function, the error of a cancelled context
+and other internal errors.</p>
+<p>The Run method panics if the <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Fatal">Env.Fatal</a> method is
+called.</p>
 
 <div id="edit-on-github">
   <a href="https://github.com/open2b/scriggo-site/blob/main/site/how-to-use.md" target="_blank">

@@ -20,6 +20,7 @@ template language, see the [templates](/templates) section instead.
 * [Execution environment (env)](#execution-environment-env)
 * [Implement IsTrue](#implement-istrue)
 * [Allow "go" statement](#allow-go-statement)
+* [Handle build and run errors](#handle-build-and-run-errors)
 
 <div style="margin-top: 2rem;"></div>
 
@@ -583,5 +584,72 @@ opts := &scriggo.BuildOptions{
 
 Note that currently the goroutines started by the template code do not terminate when the execution of the template
 ends. This behavior may change in a future version of Scriggo.
+
+### Handle build and run errors
+
+How handle errors depends on the context in which templates are compiled and executed. Therefore, the way in which
+errors are handled may vary from application to application.
+
+#### Build errors
+
+The [BuildTemplate](https://pkg.go.dev/github.com/open2b/scriggo#BuildTemplate) function:
+
+```go
+template, err := scriggo.BuildTemplate(fsys, "index.md", opts)
+if err != nil {
+    if errors.Is(err, fs.ErrNotExist) {
+        // handle do not exist error.
+    }
+    if err, ok := err.(*scriggo.BuildError); ok {
+        // handle compilation error.
+    }
+    // handle other errors returned by the file system methods,
+    // by the convert function and other internal errors.
+}
+```
+
+If the file to be compiled does not exist, it returns an error satisfying `errors.Is(err, fs.ErrNotExist)`, while if a
+file to extend, import or render does not exist, it returns a
+[*scriggo.BuildError](https://pkg.go.dev/github.com/open2b/scriggo#BuildError) value.
+
+A [*scriggo.BuildError](https://pkg.go.dev/github.com/open2b/scriggo#BuildError) value is an error in the template code
+such as a syntax error, a type checking error, a cycle error and a limit exceeded error. You may show this error to
+the template author, so that she can fix it.
+
+Other errors are unexpected errors returned by a file system method, the convert function and other internal errors.
+
+#### Run errors
+
+The [Run](https://pkg.go.dev/github.com/open2b/scriggo#Template.Run) method:
+
+```go
+err = template.Run(os.Stdout, nil, nil)
+if err != nil {
+    if err, ok := err.(*scriggo.PanicError); ok {
+        // handle a panic in the template code.
+    }
+    if err, ok := err.(*scriggo.ExitError); ok {
+        // handle a call to env.Exit with a not zero code.
+    }
+    // handle other errors returned by the out.Write method,
+    // by the convert function, and the Err method of a context
+	// when it is cancelled.
+}
+```
+
+If the template code calls the panic builtin or a panic is raised from a global function or method, and this panic is
+not recovered, the Run method returns a [*scriggo.PanicError](https://pkg.go.dev/github.com/open2b/scriggo#PanicError)
+value. You may panic with the value `err.Error()`, log the error, show the error on the console or return it to a
+browser.
+
+If the [Env.Exit](https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Exit) method is called with a not zero code,
+Run returns a [*scriggo.ExitError](https://pkg.go.dev/github.com/open2b/scriggo#ExitError) value. You may exit with
+this code, log the exit error, show the exit error on the console or return it to a browser.
+
+Other errors are unexpected errors returned by the output writer, the convert function, the error of a cancelled context
+and other internal errors.
+
+The Run method panics if the [Env.Fatal](https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Fatal) method is
+called.
 
 {% end raw content %}
