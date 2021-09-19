@@ -500,8 +500,8 @@ You can use env to get the [context](https://pkg.go.dev/context#Context) passed 
 raise a fatal error, print with the _print_ and _println_ builtins used in the template, and get the caller's path 
 relative to the root of the template. 
 
-For example, the following program passes a builtin named _exit_ to the template which terminates the execution of the
-template if called.
+For example, the following program passes a builtin named _exit_ to the template. When called, it ends the execution of
+the template.
 
 ```go
 package main

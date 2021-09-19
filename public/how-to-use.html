@@ -501,8 +501,8 @@ or imported into a template, receives env as first argument if its first paramet
 <p>You can use env to get the <a href="https://pkg.go.dev/context#Context">context</a> passed to the Run method, exit the execution,
 raise a fatal error, print with the <em>print</em> and <em>println</em> builtins used in the template, and get the caller's path
 relative to the root of the template.</p>
-<p>For example, the following program passes a builtin named <em>exit</em> to the template which terminates the execution of the
-template if called.</p>
+<p>For example, the following program passes a builtin named <em>exit</em> to the template. When called, it ends the execution of
+the template.</p>
 <pre><code class="language-go">package main
 
 import (
