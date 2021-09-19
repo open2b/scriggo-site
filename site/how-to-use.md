@@ -15,7 +15,7 @@ template language, see the [templates](/templates) section instead.
 * [Pass variables to templates](#pass-variables-to-templates)
 * [Use other types of globals](#use-other-types-of-globals)
 * [Use Markdown](#use-markdown)
-* [Import Go packages](#import-go-packages)
+* [Import packages](#import-packages)
 * [Do not parse {{ ... }}](#do-not-parse---)
 * [Execution environment (env)](#execution-environment-env)
 * [Implement IsTrue](#implement-istrue)
@@ -351,14 +351,14 @@ goldmark.New(
     goldmark.WithExtensions(extension.GFM))                 // allow GitHub Flavored Markdown
 ```
 
-### Import Go packages
+### Import packages
 
-You have already seen how to [pass a package as global](#use-other-types-of-globals) to a template. In this case the
-template code not have to import the package to use it.
+You have already seen how to [pass a package as global](#use-other-types-of-globals) to a template. A package passes as
+a global can be used without importing it.
 
-You can also allow the import of packages. To import packages and their exported names, you need to pass an importer to 
-the BuildTemplate function. The importer code can be also be
-[generated with the scriggo import command](#import-packages-with-the-import-command). 
+You can also allow the template code to import other packages by passing an importer to the BuildTemplate function. You
+can write the importer and the packages it imports, or you can use the
+[scriggo import command](#import-packages-with-the-import-command) to generate an importer for existing Go packages.
 
 The following program defines a package with path "acme.inc/colors" and name "colors" and passes it to the 
 `BuildTemplate` function. The colors package exports the "Red" constant and the "Name" function.

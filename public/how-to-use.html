@@ -90,7 +90,7 @@ template language, see the <a href="/templates">templates</a> section instead.</
 <li><a href="#pass-variables-to-templates">Pass variables to templates</a></li>
 <li><a href="#use-other-types-of-globals">Use other types of globals</a></li>
 <li><a href="#use-markdown">Use Markdown</a></li>
-<li><a href="#import-go-packages">Import Go packages</a></li>
+<li><a href="#import-packages">Import packages</a></li>
 <li><a href="#do-not-parse---">Do not parse {{ ... }}</a></li>
 <li><a href="#execution-environment-env">Execution environment (env)</a></li>
 <li><a href="#implement-istrue">Implement IsTrue</a></li>
@@ -381,12 +381,12 @@ func main() {
     goldmark.WithParserOptions(parser.WithAutoHeadingID()), // add ids to the headings
     goldmark.WithExtensions(extension.GFM))                 // allow GitHub Flavored Markdown
 </code></pre>
-<h3 id="import-go-packages">Import Go packages</h3>
-<p>You have already seen how to <a href="#use-other-types-of-globals">pass a package as global</a> to a template. In this case the
-template code not have to import the package to use it.</p>
-<p>You can also allow the import of packages. To import packages and their exported names, you need to pass an importer to
-the BuildTemplate function. The importer code can be also be
-<a href="#import-packages-with-the-import-command">generated with the scriggo import command</a>.</p>
+<h3 id="import-packages">Import packages</h3>
+<p>You have already seen how to <a href="#use-other-types-of-globals">pass a package as global</a> to a template. A package passes as
+a global can be used without importing it.</p>
+<p>You can also allow the template code to import other packages by passing an importer to the BuildTemplate function. You
+can write the importer and the packages it imports, or you can use the
+<a href="#import-packages-with-the-import-command">scriggo import command</a> to generate an importer for existing Go packages.</p>
 <p>The following program defines a package with path &quot;acme.inc/colors&quot; and name &quot;colors&quot; and passes it to the
 <code>BuildTemplate</code> function. The colors package exports the &quot;Red&quot; constant and the &quot;Name&quot; function.</p>
 <pre><code class="language-go">package main
