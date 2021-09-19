@@ -17,7 +17,7 @@ template language, see the [templates](/templates) section instead.
 * [Use Markdown](#use-markdown)
 * [Import Go packages](#import-go-packages)
 * [Do not parse {{ ... }}](#do-not-parse---)
-* [The execution environment (env)](#the-execution-environment-env)
+* [Execution environment (env)](#execution-environment-env)
 
 <div style="margin-top: 2rem;"></div>
 
@@ -487,16 +487,19 @@ opts := &scriggo.BuildOptions{
 
 Using this option, Scriggo does not parse the short show statements, and then you can use this syntax client-side. In Scriggo, you can continue to use the `{% show ... %}` syntax.
 
-### The execution environment (env)
+### Execution environment (env)
 
 The execution environment, or simply env, is a value created at each template execution whose type implements the 
-[native.Env](https://pkg.go.dev/github.com/open2b/scriggo/native#Env) interface.
+[native.Env](https://pkg.go.dev/github.com/open2b/scriggo/native#Env) interface. A function or method, passed as global 
+or imported into a template, receives env as first argument if its first parameter has type
+[native.Env](https://pkg.go.dev/github.com/open2b/scriggo/native#Env).
 
-A function or method, passed as global or imported into a template, receives env as first argument if its first
-parameter has type [native.Env](https://pkg.go.dev/github.com/open2b/scriggo/native#Env).
+You can use env to get the [context](https://pkg.go.dev/context#Context) passed to the Run method, exit the execution,
+raise a fatal error, print with the _print_ and _println_ builtins used in the template, and get the caller's path 
+relative to the root of the template. 
 
-The following program, passes a builtin named _exit_ to the template which, when called, terminates the execution of the
-template.
+For example, the following program passes a builtin named _exit_ to the template which terminates the execution of the
+template if called.
 
 ```go
 package main

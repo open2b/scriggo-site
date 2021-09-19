@@ -92,7 +92,7 @@ template language, see the <a href="/templates">templates</a> section instead.</
 <li><a href="#use-markdown">Use Markdown</a></li>
 <li><a href="#import-go-packages">Import Go packages</a></li>
 <li><a href="#do-not-parse---">Do not parse {{ ... }}</a></li>
-<li><a href="#the-execution-environment-env">The execution environment (env)</a></li>
+<li><a href="#execution-environment-env">Execution environment (env)</a></li>
 </ul>
 <div style="margin-top: 2rem;"></div>
 <h3 id="template-files">Template files</h3>
@@ -491,13 +491,16 @@ using the <em>NoParseShortShowStmt</em> option with the BuildTemplate function:<
 }
 </code></pre>
 <p>Using this option, Scriggo does not parse the short show statements, and then you can use this syntax client-side. In Scriggo, you can continue to use the <code>{% show ... %}</code> syntax.</p>
-<h3 id="the-execution-environment-env">The execution environment (env)</h3>
+<h3 id="execution-environment-env">Execution environment (env)</h3>
 <p>The execution environment, or simply env, is a value created at each template execution whose type implements the
-<a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env">native.Env</a> interface.</p>
-<p>A function or method, passed as global or imported into a template, receives env as first argument if its first
-parameter has type <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env">native.Env</a>.</p>
-<p>The following program, passes a builtin named <em>exit</em> to the template which, when called, terminates the execution of the
-template.</p>
+<a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env">native.Env</a> interface. A function or method, passed as global
+or imported into a template, receives env as first argument if its first parameter has type
+<a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env">native.Env</a>.</p>
+<p>You can use env to get the <a href="https://pkg.go.dev/context#Context">context</a> passed to the Run method, exit the execution,
+raise a fatal error, print with the <em>print</em> and <em>println</em> builtins used in the template, and get the caller's path
+relative to the root of the template.</p>
+<p>For example, the following program passes a builtin named <em>exit</em> to the template which terminates the execution of the
+template if called.</p>
 <pre><code class="language-go">package main
 
 import (
