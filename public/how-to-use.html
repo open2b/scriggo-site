@@ -81,8 +81,8 @@
         </aside>
         <div class="content">
             <h1 id="how-to-use">How to use</h1>
-<p>This page explains how to use the Scriggo packages to execute templates. If you want to learn the
-template language, see the <a href="/templates">templates</a> section instead.</p>
+<p>This page explains how to use Scriggo in a Go application to execute templates. If you want to learn the template
+language, see the <a href="/templates">templates</a> section instead.</p>
 <ul>
 <li><a href="#template-files">Template files</a></li>
 <li><a href="#build-and-run-templates">Build and run templates</a></li>
@@ -100,8 +100,9 @@ template language, see the <a href="/templates">templates</a> section instead.</
 <div style="margin-top: 2rem;"></div>
 <h3 id="template-files">Template files</h3>
 <p>A template consists of one or more files that Scriggo reads from a <a href="https://pkg.go.dev/io/fs#FS">file system</a>. You can
-use any file system as the files embedded in the executable with the <a href="https://pkg.go.dev/embed">//go:embed</a> directive or
-read from a directory as the file system returned by the <a href="https://pkg.go.dev/os#DirFS">os.DirFS</a> function.</p>
+use any file system. For example, you can read the files from a directory, using the file system returned by the
+<a href="https://pkg.go.dev/os#DirFS">os.DirFS</a> function, or read the files embedded in the executable with the
+<a href="https://pkg.go.dev/embed">//go:embed</a> directive.</p>
 <p>For the examples of this documentation we use a simple file system,
 <a href="https://pkg.go.dev/github.com/open2b/scriggo#Files">scriggo.Files</a>, whose files are read from a map.</p>
 <p>By default, Scriggo gets the format of a file from the filename extension:</p>
@@ -431,8 +432,10 @@ func main() {
     }
 }
 </code></pre>
-<p>By importing packages, the types <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#CombinedPackage">CombinedPackage</a>
-and <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#CombinedImporter">CombinedImporter</a> may be useful.</p>
+<p>The <a href="https://pkg.go.dev/github.com/open2b/scriggo/native">native</a> package provides the types
+<a href="https://pkg.go.dev/github.com/open2b/scriggo/native#CombinedPackage">CombinedPackage</a>
+and <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#CombinedImporter">CombinedImporter</a> that may be useful for
+this purpose.</p>
 <h4 id="import-packages-with-the-import-command">Import packages with the import command</h4>
 <p>The <code>scriggo import</code> command allows to easily create an importer that imports the Go standard packages and other
 packages according to the instructions in a <a href="/scriggofile">Scriggofile</a>.</p>

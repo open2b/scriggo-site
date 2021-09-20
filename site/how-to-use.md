@@ -6,8 +6,8 @@
 
 # How to use
 
-This page explains how to use Scriggo in a Go application to execute templates. If you want to learn the
-template language, see the [templates](/templates) section instead.
+This page explains how to use Scriggo in a Go application to execute templates. If you want to learn the template
+language, see the [templates](/templates) section instead.
 
 * [Template files](#template-files) 
 * [Build and run templates](#build-and-run-templates)
