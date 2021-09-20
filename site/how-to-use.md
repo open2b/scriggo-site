@@ -21,6 +21,7 @@ language, see the [templates](/templates) section instead.
 * [Implement IsTrue](#implement-istrue)
 * [Allow "go" statement](#allow-go-statement)
 * [Handle build and run errors](#handle-build-and-run-errors)
+* [Builtins best practices](#builtins-best-practices)
 
 <div style="margin-top: 2rem;"></div>
 
@@ -653,5 +654,27 @@ and other internal errors.
 
 The Run method panics if the [Env.Fatal](https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Fatal) method is
 called.
+
+### Builtins best practices
+
+These are the best practices to use when creating a built-in. Scriggo's builtins follow these best practices.
+
+* Error messages must have the builtin name as prefix: `parseInt: invalid base 1`
+* Errors should be created with `errors.New`. Use a different type of error only if necessary.
+* Argument of a panic should be a string with the same format of an error. If not a string, provide this value as
+  built-in.
+* Prefer `string` to `[]byte`. Prefer `rune` and `int` to other integer types. Prefer `float64` to `float32`.
+* Don't use pointer types. Hide the pointer in a struct with an unexported field with this pointer type.
+* Naming things, prefer names used in the Go standard library. For example `unmarshalJSON` instead of `parseJSON`.
+* Prefer panics to fatals. Panics can be recovered from the template code and, if not recovered, are returned as errors.
+  Fatals are not recoverable and panic the Run method.
+* Types used by builtins must be builtins.
+* Prefer ease of use to performance.
+* Prefer ease of use to completeness.
+
+The builtins provided with Scriggo also follow the following best practices:
+
+* Use only the packages of the Go standard library.
+* Don't use the `unsafe` and `syscall` packages.
 
 {% end raw content %}

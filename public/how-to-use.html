@@ -98,6 +98,7 @@ language, see the <a href="/templates">templates</a> section instead.</p>
 <li><a href="#implement-istrue">Implement IsTrue</a></li>
 <li><a href="#allow-go-statement">Allow &quot;go&quot; statement</a></li>
 <li><a href="#handle-build-and-run-errors">Handle build and run errors</a></li>
+<li><a href="#builtins-best-practices">Builtins best practices</a></li>
 </ul>
 <div style="margin-top: 2rem;"></div>
 <h3 id="template-files">Template files</h3>
@@ -620,6 +621,27 @@ this code, log the exit error, show the exit error on the console or return it t
 and other internal errors.</p>
 <p>The Run method panics if the <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Fatal">Env.Fatal</a> method is
 called.</p>
+<h3 id="builtins-best-practices">Builtins best practices</h3>
+<p>These are the best practices to use when creating a built-in. Scriggo's builtins follow these best practices.</p>
+<ul>
+<li>Error messages must have the builtin name as prefix: <code>parseInt: invalid base 1</code></li>
+<li>Errors should be created with <code>errors.New</code>. Use a different type of error only if necessary.</li>
+<li>Argument of a panic should be a string with the same format of an error. If not a string, provide this value as
+built-in.</li>
+<li>Prefer <code>string</code> to <code>[]byte</code>. Prefer <code>rune</code> and <code>int</code> to other integer types. Prefer <code>float64</code> to <code>float32</code>.</li>
+<li>Don't use pointer types. Hide the pointer in a struct with an unexported field with this pointer type.</li>
+<li>Naming things, prefer names used in the Go standard library. For example <code>unmarshalJSON</code> instead of <code>parseJSON</code>.</li>
+<li>Prefer panics to fatals. Panics can be recovered from the template code and, if not recovered, are returned as errors.
+Fatals are not recoverable and panic the Run method.</li>
+<li>Types used by builtins must be builtins.</li>
+<li>Prefer ease of use to performance.</li>
+<li>Prefer ease of use to completeness.</li>
+</ul>
+<p>The builtins provided with Scriggo also follow the following best practices:</p>
+<ul>
+<li>Use only the packages of the Go standard library.</li>
+<li>Don't use the <code>unsafe</code> and <code>syscall</code> packages.</li>
+</ul>
 
 <div id="edit-on-github">
   <a href="https://github.com/open2b/scriggo-site/blob/main/site/how-to-use.md" target="_blank">
