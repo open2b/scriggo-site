@@ -168,7 +168,7 @@ func main() {
 
 Note that we passed the address of the _who_ variable. If you execute this example, it prints:
 
-```go
+```
 Hello World
 who is "Scriggo"
 ```
@@ -211,10 +211,10 @@ func main() {
 }
 ```
 
-Note that we passed `(*string)(nil)` to BuildTemplate as global. This way the compiler know the type of the variable. 
+Note that we passed `(*string)(nil)` to BuildTemplate as global. This way the compiler knows the type of the variable. 
 Then we passed the variable pointer to the Run method. If you execute the program, it prints again:
 
-```go
+```
 Hello World
 who is "Scriggo"
 ```
@@ -413,7 +413,7 @@ and [CombinedImporter](https://pkg.go.dev/github.com/open2b/scriggo/native#Combi
 #### Import packages with the import command 
 
 The `scriggo import` command allows to easily create an importer that imports the Go standard packages and other
-packages according to the instructions in a [Scriggofile](/Scriggofile).
+packages according to the instructions in a [Scriggofile](/scriggofile).
 
 For example, create a file called "Scriggofile" with the following content and put it the root directory of a Go
 module:
