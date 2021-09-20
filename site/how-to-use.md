@@ -6,7 +6,7 @@
 
 # How to use
 
-This page explains how to use the Scriggo packages to execute templates. If you want to learn the
+This page explains how to use Scriggo in a Go application to execute templates. If you want to learn the
 template language, see the [templates](/templates) section instead.
 
 * [Template files](#template-files) 
@@ -26,9 +26,10 @@ template language, see the [templates](/templates) section instead.
 
 ### Template files
 
-A template consists of one or more files that Scriggo reads from a [file system](https://pkg.go.dev/io/fs#FS). You can 
-use any file system as the files embedded in the executable with the [//go:embed](https://pkg.go.dev/embed) directive or
-read from a directory as the file system returned by the [os.DirFS](https://pkg.go.dev/os#DirFS) function.
+A template consists of one or more files that Scriggo reads from a [file system](https://pkg.go.dev/io/fs#FS). You can
+use any file system. For example, you can read the files from a directory, using the file system returned by the
+[os.DirFS](https://pkg.go.dev/os#DirFS) function, or read the files embedded in the executable with the
+[//go:embed](https://pkg.go.dev/embed) directive.
 
 For the examples of this documentation we use a simple file system,
 [scriggo.Files](https://pkg.go.dev/github.com/open2b/scriggo#Files), whose files are read from a map.
@@ -407,8 +408,10 @@ func main() {
 }
 ```
 
-By importing packages, the types [CombinedPackage](https://pkg.go.dev/github.com/open2b/scriggo/native#CombinedPackage) 
-and [CombinedImporter](https://pkg.go.dev/github.com/open2b/scriggo/native#CombinedImporter) may be useful.
+The [native](https://pkg.go.dev/github.com/open2b/scriggo/native) package provides the types
+[CombinedPackage](https://pkg.go.dev/github.com/open2b/scriggo/native#CombinedPackage) 
+and [CombinedImporter](https://pkg.go.dev/github.com/open2b/scriggo/native#CombinedImporter) that may be useful for
+this purpose.
 
 #### Import packages with the import command 
 
