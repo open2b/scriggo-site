@@ -338,11 +338,11 @@ func main() {
 
 If you run this program, it prints:
 
-```go
+```html
 <h1>The Ancient Art Of Tea</h1>
 ```
 
-There several options you can use with Goldmark, for example the _scriggo serve_ command uses these options:
+There are several options you can use with Goldmark, for example the _scriggo serve_ command uses these options:
 
 ```go
 goldmark.New(
