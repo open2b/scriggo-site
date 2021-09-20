@@ -62,6 +62,8 @@
 </li>
                         <li><a href="/templates/types" >Types</a>
 </li>
+                        <li><a href="/templates/builtins" >Builtins</a>
+</li>
                         <li><a href="/templates/specification" >Specification</a>
 </li>
                         <li><a href="/templates/switch-from-jinja-to-scriggo" >Switch from Jinja</a>
@@ -179,8 +181,8 @@ func main() {
 <p>By default, a template code can only use the Go builtins. To allow the template code to use other builtins, you can pass
 them as globals to the BuildTemplate function.</p>
 <p>Scriggo, with the package <a href="https://pkg.go.dev/github.com/open2b/scriggo/builtin">github.com/open2b/scriggo/builtin</a>,
-provides useful builtins ready-to-use. You can use all of them or just some. For example, the following program uses the
-min and max builtins:</p>
+provides useful <a href="/templates/builtins">builtins</a> ready-to-use. You can use all of them or just some. For example, the
+following program uses the min and max builtins:</p>
 <pre><code class="language-go">package main
 
 import (

@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="en" class="article">
+<head>
+    <title>Scriggo templates: builtins</title>
+    <link rel="stylesheet" href="/css/highlight.css" media="screen">
+<link rel="stylesheet" href="/css/github.css" media="screen">
+
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="Scriggo templates: builtins">
+    <meta property="og:description" content="Scriggo is the world’s most powerful template engine and Go embeddable interpreter">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scriggo.com">
+    <meta property="og:image" content="https://scriggo.com/images/scriggo-card.png">
+    <meta name=twitter:title content="Scriggo templates: builtins">
+    <meta name=twitter:description content="Scriggo is the world’s most powerful template engine and Go embeddable interpreter">
+    <meta name=twitter:image content="https://scriggo.com/images/scriggo-card.png">
+
+    <script src="../js/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<nav class="top">
+    <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.51.1</a>
+    <ul>
+        <li><a href="/what-is-scriggo" class="selected">Documentation</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="https://github.com/open2b/scriggo/discussions" target="_blank">Community</a></li>
+        <li class="playground"><a href="https://play.scriggo.com/" target="_blank">Playground</a></li>
+    </ul>
+    <a class="github-logo" href="https://github.com/open2b/scriggo/" title="Scriggo on GitHub"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Github | Scriggo</title><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a>
+</nav><article>
+    <div class="wrap">
+        <aside>
+            <button onclick="$(this.parentNode).toggleClass('expanded')">In this section<span></span></button>
+            <nav>
+            <ul>
+                <li><a href="/what-is-scriggo" >What is Scriggo?</a>
+</li>
+                <li><a href="/get-started" >Get Started</a>
+</li>
+                <li><a href="/how-to-use" >How to use</a>
+</li>
+                <li>
+                    <a href="/templates"  class="expanded">Templates</a>
+
+                    <ul>
+                        <li><a href="/templates/show-render" >Show and Render</a>
+</li>
+                        <li><a href="/templates/macro" >Macro</a>
+</li>
+                        <li><a href="/templates/extends-and-import" >Extends and Import</a>
+</li>
+                        <li><a href="/templates/if-for-switch" >If, For and Switch</a>
+</li>
+                        <li><a href="/templates/using" >Using and itea</a>
+</li>
+                        <li><a href="/templates/operators" >Operators</a>
+</li>
+                        <li><a href="/templates/variables" >Variables</a>
+</li>
+                        <li><a href="/templates/types" >Types</a>
+</li>
+                        <li><a href="/templates/builtins"  class="selected" >Builtins</a>
+</li>
+                        <li><a href="/templates/specification" >Specification</a>
+</li>
+                        <li><a href="/templates/switch-from-jinja-to-scriggo" >Switch from Jinja</a>
+</li>
+                    </ul>
+                </li>
+                <li><a href="/scriggo-command" >Scriggo command</a>
+</li>
+                <li><a href="/scriggofile" >Scriggofile</a>
+</li>
+                <li><a href="/disassembler" >Disassembler</a>
+</li>
+                <li><a href="/limitations" >Limitations</a>
+</li>
+            </ul>
+            </nav>
+        </aside>
+        <div class="content">
+            <h1 id="builtins">Builtins</h1>
+<p>Scriggo includes several builtins, in addition to the <a href="https://pkg.go.dev/builtin">Go builtins</a>, that can be used in
+templates. Some of these builtins are types with methods, so you can call them on values of these types. The
+<a href="/scriggo-command#serve-a-template">scriggo serve</a> command supports all of them.</p>
+<p>Part of the documentation on this page is copyright of
+<a href="https://raw.githubusercontent.com/golang/go/master/LICENSE" target="_blank">The Go Authors</a>.</p>
+<h3 id="crypto">crypto</h3>
+<ul>
+<li><a href="#hmacsha1">hmacSHA1</a></li>
+<li><a href="#hmacsha256">hmacSHA256</a></li>
+<li><a href="#sha1">sha1</a></li>
+<li><a href="#sha256">sha256</a></li>
+</ul>
+<h3 id="encoding">encoding</h3>
+<ul>
+<li><a href="#base64">base64</a></li>
+<li><a href="#hex">hex</a></li>
+<li><a href="#marshaljson">marshalJSON</a></li>
+<li><a href="#marshaljsonindent">marshalJSONIndent</a></li>
+<li><a href="#md5">md5</a></li>
+<li><a href="#unmarshaljson">unmarshalJSON</a></li>
+</ul>
+<h3 id="html">html</h3>
+<ul>
+<li><a href="#htmlescape">htmlEscape</a></li>
+</ul>
+<h3 id="math">math</h3>
+<ul>
+<li><a href="#abs">abs</a></li>
+<li><a href="#max">max</a></li>
+<li><a href="#min">min</a></li>
+<li><a href="#pow">pow</a></li>
+</ul>
+<h3 id="net">net</h3>
+<ul>
+<li><a href="#file">File</a></li>
+<li><a href="#formdata">FormData</a></li>
+<li><a href="#form">form</a></li>
+<li><a href="#queryescape">queryEscape</a></li>
+</ul>
+<h3 id="regexp">regexp</h3>
+<ul>
+<li><a href="#regexp-2">Regexp</a></li>
+<li><a href="#regexp-3">regexp</a></li>
+</ul>
+<h3>sort</h3>
+<ul>
+<li><a href="#reverse">reverse</a></li>
+<li><a href="#sort">sort</a></li>
+</ul>
+<h3 id="strconv">strconv</h3>
+<ul>
+<li><a href="#formatfloat">formatFloat</a></li>
+<li><a href="#formatint">formatInt</a></li>
+<li><a href="#parsefloat">parseFloat</a></li>
+<li><a href="#parseint">parseInt</a></li>
+</ul>
+<h3 id="strings">strings</h3>
+<ul>
+<li><a href="#abbreviate">abbreviate</a></li>
+<li><a href="#capitalize">capitalize</a></li>
+<li><a href="#capitalizeall">capitalizeAll</a></li>
+<li><a href="#hasprefix">hasPrefix</a></li>
+<li><a href="#hassuffix">hasSuffix</a></li>
+<li><a href="#index">index</a></li>
+<li><a href="#indexany">indexAny</a></li>
+<li><a href="#join">join</a></li>
+<li><a href="#lastindex">lastIndex</a></li>
+<li><a href="#replace">replace</a></li>
+<li><a href="#replaceall">replaceAll</a></li>
+<li><a href="#runecount">runeCount</a></li>
+<li><a href="#split">split</a></li>
+<li><a href="#splitafter">splitAfter</a></li>
+<li><a href="#splitaftern">splitAfterN</a></li>
+<li><a href="#splitn">splitN</a></li>
+<li><a href="#sprint">sprint</a></li>
+<li><a href="#sprintf">sprintf</a></li>
+<li><a href="#tokebab">toKebab</a></li>
+<li><a href="#tolower">toLower</a></li>
+<li><a href="#toupper">toUpper</a></li>
+<li><a href="#trim">trim</a></li>
+<li><a href="#trimleft">trimLeft</a></li>
+<li><a href="#trimprefix">trimPrefix</a></li>
+<li><a href="#trimright">trimRight</a></li>
+<li><a href="#trimsuffix">trimSuffix</a></li>
+</ul>
+<h3>time</h3>
+<ul>
+<li><a href="#duration">Duration</a></li>
+<li><a href="#hour">Hour</a></li>
+<li><a href="#microsecond">Microsecond</a></li>
+<li><a href="#millisecond">Millisecond</a></li>
+<li><a href="#minute">Minute</a></li>
+<li><a href="#nanosecond">Nanosecond</a></li>
+<li><a href="#second">Second</a></li>
+<li><a href="#time">Time</a></li>
+<li><a href="#date">date</a></li>
+<li><a href="#now">now</a></li>
+<li><a href="#parseduration">parseDuration</a></li>
+<li><a href="#parsetime">parseTime</a></li>
+<li><a href="#unixtime">unixTime</a></li>
+</ul>
+<h2 id="crypto-1">Crypto</h2>
+<h3 id="hmacsha1">hmacSHA1</h3>
+<pre><code class="language-go">func hmacSHA1(message, key string) string
+</code></pre>
+<p>Returns the HMAC-SHA1 tag for the given message and key, as a base64 encoded string.</p>
+<h3 id="hmacsha256">hmacSHA256</h3>
+<pre><code class="language-go">func hmacSHA256(message, key string) string
+</code></pre>
+<p>Returns the HMAC-SHA256 tag for the given message and key, as a base64 encoded string.</p>
+<h3 id="sha1">sha1</h3>
+<pre><code class="language-go">func sha1(s string) string
+</code></pre>
+<p>Returns the SHA1 checksum of s as a hexadecimal encoded string.</p>
+<h3 id="sha256">sha256</h3>
+<pre><code class="language-go">func sha256(s string) string
+</code></pre>
+<p>Returns the SHA256 checksum of s as a hexadecimal encoded string.</p>
+<h2 id="encoding-1">encoding</h2>
+<h3 id="base64">base64</h3>
+<pre><code class="language-go">func base64(s string) string
+</code></pre>
+<p>Returns the base64 encoding of s.</p>
+<h3 id="hex">hex</h3>
+<pre><code class="language-go">func hex(s string) string
+</code></pre>
+<p>Returns the hexadecimal encoding of s.</p>
+<h3 id="marshaljson">marshalJSON</h3>
+<pre><code class="language-go">func marshalJSON(v interface{}) (json, error) {
+</code></pre>
+<p>Returns the JSON encoding of v. For details, see the <a href="https://pkg.go.dev/encoding/json#Marshal">json.Marshal</a> function
+of the Go standard library.</p>
+<h3 id="marshaljsonindent">marshalJSONIndent</h3>
+<pre><code class="language-go">func marshalJSONIndent(v interface{}, prefix, indent string) (json, error) {
+</code></pre>
+<p>Is like <a href="#marshaljson">MarshalJSON</a> but indents the output. Each JSON element in the output will begin on a new line
+beginning with prefix followed by one or more copies of indent according to the indentation nesting. prefix and
+indent can only contain whitespace: ' ', '\t', '\n' and '\r'.</p>
+<h3 id="md5">md5</h3>
+<pre><code class="language-go">func md5(s string) string
+</code></pre>
+<p>Returns the MD5 hash of the string s.</p>
+<h3 id="unmarshaljson">unmarshalJSON</h3>
+<pre><code class="language-go">func unmarshalJSON(data string, v interface{}) error {
+</code></pre>
+<p>Parses the JSON-encoded data and stores the result in a new value pointed to by v. If v is nil or not a pointer
+unmarshalJSON returns an error.</p>
+<p>Unlike <a href="https://pkg.go.dev/encoding/json#Unmarshal">json.Unmarshal</a> of the Go standard library, unmarshalJSON does not
+change the value pointed to by v but instantiates a new value and then replaces the value pointed to by v, if no
+errors occur.</p>
+<p>For details, see the <a href="https://pkg.go.dev/encoding/json#Unmarshal">json.Unmarshal</a> function of the Go standard library.</p>
+<h2 id="html-1">html</h2>
+<h3 id="htmlescape">htmlEscape</h3>
+<pre><code class="language-go">func htmlEscape(s string) html
+</code></pre>
+<p>Escapes s, replacing the characters &lt;, &gt;, &amp;, &quot; and ' and returns the escaped string as html type.</p>
+<h2 id="math-1">math</h2>
+<h3 id="abs">abs</h3>
+<pre><code class="language-go">func abs(x int) int
+</code></pre>
+<p>Returns the absolute value of x.</p>
+<h3 id="max">max</h3>
+<pre><code class="language-go">func max(x, y int) int
+</code></pre>
+<p>Returns the larger of x or y.</p>
+<h3 id="min">min</h3>
+<pre><code class="language-go">func min(x, y int) int
+</code></pre>
+<p>Returns the smaller of x or y.</p>
+<h3 id="pow">pow</h3>
+<pre><code class="language-go">func pow(x, y float64) float64
+</code></pre>
+<p>Returns x**y. For details, see the <a href="https://pkg.go.dev/math#Pow">math.Pow</a> function of the Go standard library.</p>
+<h2 id="net-1">net</h2>
+<h3 id="file">File</h3>
+<pre><code class="language-go">type File interface {
+    Name() string // name.
+    Type() string // type, as mime type.
+    Size() int    // size, in bytes.
+}
+</code></pre>
+<p>Represents a file.</p>
+<h3 id="formdata">FormData</h3>
+<pre><code class="language-go">type FormData struct {
+    // Contains unexported fields.
+}
+
+// ParseMultipart parses a request body as multipart/form-data. If the body
+// is not multipart/form-data, it does nothing. It should be called before
+// calling the File and Files methods and can be called multiple times.
+//
+// It panics with ErrBadRequest if the request is not valid,
+// ErrRequestEntityTooLarge if the length of the body is too large or another
+// error if another error occurs.
+func (form FormData) ParseMultipart()
+
+// Value returns the first form data value associated with the given field. If
+// there are no files associated with the field, it returns an empty string.
+//
+// It panics with ErrBadRequest if the request is not valid,
+// ErrRequestEntityTooLarge if the length of the body is too large or another
+// error if another error occurs.
+func (form FormData) Value(field string) string
+
+// Values returns the parsed form data, including both the URL field's query
+// parameters and the POST form data.
+//
+// It panics with ErrBadRequest if the request is not valid,
+// ErrRequestEntityTooLarge if the length of the body is too large or another
+// error if another error occurs.
+func (form FormData) Values() map[string][]string
+
+// File returns the first file associated with the given field. It returns nil
+// if there are no values associated with the field.
+//
+// Call File only after ParseMultipart is called.
+func (form FormData) File(field string) File
+
+// Files returns the parsed files of a multipart form. It returns a non nil
+// map, if ParseMultipart has been called.
+//
+// Call Files only after ParseMultipart is called.
+func (form FormData) Files() map[string][]File
+</code></pre>
+<p>Represents the form data from the query string and body of an HTTP request.</p>
+<h3 id="form">form</h3>
+<pre><code class="language-go">var form FormData
+</code></pre>
+<p>Contains the form data from the query string and body of the HTTP request. Values and files passed as
+multipart/form-data are only available after the ParseMultipart method is called.</p>
+<h3 id="queryescape">queryEscape</h3>
+<pre><code class="language-go">func queryEscape(s string) string
+</code></pre>
+<p>Escapes the string, so it can be safely placed inside a URL query.</p>
+<h2 id="regexp-1">regexp</h2>
+<h3 id="regexp-2">Regexp</h3>
+<pre><code class="language-go">type Regexp struct {
+    // Contains unexported fields.
+}
+
+// Match reports whether the string s contains any match of the regular
+// expression.
+func (re Regexp) Match(s string) bool
+
+// Find returns a string holding the text of the leftmost match in s of the
+// regular expression. If there is no match, the return value is an empty
+// string, but it will also be empty if the regular expression successfully
+// matches an empty string. Use FindSubmatch if it is necessary to distinguish
+// these cases.
+func (re Regexp) Find(s string) string
+
+// FindAll is the 'All' version of Find; it returns a slice of all successive
+// matches of the expression, as defined by the 'All' description in the Go
+// regexp package comment. A return value of nil indicates no match.
+func (re Regexp) FindAll(s string, n int) []string
+
+// FindAllSubmatch is the 'All' version of FindSubmatch; it returns a slice of
+// all successive matches of the expression, as defined by the 'All'
+// description in the Go regexp package comment. A return value of nil
+// indicates no match.
+func (re Regexp) FindAllSubmatch(s string, n int) [][]string
+
+// FindSubmatch returns a slice of strings holding the text of the leftmost
+// match of the regular expression in s and the matches, if any, of its
+// subexpressions, as defined by the 'Submatch' description in the Go regexp
+// package comment. A return value of nil indicates no match.
+func (re Regexp) FindSubmatch(s string) []string
+
+// ReplaceAll returns a copy of s, replacing matches of the Regexp with the
+// replacement string repl. Inside repl, $ signs are interpreted as in Expand
+// method of the Go regexp package, so for instance $1 represents the text of
+// the first submatch.
+func (re Regexp) ReplaceAll(s, repl string) string
+
+// ReplaceAllFunc returns a copy of s in which all matches of the Regexp
+// have been replaced by the return value of function repl applied to the
+// matched substring. The replacement returned by repl is substituted
+// directly, without expanding.
+func (re Regexp) ReplaceAllFunc(s string, repl func(string) string) string
+
+// Split slices s into substrings separated by the expression and returns a
+// slice of the substrings between those expression matches.
+//
+// The slice returned by this method consists of all the substrings of s not
+// contained in the slice returned by FindAllString. When called on an
+// expression that contains no metacharacters, it is equivalent to SplitN.
+//
+// The count determines the number of substrings to return:
+//   n &gt; 0: at most n substrings; the last substring will be the unsplit remainder.
+//   n == 0: the result is nil (zero substrings)
+//   n &lt; 0: all substrings
+func (re Regexp) Split(s string, n int) []string
+</code></pre>
+<p>Represents a regular expression.</p>
+<h3 id="regexp-3">regexp</h3>
+<pre><code class="language-go">func regexp(expr string) Regexp
+</code></pre>
+<p>Parses a regular expression and returns a <a href="#regexp-2">Regexp</a> value that can be used to match against text. It panics if
+the expression cannot be parsed.</p>
+<p>For the syntax of regular expressions see <a href="https://pkg.go.dev/regexp/syntax">https://pkg.go.dev/regexp/syntax</a>.</p>
+<h2>sort</h2>
+<h3 id="reverse">reverse</h3>
+<pre><code class="language-go">func reverse(slice interface{})
+</code></pre>
+<p>Reverses the order of the elements of slice. If slice is not a slice, it panics.</p>
+<h3 id="sort">sort</h3>
+<pre><code class="language-go">func sort(slice interface{}, less func(i, j int) bool)
+</code></pre>
+<p>Sorts the elements of slice given the provided less function. If slice is not a slice, it panics.</p>
+<p>The less function reports whether <code>slice[i]</code> should be ordered before <code>slice[j]</code>. If less is nil, sort sorts the
+elements in a natural order based on their type.</p>
+<p>The natural order can differ between different versions of Scriggo.</p>
+<h4 id="examples">Examples</h4>
+<pre><code class="language-scriggo">{% var s = []int{3, 5, 2, 9, 7} %}
+{{ sort(s, nil) }}
+</code></pre>
+<pre class="result">2 3 5 7 9</pre>
+<pre><code class="language-scriggo">{% var s = []int{3, 5, 2, 9, 7} %}
+{% var before = func(i, j int) int { return s[i] &gt; s[j] }) %}
+{{ sort(s, before) }}
+</code></pre>
+<pre class="result">9 7 5 3 2</pre>
+<h2 id="strconv-1">strconv</h2>
+<h3 id="formatfloat">formatFloat</h3>
+<pre><code class="language-go">func formatFloat(f float64, format string, precision int) string
+</code></pre>
+<p>Converts the floating-point number f to a string, according to the given format and precision. It can round the
+result.</p>
+<p>The format is one of &quot;e&quot;, &quot;f&quot; or &quot;g&quot;</p>
+<pre><code>&quot;e&quot;: -d.dddde±dd, a decimal exponent
+&quot;f&quot;: -ddd.dddd, no exponent
+&quot;g&quot;: &quot;e&quot; for large exponents, &quot;f&quot; otherwise
+</code></pre>
+<p>The precision, for -1 &lt;= precision &lt;= 1000, controls the number of digits (excluding the exponent). The special
+precision -1 uses the smallest number of digits necessary such that <em>parseFloat</em> will return f exactly. For &quot;e&quot; and &quot;f&quot;
+it is the number of digits after the decimal point. For &quot;g&quot; it is the maximum number of significant digits (trailing
+zeros are removed).</p>
+<p>If the format or the precision is not valid, <em>formatFloat</em> panics.</p>
+<h3 id="formatint">formatInt</h3>
+<pre><code class="language-go">func formatInt(i int, base int) string
+</code></pre>
+<p>Returns the string representation of i in the given base, for 2 &lt;= base &lt;= 36. The result uses the lower-case
+letters 'a' to 'z' for digit values &gt;= 10.</p>
+<p>It panics if base is not in the range.</p>
+<h3 id="parsefloat">parseFloat</h3>
+<pre><code class="language-go">func parseFloat(s string) (float64, error)
+</code></pre>
+<p>Converts the string s to a float64 value.</p>
+<p>If s is well-formed and near a valid floating-point number, <em>parseFloat</em> returns the nearest floating-point number
+rounded using IEEE754 unbiased rounding.</p>
+<h3 id="parseint">parseInt</h3>
+<pre><code class="language-go">func parseInt(s string, base int) (int, error)
+</code></pre>
+<p>Interprets a string s in the given base, for 2 &lt;= base &lt;= 36, and returns the corresponding value. It returns 0 and
+an error if s is empty, contains invalid digits or the value corresponding to s cannot be represented by an int
+value.</p>
+<h2 id="strings-1">strings</h2>
+<h3 id="abbreviate">abbreviate</h3>
+<pre><code class="language-go">func abbreviate(s string, n int) string
+</code></pre>
+<p>Abbreviates s to almost n runes. If s is longer than n runes, the abbreviated string terminates with &quot;...&quot;.</p>
+<h3 id="capitalize">capitalize</h3>
+<pre><code class="language-go">func capitalize(s string) string
+</code></pre>
+<p>Returns a copy of the string s with the first non-separator in upper case.</p>
+<h3 id="capitalizeall">capitalizeAll</h3>
+<pre><code class="language-go">func capitalizeAll(s string) string
+</code></pre>
+<p>Returns a copy of the string s with the first letter of each word in upper case.</p>
+<h3 id="hasprefix">hasPrefix</h3>
+<pre><code class="language-go">func hasPrefix(s, prefix string) bool
+</code></pre>
+<p>Tests whether the string s begins with prefix.</p>
+<h3 id="hassuffix">hasSuffix</h3>
+<pre><code class="language-go">func hasSuffix(s, suffix string) bool
+</code></pre>
+<p>Tests whether the string s ends with suffix.</p>
+<h3 id="index">index</h3>
+<pre><code class="language-go">func index(s, substr string) int
+</code></pre>
+<p>Returns the index of the first instance of substr in s, or -1 if substr is not present in s.</p>
+<p>The returned index refers to the bytes and not the runes of s.</p>
+<h3 id="indexany">indexAny</h3>
+<pre><code class="language-go">func indexAny(s, chars string) int
+</code></pre>
+<p>Returns the index of the first instance of any Unicode code point from chars in s, or -1 if no Unicode code point
+from chars is present in s.</p>
+<p>The returned index refers to the bytes and not the runes of s.</p>
+<h3 id="join">join</h3>
+<pre><code class="language-go">func join(a []string, sep string) string
+</code></pre>
+<p>Concatenates the elements of its first argument to create a single string. The separator string sep is placed between
+elements in the resulting string.</p>
+<h3 id="lastindex">lastIndex</h3>
+<pre><code class="language-go">func lastIndex(s, sep string) int
+</code></pre>
+<p>Returns the index of the last instance of substr in s, or -1 if substr is not present in s.</p>
+<p>The returned index refers to the bytes and not the runes of s.</p>
+<h3 id="replace">replace</h3>
+<pre><code class="language-go">func replace(s, old, new string, n int) string
+</code></pre>
+<p>Returns a copy of the string s with the first n non-overlapping instances of old replaced by new. If n &lt; 0,
+there is no limit on the number of replacements.</p>
+<h3 id="replaceall">replaceAll</h3>
+<pre><code class="language-go">func replaceAll(s, old, new string) string
+</code></pre>
+<p>Returns a copy of the string s with all non-overlapping instances of old replaced by new.</p>
+<h3 id="runecount">runeCount</h3>
+<pre><code class="language-go">func runeCount(s string) int
+</code></pre>
+<p>Returns the number of runes in s. Erroneous and short encodings are treated as single runes of width 1 byte.</p>
+<h3 id="split">split</h3>
+<pre><code class="language-go">func split(s, sep string) []string 
+</code></pre>
+<p>Slices s into all substrings separated by sep and returns a slice of the substrings between those separators.</p>
+<p>If s does not contain sep and sep is not empty, split returns a slice of length 1 whose only element is s. If
+sep is empty, split splits after each UTF-8 sequence. If both s and sep are empty, split returns an empty slice.</p>
+<p>It is equivalent to <a href="#splitn">SplitN</a> with a count of -1.</p>
+<h3 id="splitafter">splitAfter</h3>
+<pre><code class="language-go">func splitAfter(s, sep string) []string 
+</code></pre>
+<p>Slices s into all substrings after each instance of sep and returns a slice of those substrings.</p>
+<p>If s does not contain sep and sep is not empty, splitAfter returns a slice of length 1 whose only element is s.
+If sep is empty, splitAfter splits after each UTF-8 sequence. If both s and sep are empty, splitAfter returns
+an empty slice.</p>
+<p>It is equivalent to <a href="#splitaftern">splitAfterN</a> with a count of -1.</p>
+<p>For example:</p>
+<pre><code class="language-scriggo">{% for s in splitAfter(&quot;&lt;section&gt;&lt;div&gt;a&lt;/div&gt;&lt;div&gt;b&lt;/div&gt;&lt;/section&gt;&quot;, &quot;&gt;&quot;) %}
+{{ s }}
+{% end %}
+</code></pre>
+<div class="result"><pre>
+<div>&lt;section&gt;<br>a&lt;/div&gt;<br>&lt;div&gt;<br>b&lt;/div&gt;<br>&lt;/section&gt;
+</pre></div>
+<h3 id="splitaftern">splitAfterN</h3>
+<pre><code class="language-go">func splitAfterN(s, sep string, n int) []string 
+</code></pre>
+<p>Slices s into substrings after each instance of sep and returns a slice of those substrings.</p>
+<p>The count determines the number of substrings to return:</p>
+<ul>
+<li>n &gt; 0: at most n substrings; the last substring will be the unsplit remainder.</li>
+<li>n == 0: the result is nil (zero substrings)</li>
+<li>n &lt; 0: all substrings</li>
+</ul>
+<p>Edge cases for s and sep (for example, empty strings) are handled as described in the documentation for splitAfter.</p>
+<h3 id="splitn">splitN</h3>
+<pre><code class="language-go">func splitN(s, sep string, n int) []string
+</code></pre>
+<p>Slices s into substrings separated by sep and returns a slice of the substrings between those separators.</p>
+<p>The count determines the number of substrings to return:</p>
+<ul>
+<li>n &gt; 0: at most n substrings; the last substring will be the unsplit remainder.</li>
+<li>n == 0: the result is nil (zero substrings)</li>
+<li>n &lt; 0: all substrings</li>
+</ul>
+<p>Edge cases for s and sep (for example, empty strings) are handled as described in the documentation for split.</p>
+<h3 id="sprint">sprint</h3>
+<pre><code class="language-go">func sprint(a ...interface{}) string
+</code></pre>
+<p>Formats using the default formats for its operands and returns the resulting string. Spaces are added between operands
+when neither is a string.</p>
+<p>For example:</p>
+<pre><code class="language-scriggo">{% const name, age = &quot;Sherlock Holmes&quot;, 60 %}
+{{ sprint(name, &quot; is &quot;, age, &quot; years old&quot;) }}
+</code></pre>
+<div class="result"><pre>Sherlock Holmes is 60 years old</pre></div>
+<p>sprint takes the same arguments and behaves like the <a href="https://pkg.go.dev/fmt#Sprint">fmt.Sprint</a> function of the
+Go standard library.</p>
+<h3 id="sprintf">sprintf</h3>
+<pre><code class="language-go">func sprintf(format string, a ...interface{}) string
+</code></pre>
+<p>Formats according to a format specifier and returns the resulting string.</p>
+<pre><code class="language-scriggo">{% const name, age = &quot;Sherlock Holmes&quot;, 60 %}
+{{ sprintf(&quot;%s is %d years old&quot;, name, age) }}
+</code></pre>
+<div class="result"><pre>Sherlock Holmes is 60 years old</pre></div>
+<p>sprintf takes the same arguments and behaves like the <a href="https://golang.org/pkg/fmt/#Sprintf">fmt.Sprintf</a> function of
+the Go standard library.</p>
+<h3 id="tokebab">toKebab</h3>
+<pre><code class="language-go">func toKebab(s string) string
+</code></pre>
+<p>Returns a copy of s in kebab case. For example:</p>
+<pre><code class="language-scriggo">{{ toKebab(&quot;borderTopColor&quot;) }}
+</code></pre>
+<pre class="result">border-top-color</pre>
+<h3 id="tolower">toLower</h3>
+<pre><code class="language-go">func toLower(s string) string
+</code></pre>
+<p>Returns s with all Unicode letters mapped to their lower case.</p>
+<h3 id="toupper">toUpper</h3>
+<pre><code class="language-go">func toUpper(s string) string
+</code></pre>
+<p>Returns s with all Unicode letters mapped to their upper case.</p>
+<h3 id="trim">trim</h3>
+<pre><code class="language-go">func trim(s string, cutset string) string
+</code></pre>
+<p>Returns a slice of the string s with all leading and trailing Unicode code points contained in cutset removed.</p>
+<h3 id="trimleft">trimLeft</h3>
+<pre><code class="language-go">func trimLeft(s string, cutset string) string
+</code></pre>
+<p>Returns a slice of the string s with all leading Unicode code points contained in cutset removed.</p>
+<p>To remove a prefix, use <a href="#trimprefix">trimPrefix</a> instead.</p>
+<h3 id="trimprefix">trimPrefix</h3>
+<pre><code class="language-go">func trimPrefix(s, prefix string)
+</code></pre>
+<p>Returns s without the provided leading prefix string. If s doesn't start with prefix, s is returned unchanged.</p>
+<h3 id="trimright">trimRight</h3>
+<pre><code class="language-go">func trimRight(s string, cutset string) string
+</code></pre>
+<p>Returns a slice of the string s, with all trailing Unicode code points contained in cutset removed.</p>
+<p>To remove a suffix, use <a href="#trimsuffix">trimSuffix</a> instead.</p>
+<h3 id="trimsuffix">trimSuffix</h3>
+<pre><code class="language-go">func trimSuffix(s, suffix string) string
+</code></pre>
+<p>Returns s without the provided trailing suffix string. If s doesn't end with suffix, s is returned unchanged.</p>
+<h2>time</h2>
+<h3 id="duration">Duration</h3>
+<pre><code class="language-go">type Duration int64
+
+// Hours returns the duration as a floating point number of hours.
+func (d Duration) Hours() float64
+
+// Microseconds returns the duration as an integer microsecond count.
+func (d Duration) Microseconds() int64
+
+// Milliseconds returns the duration as an integer millisecond count.
+func (d Duration) Milliseconds() int64
+
+// Minutes returns the duration as a floating point number of minutes.
+func (d Duration) Minutes() float64
+
+// Nanoseconds returns the duration as an integer nanosecond count.
+func (d Duration) Nanoseconds() int64
+
+// Round returns the result of rounding d to the nearest multiple of m.
+// The rounding behavior for halfway values is to round away from zero.
+// If the result exceeds the maximum (or minimum)
+// value that can be stored in a Duration,
+// Round returns the maximum (or minimum) duration.
+// If m &lt;= 0, Round returns d unchanged.
+func (d Duration) Round(m Duration) Duration
+
+// Seconds returns the duration as a floating point number of seconds.
+func (d Duration) Seconds() float64
+
+// String returns a string representing the duration in the form &quot;72h3m0.5s&quot;.
+// Leading zero units are omitted. As a special case, durations less than one
+// second format use a smaller unit (milli-, micro-, or nanoseconds) to ensure
+// that the leading digit is non-zero. The zero duration formats as 0s.
+func (d Duration) String() string
+
+// Truncate returns the result of rounding d toward zero to a multiple of m.
+// If m &lt;= 0, Truncate returns d unchanged.
+func (d Duration) Truncate(m Duration) Duration
+</code></pre>
+<p>A <em>Duration</em> represents the elapsed time between two instants as an int64 nanosecond count. The representation limits
+the largest representable duration to approximately 290 years.</p>
+<h3 id="hour">Hour</h3>
+<pre><code class="language-go">const Hour Duration = 60 * Minute
+</code></pre>
+<p>Represents an hour.</p>
+<h3 id="microsecond">Microsecond</h3>
+<pre><code class="language-go">const Microsecond Duration = 1000 * Nanosecond
+</code></pre>
+<p>Represents a microsecond.</p>
+<h3 id="millisecond">Millisecond</h3>
+<pre><code class="language-go">const Millisecond Duration = 1000 * Microsecond
+</code></pre>
+<p>Represents a millisecond.</p>
+<h3 id="minute">Minute</h3>
+<pre><code class="language-go">const Minute Duration = 60 * Second
+</code></pre>
+<p>Represents a minute.</p>
+<h3 id="nanosecond">Nanosecond</h3>
+<pre><code class="language-go">const Nanosecond Duration = 1
+</code></pre>
+<p>Represents a nanosecond.</p>
+<h3 id="second">Second</h3>
+<pre><code class="language-go">const Second Duration = 1000 * Millisecond
+</code></pre>
+<p>Represents a second.</p>
+<h3 id="time">Time</h3>
+<pre><code class="language-go">type Time struct {
+    // Contains unexported fields.
+}
+
+// Add returns the time t+d.
+func (t Time) Add(d Duration) Time
+
+// AddDate returns the time corresponding to adding the given number of years,
+// months and days to t. For example, AddDate(-1, 2, 3) applied to January 1,
+// 2011 returns March 4, 2010.
+//
+// AddDate normalizes its result in the same way that the Date function does.
+func (t Time) AddDate(years, months, days int) Time
+
+// After reports whether the time instant t is after u.
+func (t Time) After(u Time) bool
+
+// Before reports whether the time instant t is before u.
+func (t Time) Before(u Time) bool
+
+// Clock returns the hour, minute and second within the day specified by t.
+// hour is in the range [0, 23], minute and second are in the range [0, 59].
+func (t Time) Clock() (hour, minute, second int)
+
+// Date returns the year, month and day in which t occurs. month is in the
+// range [1, 12] and day is in the range [1, 31].
+func (t Time) Date() (year, month, day int)
+
+// Day returns the day of the month specified by t, in the range [1, 31].
+func (t Time) Day() int
+
+// Equal reports whether t and u represent the same time instant.
+func (t Time) Equal(u Time) bool
+
+// Format returns a textual representation of the time value formatted
+// according to layout, which defines the format by showing how the reference
+// time
+//
+//	Mon Jan 2 15:04:05 -0700 MST 2006
+//
+// would be displayed if it were the value; it serves as an example of the
+// desired output. The same display rules will then be applied to the time
+// value.
+//
+// A fractional second is represented by adding a period and zeros
+// to the end of the seconds section of layout string, as in &quot;15:04:05.000&quot;
+// to format a time stamp with millisecond precision.
+func (t Time) Format(layout string) string
+
+// Hour returns the hour within the day specified by t, in the range [0, 23].
+func (t Time) Hour() int
+
+// IsZero reports whether t represents the zero time instant,
+// January 1, year 1, 00:00:00 UTC.
+func (t Time) IsZero() bool
+
+// JS returns the time as a JavaScript date. The result is undefined if the
+// year of t is not in the range [-999999, 999999].
+func (t Time) JS() js
+
+// JSON returns a time in a format suitable for use in JSON.
+func (t Time) JSON() json
+
+// Month returns the month of the year specified by t, in the range [1, 12]
+// where 1 is January and 12 is December.
+func (t Time) Month() int
+
+// Minute returns the minute offset within the hour specified by t, in the
+// range [0, 59].
+func (t Time) Minute() int
+
+// Nanosecond returns the nanosecond offset within the second specified by t,
+// in the range [0, 999999999].
+func (t Time) Nanosecond() int
+
+// Round returns the result of rounding t to the nearest multiple of d (since
+// the zero time). The rounding behavior for halfway values is to round up.
+// If d &lt;= 0, Round returns t stripped of any monotonic clock reading but
+// otherwise unchanged.
+//
+// Round operates on the time as an absolute duration since the zero time; it
+// does not operate on the presentation form of the time. Thus, Round(Hour)
+// may return a time with a non-zero minute, depending on the time's Location.
+func (t Time) Round(d Duration) Time
+
+// Second returns the second offset within the minute specified by t, in the
+// range [0, 59].
+func (t Time) Second() int
+
+// String returns the time formatted.
+func (t Time) String() string
+
+// Sub returns the duration t-u. If the result exceeds the maximum (or minimum)
+// value that can be stored in a Duration, the maximum (or minimum) duration
+// will be returned.
+// To compute t-d for a duration d, use t.Add(-d).
+func (t Time) Sub(u Time) Duration
+
+// Truncate returns the result of rounding t down to a multiple of d (since
+// the zero time). If d &lt;= 0, Truncate returns t stripped of any monotonic
+// clock reading but otherwise unchanged.
+//
+// Truncate operates on the time as an absolute duration since the zero time;
+// it does not operate on the presentation form of the time. Thus,
+// Truncate(Hour) may return a time with a non-zero minute, depending on the
+// time's Location.
+func (t Time) Truncate(d Duration) Time
+
+// UTC returns t with the location set to UTC.
+func (t Time) UTC() Time
+
+// Unix returns t as a Unix time, the number of seconds elapsed since January
+// 1, 1970 UTC. The result does not depend on the location associated with t.
+// Unix-like operating systems often record time as a 32-bit count of seconds,
+// but since the method here returns a 64-bit value it is valid for billions
+// of years into the past or future.
+func (t Time) Unix() int64
+
+// UnixNano returns t as a Unix time, the number of nanoseconds elapsed since
+// January 1, 1970 UTC. The result is undefined if the Unix time in
+// nanoseconds cannot be represented by an int64 (a date before the year 1678
+// or after 2262). Note that this means the result of calling UnixNano on the
+// zero Time is undefined. The result does not depend on the location
+// associated with t.
+func (t Time) UnixNano() int64
+
+// Weekday returns the day of the week specified by t.
+func (t Time) Weekday() int
+
+// Year returns the year in which t occurs.
+func (t Time) Year() int
+
+// YearDay returns the day of the year specified by t, in the range [1, 365]
+// for non-leap years, and [1, 366] in leap years.
+func (t Time) YearDay() int
+</code></pre>
+<p>A <em>Time</em> represents an instant in time.</p>
+<h3 id="date">date</h3>
+<pre><code class="language-go">func date(year, month, day, hour, min, sec, nsec int, location string) (Time, error)
+</code></pre>
+<p>Returns the time corresponding to the given date with time zone determined by location. If location does not exist,
+it returns an error.</p>
+<p>For example, the following call returns March 27, 2021 11:21:14.964553705 CET.</p>
+<pre><code>date(2021, 3, 27, 11, 21, 14, 964553705, &quot;Europe/Rome&quot;)
+</code></pre>
+<p>For UTC use &quot;&quot; or &quot;UTC&quot; as location. For the system's local time zone use &quot;Local&quot; as location.</p>
+<p>The month, day, hour, min, sec and nsec values may be outside their usual ranges and will be normalized
+during the conversion. For example, October 32 converts to November 1.</p>
+<h3 id="now">now</h3>
+<pre><code class="language-go">func now() Time
+</code></pre>
+<p>Returns the current local time.</p>
+<h3 id="parseduration">parseDuration</h3>
+<pre><code class="language-go">func parseDuration(s string) (Duration, error)
+</code></pre>
+<p>Parses a duration string.</p>
+<p>A duration string is a possibly signed sequence of decimal numbers, each with optional fraction and a unit suffix, such
+as &quot;300ms&quot;, &quot;-1.5h&quot; or &quot;2h45m&quot;.</p>
+<p>Valid time units are &quot;ns&quot;, &quot;us&quot; (or &quot;µs&quot;), &quot;ms&quot;, &quot;s&quot;, &quot;m&quot;, &quot;h&quot;.</p>
+<h3 id="parsetime">parseTime</h3>
+<pre><code class="language-go">func parseTime(layout, value string) (Time, error)
+</code></pre>
+<p>Parses a formatted string and returns the time value it represents. The layout defines the format by showing how the
+reference time</p>
+<pre><code>Mon Jan 2 15:04:05 -0700 MST 2006
+</code></pre>
+<p>would be interpreted if it were the value; it serves as an example of the input format. The same interpretation will
+then be made to the input string.</p>
+<p>For more details, See the <a href="https://pkg.go.dev/time#Parse">time.Parse</a> function of the Go standard library.</p>
+<p>As a special case, if layout is an empty string, <em>parseTime</em> parses a time representation using a predefined list of
+layouts.</p>
+<p>It returns an error if value cannot be parsed.</p>
+<h3 id="unixtime">unixTime</h3>
+<pre><code class="language-go">func unixTime(sec int64, nsec int64) Time
+</code></pre>
+<p>Returns the local Time corresponding to the given Unix time, sec seconds and nsec nanoseconds since January 1, 1970
+UTC. It is valid to pass nsec outside the range [0, 999999999]. Not all sec values have a corresponding time value.
+One such value is 1&lt;&lt;63-1 (the largest int64 value).</p>
+
+<div id="edit-on-github">
+  <a href="https://github.com/open2b/scriggo-site/blob/main/site/templates/builtins.md" target="_blank">
+    ✍️ Edit on GitHub, PRs are welcome.
+  </a>
+</div>        </div>
+    </div>
+</article>
+<footer>
+  <div class="wrap">
+    <img class="gopher" src="/images/pilot-bust.svg" alt="The Go Gopher">
+    <ul>
+      <li><a href="/copyright">Copyright</a></li>
+      <li><a href="mailto:info@open2b.com">Contact Us</a></li>
+      <li><a href="https://github.com/open2b/scriggo/issues/new" target="_blank">Report a website issue</a></li>
+      <li class="company"><a href="https://www.open2b.com/" target="_blank">Open2b</a></li>
+    </ul>
+  </div>
+</footer><script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>

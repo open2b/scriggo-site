@@ -96,8 +96,8 @@ By default, a template code can only use the Go builtins. To allow the template 
 them as globals to the BuildTemplate function.
 
 Scriggo, with the package [github.com/open2b/scriggo/builtin](https://pkg.go.dev/github.com/open2b/scriggo/builtin),
-provides useful builtins ready-to-use. You can use all of them or just some. For example, the following program uses the 
-min and max builtins:
+provides useful [builtins](/templates/builtins) ready-to-use. You can use all of them or just some. For example, the
+following program uses the min and max builtins:
 
 ```go
 package main
