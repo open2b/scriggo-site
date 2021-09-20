@@ -243,7 +243,7 @@ func main() {
 }
 </code></pre>
 <p>Note that we passed the address of the <em>who</em> variable. If you execute this example, it prints:</p>
-<pre><code class="language-go">Hello World
+<pre><code>Hello World
 who is &quot;Scriggo&quot;
 </code></pre>
 <p>How you can see, the value assigned to the <em>who</em> variable, in the Go code, has been modified by the template code. If
@@ -280,9 +280,9 @@ func main() {
     fmt.Printf(&quot;\nwho is %q&quot;, who)
 }
 </code></pre>
-<p>Note that we passed <code>(*string)(nil)</code> to BuildTemplate as global. This way the compiler know the type of the variable.
+<p>Note that we passed <code>(*string)(nil)</code> to BuildTemplate as global. This way the compiler knows the type of the variable.
 Then we passed the variable pointer to the Run method. If you execute the program, it prints again:</p>
-<pre><code class="language-go">Hello World
+<pre><code>Hello World
 who is &quot;Scriggo&quot;
 </code></pre>
 <p>The printed value is not changed because the variable is still &quot;shared&quot; between the Go code and template code. But no
@@ -375,7 +375,7 @@ func main() {
 <p>If you run this program, it prints:</p>
 <pre><code class="language-go">&lt;h1&gt;The Ancient Art Of Tea&lt;/h1&gt;
 </code></pre>
-<p>There any many options you can use with Goldmark, for example the <em>scriggo serve</em> command uses these options:</p>
+<p>There several options you can use with Goldmark, for example the <em>scriggo serve</em> command uses these options:</p>
 <pre><code class="language-go">goldmark.New(
     goldmark.WithRendererOptions(html.WithUnsafe()),        // do not remove any HTML code
     goldmark.WithParserOptions(parser.WithAutoHeadingID()), // add ids to the headings
@@ -435,7 +435,7 @@ func main() {
 and <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#CombinedImporter">CombinedImporter</a> may be useful.</p>
 <h4 id="import-packages-with-the-import-command">Import packages with the import command</h4>
 <p>The <code>scriggo import</code> command allows to easily create an importer that imports the Go standard packages and other
-packages according to the instructions in a <a href="/Scriggofile">Scriggofile</a>.</p>
+packages according to the instructions in a <a href="/scriggofile">Scriggofile</a>.</p>
 <p>For example, create a file called &quot;Scriggofile&quot; with the following content and put it the root directory of a Go
 module:</p>
 <pre><code class="language-scriggofile">IMPORT STANDARD LIBRARY
