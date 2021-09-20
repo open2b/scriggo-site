@@ -274,25 +274,19 @@ errors occur.</p>
 // is not multipart/form-data, it does nothing. It should be called before
 // calling the File and Files methods and can be called multiple times.
 //
-// It panics with ErrBadRequest if the request is not valid,
-// ErrRequestEntityTooLarge if the length of the body is too large or another
-// error if another error occurs.
+// It panics if an error occurs.
 func (form FormData) ParseMultipart()
 
 // Value returns the first form data value associated with the given field. If
 // there are no files associated with the field, it returns an empty string.
 //
-// It panics with ErrBadRequest if the request is not valid,
-// ErrRequestEntityTooLarge if the length of the body is too large or another
-// error if another error occurs.
+// It panics if an error occurs.
 func (form FormData) Value(field string) string
 
 // Values returns the parsed form data, including both the URL field's query
 // parameters and the POST form data.
 //
-// It panics with ErrBadRequest if the request is not valid,
-// ErrRequestEntityTooLarge if the length of the body is too large or another
-// error if another error occurs.
+// It panics if an error occurs.
 func (form FormData) Values() map[string][]string
 
 // File returns the first file associated with the given field. It returns nil
