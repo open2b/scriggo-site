@@ -176,7 +176,7 @@ of the Go standard library.
 func marshalJSONIndent(v interface{}, prefix, indent string) (json, error) {
 ```
 
-Is like [MarshalJSON](#marshaljson) but indents the output. Each JSON element in the output will begin on a new line
+Is like [marshalJSON](#marshaljson) but indents the output. Each JSON element in the output will begin on a new line
 beginning with prefix followed by one or more copies of indent according to the indentation nesting. prefix and
 indent can only contain whitespace: ' ', '\t', '\n' and '\r'.
 
