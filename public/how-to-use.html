@@ -251,8 +251,9 @@ func main() {
 who is &quot;Scriggo&quot;
 </code></pre>
 <p>How you can see, the value assigned to the <em>who</em> variable, in the Go code, has been modified by the template code. If
-you run the template concurrently, the goroutines that execute the template could access to the same variable at the
+you run the template concurrently, the goroutines that execute the template could access to the <em>same variable</em> at the
 same time, so it may be necessary to use a synchronization mechanism.</p>
+<p>We use the term &quot;same variable&quot; in this documentation, but to be precise we should use &quot;same storage location&quot;.</p>
 <p>If you want each execution to access its own variable, pass the variable pointer to the Run method instead of
 BuildTemplate, with a different variable for each execution.</p>
 <pre><code class="language-go">package main

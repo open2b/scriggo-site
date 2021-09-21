@@ -176,8 +176,10 @@ who is "Scriggo"
 ```
 
 How you can see, the value assigned to the _who_ variable, in the Go code, has been modified by the template code. If
-you run the template concurrently, the goroutines that execute the template could access to the same variable at the
+you run the template concurrently, the goroutines that execute the template could access to the _same variable_ at the
 same time, so it may be necessary to use a synchronization mechanism.
+
+We use the term "same variable" in this documentation, but to be precise we should use "same storage location".
 
 If you want each execution to access its own variable, pass the variable pointer to the Run method instead of
 BuildTemplate, with a different variable for each execution.
