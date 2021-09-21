@@ -33,7 +33,7 @@ use any file system. For example, you can read the files from a directory, using
 [//go:embed](https://pkg.go.dev/embed) directive.
 
 For the examples of this documentation we use a simple file system,
-[scriggo.Files](https://pkg.go.dev/github.com/open2b/scriggo#Files), whose files are read from a map.
+[Files](https://pkg.go.dev/github.com/open2b/scriggo#Files), whose files are read from a map.
 
 By default, Scriggo gets the format of a file from the filename extension:
 
@@ -46,7 +46,7 @@ By default, Scriggo gets the format of a file from the filename extension:
 | JSON       | .json                            |
 | Text       | all other extensions             |
 
-If the file system implements the [scriggo.FormatFS](https://pkg.go.dev/github.com/open2b/scriggo#FormatFS) interface:
+If the file system implements the [FormatFS](https://pkg.go.dev/github.com/open2b/scriggo#FormatFS) interface:
 
 ```go
 type FormatFS interface {
@@ -622,11 +622,11 @@ if err != nil {
 
 If the file to be compiled does not exist, it returns an error satisfying `errors.Is(err, fs.ErrNotExist)`, while if a
 file to extend, import or render does not exist, it returns a
-[*scriggo.BuildError](https://pkg.go.dev/github.com/open2b/scriggo#BuildError) value.
+[*BuildError](https://pkg.go.dev/github.com/open2b/scriggo#BuildError) value.
 
-A [*scriggo.BuildError](https://pkg.go.dev/github.com/open2b/scriggo#BuildError) value is an error in the template code
-such as a syntax error, a type checking error, a cycle error and a limit exceeded error. You may show this error to
-the template author, so that she can fix it.
+A [*BuildError](https://pkg.go.dev/github.com/open2b/scriggo#BuildError) value is an error in the template code such as
+a syntax error, a type checking error, a cycle error and a limit exceeded error. You may show this error to the template
+author, so that she can fix it.
 
 Other errors are unexpected errors returned by a file system method, the converter and other internal errors.
 
@@ -649,12 +649,12 @@ if err != nil {
 ```
 
 If the template code calls the panic builtin or a panic is raised from a global function or method, and this panic is
-not recovered, the Run method returns a [*scriggo.PanicError](https://pkg.go.dev/github.com/open2b/scriggo#PanicError)
+not recovered, the Run method returns a [*PanicError](https://pkg.go.dev/github.com/open2b/scriggo#PanicError)
 value. You may panic with the value `err.Error()`, log the error, show the error on the console or return it to a
 browser.
 
 If the [Env.Exit](https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Exit) method is called with a not zero code,
-Run returns a [*scriggo.ExitError](https://pkg.go.dev/github.com/open2b/scriggo#ExitError) value. You may exit with
+Run returns a [*ExitError](https://pkg.go.dev/github.com/open2b/scriggo#ExitError) value. You may exit with
 this code, log the exit error, show the exit error on the console or return it to a browser.
 
 Other errors are unexpected errors returned by the output writer, the converter, the error of a canceled context

@@ -107,7 +107,7 @@ use any file system. For example, you can read the files from a directory, using
 <a href="https://pkg.go.dev/os#DirFS">os.DirFS</a> function, or read the files embedded in the executable with the
 <a href="https://pkg.go.dev/embed">//go:embed</a> directive.</p>
 <p>For the examples of this documentation we use a simple file system,
-<a href="https://pkg.go.dev/github.com/open2b/scriggo#Files">scriggo.Files</a>, whose files are read from a map.</p>
+<a href="https://pkg.go.dev/github.com/open2b/scriggo#Files">Files</a>, whose files are read from a map.</p>
 <p>By default, Scriggo gets the format of a file from the filename extension:</p>
 <table>
 <thead>
@@ -143,7 +143,7 @@ use any file system. For example, you can read the files from a directory, using
 </tr>
 </tbody>
 </table>
-<p>If the file system implements the <a href="https://pkg.go.dev/github.com/open2b/scriggo#FormatFS">scriggo.FormatFS</a> interface:</p>
+<p>If the file system implements the <a href="https://pkg.go.dev/github.com/open2b/scriggo#FormatFS">FormatFS</a> interface:</p>
 <pre><code class="language-go">type FormatFS interface {
     fs.FS
     Format(name string) (Format, error)
@@ -596,10 +596,10 @@ if err != nil {
 </code></pre>
 <p>If the file to be compiled does not exist, it returns an error satisfying <code>errors.Is(err, fs.ErrNotExist)</code>, while if a
 file to extend, import or render does not exist, it returns a
-<a href="https://pkg.go.dev/github.com/open2b/scriggo#BuildError">*scriggo.BuildError</a> value.</p>
-<p>A <a href="https://pkg.go.dev/github.com/open2b/scriggo#BuildError">*scriggo.BuildError</a> value is an error in the template code
-such as a syntax error, a type checking error, a cycle error and a limit exceeded error. You may show this error to
-the template author, so that she can fix it.</p>
+<a href="https://pkg.go.dev/github.com/open2b/scriggo#BuildError">*BuildError</a> value.</p>
+<p>A <a href="https://pkg.go.dev/github.com/open2b/scriggo#BuildError">*BuildError</a> value is an error in the template code such as
+a syntax error, a type checking error, a cycle error and a limit exceeded error. You may show this error to the template
+author, so that she can fix it.</p>
 <p>Other errors are unexpected errors returned by a file system method, the converter and other internal errors.</p>
 <h4 id="run-errors">Run errors</h4>
 <p>The <a href="https://pkg.go.dev/github.com/open2b/scriggo#Template.Run">Run</a> method:</p>
@@ -616,11 +616,11 @@ if err != nil {
 }
 </code></pre>
 <p>If the template code calls the panic builtin or a panic is raised from a global function or method, and this panic is
-not recovered, the Run method returns a <a href="https://pkg.go.dev/github.com/open2b/scriggo#PanicError">*scriggo.PanicError</a>
+not recovered, the Run method returns a <a href="https://pkg.go.dev/github.com/open2b/scriggo#PanicError">*PanicError</a>
 value. You may panic with the value <code>err.Error()</code>, log the error, show the error on the console or return it to a
 browser.</p>
 <p>If the <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Exit">Env.Exit</a> method is called with a not zero code,
-Run returns a <a href="https://pkg.go.dev/github.com/open2b/scriggo#ExitError">*scriggo.ExitError</a> value. You may exit with
+Run returns a <a href="https://pkg.go.dev/github.com/open2b/scriggo#ExitError">*ExitError</a> value. You may exit with
 this code, log the exit error, show the exit error on the console or return it to a browser.</p>
 <p>Other errors are unexpected errors returned by the output writer, the converter, the error of a canceled context
 and other internal errors.</p>
