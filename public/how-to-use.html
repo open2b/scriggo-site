@@ -154,7 +154,7 @@ use any file system. For example, you can read the files from a directory, using
 <p>A template is first compiled and then executed, even concurrently by multiple goroutines. The compilation parses, type
 checks and emits the template bytecode. Execution is fast because it executes the bytecode on its virtual machine.</p>
 <p>To compile a template, you pass the file system and the filename to the
-<a href="https://pkg.go.dev/github.com/open2b/scriggo#BuildTemplate">scriggo.BuildTemplate</a> function, then call the
+<a href="https://pkg.go.dev/github.com/open2b/scriggo#BuildTemplate">BuildTemplate</a> function, then call the
 <a href="https://pkg.go.dev/github.com/open2b/scriggo#Template.Run">Run</a> method on the returned compiled template.</p>
 <p>The following program compiles and runs <code>{{ &quot;hello&quot; }}</code>:</p>
 <pre><code class="language-go">package main
@@ -181,9 +181,9 @@ func main() {
 <h3 id="use-builtins">Use builtins</h3>
 <p>By default, a template code can only use the Go builtins. To allow the template code to use other builtins, you can pass
 them as globals to the BuildTemplate function.</p>
-<p>Scriggo, with the package <a href="https://pkg.go.dev/github.com/open2b/scriggo/builtin">github.com/open2b/scriggo/builtin</a>,
-provides useful <a href="/templates/builtins">builtins</a> ready-to-use. You can use all of them or just some. For example, the
-following program uses the min and max builtins:</p>
+<p>Scriggo, with the <a href="https://pkg.go.dev/github.com/open2b/scriggo/builtin">package builtin</a>, provides useful
+<a href="/templates/builtins">builtins ready-to-use</a>. You can use all of them or just some. For example, the following program
+uses the min and max builtins:</p>
 <pre><code class="language-go">package main
 
 import (
@@ -247,7 +247,7 @@ func main() {
 }
 </code></pre>
 <p>Note that we passed the address of the <em>who</em> variable. If you execute this example, it prints:</p>
-<pre><code>Hello World
+<pre><code class="language-text">Hello World
 who is &quot;Scriggo&quot;
 </code></pre>
 <p>How you can see, the value assigned to the <em>who</em> variable, in the Go code, has been modified by the template code. If
@@ -286,7 +286,7 @@ func main() {
 </code></pre>
 <p>Note that we passed <code>(*string)(nil)</code> to BuildTemplate as global. This way the compiler knows the type of the variable.
 Then we passed the variable pointer to the Run method. If you execute the program, it prints again:</p>
-<pre><code>Hello World
+<pre><code class="language-text">Hello World
 who is &quot;Scriggo&quot;
 </code></pre>
 <p>The printed value is not changed because the variable is still &quot;shared&quot; between the Go code and template code. But no
@@ -396,7 +396,7 @@ a global can be used without importing it.</p>
 can write the importer and the packages it imports, or you can use the
 <a href="#import-packages-with-the-import-command">scriggo import command</a> to generate an importer for existing Go packages.</p>
 <p>The following program defines a package with path &quot;acme.inc/colors&quot; and name &quot;colors&quot; and passes it to the
-<code>BuildTemplate</code> function. The colors package exports the &quot;Red&quot; constant and the &quot;Name&quot; function.</p>
+BuildTemplate function. The colors package exports the &quot;Red&quot; constant and the &quot;Name&quot; function.</p>
 <pre><code class="language-go">package main
 
 import (

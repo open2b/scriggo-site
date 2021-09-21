@@ -63,7 +63,7 @@ A template is first compiled and then executed, even concurrently by multiple go
 checks and emits the template bytecode. Execution is fast because it executes the bytecode on its virtual machine.
 
 To compile a template, you pass the file system and the filename to the
-[scriggo.BuildTemplate](https://pkg.go.dev/github.com/open2b/scriggo#BuildTemplate) function, then call the 
+[BuildTemplate](https://pkg.go.dev/github.com/open2b/scriggo#BuildTemplate) function, then call the 
 [Run](https://pkg.go.dev/github.com/open2b/scriggo#Template.Run) method on the returned compiled template.
 
 The following program compiles and runs `{{ "hello" }}`:
@@ -96,9 +96,9 @@ func main() {
 By default, a template code can only use the Go builtins. To allow the template code to use other builtins, you can pass
 them as globals to the BuildTemplate function.
 
-Scriggo, with the package [github.com/open2b/scriggo/builtin](https://pkg.go.dev/github.com/open2b/scriggo/builtin),
-provides useful [builtins](/templates/builtins) ready-to-use. You can use all of them or just some. For example, the
-following program uses the min and max builtins:
+Scriggo, with the [package builtin](https://pkg.go.dev/github.com/open2b/scriggo/builtin), provides useful
+[builtins ready-to-use](/templates/builtins). You can use all of them or just some. For example, the following program 
+uses the min and max builtins:
 
 ```go
 package main
@@ -170,7 +170,7 @@ func main() {
 
 Note that we passed the address of the _who_ variable. If you execute this example, it prints:
 
-```
+```text
 Hello World
 who is "Scriggo"
 ```
@@ -216,7 +216,7 @@ func main() {
 Note that we passed `(*string)(nil)` to BuildTemplate as global. This way the compiler knows the type of the variable. 
 Then we passed the variable pointer to the Run method. If you execute the program, it prints again:
 
-```
+```text
 Hello World
 who is "Scriggo"
 ```
@@ -369,7 +369,7 @@ can write the importer and the packages it imports, or you can use the
 [scriggo import command](#import-packages-with-the-import-command) to generate an importer for existing Go packages.
 
 The following program defines a package with path "acme.inc/colors" and name "colors" and passes it to the 
-`BuildTemplate` function. The colors package exports the "Red" constant and the "Name" function.
+BuildTemplate function. The colors package exports the "Red" constant and the "Name" function.
 
 ```go
 package main
