@@ -259,6 +259,12 @@ v := &T{}
 err = template.Run(os.Stdout, map[string]interface{}{"v": v}, nil)
 ```
 
+#### Know which global variables are used in a template
+
+If creating global variables is expensive, you can call the
+[UsedVars](https://pkg.go.dev/github.com/open2b/scriggo#Template.UsedVars) method, on the compiled template, to know
+which global variables are used in the template. You can then pass to the Run method only the used variables.
+
 ### Use other types of globals
 
 You can also pass functions, constants (typed and untyped), types and even packages to a template as globals. For
