@@ -7,7 +7,7 @@
 # Builtins
 
 Scriggo includes several builtins, in addition to the [Go builtins](https://pkg.go.dev/builtin), that can be used in
-templates. Some of these builtins are types with methods, so you can call them on values of these types. The
+templates. Some of these builtins are types with methods, so you can call methods on the values of these types. The
 [scriggo serve](/scriggo-command#serve-a-template) command supports all of them.
 
 Part of the documentation on this page is copyright of
