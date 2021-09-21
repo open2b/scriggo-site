@@ -642,7 +642,7 @@ if err != nil {
         // handle a call to env.Exit with a not zero code.
     }
     // handle other errors returned by the out.Write method, by the converter,
-    // and the Err method of a context when it is cancelled.
+    // and the Err method of a context when it is canceled.
 }
 ```
 
@@ -655,7 +655,7 @@ If the [Env.Exit](https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Exit) 
 Run returns a [*scriggo.ExitError](https://pkg.go.dev/github.com/open2b/scriggo#ExitError) value. You may exit with
 this code, log the exit error, show the exit error on the console or return it to a browser.
 
-Other errors are unexpected errors returned by the output writer, the converter, the error of a cancelled context
+Other errors are unexpected errors returned by the output writer, the converter, the error of a canceled context
 and other internal errors.
 
 The Run method panics if the [Env.Fatal](https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Fatal) method is

@@ -611,7 +611,7 @@ if err != nil {
         // handle a call to env.Exit with a not zero code.
     }
     // handle other errors returned by the out.Write method, by the converter,
-    // and the Err method of a context when it is cancelled.
+    // and the Err method of a context when it is canceled.
 }
 </code></pre>
 <p>If the template code calls the panic builtin or a panic is raised from a global function or method, and this panic is
@@ -621,7 +621,7 @@ browser.</p>
 <p>If the <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Exit">Env.Exit</a> method is called with a not zero code,
 Run returns a <a href="https://pkg.go.dev/github.com/open2b/scriggo#ExitError">*scriggo.ExitError</a> value. You may exit with
 this code, log the exit error, show the exit error on the console or return it to a browser.</p>
-<p>Other errors are unexpected errors returned by the output writer, the converter, the error of a cancelled context
+<p>Other errors are unexpected errors returned by the output writer, the converter, the error of a canceled context
 and other internal errors.</p>
 <p>The Run method panics if the <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Fatal">Env.Fatal</a> method is
 called.</p>
