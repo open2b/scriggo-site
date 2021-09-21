@@ -7,7 +7,7 @@
 A Scriggofile is a text file with a specific format used by the `scriggo` command. The `scriggo` command uses the
 instructions in a Scriggofile to create an interpreter or to generate an importer to use in an existing application.
 
-A Scriggofile defines which packages a program, script or template can import, what exported declarations in a package
+A Scriggofile defines which packages a program or template can import, what exported declarations in a package
 can be imported and so on.
 
 ## Format
@@ -31,7 +31,7 @@ The instructions are:
 
 ### IMPORT STANDARD LIBRARY 
 
-Makes almost all the packages in the Go standard library importable in a program, script or template executed by the
+Makes almost all the packages in the Go standard library importable in a program or template executed by the
 application.
 
 To view all packages imported execute from a console:
@@ -62,7 +62,7 @@ conflict with a Go standard library package path, even if this latter is not imp
 
     ### IMPORT &lt;package&gt; AS main
     
-    Makes the package with path `package` imported as the main package in a script or template.
+    Makes the package with path `package` imported as the main package in a template.
     It is the same as writing:
     
     ```
@@ -77,7 +77,7 @@ conflict with a Go standard library package path, even if this latter is not imp
     
     As for `IMPORT <package> AS main` but the exported names in the package will be imported
     not capitalized. For example a name `FooFoo` declared in the package will be imported in
-    the script or template as `fooFoo`.
+    the template as `fooFoo`.
 
 #}
 
