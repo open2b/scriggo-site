@@ -1,16 +1,16 @@
 <!doctype html>
-<html class="article page-support" lang="en">
+<html class="article page-news" lang="en">
 <head>
-    <title>Support</title>
+    <title>Scriggo News</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="Support">
+    <meta property="og:title" content="Scriggo News">
     <meta property="og:description" content="Scriggo is the world’s most powerful template engine and Go embeddable interpreter">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://scriggo.com">
     <meta property="og:image" content="https://scriggo.com/images/scriggo-card.png">
-    <meta name=twitter:title content="Support">
+    <meta name=twitter:title content="Scriggo News">
     <meta name=twitter:description content="Scriggo is the world’s most powerful template engine and Go embeddable interpreter">
     <meta name=twitter:image content="https://scriggo.com/images/scriggo-card.png">
 
@@ -30,29 +30,27 @@
 </nav><article>
     <div class="wrap">
         <div class="content">
-            
-<h1>Get Support</h1>
-
-<div class="support">
-    <div class="enterprise">
-
-    <h2>Enterprise</h2>
-
-    <p>Priority private support by core developers</p>
-
-  </div>
-  <div class="community">
-
-    <h2>Community</h2>
-    <p>Free public support by the community</p>
-    <div class="channel github-discussions">
-        <div><a href="https://github.com/open2b/scriggo/discussions"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Github | Scriggo</title><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a></div>
-        <div><a href="https://github.com/open2b/scriggo/discussions">GitHub Discussions</a></div>
-    </div>
-
-  </div>
-</div>
-
+            <h1 id="news">News</h1>
+<h2 id="released-scriggo-v0520">Released Scriggo v0.52.0</h2>
+<p>September 22, 2021</p>
+<p>For more details and binary releases see <a href="https://github.com/open2b/scriggo/releases/tag/v0.52.0">https://github.com/open2b/scriggo/releases/tag/v0.52.0</a></p>
+<p><strong>This version breaks the compatibility with previous versions.</strong></p>
+<h4 id="add-scriggo-command-binaries">Add scriggo command binaries.</h4>
+<p>Starting from this version, the binaries of the scriggo command are available on GitHub.</p>
+<h4 id="replace-envexit-with-envstop-breaking-change">Replace env.Exit with env.Stop (breaking change).</h4>
+<p>This change replaces the Exit method of the native.Env interface
+with the Stop method. The Stop method has the same behaviour of
+Exit but accepts an error instead of a status code.</p>
+<p>The following code:</p>
+<pre><code>env.Exit(0)
+env.Exit(2)
+</code></pre>
+<p>with this change, can be rewritten as</p>
+<pre><code>env.Stop(nil)
+env.Stop(scriggo.NewExitError(2, nil))
+</code></pre>
+<h4 id="add-the-unsafeconv-package-as-built-in-in-templates">Add the unsafeconv package as built-in in templates.</h4>
+<h4 id="other-fixes-and-improvements">Other fixes and improvements.</h4>
 
         </div>
     </div>
