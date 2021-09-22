@@ -232,7 +232,7 @@ func main() {
 <pre><code class="language-go">globals := native.Declarations{
     &quot;printHello&quot;: func (who string) string { return fmt.Sprintf(&quot;Hello, %s!&quot;, who) },
 }
-opts := scriggo.BuildOptions{Globals: globals}
+opts := &amp;scriggo.BuildOptions{Globals: globals}
 template, err := scriggo.BuildTemplate(fsys, &quot;index.html&quot;, opts)
 </code></pre>
 <p>Globals can be functions, variables, constants, types and even packages.</p>

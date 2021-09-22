@@ -195,7 +195,7 @@ The following code defines a global function called "printHello" and passes it t
 globals := native.Declarations{
     "printHello": func (who string) string { return fmt.Sprintf("Hello, %s!", who) },
 }
-opts := scriggo.BuildOptions{Globals: globals}
+opts := &scriggo.BuildOptions{Globals: globals}
 template, err := scriggo.BuildTemplate(fsys, "index.html", opts)
 ```
 
