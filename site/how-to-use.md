@@ -20,7 +20,8 @@ language, see the [templates](/templates) section instead.
 * [Execution environment (env)](#execution-environment-env)
 * [Implement IsTrue](#implement-istrue)
 * [Allow "go" statement](#allow-go-statement)
-* [Handle build and run errors](#handle-build-and-run-errors)
+* [Stop template execution](#stop-template-execution)
+* [Handle errors](#handle-errors)
 * [Builtins best practices](#builtins-best-practices)
 
 <div style="margin-top: 2rem;"></div>
@@ -509,7 +510,7 @@ The execution environment, or simply env, is a value created at each template ex
 or imported into a template, receives env as first argument if its first parameter has type
 [native.Env](https://pkg.go.dev/github.com/open2b/scriggo/native#Env).
 
-You can use env to get the [context](https://pkg.go.dev/context#Context) passed to the Run method, exit the execution,
+You can use env to get the [context](https://pkg.go.dev/context#Context) passed to the Run method, stop the execution,
 raise a fatal error, print with the _print_ and _println_ builtins used in the template, and get the caller's path 
 relative to the root of the template. 
 
@@ -525,11 +526,12 @@ import (
 
     "github.com/open2b/scriggo"
     "github.com/open2b/scriggo/native"
+    "github.com/open2b/scriggo/native"
 )
 
-// Env terminates the template execution with status code.
+// Exit exits the template execution with status code.
 func Exit(env native.Env, code int) {
-    env.Exit(code)
+    env.Stop(scriggo.NewExitError(code, nil))
 }
 
 func main() {
@@ -597,7 +599,19 @@ opts := &scriggo.BuildOptions{
 Note that currently the goroutines started by the template code do not terminate when the execution of the template
 ends. This behavior may change in a future version of Scriggo.
 
-### Handle build and run errors
+### Stop template execution
+
+You can stop the execution of a template passing a [context](https://pkg.go.dev/context#Context) to the Run method and
+canceling this context. When the context is canceled, the execution of the template stops and the Run method returns
+`ctx.Err()` as error.
+
+Builtin functions and methods should honor a context cancelation, and return as soon as possible. To do this, accept
+an [execution environment](#execution-environment-env) as first argument and return as soon as the context is cancelled.
+
+Builtin functions and methods can stop the execution, regardless of context cancelation, calling the Stop method of the
+[execution environment](#execution-environment-env). The Run method returns the error passed to the Stop method.
+
+### Handle errors
 
 How handle errors depends on the context in which templates are compiled and executed. Therefore, the way in which
 errors are handled may vary from application to application.
@@ -640,11 +654,9 @@ if err != nil {
     if err, ok := err.(*scriggo.PanicError); ok {
         // handle a panic in the template code.
     }
-    if err, ok := err.(*scriggo.ExitError); ok {
-        // handle a call to env.Exit with a not zero code.
-    }
-    // handle other errors returned by the out.Write method, by the converter,
-    // and the Err method of a context when it is canceled.
+    // handle a call to env.Stop with a not nil error, or other errors returned
+    // by the out.Write method, by the converter, and the Err method of
+    // a context when it is canceled.
 }
 ```
 
@@ -653,15 +665,26 @@ not recovered, the Run method returns a [*PanicError](https://pkg.go.dev/github.
 value. You may panic with the value `err.Error()`, log the error, show the error on the console or return it to a
 browser.
 
-If the [Env.Exit](https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Exit) method is called with a not zero code,
-Run returns a [*ExitError](https://pkg.go.dev/github.com/open2b/scriggo#ExitError) value. You may exit with
-this code, log the exit error, show the exit error on the console or return it to a browser.
+If the [Env.Stop](https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Stop) method is called with a not nil error,
+Run returns this error.
 
 Other errors are unexpected errors returned by the output writer, the converter, the error of a canceled context
 and other internal errors.
 
 The Run method panics if the [Env.Fatal](https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Fatal) method is
 called.
+
+#### Builtins errors
+
+If a built-in returns an error, it is returned, like any other return value, to the caller in the template code.
+
+A built-in can also call `panic(err)`, `env.Stop(err)` and `env.Fatal(err)` with the following consequences:
+
+| If the builtin calls...                            | ...then Run              |
+|----------------------------------------------------|--------------------------|
+| `panic(err)` and template code does not recover it | `return PanicError(err)` |
+| `env.Stop(err)`                                    | `return err`             |
+| `env.Fatal(err)`                                   | `panic(err)`             |
 
 ### Builtins best practices
 

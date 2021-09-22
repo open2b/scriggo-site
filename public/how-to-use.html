@@ -97,7 +97,8 @@ language, see the <a href="/templates">templates</a> section instead.</p>
 <li><a href="#execution-environment-env">Execution environment (env)</a></li>
 <li><a href="#implement-istrue">Implement IsTrue</a></li>
 <li><a href="#allow-go-statement">Allow &quot;go&quot; statement</a></li>
-<li><a href="#handle-build-and-run-errors">Handle build and run errors</a></li>
+<li><a href="#stop-template-execution">Stop template execution</a></li>
+<li><a href="#handle-errors">Handle errors</a></li>
 <li><a href="#builtins-best-practices">Builtins best practices</a></li>
 </ul>
 <div style="margin-top: 2rem;"></div>
@@ -510,7 +511,7 @@ using the <em>NoParseShortShowStmt</em> option with the BuildTemplate function:<
 <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env">native.Env</a> interface. A function or method, passed as global
 or imported into a template, receives env as first argument if its first parameter has type
 <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env">native.Env</a>.</p>
-<p>You can use env to get the <a href="https://pkg.go.dev/context#Context">context</a> passed to the Run method, exit the execution,
+<p>You can use env to get the <a href="https://pkg.go.dev/context#Context">context</a> passed to the Run method, stop the execution,
 raise a fatal error, print with the <em>print</em> and <em>println</em> builtins used in the template, and get the caller's path
 relative to the root of the template.</p>
 <p>For example, the following program passes a builtin named <em>exit</em> to the template. When called, it ends the execution of
@@ -523,11 +524,12 @@ import (
 
     &quot;github.com/open2b/scriggo&quot;
     &quot;github.com/open2b/scriggo/native&quot;
+    &quot;github.com/open2b/scriggo/native&quot;
 )
 
-// Env terminates the template execution with status code.
+// Exit exits the template execution with status code.
 func Exit(env native.Env, code int) {
-    env.Exit(code)
+    env.Stop(scriggo.NewExitError(code, nil))
 }
 
 func main() {
@@ -577,7 +579,15 @@ the <em>go</em> statement using the AllowGoStmt option with the BuildTemplate fu
 </code></pre>
 <p>Note that currently the goroutines started by the template code do not terminate when the execution of the template
 ends. This behavior may change in a future version of Scriggo.</p>
-<h3 id="handle-build-and-run-errors">Handle build and run errors</h3>
+<h3 id="stop-template-execution">Stop template execution</h3>
+<p>You can stop the execution of a template passing a <a href="https://pkg.go.dev/context#Context">context</a> to the Run method and
+canceling this context. When the context is canceled, the execution of the template stops and the Run method returns
+<code>ctx.Err()</code> as error.</p>
+<p>Builtin functions and methods should honor a context cancelation, and return as soon as possible. To do this, accept
+an <a href="#execution-environment-env">execution environment</a> as first argument and return as soon as the context is cancelled.</p>
+<p>Builtin functions and methods can stop the execution, regardless of context cancelation, calling the Stop method of the
+<a href="#execution-environment-env">execution environment</a>. The Run method returns the error passed to the Stop method.</p>
+<h3 id="handle-errors">Handle errors</h3>
 <p>How handle errors depends on the context in which templates are compiled and executed. Therefore, the way in which
 errors are handled may vary from application to application.</p>
 <h4 id="build-errors">Build errors</h4>
@@ -608,24 +618,46 @@ if err != nil {
     if err, ok := err.(*scriggo.PanicError); ok {
         // handle a panic in the template code.
     }
-    if err, ok := err.(*scriggo.ExitError); ok {
-        // handle a call to env.Exit with a not zero code.
-    }
-    // handle other errors returned by the out.Write method, by the converter,
-    // and the Err method of a context when it is canceled.
+    // handle a call to env.Stop with a not nil error, or other errors returned
+    // by the out.Write method, by the converter, and the Err method of
+    // a context when it is canceled.
 }
 </code></pre>
 <p>If the template code calls the panic builtin or a panic is raised from a global function or method, and this panic is
 not recovered, the Run method returns a <a href="https://pkg.go.dev/github.com/open2b/scriggo#PanicError">*PanicError</a>
 value. You may panic with the value <code>err.Error()</code>, log the error, show the error on the console or return it to a
 browser.</p>
-<p>If the <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Exit">Env.Exit</a> method is called with a not zero code,
-Run returns a <a href="https://pkg.go.dev/github.com/open2b/scriggo#ExitError">*ExitError</a> value. You may exit with
-this code, log the exit error, show the exit error on the console or return it to a browser.</p>
+<p>If the <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Stop">Env.Stop</a> method is called with a not nil error,
+Run returns this error.</p>
 <p>Other errors are unexpected errors returned by the output writer, the converter, the error of a canceled context
 and other internal errors.</p>
 <p>The Run method panics if the <a href="https://pkg.go.dev/github.com/open2b/scriggo/native#Env.Fatal">Env.Fatal</a> method is
 called.</p>
+<h4 id="builtins-errors">Builtins errors</h4>
+<p>If a built-in returns an error, it is returned, like any other return value, to the caller in the template code.</p>
+<p>A built-in can also call <code>panic(err)</code>, <code>env.Stop(err)</code> and <code>env.Fatal(err)</code> with the following consequences:</p>
+<table>
+<thead>
+<tr>
+<th>If the builtin calls...</th>
+<th>...then Run</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>panic(err)</code> and template code does not recover it</td>
+<td><code>return PanicError(err)</code></td>
+</tr>
+<tr>
+<td><code>env.Stop(err)</code></td>
+<td><code>return err</code></td>
+</tr>
+<tr>
+<td><code>env.Fatal(err)</code></td>
+<td><code>panic(err)</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="builtins-best-practices">Builtins best practices</h3>
 <p>These are the best practices to use when creating a built-in. Scriggo's builtins follow these best practices.</p>
 <ul>
