@@ -92,6 +92,12 @@ Part of the documentation on this page is copyright of
 * [trimPrefix](#trimprefix)
 * [trimRight](#trimright)
 * [trimSuffix](#trimsuffix)
+* [unsafeconv](#unsafeconv)
+  * [ToCSS](#tocss)
+  * [ToHTML](#tohtml)
+  * [ToJS](#tojs)
+  * [ToJSON](#tojson)
+  * [ToMarkdown](#tomarkdown)
 
 <h3>time</h3>
 
@@ -775,6 +781,71 @@ func trimSuffix(s, suffix string) string
 ```
 
 Returns s without the provided trailing suffix string. If s doesn't end with suffix, s is returned unchanged.
+
+
+### unsafeconv
+
+A package that implements functions to make unsafe conversions between string values and native types.
+
+#### ToCSS
+
+```go
+func ToCSS(s string) css
+```
+
+Returns s but with the css type. For example:
+
+```go
+unsafeconv.ToCSS("data:image/gif;base64," + base64(image))
+```
+
+#### ToHTML
+
+```go
+func ToHTML(s string) html
+```
+
+Returns s but with the html type. For example:
+
+```go
+unsafeconv.ToHTML(`<a href="` + htmlEscape(url) + `">see this page</a>`)
+```
+
+#### ToJS
+
+```go
+func ToJS(s string) js
+```
+
+Returns s but with the js type. For example:
+
+```go
+unsafeconv.ToJS("var a = " + v + ";")
+```
+
+#### ToJSON
+
+```go
+func ToJSON(s string) json
+```
+
+Returns s but with the json type. For example:
+
+```go
+unsafeconv.ToJSON(`{ "config": ` + config + ` }`)
+```
+
+#### ToMarkdown
+
+```go
+func ToMarkdown(s string) markdown
+```
+
+Returns s but with the markdown type. For example:
+
+```go
+unsafeconv.ToMarkdown("# " + title)
+```
 
 <h2>time</h2>
 

@@ -168,6 +168,15 @@ templates. Some of these builtins are types with methods, so you can call method
 <li><a href="#trimprefix">trimPrefix</a></li>
 <li><a href="#trimright">trimRight</a></li>
 <li><a href="#trimsuffix">trimSuffix</a></li>
+<li><a href="#unsafeconv">unsafeconv</a>
+<ul>
+<li><a href="#tocss">ToCSS</a></li>
+<li><a href="#tohtml">ToHTML</a></li>
+<li><a href="#tojs">ToJS</a></li>
+<li><a href="#tojson">ToJSON</a></li>
+<li><a href="#tomarkdown">ToMarkdown</a></li>
+</ul>
+</li>
 </ul>
 <h3>time</h3>
 <ul>
@@ -593,6 +602,38 @@ the Go standard library.</p>
 <pre><code class="language-go">func trimSuffix(s, suffix string) string
 </code></pre>
 <p>Returns s without the provided trailing suffix string. If s doesn't end with suffix, s is returned unchanged.</p>
+<h3 id="unsafeconv">unsafeconv</h3>
+<p>A package that implements functions to make unsafe conversions between string values and native types.</p>
+<h4 id="tocss">ToCSS</h4>
+<pre><code class="language-go">func ToCSS(s string) css
+</code></pre>
+<p>Returns s but with the css type. For example:</p>
+<pre><code class="language-go">unsafeconv.ToCSS(&quot;data:image/gif;base64,&quot; + base64(image))
+</code></pre>
+<h4 id="tohtml">ToHTML</h4>
+<pre><code class="language-go">func ToHTML(s string) html
+</code></pre>
+<p>Returns s but with the html type. For example:</p>
+<pre><code class="language-go">unsafeconv.ToHTML(`&lt;a href=&quot;` + htmlEscape(url) + `&quot;&gt;see this page&lt;/a&gt;`)
+</code></pre>
+<h4 id="tojs">ToJS</h4>
+<pre><code class="language-go">func ToJS(s string) js
+</code></pre>
+<p>Returns s but with the js type. For example:</p>
+<pre><code class="language-go">unsafeconv.ToJS(&quot;var a = &quot; + v + &quot;;&quot;)
+</code></pre>
+<h4 id="tojson">ToJSON</h4>
+<pre><code class="language-go">func ToJSON(s string) json
+</code></pre>
+<p>Returns s but with the json type. For example:</p>
+<pre><code class="language-go">unsafeconv.ToJSON(`{ &quot;config&quot;: ` + config + ` }`)
+</code></pre>
+<h4 id="tomarkdown">ToMarkdown</h4>
+<pre><code class="language-go">func ToMarkdown(s string) markdown
+</code></pre>
+<p>Returns s but with the markdown type. For example:</p>
+<pre><code class="language-go">unsafeconv.ToMarkdown(&quot;# &quot; + title)
+</code></pre>
 <h2>time</h2>
 <h3 id="duration">Duration</h3>
 <pre><code class="language-go">type Duration int64
