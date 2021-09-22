@@ -148,10 +148,10 @@ func main() {
     globals := native.Declarations{
         "replace": builtin.Replace,
     }
-    opts := scriggo.Options{Globals: globals}
+    opts := scriggo.BuildOptions{Globals: globals}
 
     // Build the template.
-    template, err := scriggo.BuildTemplate(fsys, "index.html", opts)
+    template, err := scriggo.BuildTemplate(fsys, "index.html", &opts)
     if err != nil {
         log.Fatal(err)
     }
@@ -195,7 +195,7 @@ The following code defines a global function called "printHello" and passes it t
 globals := native.Declarations{
     "printHello": func (who string) string { return fmt.Sprintf("Hello, %s!", who) },
 }
-opts := scriggo.Options{Globals: globals}
+opts := scriggo.BuildOptions{Globals: globals}
 template, err := scriggo.BuildTemplate(fsys, "index.html", opts)
 ```
 
