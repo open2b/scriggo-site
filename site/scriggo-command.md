@@ -16,13 +16,13 @@ Before installing the Scriggo command, <a href="https://golang.org/dl/">download
 
 When Go is installed, open a terminal and execute:
 
-```
+```shell
 $ go install github.com/open2b/scriggo/cmd/scriggo@latest
 ```
 
 then test if `scriggo` can be executed:
 
-```
+```shell
 $ scriggo version
 scriggo version 0.50.1 (go1.17)
 ```
@@ -37,7 +37,7 @@ defaults to `$GOPATH/bin` or, if the `GOPATH` environment variable is not set, t
 
 To get help from the command line run the following command:
 
-```
+```shell
 $ scriggo help
 ```
 
@@ -48,7 +48,7 @@ All Scriggo builtins are available in template files. It is useful to learn [Scr
 
 The basic Serve command takes this form:
 
-```
+```shell
 $ scriggo serve
 ```
 
@@ -75,7 +75,7 @@ Templates are automatically rebuilt when a file changes.
 
 The complete `scriggo serve` command takes this form:
 
-```
+```shell
 $ scriggo serve [-S n] [--metrics] 
 ```
 
@@ -100,7 +100,7 @@ The Scriggo Init command initializes an interpreter for Go programs. It creates 
 
 The syntax is: 
 
-```
+```shell
 $ scriggo init [dir]
 ```
 
@@ -120,13 +120,13 @@ The code for the importer is generated from the instructions in a Scriggofile. T
 
 The basic Import command takes this form:
 
-```
+```shell
 $ scriggo import [-o output]
 ```
 
 For example:
 
-```
+```shell
 $ scriggo import -o packages.go
 ```
 
@@ -137,7 +137,7 @@ and writes it into the file "packages.go".
 
 The complete `scriggo import` command takes this form:
 
-```
+```shell
 $ scriggo import [-f Scriggofile] [-v] [-x] [-o output] [module]
 ```
 
