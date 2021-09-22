@@ -195,10 +195,10 @@ func main() {
     globals := native.Declarations{
         &quot;replace&quot;: builtin.Replace,
     }
-    opts := scriggo.Options{Globals: globals}
+    opts := scriggo.BuildOptions{Globals: globals}
 
     // Build the template.
-    template, err := scriggo.BuildTemplate(fsys, &quot;index.html&quot;, opts)
+    template, err := scriggo.BuildTemplate(fsys, &quot;index.html&quot;, &amp;opts)
     if err != nil {
         log.Fatal(err)
     }
@@ -231,7 +231,7 @@ func main() {
 <pre><code class="language-go">globals := native.Declarations{
     &quot;printHello&quot;: func (who string) string { return fmt.Sprintf(&quot;Hello, %s!&quot;, who) },
 }
-opts := scriggo.Options{Globals: globals}
+opts := scriggo.BuildOptions{Globals: globals}
 template, err := scriggo.BuildTemplate(fsys, &quot;index.html&quot;, opts)
 </code></pre>
 <p>Globals can be functions, variables, constants, types and even packages.</p>

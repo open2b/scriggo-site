@@ -161,6 +161,9 @@ of the importer can be coded manually or can be generated from a Scriggofile wit
 <h4 id="the-import-command">The Import command</h4>
 <p>The <code>scriggo import</code> command allows to easily create an importer that imports the Go standard packages and other packages
 according to the instructions in a <a href="scriggofile">Scriggofile</a>.</p>
+<p>Get the scriggo command:</p>
+<pre><code class="language-shell">$ go install github.com/open2b/scriggo/cmd/scriggo@latest
+</code></pre>
 <p>Create a file called &quot;Scriggofile&quot; with the following contents and put it in the module directory:</p>
 <pre><code class="language-scriggofile">IMPORT STANDARD LIBRARY
 IMPORT github.com/fatih/color
