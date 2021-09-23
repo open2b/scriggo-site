@@ -6,9 +6,9 @@
 
 # If, For and Switch
 
-The [if statement](#if) is used to execute code based on a condition, the [for statement](#for) is used to iterate over a
-[slice](/templates/types#slices), and the [switch statement](#switch) allows a variable to be tested for equality
-against a list of values.
+The [if statement](#if) is used to execute code based on a condition, the [for statement](#for) is used to iterate over
+a [slice](/templates/types#slice) (but also maps, strings and channels) and the [switch statement](#switch) allows a
+variable to be tested for equality against a list of values.
 
 ## If
 
@@ -66,7 +66,8 @@ Scriggo also supports the _else if_ form:
 
 ## For
 
-The `for` statement iterates over a [slice](/templates/types#slices). For example:
+The `for` statement iterates over a [slice](/templates/types#slice) (but also a maps, a strings and a channel ).
+For example:
 
 ```scriggo
 {% for article in articles %}

@@ -84,9 +84,9 @@
         </aside>
         <div class="content">
             <h1 id="if-for-and-switch">If, For and Switch</h1>
-<p>The <a href="#if">if statement</a> is used to execute code based on a condition, the <a href="#for">for statement</a> is used to iterate over a
-<a href="/templates/types#slices">slice</a>, and the <a href="#switch">switch statement</a> allows a variable to be tested for equality
-against a list of values.</p>
+<p>The <a href="#if">if statement</a> is used to execute code based on a condition, the <a href="#for">for statement</a> is used to iterate over
+a <a href="/templates/types#slice">slice</a> (but also maps, strings and channels) and the <a href="#switch">switch statement</a> allows a
+variable to be tested for equality against a list of values.</p>
 <h2 id="if">If</h2>
 <p>The <code>if</code> statement executes its body if the condition, that can have any type, is valuated to true. For example the
 following statement:</p>
@@ -128,7 +128,8 @@ map[int]string{} // is false, it is an empty map
 </code></pre>
 <pre class="result">  Wide availability</pre>
 <h2 id="for">For</h2>
-<p>The <code>for</code> statement iterates over a <a href="/templates/types#slices">slice</a>. For example:</p>
+<p>The <code>for</code> statement iterates over a <a href="/templates/types#slice">slice</a> (but also a maps, a strings and a channel ).
+For example:</p>
 <pre><code class="language-scriggo">{% for article in articles %}
   &lt;div&gt;{{ article.Title }}&lt;/div&gt;
 {% end %}
