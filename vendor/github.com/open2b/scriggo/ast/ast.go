@@ -509,6 +509,7 @@ type Call struct {
 	}
 }
 
+// NewCall returns a new Call node.
 func NewCall(pos *Position, fun Expression, args []Expression, isVariadic bool) *Call {
 	return &Call{expression: &expression{}, Position: pos, Func: fun, Args: args, IsVariadic: isVariadic}
 }
@@ -657,7 +658,7 @@ type Default struct {
 	Expr2     Expression // right hand expression.
 }
 
-// NewDefault returns a new Defualt node.
+// NewDefault returns a new Default node.
 func NewDefault(pos *Position, expr1, expr2 Expression) *Default {
 	return &Default{Position: pos, Expr1: expr1, Expr2: expr2}
 }
@@ -815,17 +816,17 @@ func NewForRange(pos *Position, assignment *Assignment, body []Node) *ForRange {
 type Func struct {
 	expression
 	*Position
-	Ident   *Identifier // name, nil for function literals.
-	Type    *FuncType   // type.
-	Body    *Block      // body.
-	Endless bool        // reports whether it is endless.
-	Upvars  []Upvar     // Upvars of func.
-	Format  Format      // macro format.
+	Ident    *Identifier // name, nil for function literals.
+	Type     *FuncType   // type.
+	Body     *Block      // body.
+	DistFree bool        // reports whether it is distraction free.
+	Upvars   []Upvar     // Upvars of func.
+	Format   Format      // macro format.
 }
 
 // NewFunc returns a new Func node.
-func NewFunc(pos *Position, name *Identifier, typ *FuncType, body *Block, endless bool, format Format) *Func {
-	return &Func{expression{}, pos, name, typ, body, endless, nil, format}
+func NewFunc(pos *Position, name *Identifier, typ *FuncType, body *Block, distFree bool, format Format) *Func {
+	return &Func{expression{}, pos, name, typ, body, distFree, nil, format}
 }
 
 // String returns the string representation of n.

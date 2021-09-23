@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// package types implements functions and types to represent and work with
+// Package types implements functions and types to represent and work with
 // Scriggo types.
 package types
 
@@ -298,9 +298,21 @@ func (types *Types) TypeOf(v reflect.Value) reflect.Type {
 //  concluded.
 func assertNotScriggoType(t reflect.Type) {
 	if _, ok := t.(runtime.ScriggoType); ok {
-		panic(fmt.Errorf("%v is a Scriggo type!", t))
+		panic(fmt.Errorf("%v is a Scriggo type", t))
 	}
 }
 
 // TODO: every call to a reflect function in the compiler should be checked and
 //  eventually converted to a call to a function of this package.
+
+// internalError returns a string that can be used as panic argument in case of
+// a Scriggo internal error.
+//
+// It may be used as:
+//
+//      panic(internalError(format, a...))
+//
+// Keep in sync with compiler.internalError.
+func internalError(format string, a ...interface{}) string {
+	return fmt.Sprintf("scriggo: internal error: "+format, a...)
+}

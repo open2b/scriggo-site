@@ -144,7 +144,7 @@ func (vm *VM) stop() (Addr, bool) {
 // If a context has been set and the context is canceled, Run returns
 // as soon as possible with the error returned by the Err method of the
 // context.
-func (vm *VM) Run(fn *Function, typeof TypeOfFunc, globals []reflect.Value) (int, error) {
+func (vm *VM) Run(fn *Function, typeof TypeOfFunc, globals []reflect.Value) error {
 	if typeof == nil {
 		typeof = typeOfFunc
 	}
@@ -159,12 +159,12 @@ func (vm *VM) Run(fn *Function, typeof TypeOfFunc, globals []reflect.Value) (int
 			}
 		case *fatalError:
 			panic(e.msg)
-		case exitError:
-			return int(e), nil
+		case stopError:
+			err = e.err
 		}
-		return 0, err
+		return err
 	}
-	return 0, nil
+	return nil
 }
 
 // SetContext sets the context.
@@ -339,7 +339,7 @@ func (vm *VM) callNative(fn *NativeFunction, numVariadic int8, shift StackShift,
 					if vm.main {
 						env := vm.env
 						env.mu.Lock()
-						env.filePath = vm.fn.DebugInfo[vm.pc-1].Path
+						env.callPath = vm.fn.DebugInfo[vm.pc-1].Path
 						env.mu.Unlock()
 					}
 					args[i].Set(vm.envArg)

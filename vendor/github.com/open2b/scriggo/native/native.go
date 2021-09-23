@@ -37,30 +37,28 @@ type (
 // of the first parameter.
 type Env interface {
 
+	// CallPath returns the path, relative to the root, of the call site of
+	// the caller function. If it is not called by the main goroutine, the
+	// returned value is not significant.
+	CallPath() string
+
 	// Context returns the context of the execution.
 	// It is the context passed as an option for execution.
 	Context() context.Context
 
-	// Exit exits the execution with the given status code. If the code is not
-	// zero, the execution returns a scriggo.ExitError error with this code.
-	// Deferred functions are not called and started goroutines are not
-	// terminated.
-	Exit(code int)
-
 	// Fatal exits the execution and then panics with value v. Deferred
 	// functions are not called and started goroutines are not terminated.
 	Fatal(v interface{})
-
-	// FilePath returns the path, relative to the root, of the current
-	// executed file. If it is not called by the main goroutine, the
-	// returned value is not significant.
-	FilePath() string
 
 	// Print calls the print built-in function with args as argument.
 	Print(args ...interface{})
 
 	// Println calls the println built-in function with args as argument.
 	Println(args ...interface{})
+
+	// Stop stops the execution with the given error. Deferred functions are
+	// not called and started goroutines are not terminated.
+	Stop(err error)
 
 	// TypeOf is like reflect.TypeOf but if v has a Scriggo type it returns
 	// its Scriggo reflect type instead of the reflect type of the proxy.

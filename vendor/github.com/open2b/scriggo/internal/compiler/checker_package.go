@@ -92,7 +92,11 @@ func toTypeCheckerScope(pkg native.ImportablePackage, mod checkingMod, global bo
 				// Import a typed constant.
 				ti.Constant = convertToConstant(rv)
 				if ti.Constant == nil {
-					panic(fmt.Errorf("scriggo: importing package %s, declaration %q is not valid", pkg.PackageName(), ident))
+					name := ident
+					if p := pkg.PackageName(); p != "main" {
+						name = p + "." + name
+					}
+					panic(fmt.Errorf("scriggo: cannot import %s: to import a variable use a pointer to that variable", name))
 				}
 				ti.Type = rv.Type()
 			}
@@ -144,10 +148,11 @@ func toTypeCheckerScope(pkg native.ImportablePackage, mod checkingMod, global bo
 }
 
 type packageInfo struct {
-	Name         string
-	Declarations map[string]*typeInfo
-	IndirectVars map[*ast.Identifier]bool
-	TypeInfos    map[ast.Node]*typeInfo
+	Name             string
+	Declarations     map[string]*typeInfo
+	DeclarationNodes map[string]*ast.Identifier
+	IndirectVars     map[*ast.Identifier]bool
+	TypeInfos        map[ast.Node]*typeInfo
 }
 
 func depsOf(name string, deps packageDeclsDeps) []*ast.Identifier {
@@ -576,7 +581,7 @@ func checkPackage(compilation *compilation, pkg *ast.Package, path string, impor
 		if td, ok := d.(*ast.TypeDeclaration); ok {
 			name, ti := tc.checkTypeDeclaration(td)
 			if ti != nil {
-				tc.assignScope(name, ti, td.Ident)
+				tc.assignScope(name, ti, td.Ident, nil)
 			}
 		}
 	}
@@ -613,7 +618,7 @@ func checkPackage(compilation *compilation, pkg *ast.Package, path string, impor
 					ti.Properties |= propertyMacroDeclaredInFileWithExtends
 				}
 			}
-			tc.scopes.Declare(f.Ident.Name, ti, f.Ident)
+			tc.scopes.Declare(f.Ident.Name, ti, f.Ident, nil)
 		}
 	}
 
@@ -650,10 +655,11 @@ func checkPackage(compilation *compilation, pkg *ast.Package, path string, impor
 
 	// Create a package info and store it into the compilation.
 	compilation.pkgInfos[path] = &packageInfo{
-		Name:         pkg.Name,
-		Declarations: tc.scopes.ExportedDeclarations(),
-		IndirectVars: tc.compilation.indirectVars,
-		TypeInfos:    tc.compilation.typeInfos,
+		Name:             pkg.Name,
+		Declarations:     tc.scopes.ExportedDeclarations(),
+		DeclarationNodes: tc.scopes.ExportedDeclarationNodes(),
+		IndirectVars:     tc.compilation.indirectVars,
+		TypeInfos:        tc.compilation.typeInfos,
 	}
 
 	err = compilation.finalizeUsingStatements(tc)

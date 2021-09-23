@@ -4,6 +4,20 @@
 
 # News
 
+## Released Scriggo v0.52.1
+September 23, 2021
+
+For more details and binary releases see https://github.com/open2b/scriggo/releases/tag/v0.52.1
+
+### Add unsafeconv as builtin in scriggo serve
+
+Make the package [unsafeconv](/templates/builtins#unsafeconv) available as builtin package in templates rendered using `scriggo serve`.
+
+### Fix scriggo version
+
+Fix the version printed by `scriggo version` ([#882](https://github.com/open2b/scriggo/issues/882))
+
+
 ## Released Scriggo v0.52.0
 September 22, 2021
 
