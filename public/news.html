@@ -35,9 +35,9 @@
 <p>September 22, 2021</p>
 <p>For more details and binary releases see <a href="https://github.com/open2b/scriggo/releases/tag/v0.52.0">https://github.com/open2b/scriggo/releases/tag/v0.52.0</a></p>
 <p><strong>This version breaks the compatibility with previous versions.</strong></p>
-<h4 id="add-scriggo-command-binaries">Add scriggo command binaries.</h4>
+<h3 id="add-scriggo-command-binaries">Add scriggo command binaries.</h3>
 <p>Starting from this version, the binaries of the scriggo command are available on GitHub.</p>
-<h4 id="replace-envexit-with-envstop-breaking-change">Replace env.Exit with env.Stop (breaking change).</h4>
+<h3 id="replace-envexit-with-envstop-breaking-change">Replace env.Exit with env.Stop (breaking change).</h3>
 <p>This change replaces the Exit method of the native.Env interface
 with the Stop method. The Stop method has the same behaviour of
 Exit but accepts an error instead of a status code.</p>
@@ -49,8 +49,8 @@ env.Exit(2)
 <pre><code>env.Stop(nil)
 env.Stop(scriggo.NewExitError(2, nil))
 </code></pre>
-<h4 id="add-the-unsafeconv-package-as-built-in-in-templates">Add the unsafeconv package as built-in in templates.</h4>
-<h4 id="other-fixes-and-improvements">Other fixes and improvements.</h4>
+<h3 id="add-the-unsafeconv-package-as-built-in-in-templates">Add the unsafeconv package as built-in in templates.</h3>
+<h3 id="other-fixes-and-improvements">Other fixes and improvements.</h3>
 
         </div>
     </div>

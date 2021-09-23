@@ -11,11 +11,11 @@ For more details and binary releases see https://github.com/open2b/scriggo/relea
 
 **This version breaks the compatibility with previous versions.**
 
-#### Add scriggo command binaries.
+### Add scriggo command binaries.
 
 Starting from this version, the binaries of the scriggo command are available on GitHub.
 
-#### Replace env.Exit with env.Stop (breaking change).
+### Replace env.Exit with env.Stop (breaking change).
 
 This change replaces the Exit method of the native.Env interface
 with the Stop method. The Stop method has the same behaviour of
@@ -31,6 +31,6 @@ with this change, can be rewritten as
     env.Stop(nil)
     env.Stop(scriggo.NewExitError(2, nil))
 
-#### Add the unsafeconv package as built-in in templates.
+### Add the unsafeconv package as built-in in templates.
 
-#### Other fixes and improvements.
+### Other fixes and improvements.

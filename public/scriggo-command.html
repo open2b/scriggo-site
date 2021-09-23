@@ -93,10 +93,10 @@
 <h3 id="install-scriggo-command">Install <code>scriggo</code> command</h3>
 <p>Before installing the Scriggo command, <a href="https://golang.org/dl/">download and install Go</a>.</p>
 <p>When Go is installed, open a terminal and execute:</p>
-<pre><code>$ go install github.com/open2b/scriggo/cmd/scriggo@latest
+<pre><code class="language-shell">$ go install github.com/open2b/scriggo/cmd/scriggo@latest
 </code></pre>
 <p>then test if <code>scriggo</code> can be executed:</p>
-<pre><code>$ scriggo version
+<pre><code class="language-shell">$ scriggo version
 scriggo version 0.50.1 (go1.17)
 </code></pre>
 <p>If the <code>scriggo</code> command is not found, you should add the directory where the command has been installed to your <code>PATH</code>.</p>
@@ -104,13 +104,13 @@ scriggo version 0.50.1 (go1.17)
 defaults to <code>$GOPATH/bin</code> or, if the <code>GOPATH</code> environment variable is not set, to <code>$HOME/go/bin</code>.</p>
 <h3 id="get-help-from-command-line">Get help from command line</h3>
 <p>To get help from the command line run the following command:</p>
-<pre><code>$ scriggo help
+<pre><code class="language-shell">$ scriggo help
 </code></pre>
 <h2 id="serve-a-template">Serve a template</h2>
 <p>The Scriggo Serve command runs a web server and serves the template rooted at the current directory.
 All Scriggo builtins are available in template files. It is useful to learn <a href="/templates">Scriggo templates</a>.</p>
 <p>The basic Serve command takes this form:</p>
-<pre><code>$ scriggo serve
+<pre><code class="language-shell">$ scriggo serve
 </code></pre>
 <p>It renders HTML and Markdown files based on file extension.</p>
 <p>For example, serving this request:</p>
@@ -126,7 +126,7 @@ All Scriggo builtins are available in template files. It is useful to learn <a h
 <p>Templates are automatically rebuilt when a file changes.</p>
 <h3 id="complete-syntax">Complete syntax</h3>
 <p>The complete <code>scriggo serve</code> command takes this form:</p>
-<pre><code>$ scriggo serve [-S n] [--metrics] 
+<pre><code class="language-shell">$ scriggo serve [-S n] [--metrics] 
 </code></pre>
 <p>The <code>-S</code> flag prints the assembly code of the served file and n determines the maximum length, in runes, of
 disassembled <code>Text</code> instructions</p>
@@ -145,7 +145,7 @@ n &lt; 0: all text
 <li>Scriggofile</li>
 </ul>
 <p>The syntax is:</p>
-<pre><code>$ scriggo init [dir]
+<pre><code class="language-shell">$ scriggo init [dir]
 </code></pre>
 <p>where <code>dir</code> is the directory in which to create the files. If no argument is given, <code>scriggo init</code> uses the current directory.
 If the directory already contains &quot;.go&quot; files or a &quot;vendor&quot; directory, the command fails.</p>
@@ -156,16 +156,16 @@ If the directory already contains &quot;.go&quot; files or a &quot;vendor&quot; 
 when an &quot;import&quot; declaration is executed.</p>
 <p>The code for the importer is generated from the instructions in a Scriggofile. The Scriggofile should be in a Go module.</p>
 <p>The basic Import command takes this form:</p>
-<pre><code>$ scriggo import [-o output]
+<pre><code class="language-shell">$ scriggo import [-o output]
 </code></pre>
 <p>For example:</p>
-<pre><code>$ scriggo import -o packages.go
+<pre><code class="language-shell">$ scriggo import -o packages.go
 </code></pre>
 <p>generates the code for an importer, with instructions in a Scriggofile called &quot;Scriggofile&quot; in the current directory
 and writes it into the file &quot;packages.go&quot;.</p>
 <h3 id="complete-syntax-1">Complete syntax</h3>
 <p>The complete <code>scriggo import</code> command takes this form:</p>
-<pre><code>$ scriggo import [-f Scriggofile] [-v] [-x] [-o output] [module]
+<pre><code class="language-shell">$ scriggo import [-f Scriggofile] [-v] [-x] [-o output] [module]
 </code></pre>
 <p>If an argument is given, it must be a local rooted path or must begin with a <code>.</code> or <code>..</code> element and it must be a module
 root directory. Import looks for a Scriggofile named &quot;Scriggofile&quot; in that directory.</p>
