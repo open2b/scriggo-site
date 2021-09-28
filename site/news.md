@@ -4,6 +4,16 @@
 
 # News
 
+## Released Scriggo v0.52.2
+September 28, 2021
+
+For more details and binary releases see https://github.com/open2b/scriggo/releases/tag/v0.52.2
+
+### Fix serialization of struct in JS and JSON contexts
+
+Fix the serialization of struct field values in JS and JSON contexts.
+
+
 ## Released Scriggo v0.52.1
 September 23, 2021
 
