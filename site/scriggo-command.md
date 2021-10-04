@@ -6,11 +6,16 @@
 
 Scriggo has a command line interface, the `scriggo` command, that allows to:
 
+* [run a template file](#run-a-template-file)
 * [serve templates with support for Markdown](#serve-a-template)
 * [initialize an interpreter for Go programs](#initialize-an-interpreter)
 * [generate the code for package importers](#generate-a-package-importer)
 
-### Install `scriggo` command
+### Get the `scriggo` command
+
+You can get the binary of the scriggo command from the [releases](https://github.com/open2b/scriggo/releases/) page.
+
+Alternatively, you can install the command with the `go install` command as explained below.
 
 Before installing the Scriggo command, <a href="https://golang.org/dl/">download and install Go</a>.
 
@@ -24,7 +29,7 @@ then test if `scriggo` can be executed:
 
 ```shell
 $ scriggo version
-scriggo version v0.52.2 (go1.17)
+scriggo version v0.53.0 (go1.17)
 ```
 
 If the `scriggo` command is not found, you should add the directory where the command has been installed to your `PATH`.
@@ -39,6 +44,80 @@ To get help from the command line run the following command:
 
 ```shell
 $ scriggo help
+```
+
+## Run a template file
+
+The Scriggo Run command runs a template file and its extended, imported and rendered files. All Scriggo builtins are
+available in the template file.
+
+The basic Run command takes this form:
+
+```shell
+$ scriggo run [-o output] file
+```
+
+For example:
+
+```shell
+scriggo run article.html
+```
+
+runs the file "article.html" as HTML and prints the result to the standard output. Extended, imported and rendered file
+paths are relative to the directory of the executed file.
+
+The `-o` flag writes the result to the named output file or directory, instead to the standard output.
+
+Markdown is converted to HTML with the Goldmark parser with the options `html.WithUnsafe`, `parser.WithAutoHeadingID`
+and `extension.GFM`.
+
+### Complete syntax
+
+The complete `scriggo run` command takes this form:
+
+```shell
+$ scriggo run [-o output] [-root dir] [-const name=value] [-format format] [-metrics] [-S n] file 
+```
+
+The `-o` flag writes the resulting code to the named output file or directory.
+
+The `-root` flag sets the root directory to named directory instead of the file's directory.
+
+The `-const` flag runs the template file with a global constant with the given name and value. name should be a Go
+identifier and value should be a string literal, a number literal, true or false. There can be multiple `name=value`
+pairs.
+
+The `-format` flag forces render to use the named file format.
+
+The `-metrics` flag prints metrics about execution time.
+
+The `-S` flag prints the assembly code of the executed file and n determines the maximum length, in runes, of
+disassembled `Text` instructions
+
+    n > 0: at most n runes; leading and trailing white space are removed
+    n == 0: no text
+    n < 0: all text
+
+### Examples
+
+```shell
+$ scriggo run index.html
+```
+
+```shell
+$ scriggo run -const 'version=1.12 title="The ancient art of tea"' index.md
+```
+
+```shell
+$ scriggo run -root . docs/article.html
+```
+
+```shell
+$ scriggo run -format Markdown index
+```
+
+```shell
+$ scriggo run -o ./public ./sources/index.html
 ```
 
 ## Serve a template

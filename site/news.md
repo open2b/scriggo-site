@@ -4,6 +4,49 @@
 
 # News
 
+## Released Scriggo v0.53.0
+October 04, 2021
+
+For more details and binary releases see https://github.com/open2b/scriggo/releases/tag/v0.53.0
+
+**This version breaks the compatibility with previous versions.**
+
+#### Implement the 'scriggo run' command.
+
+The new Run command executes a template file and its extended, imported and rendered files:
+
+```shell
+$ scriggo run index.html
+```
+
+All Scriggo builtins are available in template files. See the [scriggo command](https://scriggo.com/scriggo-command#run-a-template-file) for the complete syntax.
+
+#### Discard shebang line in templates (breaking change).
+
+Discards a shebang line in a template file. In this way the template file can have a shebang as first line:
+
+{% raw %}
+
+```scriggo
+#!/usr/bin/scriggo run
+{% extends "layout.html" %}
+{% Article %}
+```
+
+{% end raw %}
+
+#### Fix BuildTemplate to get the format from a FormatFS file system.
+
+If a file system implements the FormatFS interface, Scriggo calls its Format method to get the file format.
+This didn't work and this release fixes it.
+
+#### Other relevant commits
+
+* all: improve documentation about contribution and testing
+* compiler/checker: fix setValue in case of Scriggo defined complex type
+* compiler/emitter: fix changeRegister in case of conversion
+
+
 ## Released Scriggo v0.52.2
 September 28, 2021
 

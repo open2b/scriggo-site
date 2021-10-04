@@ -22,7 +22,7 @@
 <body>
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
-    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.52.2</a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.53.0</a>
     <ul>
         <li><a href="/news">News</a></li>
         <li><a href="/what-is-scriggo" class="selected">Documentation</a></li>
@@ -40,6 +40,8 @@
                 <li><a href="/what-is-scriggo" >What is Scriggo?</a>
 </li>
                 <li><a href="/get-started" >Get Started</a>
+</li>
+                <li><a href="/scriggo-command"  class="selected" >Scriggo command</a>
 </li>
                 <li><a href="/how-to-use" >How to use</a>
 </li>
@@ -71,8 +73,6 @@
 </li>
                     </ul>
                 </li>
-                <li><a href="/scriggo-command"  class="selected" >Scriggo command</a>
-</li>
                 <li><a href="/scriggofile" >Scriggofile</a>
 </li>
                 <li><a href="/disassembler" >Disassembler</a>
@@ -86,18 +86,21 @@
             <h1 id="scriggo-command">Scriggo command</h1>
 <p>Scriggo has a command line interface, the <code>scriggo</code> command, that allows to:</p>
 <ul>
+<li><a href="#run-a-template-file">run a template file</a></li>
 <li><a href="#serve-a-template">serve templates with support for Markdown</a></li>
 <li><a href="#initialize-an-interpreter">initialize an interpreter for Go programs</a></li>
 <li><a href="#generate-a-package-importer">generate the code for package importers</a></li>
 </ul>
-<h3 id="install-scriggo-command">Install <code>scriggo</code> command</h3>
+<h3 id="get-the-scriggo-command">Get the <code>scriggo</code> command</h3>
+<p>You can get the binary of the scriggo command from the <a href="https://github.com/open2b/scriggo/releases/">releases</a> page.</p>
+<p>Alternatively, you can install the command with the <code>go install</code> command as explained below.</p>
 <p>Before installing the Scriggo command, <a href="https://golang.org/dl/">download and install Go</a>.</p>
 <p>When Go is installed, open a terminal and execute:</p>
 <pre><code class="language-shell">$ go install github.com/open2b/scriggo/cmd/scriggo@latest
 </code></pre>
 <p>then test if <code>scriggo</code> can be executed:</p>
 <pre><code class="language-shell">$ scriggo version
-scriggo version v0.52.2 (go1.17)
+scriggo version v0.53.0 (go1.17)
 </code></pre>
 <p>If the <code>scriggo</code> command is not found, you should add the directory where the command has been installed to your <code>PATH</code>.</p>
 <p><code>go</code> installs the <code>scriggo</code> command in the directory named by the <code>GOBIN</code> environment variable. If it is not set it
@@ -105,6 +108,48 @@ defaults to <code>$GOPATH/bin</code> or, if the <code>GOPATH</code> environment 
 <h3 id="get-help-from-command-line">Get help from command line</h3>
 <p>To get help from the command line run the following command:</p>
 <pre><code class="language-shell">$ scriggo help
+</code></pre>
+<h2 id="run-a-template-file">Run a template file</h2>
+<p>The Scriggo Run command runs a template file and its extended, imported and rendered files. All Scriggo builtins are
+available in the template file.</p>
+<p>The basic Run command takes this form:</p>
+<pre><code class="language-shell">$ scriggo run [-o output] file
+</code></pre>
+<p>For example:</p>
+<pre><code class="language-shell">scriggo run article.html
+</code></pre>
+<p>runs the file &quot;article.html&quot; as HTML and prints the result to the standard output. Extended, imported and rendered file
+paths are relative to the directory of the executed file.</p>
+<p>The <code>-o</code> flag writes the result to the named output file or directory, instead to the standard output.</p>
+<p>Markdown is converted to HTML with the Goldmark parser with the options <code>html.WithUnsafe</code>, <code>parser.WithAutoHeadingID</code>
+and <code>extension.GFM</code>.</p>
+<h3 id="complete-syntax">Complete syntax</h3>
+<p>The complete <code>scriggo run</code> command takes this form:</p>
+<pre><code class="language-shell">$ scriggo run [-o output] [-root dir] [-const name=value] [-format format] [-metrics] [-S n] file 
+</code></pre>
+<p>The <code>-o</code> flag writes the resulting code to the named output file or directory.</p>
+<p>The <code>-root</code> flag sets the root directory to named directory instead of the file's directory.</p>
+<p>The <code>-const</code> flag runs the template file with a global constant with the given name and value. name should be a Go
+identifier and value should be a string literal, a number literal, true or false. There can be multiple <code>name=value</code>
+pairs.</p>
+<p>The <code>-format</code> flag forces render to use the named file format.</p>
+<p>The <code>-metrics</code> flag prints metrics about execution time.</p>
+<p>The <code>-S</code> flag prints the assembly code of the executed file and n determines the maximum length, in runes, of
+disassembled <code>Text</code> instructions</p>
+<pre><code>n &gt; 0: at most n runes; leading and trailing white space are removed
+n == 0: no text
+n &lt; 0: all text
+</code></pre>
+<h3 id="examples">Examples</h3>
+<pre><code class="language-shell">$ scriggo run index.html
+</code></pre>
+<pre><code class="language-shell">$ scriggo run -const 'version=1.12 title=&quot;The ancient art of tea&quot;' index.md
+</code></pre>
+<pre><code class="language-shell">$ scriggo run -root . docs/article.html
+</code></pre>
+<pre><code class="language-shell">$ scriggo run -format Markdown index
+</code></pre>
+<pre><code class="language-shell">$ scriggo run -o ./public ./sources/index.html
 </code></pre>
 <h2 id="serve-a-template">Serve a template</h2>
 <p>The Scriggo Serve command runs a web server and serves the template rooted at the current directory.
@@ -124,7 +169,7 @@ All Scriggo builtins are available in template files. It is useful to learn <a h
 <p>Markdown is converted to HTML with the <a href="https://github.com/yuin/goldmark">Goldmark</a> parser with the options
 <code>html.WithUnsafe</code>, <code>parser.WithAutoHeadingID</code> and <code>extension.GFM</code>.</p>
 <p>Templates are automatically rebuilt when a file changes.</p>
-<h3 id="complete-syntax">Complete syntax</h3>
+<h3 id="complete-syntax-1">Complete syntax</h3>
 <p>The complete <code>scriggo serve</code> command takes this form:</p>
 <pre><code class="language-shell">$ scriggo serve [-S n] [--metrics] 
 </code></pre>
@@ -163,7 +208,7 @@ when an &quot;import&quot; declaration is executed.</p>
 </code></pre>
 <p>generates the code for an importer, with instructions in a Scriggofile called &quot;Scriggofile&quot; in the current directory
 and writes it into the file &quot;packages.go&quot;.</p>
-<h3 id="complete-syntax-1">Complete syntax</h3>
+<h3 id="complete-syntax-2">Complete syntax</h3>
 <p>The complete <code>scriggo import</code> command takes this form:</p>
 <pre><code class="language-shell">$ scriggo import [-f Scriggofile] [-v] [-x] [-o output] [module]
 </code></pre>
