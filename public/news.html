@@ -18,7 +18,7 @@
 <body>
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
-    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.53.0</a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.53.1</a>
     <ul>
         <li><a href="/news" class="selected">News</a></li>
         <li><a href="/what-is-scriggo">Documentation</a></li>
@@ -31,25 +31,39 @@
     <div class="wrap">
         <div class="content">
             <h1 id="news">News</h1>
+<h2 id="released-scriggo-v0531">Released Scriggo v0.53.1</h2>
+<p>October 12, 2021</p>
+<p>For more details and binary releases see <a href="https://github.com/open2b/scriggo/releases/tag/v0.53.1">https://github.com/open2b/scriggo/releases/tag/v0.53.1</a></p>
+<h3 id="optimizations">Optimizations</h3>
+<ul>
+<li>cmd/scriggo: improve 'run' execution time using an I/O buffer</li>
+<li>compiler/emitter: reuse registers after emitting 'show' statement</li>
+</ul>
+<h3 id="fixes">Fixes</h3>
+<ul>
+<li>compiler/checker: fix conversion from untyped int constant to float64</li>
+<li>compiler/parser: fix parsing of literal numbers</li>
+<li>compiler/builder: fix 32-bit compilation of Scriggo</li>
+</ul>
 <h2 id="released-scriggo-v0530">Released Scriggo v0.53.0</h2>
 <p>October 04, 2021</p>
 <p>For more details and binary releases see <a href="https://github.com/open2b/scriggo/releases/tag/v0.53.0">https://github.com/open2b/scriggo/releases/tag/v0.53.0</a></p>
 <p><strong>This version breaks the compatibility with previous versions.</strong></p>
-<h4 id="implement-the-scriggo-run-command">Implement the 'scriggo run' command.</h4>
+<h3 id="implement-the-scriggo-run-command">Implement the 'scriggo run' command.</h3>
 <p>The new Run command executes a template file and its extended, imported and rendered files:</p>
 <pre><code class="language-shell">$ scriggo run index.html
 </code></pre>
 <p>All Scriggo builtins are available in template files. See the <a href="https://scriggo.com/scriggo-command#run-a-template-file">scriggo command</a> for the complete syntax.</p>
-<h4 id="discard-shebang-line-in-templates-breaking-change">Discard shebang line in templates (breaking change).</h4>
+<h3 id="discard-shebang-line-in-templates-breaking-change">Discard shebang line in templates (breaking change).</h3>
 <p>Discards a shebang line in a template file. In this way the template file can have a shebang as first line:</p>
 <pre><code class="language-scriggo">#!/usr/bin/scriggo run
 {% extends &quot;layout.html&quot; %}
 {% Article %}
 </code></pre>
-<h4 id="fix-buildtemplate-to-get-the-format-from-a-formatfs-file-system">Fix BuildTemplate to get the format from a FormatFS file system.</h4>
+<h3 id="fix-buildtemplate-to-get-the-format-from-a-formatfs-file-system">Fix BuildTemplate to get the format from a FormatFS file system.</h3>
 <p>If a file system implements the FormatFS interface, Scriggo calls its Format method to get the file format.
 This didn't work and this release fixes it.</p>
-<h4 id="other-relevant-commits">Other relevant commits</h4>
+<h3 id="other-relevant-commits">Other relevant commits</h3>
 <ul>
 <li>all: improve documentation about contribution and testing</li>
 <li>compiler/checker: fix setValue in case of Scriggo defined complex type</li>

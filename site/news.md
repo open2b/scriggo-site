@@ -4,6 +4,23 @@
 
 # News
 
+## Released Scriggo v0.53.1
+October 12, 2021
+
+For more details and binary releases see https://github.com/open2b/scriggo/releases/tag/v0.53.1
+
+### Optimizations
+
+* cmd/scriggo: improve 'run' execution time using an I/O buffer
+* compiler/emitter: reuse registers after emitting 'show' statement
+
+### Fixes
+
+* compiler/checker: fix conversion from untyped int constant to float64
+* compiler/parser: fix parsing of literal numbers
+* compiler/builder: fix 32-bit compilation of Scriggo
+
+
 ## Released Scriggo v0.53.0
 October 04, 2021
 
@@ -11,7 +28,7 @@ For more details and binary releases see https://github.com/open2b/scriggo/relea
 
 **This version breaks the compatibility with previous versions.**
 
-#### Implement the 'scriggo run' command.
+### Implement the 'scriggo run' command.
 
 The new Run command executes a template file and its extended, imported and rendered files:
 
@@ -21,7 +38,7 @@ $ scriggo run index.html
 
 All Scriggo builtins are available in template files. See the [scriggo command](https://scriggo.com/scriggo-command#run-a-template-file) for the complete syntax.
 
-#### Discard shebang line in templates (breaking change).
+### Discard shebang line in templates (breaking change).
 
 Discards a shebang line in a template file. In this way the template file can have a shebang as first line:
 
@@ -35,12 +52,12 @@ Discards a shebang line in a template file. In this way the template file can ha
 
 {% end raw %}
 
-#### Fix BuildTemplate to get the format from a FormatFS file system.
+### Fix BuildTemplate to get the format from a FormatFS file system.
 
 If a file system implements the FormatFS interface, Scriggo calls its Format method to get the file format.
 This didn't work and this release fixes it.
 
-#### Other relevant commits
+### Other relevant commits
 
 * all: improve documentation about contribution and testing
 * compiler/checker: fix setValue in case of Scriggo defined complex type
