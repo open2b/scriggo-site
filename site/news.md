@@ -4,6 +4,23 @@
 
 # News
 
+## Released Scriggo v0.53.3
+October 21, 2021
+
+For more details and binary releases see https://github.com/open2b/scriggo/releases/tag/v0.53.3
+
+### Fixes
+
+* builtin: fix time tests
+
+  Time tests depended on the local time zone and passed only in CET time zone.
+
+* compiler/checker: fix panic on redeclared as imported package name
+
+  If a native imported package name was redeclared, an internal error would occur instead of returning a 'redeclared as
+  imported package name' error.
+
+
 ## Released Scriggo v0.53.2
 October 20, 2021
 
