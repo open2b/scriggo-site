@@ -4,6 +4,22 @@
 
 # News
 
+## Released Scriggo v0.53.4
+October 27, 2021
+
+For more details and binary releases see https://github.com/open2b/scriggo/releases/tag/v0.53.4
+
+### Fixes
+
+* compiler/emitter,runtime: fix addressability of values read by GetVar
+
+  Invalid behavior occurred when assigning to slices, pointers, or maps at the package level.
+
+* compiler/disassembler: fix panic disassembling 'MapIndex' operation
+
+  Disassembling code with an index expression on a map resulted in a panic.
+
+
 ## Released Scriggo v0.53.3
 October 21, 2021
 
