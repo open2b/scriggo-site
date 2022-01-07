@@ -4,6 +4,24 @@
 
 # News
 
+## Released Scriggo v0.53.5
+January 07, 2022
+
+For more details and binary releases see https://github.com/open2b/scriggo/releases/tag/v0.53.5
+
+### Fixes
+
+* compiler/checker: fix const shift expression with untyped left operand
+
+* compiler/emitter: fix panic involving operations on pointer values
+
+* compiler/checker: return error in case of parenthesis around ident on :=
+
+* compiler/checker: fix call to 'setValue'
+
+* compiler/parser: fix error message on not existent path
+
+
 ## Released Scriggo v0.53.4
 October 27, 2021
 
