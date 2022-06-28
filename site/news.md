@@ -4,6 +4,35 @@
 
 # News
 
+## Released Scriggo v0.54.0
+June 28, 2022
+
+For more details and binary releases see https://github.com/open2b/scriggo/releases/tag/v0.54.0
+
+**This version breaks the compatibility with previous versions.**
+
+### Changes
+
+* compiler/checker: don't consider 'make(...)' a constant function call **(breaking change)**
+
+* runtime: implement range over channels
+
+* all: add 'else' statement to the 'for in' and 'for range' statements
+
+* scriggo: update dependencies
+
+### Optimizations
+
+* compiler/emitter, runtime: simplify 'for range' instruction with 'break'
+
+### Fixes
+
+* compiler/checker: fix terminating statements
+
+* ast: add '(*Block).String' method
+
+* ast/utils: don't panic '(*dumper).Visit' if a block has nil position
+
 ## Released Scriggo v0.53.5
 January 07, 2022
 

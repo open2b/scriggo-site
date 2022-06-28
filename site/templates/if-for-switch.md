@@ -66,7 +66,7 @@ Scriggo also supports the _else if_ form:
 
 ## For
 
-The `for` statement iterates over a [slice](/templates/types#slice) (but also a maps, a strings and a channel ).
+The `for` statement iterates over a [slice](/templates/types#slice) (but also a map, a string and a channel).
 For example:
 
 ```scriggo
@@ -77,6 +77,18 @@ For example:
 
 It assigns an element to a variable in each iteration. In the previous example, the `article` variable is implicitly
 declared and has the same type of the elements of `articles`. It is only visible in the body of the `for` statement.
+
+With this _for_ statement form, you can use an _else_ block:
+
+```scriggo
+{% for article in articles %}
+  <div>{{ article.Title }}</div>
+{% else %}
+   <div>There are no articles</div>
+{% end %}
+```
+
+The _else_ block is executed if the _for_ block is not executed. 
 
 This _for_ statement form can be used only in templates, but you can also use all the other forms of the _for_
 statement that can be used in programs.
@@ -89,6 +101,16 @@ from zero:
 ```scriggo
 {% for i, article := range articles %}
   <div>{{ i+1 }}. {{ article.Title }}</div>
+{% end %}
+```
+
+Also in the _for range_ form you can use an _else_ block that is executed if the _for_ block is not executed.
+
+```scriggo
+{% for i, article := range articles %}
+  <div>{{ i+1 }}. {{ article.Title }}</div>
+{% else %}
+   <div>There are no articles</div>
 {% end %}
 ```
 

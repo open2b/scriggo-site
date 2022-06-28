@@ -22,7 +22,7 @@
 <body>
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
-    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.53.5</a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.54.0</a>
     <ul>
         <li><a href="/news">News</a></li>
         <li><a href="/what-is-scriggo" class="selected">Documentation</a></li>
@@ -128,7 +128,7 @@ map[int]string{} // is false, it is an empty map
 </code></pre>
 <pre class="result">  Wide availability</pre>
 <h2 id="for">For</h2>
-<p>The <code>for</code> statement iterates over a <a href="/templates/types#slice">slice</a> (but also a maps, a strings and a channel ).
+<p>The <code>for</code> statement iterates over a <a href="/templates/types#slice">slice</a> (but also a map, a string and a channel).
 For example:</p>
 <pre><code class="language-scriggo">{% for article in articles %}
   &lt;div&gt;{{ article.Title }}&lt;/div&gt;
@@ -136,6 +136,14 @@ For example:</p>
 </code></pre>
 <p>It assigns an element to a variable in each iteration. In the previous example, the <code>article</code> variable is implicitly
 declared and has the same type of the elements of <code>articles</code>. It is only visible in the body of the <code>for</code> statement.</p>
+<p>With this <em>for</em> statement form, you can use an <em>else</em> block:</p>
+<pre><code class="language-scriggo">{% for article in articles %}
+  &lt;div&gt;{{ article.Title }}&lt;/div&gt;
+{% else %}
+   &lt;div&gt;There are no articles&lt;/div&gt;
+{% end %}
+</code></pre>
+<p>The <em>else</em> block is executed if the <em>for</em> block is not executed.</p>
 <p>This <em>for</em> statement form can be used only in templates, but you can also use all the other forms of the <em>for</em>
 statement that can be used in programs.</p>
 <h3 id="for-range">for range</h3>
@@ -143,6 +151,13 @@ statement that can be used in programs.</p>
 from zero:</p>
 <pre><code class="language-scriggo">{% for i, article := range articles %}
   &lt;div&gt;{{ i+1 }}. {{ article.Title }}&lt;/div&gt;
+{% end %}
+</code></pre>
+<p>Also in the <em>for range</em> form you can use an <em>else</em> block that is executed if the <em>for</em> block is not executed.</p>
+<pre><code class="language-scriggo">{% for i, article := range articles %}
+  &lt;div&gt;{{ i+1 }}. {{ article.Title }}&lt;/div&gt;
+{% else %}
+   &lt;div&gt;There are no articles&lt;/div&gt;
 {% end %}
 </code></pre>
 <h3 id="for-condition">for condition</h3>

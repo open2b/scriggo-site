@@ -22,7 +22,7 @@
 <body>
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
-    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.53.5</a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.54.0</a>
     <ul>
         <li><a href="/news">News</a></li>
         <li><a href="/what-is-scriggo" class="selected">Documentation</a></li>
@@ -376,17 +376,18 @@ a compile-time error occurs if used.</p>
 If the expression evaluate to truthful value, the &quot;if&quot; branch is executed, otherwise, if present,
 the &quot;else&quot; branch is executed.</p>
 <h3 id="for-statement">For statement</h3>
-<p>The &quot;for&quot; statement is extended with a fourth form</p>
-<pre><code>ForStmt  = &quot;for&quot; [ Condition | ForClause | RangeClause | InClause ] Block .
+<p>The &quot;for&quot; statement is extended with a fourth form and an &quot;else&quot; block.</p>
+<pre><code>ForStmt  = &quot;for&quot; ( [ Condition | ForClause ] Block | [ RangeClause | InClause ] Block [ &quot;else&quot; Block ] ) .
 InClause = Identifier &quot;in&quot; Expression .
 </code></pre>
-<p>A &quot;for&quot; statement with a &quot;in&quot; clause is the same of a &quot;for&quot; statement with a &quot;range&quot; clause with the first identifier only and the short assignment.</p>
+<p>A &quot;for&quot; statement with an &quot;in&quot; clause is the same of a &quot;for&quot; statement with a &quot;range&quot; clause with the first identifier only and the short assignment.</p>
 <pre><code>for i in s { }
 
 // is the same of
 
 for i := range s { } 
 </code></pre>
+<p>A &quot;for&quot; statement with an &quot;else&quot; block, the &quot;else&quot; block is executed if the &quot;for&quot; block is not executed.</p>
 <h3 id="show-statement">Show statement</h3>
 <p>The <em>show</em> statement formats the expressions, according to the expression type and the context. If <em>show</em> is used
 in a macro, the formatted values are appended to the macro response value, otherwise the formatted values are printed

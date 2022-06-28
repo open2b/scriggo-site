@@ -409,14 +409,14 @@ the "else" branch is executed.
 
 ### For statement
 
-The "for" statement is extended with a fourth form
+The "for" statement is extended with a fourth form and an "else" block.
 
 ```
-ForStmt  = "for" [ Condition | ForClause | RangeClause | InClause ] Block .
+ForStmt  = "for" ( [ Condition | ForClause ] Block | [ RangeClause | InClause ] Block [ "else" Block ] ) .
 InClause = Identifier "in" Expression .
 ```
 
-A "for" statement with a "in" clause is the same of a "for" statement with a "range" clause with the first identifier only and the short assignment.
+A "for" statement with an "in" clause is the same of a "for" statement with a "range" clause with the first identifier only and the short assignment.
 
 ```
 for i in s { }
@@ -425,6 +425,8 @@ for i in s { }
 
 for i := range s { } 
 ```
+
+A "for" statement with an "else" block, the "else" block is executed if the "for" block is not executed.
 
 ### Show statement
 
