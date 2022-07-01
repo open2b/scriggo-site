@@ -381,6 +381,16 @@ can be rewritten in Scriggo just changing the closing tag:
 </ul>
 ```
 
+Scriggo, like Jinja, supports an _else_ block:
+
+```scriggo
+{% for user in users %}
+  <div>{{ user.username }}</div>
+{% else %}
+  <div>There are no users</div> 
+{% end for %}
+```
+
 ### If
 
 Scriggo has the _if_ statement with optional _else_.

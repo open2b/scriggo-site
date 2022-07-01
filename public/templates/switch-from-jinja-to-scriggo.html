@@ -346,6 +346,13 @@ strings.</p>
 {% end for %}
 &lt;/ul&gt;
 </code></pre>
+<p>Scriggo, like Jinja, supports an <em>else</em> block:</p>
+<pre><code class="language-scriggo">{% for user in users %}
+  &lt;div&gt;{{ user.username }}&lt;/div&gt;
+{% else %}
+  &lt;div&gt;There are no users&lt;/div&gt; 
+{% end for %}
+</code></pre>
 <h3 id="if">If</h3>
 <p>Scriggo has the <em>if</em> statement with optional <em>else</em>.
 The condition can be any expression of any type.</p>
