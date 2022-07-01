@@ -17,7 +17,7 @@ For more details and binary releases see https://github.com/open2b/scriggo/relea
 
 * runtime: implement range over channels
 
-* all: add 'else' statement to the 'for in' and 'for range' statements
+* all: add 'else' statement to the 'for in' and 'for range' statements **(breaking change)**
 
 * scriggo: update dependencies
 
