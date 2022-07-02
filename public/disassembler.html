@@ -277,7 +277,7 @@ var e *S
 <p>The instruction <code>Assert</code> asserts that the value addressed by <code>x</code> is not <code>nil</code> and it is of type <code>T</code>.</p>
 <pre><code class="language-go">Syntax:  Assert x T v ; description: v, ok = x.(T)
 </code></pre>
-<p>If the type assertion holds, it stores the the resulting value into the register <code>v</code> (the register type depends on the type <code>T</code>), sets the <code>ok</code> flag to <code>true</code> and skips the next instruction.</p>
+<p>If the type assertion holds, it stores the resulting value into the register <code>v</code> (the register type depends on the type <code>T</code>), sets the <code>ok</code> flag to <code>true</code> and skips the next instruction.</p>
 <p>If the type assertion is false, it sets the <code>ok</code> flag to <code>false</code> and, if the next instruction is a <code>Panic</code>, does a run-time panic. TODO: document the <code>Panic</code> operand.</p>
 <h3 id="break">Break</h3>
 <p>The instruction <code>Break</code> breaks a previous executed <code>Range</code> instruction at label <code>label</code>.</p>
