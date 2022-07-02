@@ -6,7 +6,7 @@
 
 # Types
 
-Scriggo implements all [types of Go](https://golang.org/ref/spec#Types) but only the most common types
+Scriggo implements all [types of Go](https://go.dev/ref/spec#Types) but only the most common types
 are documented here.
 
 All values in Scriggo have a type and there are several basic types.

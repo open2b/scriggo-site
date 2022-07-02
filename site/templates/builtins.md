@@ -706,7 +706,7 @@ Formats according to a format specifier and returns the resulting string.
 ```
 <div class="result"><pre>Sherlock Holmes is 60 years old</pre></div>
 
-sprintf takes the same arguments and behaves like the [fmt.Sprintf](https://golang.org/pkg/fmt/#Sprintf) function of
+sprintf takes the same arguments and behaves like the [fmt.Sprintf](https://pkg.go.dev/fmt#Sprintf) function of
 the Go standard library.
 
 ### toKebab

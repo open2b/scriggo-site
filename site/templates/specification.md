@@ -50,7 +50,7 @@
 
 This is a reference manual for Scriggo templates.
 
-The Scriggo template specification is based on the Go language specification, see <a href="https://golang.org/ref/spec">golang.org/spec</a>. The Go specification applies, except as written in this specification.
+The Scriggo template specification is based on the Go language specification, see <a href="https://go.dev/ref/spec">go.dev/ref/spec</a>. The Go specification applies, except as written in this specification.
 
 ## Template source code representation
 

@@ -46,7 +46,7 @@ For example:
 ```
 
 There are other operator, but they are not discussed in this documentation (see the
-[Go specification](https://golang.org/ref/spec#Operators)). 
+[Go specification](https://go.dev/ref/spec#Operators)). 
 
 The following table shows which operators can be used with which type:
 

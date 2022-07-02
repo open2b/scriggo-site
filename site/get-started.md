@@ -12,7 +12,7 @@ In this get started you will learn how to embed Go programs in your applications
 
 It requires 10 minutes to be completed.
 
-Before you start using Scriggo in a Go application you must <a href="https://golang.org/dl/">download and install Go</a>.
+Before you start using Scriggo in a Go application you must <a href="https://go.dev/dl/">download and install Go</a>.
 
 ## Embed Go programs in your application
 

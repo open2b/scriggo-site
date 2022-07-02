@@ -17,7 +17,7 @@ You can get the binary of the scriggo command from the [releases](https://github
 
 Alternatively, you can install the command with the `go install` command as explained below.
 
-Before installing the Scriggo command, <a href="https://golang.org/dl/">download and install Go</a>.
+Before installing the Scriggo command, <a href="https://go.dev/dl/">download and install Go</a>.
 
 When Go is installed, open a terminal and execute:
 

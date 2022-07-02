@@ -143,7 +143,7 @@ is equivalent to this one:
 ```
 
 The short assignment is a bit more complex, therefore read the
-[Go language documentation](https://golang.org/doc/effective_go#redeclaration) before using it with multiple variables.
+[Go language documentation](https://go.dev/doc/effective_go#redeclaration) before using it with multiple variables.
 
 Multiple assignment is useful for example for swap the values of two variables:
 

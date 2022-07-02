@@ -817,7 +817,7 @@ Now you can check out these resources:
 - [Get started with templates](/get-started-2#execute-templates-in-your-application),
   which provides a tutorial on embedding Scriggo templates in your Go application.
 - [The Scriggo Template Specification](/templates/specification), which expands the [Go
-  language specification](https://golang.org/ref/spec) covering every aspect of the
+  language specification](https://go.dev/ref/spec) covering every aspect of the
   Scriggo template in detail.
 
 {% end raw document %}
