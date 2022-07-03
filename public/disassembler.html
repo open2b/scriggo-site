@@ -135,7 +135,7 @@ var d time.Time
 var e *S
 </code></pre>
 <h2 id="emokem-flag"><em>ok</em> flag</h2>
-<p>In addition to the registers for called functions, there is special boolean <code>ok</code> flag used by <code>Assert</code>, <code>Receive</code> and <code>If</code> instructions.</p>
+<p>In addition to the registers for called functions, there is special boolean <code>ok</code> flag used by <code>Assert</code>, <code>If</code>, <code>MapIndex</code>, <code>Select</code>, <code>Range</code> and <code>Receive</code> instructions.</p>
 <h2 id="package-clause">Package clause</h2>
 <p>The clause <code>Package</code> begins a disassembled code and defines the package to which the code belongs.</p>
 <pre><code class="language-go">Syntax:  Package name ; description: package name
@@ -533,7 +533,7 @@ Call Serve i2 _ s1 _
 <pre><code class="language-go">Syntax: MakeStruct T s ; description: var s T
 </code></pre>
 <h3 id="mapindex">MapIndex</h3>
-<p>The instruction <code>MapIndex</code> gets from the map addressed by <code>m</code> the element with key addressed by <code>k</code> and stores its value in <code>v</code>.</p>
+<p>The instruction <code>MapIndex</code> gets from the map addressed by <code>m</code> the element with key addressed by <code>k</code> and stores its value in <code>v</code>. Also, it sets the <code>ok</code> flag to <code>true</code> if the key exists or <code>false</code> if key does not exist.</p>
 <pre><code class="language-go">Syntax:  MapIndex m k v ; description: v = m[k]
 </code></pre>
 <h3 id="methodvalue">MethodValue</h3>
@@ -602,7 +602,8 @@ the instruction <code>NotZero</code> evaluates its dynamic value.</p>
 <li>For a map, the iteration is on the map addressed by <code>m</code> and the instruction <code>Range</code> stores the key in <code>k</code> and the value in <code>v</code>.</li>
 <li>For a channel, the iteration is on the values received on the channel addressed by <code>ch</code> and the instruction <code>Range</code> stores the value in <code>v</code>.</li>
 </ol>
-<p>The instruction that follow <code>Range</code> is executed only when there are no more values ​​to iterate over, during the iteration this instruction is skipped.</p>
+<p>If there are no elements to iterate over, it sets the <code>vm.ok</code> flag to <code>false</code>, otherwise it sets the flag to <code>true</code>.</p>
+<p>The instruction that follow <code>Range</code> is executed only when there are no more values to iterate over, during the iteration this instruction is skipped.</p>
 <p>The second and third operands can be the blank identifier.</p>
 <pre><code class="language-go">Syntax:  Range s i e ; description: for i, e = range s // for a slice
          Range s i r ; description: for i, r = range s // for a string 

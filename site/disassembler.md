@@ -66,7 +66,7 @@ var e *S
 
 ## <em>ok</em> flag
 
-In addition to the registers for called functions, there is special boolean `ok` flag used by `Assert`, `Receive` and `If` instructions.
+In addition to the registers for called functions, there is special boolean `ok` flag used by `Assert`, `If`, `MapIndex`, `Select`, `Range` and `Receive` instructions.
 
 ## Package clause
 
@@ -694,7 +694,7 @@ Syntax: MakeStruct T s ; description: var s T
 
 ### MapIndex
 
-The instruction `MapIndex` gets from the map addressed by `m` the element with key addressed by `k` and stores its value in `v`.
+The instruction `MapIndex` gets from the map addressed by `m` the element with key addressed by `k` and stores its value in `v`. Also, it sets the `ok` flag to `true` if the key exists or `false` if key does not exist.
 
 ```go
 Syntax:  MapIndex m k v ; description: v = m[k]
@@ -813,7 +813,9 @@ The instruction `Range` does an iteration through the entries of a slice, string
 3. For a map, the iteration is on the map addressed by `m` and the instruction `Range` stores the key in `k` and the value in `v`.
 4. For a channel, the iteration is on the values received on the channel addressed by `ch` and the instruction `Range` stores the value in `v`.
 
-The instruction that follow `Range` is executed only when there are no more values ​​to iterate over, during the iteration this instruction is skipped. 
+If there are no elements to iterate over, it sets the `vm.ok` flag to `false`, otherwise it sets the flag to `true`.
+
+The instruction that follow `Range` is executed only when there are no more values to iterate over, during the iteration this instruction is skipped. 
 
 The second and third operands can be the blank identifier.
 
