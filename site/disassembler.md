@@ -270,7 +270,7 @@ Syntax:  Assert x T v ; description: v, ok = x.(T)
 
 If the type assertion holds, it stores the resulting value into the register `v` (the register type depends on the type `T`), sets the `ok` flag to `true` and skips the next instruction.
 
-If the type assertion is false, it sets the `ok` flag to `false` and, if the next instruction is a `Panic`, does a run-time panic. TODO: document the `Panic` operand.     
+If the type assertion is false, it sets the `ok` flag to `false` and, if the next instruction is a `Panic`, does a run-time panic.
 
 ### Break
 
