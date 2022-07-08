@@ -7,7 +7,7 @@
 ## Released Scriggo v0.55.0
 July 8, 2022
 
-This release is focused on the addition of the *map selector expressions* in
+This release is focused on the addition of the [map selector expressions](/templates/specification#map-selector-expressions) in
 templates, the addition of builtins for YAML as well as the removal of some deprecated features.
 
 Also, `any` is now an alias for `interface{}`.
