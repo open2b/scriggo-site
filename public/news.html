@@ -31,11 +31,45 @@
     <div class="wrap">
         <div class="content">
             <h1 id="news">News</h1>
+<h2 id="released-scriggo-v0550">Released Scriggo v0.55.0</h2>
+<p>July 8, 2022</p>
+<p>This release is focused on the addition of the <em>map selector expressions</em> in
+templates, the addition of builtins for YAML as well as the removal of some deprecated features.</p>
+<p>Also, <code>any</code> is now an alias for <code>interface{}</code>.</p>
+<p>For more details and binary releases see <a href="https://github.com/open2b/scriggo/releases/tag/v0.55.0">https://github.com/open2b/scriggo/releases/tag/v0.55.0</a></p>
+<p><strong>This version breaks the compatibility with previous versions.</strong></p>
+<h3 id="changes">Changes</h3>
+<ul>
+<li>
+<p><a href="https://github.com/open2b/scriggo/commit/18f1e95da9504884319c94c99996cf51971d6359">scriggo: use Go 1.18 to compile the scriggo command</a></p>
+</li>
+<li>
+<p><a href="https://github.com/open2b/scriggo/commit/a253ef56d113b352f4b7778854637f5ec2f16b55">scriggo: require Go 1.17 as the minimum supported version</a> <strong>(breaking change)</strong></p>
+</li>
+<li>
+<p><a href="https://github.com/open2b/scriggo/commit/220f028304dab8dfdd2965cc6bd78bab38fa49bf">cmd/scriggo: add 'debug/buildinfo' and 'net/netip' packages to stdlib</a></p>
+</li>
+<li>
+<p><a href="https://github.com/open2b/scriggo/commit/30a9cf2d64c13cc1a50f21fe0b631dc5b99e16bc">compiler: allow 'any' as 'interface{}' alias</a></p>
+</li>
+<li>
+<p><a href="https://github.com/open2b/scriggo/commit/f423f045394dc5364d9de0ec94413cc26af34a6c">all: remove script support</a> <strong>(breaking change)</strong></p>
+</li>
+<li>
+<p><a href="https://github.com/open2b/scriggo/commit/2ecde7b004f83694650dfa2a2638dea9ef6dee69">all: remove the dollar identifier</a> <strong>(breaking change)</strong></p>
+</li>
+<li>
+<p><a href="https://github.com/open2b/scriggo/commit/de8250578ff06499b67eae0e672061407c2540f7">compiler, runtime: extend the selector expression to maps in templates</a></p>
+</li>
+<li>
+<p><a href="https://github.com/open2b/scriggo/commit/46e3dfe8ae0b74bdfdc419bca7592a276182f344">builtin: add 'marshalYAML' and 'unmarshalYAML' builtins</a></p>
+</li>
+</ul>
 <h2 id="released-scriggo-v0540">Released Scriggo v0.54.0</h2>
 <p>June 28, 2022</p>
 <p>For more details and binary releases see <a href="https://github.com/open2b/scriggo/releases/tag/v0.54.0">https://github.com/open2b/scriggo/releases/tag/v0.54.0</a></p>
 <p><strong>This version breaks the compatibility with previous versions.</strong></p>
-<h3 id="changes">Changes</h3>
+<h3 id="changes-1">Changes</h3>
 <ul>
 <li>
 <p>compiler/checker: don't consider 'make(...)' a constant function call <strong>(breaking change)</strong></p>

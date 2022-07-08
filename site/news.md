@@ -4,6 +4,36 @@
 
 # News
 
+## Released Scriggo v0.55.0
+July 8, 2022
+
+This release is focused on the addition of the *map selector expressions* in
+templates, the addition of builtins for YAML as well as the removal of some deprecated features.
+
+Also, `any` is now an alias for `interface{}`.
+
+For more details and binary releases see https://github.com/open2b/scriggo/releases/tag/v0.55.0
+
+**This version breaks the compatibility with previous versions.**
+
+### Changes
+
+* [scriggo: use Go 1.18 to compile the scriggo command](https://github.com/open2b/scriggo/commit/18f1e95da9504884319c94c99996cf51971d6359)
+
+* [scriggo: require Go 1.17 as the minimum supported version](https://github.com/open2b/scriggo/commit/a253ef56d113b352f4b7778854637f5ec2f16b55) **(breaking change)**
+
+* [cmd/scriggo: add 'debug/buildinfo' and 'net/netip' packages to stdlib](https://github.com/open2b/scriggo/commit/220f028304dab8dfdd2965cc6bd78bab38fa49bf)
+
+* [compiler: allow 'any' as 'interface{}' alias](https://github.com/open2b/scriggo/commit/30a9cf2d64c13cc1a50f21fe0b631dc5b99e16bc)
+
+* [all: remove script support](https://github.com/open2b/scriggo/commit/f423f045394dc5364d9de0ec94413cc26af34a6c) **(breaking change)**
+
+* [all: remove the dollar identifier](https://github.com/open2b/scriggo/commit/2ecde7b004f83694650dfa2a2638dea9ef6dee69) **(breaking change)**
+
+* [compiler, runtime: extend the selector expression to maps in templates](https://github.com/open2b/scriggo/commit/de8250578ff06499b67eae0e672061407c2540f7)
+
+* [builtin: add 'marshalYAML' and 'unmarshalYAML' builtins](https://github.com/open2b/scriggo/commit/46e3dfe8ae0b74bdfdc419bca7592a276182f344)
+
 ## Released Scriggo v0.54.0
 June 28, 2022
 
