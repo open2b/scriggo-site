@@ -100,6 +100,7 @@
         <dt><a href="#expressions">Expressions</a></dt>
         <dd><a href="#primary-expressions">Primary expressions</a></dd>
         <dd><a href="#default-expression">Default expression</a></dd>
+        <dd><a href="#map-selector-expressions">Map selector expressions</a></dd>
         <dd><a href="#render-operator">Render operator</a></dd>
         <dd><a href="#contains-operators">Contains operators</a></dd>
         <dd><a href="#operators">Operators</a></dd>
@@ -291,6 +292,38 @@ DefaultExpr = ( identifier | identifier Arguments | Render ) &quot;default&quot;
 <pre><code>{% show Head() default this using %} ... {% end %}
 </code></pre>
 <pre><code>{{ render &quot;specials.html&quot; default &quot;no specials&quot; }}
+</code></pre>
+<h3 id="map-selector-expressions">Map selector expressions</h3>
+<p>Given the expression <code>m</code> with type <code>map[K]E</code>, where <code>K</code> is a string type or the <code>interface{}</code> type and <code>E</code> is any type, and given an idenfier <code>x</code>, <code>m.x</code> is a map selector expression with type <code>E</code>, that denotes the key <code>&quot;x&quot;</code> of <code>m</code>.  Writing <code>m.x</code> is the same as writing <code>m[&quot;x&quot;]</code>.</p>
+<p>As a special case, if <code>s</code> is a map selector expression with type <code>interface{}</code>, <code>s.y</code> is also a selector expression with type <code>interface{}</code> and the following rules apply:</p>
+<ul>
+<li>If <code>s</code> is <code>nil</code>, <code>s.y</code> is <code>nil</code>.</li>
+<li>If the dynamic value of <code>s</code> has type <code>map[K]E</code>, where <code>K</code> is a string type or the <code>interface{}</code> type and <code>E</code> is any type, <code>s.y</code> denotes the key <code>&quot;y&quot;</code> of <code>s</code>. If the key does not exist, the dynamic value of <code>s.y</code> is the zero value of <code>E</code>.</li>
+<li>Otherwise, a run-time panic occurs.</li>
+</ul>
+<p>The special case does not apply on the left-hand side of an assignment.</p>
+<p>For example, given the declarations:</p>
+<pre><code>type S string
+var t map[string]string
+var s = map[string]interface{}{
+    &quot;x&quot;: &quot;foo&quot;,
+    &quot;y&quot;: map[string]int{
+        &quot;z&quot; : 3,
+    },
+}
+var r map[interface{}]int
+var p map[S]map[S]int
+</code></pre>
+<p>one may write:</p>
+<pre><code>t.x        // t[&quot;x&quot;] with type string
+s.x        // s[&quot;x&quot;] with type interface{}
+s.y.z      // s[&quot;y&quot;].(map[string]int)[&quot;z&quot;] with type interface{}
+r.x        // r[&quot;x&quot;] with type int
+p.x        // p[&quot;x&quot;] with type map[string]int
+p.x.y      // p[&quot;x&quot;][&quot;y&quot;] with type int
+</code></pre>
+<p>but the following is invalid:</p>
+<pre><code>s.y.z = 5  // s.y has type interface{} and the special case does not apply
 </code></pre>
 <h3 id="render-operator">Render operator</h3>
 <p>For a string literal s, the expression</p>

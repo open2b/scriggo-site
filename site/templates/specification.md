@@ -22,6 +22,7 @@
         <dt><a href="#expressions">Expressions</a></dt>
         <dd><a href="#primary-expressions">Primary expressions</a></dd>
         <dd><a href="#default-expression">Default expression</a></dd>
+        <dd><a href="#map-selector-expressions">Map selector expressions</a></dd>
         <dd><a href="#render-operator">Render operator</a></dd>
         <dd><a href="#contains-operators">Contains operators</a></dd>
         <dd><a href="#operators">Operators</a></dd>
@@ -298,6 +299,50 @@ var filters []Filter = filters default nil
 
 ```
 {{ render "specials.html" default "no specials" }}
+```
+
+### Map selector expressions
+
+Given the expression `m` with type `map[K]E`, where `K` is a string type or the `interface{}` type and `E` is any type, and given an idenfier `x`, `m.x` is a map selector expression with type `E`, that denotes the key `"x"` of `m`.  Writing `m.x` is the same as writing `m["x"]`.
+
+As a special case, if `s` is a map selector expression with type `interface{}`, `s.y` is also a selector expression with type `interface{}` and the following rules apply:
+
+- If `s` is `nil`, `s.y` is `nil`.
+- If the dynamic value of `s` has type `map[K]E`, where `K` is a string type or the `interface{}` type and `E` is any type, `s.y` denotes the key `"y"` of `s`. If the key does not exist, the dynamic value of `s.y` is the zero value of `E`.
+- Otherwise, a run-time panic occurs.
+
+The special case does not apply on the left-hand side of an assignment.
+
+For example, given the declarations:
+
+```
+type S string
+var t map[string]string
+var s = map[string]interface{}{
+    "x": "foo",
+    "y": map[string]int{
+        "z" : 3,
+    },
+}
+var r map[interface{}]int
+var p map[S]map[S]int
+```
+
+one may write:
+
+```
+t.x        // t["x"] with type string
+s.x        // s["x"] with type interface{}
+s.y.z      // s["y"].(map[string]int)["z"] with type interface{}
+r.x        // r["x"] with type int
+p.x        // p["x"] with type map[string]int
+p.x.y      // p["x"]["y"] with type int
+```
+
+but the following is invalid:
+
+```
+s.y.z = 5  // s.y has type interface{} and the special case does not apply
 ```
 
 ### Render operator
