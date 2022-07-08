@@ -208,7 +208,7 @@ func main() {
     }
     // Use a different variable for each call to Run, for example using a closure.
     var who = "World"
-    err = template.Run(os.Stdout, map[string]interface{}{"who": &who}, nil)
+    err = template.Run(os.Stdout, map[string]any{"who": &who}, nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -230,7 +230,7 @@ between different executions, if a different variable was passed for each of the
 If you don't need to "share" the variable at all, pass the variable's value to the Run method instead of the pointer:
 
 ```go
-err = template.Run(os.Stdout, map[string]interface{}{"who": "World"}, nil)
+err = template.Run(os.Stdout, map[string]any{"who": "World"}, nil)
 ```
 
 In this case if the template code assigns a new value to the variable, no variables are changed in the Go code. But be 
@@ -252,14 +252,14 @@ To "share" the variable with the Go code, pass a pointer to the variable:
 
 ```go
 v := &T{}
-err = template.Run(os.Stdout, map[string]interface{}{"v": &v}, nil)
+err = template.Run(os.Stdout, map[string]any{"v": &v}, nil)
 ```
 
 Otherwise, pass the value of the variable:
 
 ```go
 v := &T{}
-err = template.Run(os.Stdout, map[string]interface{}{"v": v}, nil)
+err = template.Run(os.Stdout, map[string]any{"v": v}, nil)
 ```
 
 #### Know which global variables are used in a template

@@ -223,18 +223,18 @@ templates. Some of these builtins are types with methods, so you can call method
 </code></pre>
 <p>Returns the hexadecimal encoding of s.</p>
 <h3 id="marshaljson">marshalJSON</h3>
-<pre><code class="language-go">func marshalJSON(v interface{}) (json, error) {
+<pre><code class="language-go">func marshalJSON(v any) (json, error) {
 </code></pre>
 <p>Returns the JSON encoding of v. For details, see the <a href="https://pkg.go.dev/encoding/json#Marshal">json.Marshal</a> function
 of the Go standard library.</p>
 <h3 id="marshaljsonindent">marshalJSONIndent</h3>
-<pre><code class="language-go">func marshalJSONIndent(v interface{}, prefix, indent string) (json, error) {
+<pre><code class="language-go">func marshalJSONIndent(v any, prefix, indent string) (json, error) {
 </code></pre>
 <p>Is like <a href="#marshaljson">marshalJSON</a> but indents the output. Each JSON element in the output will begin on a new line
 beginning with prefix followed by one or more copies of indent according to the indentation nesting. prefix and
 indent can only contain whitespace: ' ', '\t', '\n' and '\r'.</p>
 <h3 id="marshalyaml">marshalYAML</h3>
-<pre><code class="language-go">func marshalYAML(v interface{}) (string, error) {
+<pre><code class="language-go">func marshalYAML(v any) (string, error) {
 </code></pre>
 <p>Returns the YAML encoding of v. For details, see the <a href="https://pkg.go.dev/gopkg.in/yaml.v3#Marshal">yaml.Marshal</a>
 function of the yaml package.</p>
@@ -243,7 +243,7 @@ function of the yaml package.</p>
 </code></pre>
 <p>Returns the MD5 hash of the string s.</p>
 <h3 id="unmarshaljson">unmarshalJSON</h3>
-<pre><code class="language-go">func unmarshalJSON(data string, v interface{}) error {
+<pre><code class="language-go">func unmarshalJSON(data string, v any) error {
 </code></pre>
 <p>Parses the JSON-encoded data and stores the result in a new value pointed to by v. If v is nil or not a pointer,
 unmarshalJSON returns an error.</p>
@@ -252,7 +252,7 @@ change the value pointed to by v but instantiates a new value and then replaces 
 errors occur.</p>
 <p>For details, see the <a href="https://pkg.go.dev/encoding/json#Unmarshal">json.Unmarshal</a> function of the Go standard library.</p>
 <h3 id="unmarshalyaml">unmarshalYAML</h3>
-<pre><code class="language-go">func unmarshalYAML(data string, v interface{}) error {
+<pre><code class="language-go">func unmarshalYAML(data string, v any) error {
 </code></pre>
 <p>Parses the YAML-encoded data and stores the result in a new value pointed to by v. If v is nil or not a pointer,
 unmarshalYAML returns an error.</p>
@@ -418,11 +418,11 @@ the expression cannot be parsed.</p>
 <p>For the syntax of regular expressions see <a href="https://pkg.go.dev/regexp/syntax">https://pkg.go.dev/regexp/syntax</a>.</p>
 <h2>sort</h2>
 <h3 id="reverse">reverse</h3>
-<pre><code class="language-go">func reverse(slice interface{})
+<pre><code class="language-go">func reverse(slice any)
 </code></pre>
 <p>Reverses the order of the elements of slice. If slice is not a slice, it panics.</p>
 <h3 id="sort">sort</h3>
-<pre><code class="language-go">func sort(slice interface{}, less func(i, j int) bool)
+<pre><code class="language-go">func sort(slice any, less func(i, j int) bool)
 </code></pre>
 <p>Sorts the elements of slice given the provided less function. If slice is not a slice, it panics.</p>
 <p>The less function reports whether <code>slice[i]</code> should be ordered before <code>slice[j]</code>. If less is nil, sort sorts the
@@ -573,7 +573,7 @@ an empty slice.</p>
 </ul>
 <p>Edge cases for s and sep (for example, empty strings) are handled as described in the documentation for split.</p>
 <h3 id="sprint">sprint</h3>
-<pre><code class="language-go">func sprint(a ...interface{}) string
+<pre><code class="language-go">func sprint(a ...any) string
 </code></pre>
 <p>Formats using the default formats for its operands and returns the resulting string. Spaces are added between operands
 when neither is a string.</p>
@@ -585,7 +585,7 @@ when neither is a string.</p>
 <p>sprint takes the same arguments and behaves like the <a href="https://pkg.go.dev/fmt#Sprint">fmt.Sprint</a> function of the
 Go standard library.</p>
 <h3 id="sprintf">sprintf</h3>
-<pre><code class="language-go">func sprintf(format string, a ...interface{}) string
+<pre><code class="language-go">func sprintf(format string, a ...any) string
 </code></pre>
 <p>Formats according to a format specifier and returns the resulting string.</p>
 <pre><code class="language-scriggo">{% const name, age = &quot;Sherlock Holmes&quot;, 60 %}

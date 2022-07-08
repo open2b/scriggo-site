@@ -172,7 +172,7 @@ Returns the hexadecimal encoding of s.
 ### marshalJSON
 
 ```go
-func marshalJSON(v interface{}) (json, error) {
+func marshalJSON(v any) (json, error) {
 ```
 
 Returns the JSON encoding of v. For details, see the [json.Marshal](https://pkg.go.dev/encoding/json#Marshal) function
@@ -181,7 +181,7 @@ of the Go standard library.
 ### marshalJSONIndent
 
 ```go
-func marshalJSONIndent(v interface{}, prefix, indent string) (json, error) {
+func marshalJSONIndent(v any, prefix, indent string) (json, error) {
 ```
 
 Is like [marshalJSON](#marshaljson) but indents the output. Each JSON element in the output will begin on a new line
@@ -191,7 +191,7 @@ indent can only contain whitespace: ' ', '\t', '\n' and '\r'.
 ### marshalYAML
 
 ```go
-func marshalYAML(v interface{}) (string, error) {
+func marshalYAML(v any) (string, error) {
 ```
 
 Returns the YAML encoding of v. For details, see the [yaml.Marshal](https://pkg.go.dev/gopkg.in/yaml.v3#Marshal)
@@ -208,7 +208,7 @@ Returns the MD5 hash of the string s.
 ### unmarshalJSON
 
 ```go
-func unmarshalJSON(data string, v interface{}) error {
+func unmarshalJSON(data string, v any) error {
 ```
 
 Parses the JSON-encoded data and stores the result in a new value pointed to by v. If v is nil or not a pointer,
@@ -223,7 +223,7 @@ For details, see the [json.Unmarshal](https://pkg.go.dev/encoding/json#Unmarshal
 ### unmarshalYAML
 
 ```go
-func unmarshalYAML(data string, v interface{}) error {
+func unmarshalYAML(data string, v any) error {
 ```
 
 Parses the YAML-encoded data and stores the result in a new value pointed to by v. If v is nil or not a pointer,
@@ -451,7 +451,7 @@ For the syntax of regular expressions see [https://pkg.go.dev/regexp/syntax](htt
 ### reverse
 
 ```go
-func reverse(slice interface{})
+func reverse(slice any)
 ```
 
 Reverses the order of the elements of slice. If slice is not a slice, it panics.
@@ -459,7 +459,7 @@ Reverses the order of the elements of slice. If slice is not a slice, it panics.
 ### sort
 
 ```go
-func sort(slice interface{}, less func(i, j int) bool)
+func sort(slice any, less func(i, j int) bool)
 ```
 
 Sorts the elements of slice given the provided less function. If slice is not a slice, it panics.
@@ -720,7 +720,7 @@ Edge cases for s and sep (for example, empty strings) are handled as described i
 ### sprint
 
 ```go
-func sprint(a ...interface{}) string
+func sprint(a ...any) string
 ```
 
 Formats using the default formats for its operands and returns the resulting string. Spaces are added between operands
@@ -740,7 +740,7 @@ Go standard library.
 ### sprintf
 
 ```go
-func sprintf(format string, a ...interface{}) string
+func sprintf(format string, a ...any) string
 ```
 
 Formats according to a format specifier and returns the resulting string.

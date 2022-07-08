@@ -280,7 +280,7 @@ func main() {
     }
     // Use a different variable for each call to Run, for example using a closure.
     var who = &quot;World&quot;
-    err = template.Run(os.Stdout, map[string]interface{}{&quot;who&quot;: &amp;who}, nil)
+    err = template.Run(os.Stdout, map[string]any{&quot;who&quot;: &amp;who}, nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -295,7 +295,7 @@ who is &quot;Scriggo&quot;
 <p>The printed value is not changed because the variable is still &quot;shared&quot; between the Go code and template code. But no
 between different executions, if a different variable was passed for each of them.</p>
 <p>If you don't need to &quot;share&quot; the variable at all, pass the variable's value to the Run method instead of the pointer:</p>
-<pre><code class="language-go">err = template.Run(os.Stdout, map[string]interface{}{&quot;who&quot;: &quot;World&quot;}, nil)
+<pre><code class="language-go">err = template.Run(os.Stdout, map[string]any{&quot;who&quot;: &quot;World&quot;}, nil)
 </code></pre>
 <p>In this case if the template code assigns a new value to the variable, no variables are changed in the Go code. But be
 aware that if the variable is for example a slice, a map or a pointer value, the template code can still change the
@@ -309,11 +309,11 @@ type <code>*T</code>, write:</p>
 </code></pre>
 <p>To &quot;share&quot; the variable with the Go code, pass a pointer to the variable:</p>
 <pre><code class="language-go">v := &amp;T{}
-err = template.Run(os.Stdout, map[string]interface{}{&quot;v&quot;: &amp;v}, nil)
+err = template.Run(os.Stdout, map[string]any{&quot;v&quot;: &amp;v}, nil)
 </code></pre>
 <p>Otherwise, pass the value of the variable:</p>
 <pre><code class="language-go">v := &amp;T{}
-err = template.Run(os.Stdout, map[string]interface{}{&quot;v&quot;: v}, nil)
+err = template.Run(os.Stdout, map[string]any{&quot;v&quot;: v}, nil)
 </code></pre>
 <h4 id="know-which-global-variables-are-used-in-a-template">Know which global variables are used in a template</h4>
 <p>If creating global variables is expensive, you can call the
