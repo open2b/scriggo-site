@@ -26,8 +26,10 @@ Part of the documentation on this page is copyright of
 * [hex](#hex)
 * [marshalJSON](#marshaljson)
 * [marshalJSONIndent](#marshaljsonindent)
+* [marshalYAML](#marshalyaml)
 * [md5](#md5)
 * [unmarshalJSON](#unmarshaljson)
+* [unmarshalYAML](#unmarshalyaml)
 
 ### html
 
@@ -186,6 +188,15 @@ Is like [marshalJSON](#marshaljson) but indents the output. Each JSON element in
 beginning with prefix followed by one or more copies of indent according to the indentation nesting. prefix and
 indent can only contain whitespace: ' ', '\t', '\n' and '\r'.
 
+### marshalYAML
+
+```go
+func marshalYAML(v interface{}) (string, error) {
+```
+
+Returns the YAML encoding of v. For details, see the [yaml.Marshal](https://pkg.go.dev/gopkg.in/yaml.v3#Marshal)
+function of the yaml package.
+
 ### md5
 
 ```go
@@ -200,7 +211,7 @@ Returns the MD5 hash of the string s.
 func unmarshalJSON(data string, v interface{}) error {
 ```
 
-Parses the JSON-encoded data and stores the result in a new value pointed to by v. If v is nil or not a pointer
+Parses the JSON-encoded data and stores the result in a new value pointed to by v. If v is nil or not a pointer,
 unmarshalJSON returns an error.
 
 Unlike [json.Unmarshal](https://pkg.go.dev/encoding/json#Unmarshal) of the Go standard library, unmarshalJSON does not
@@ -208,6 +219,40 @@ change the value pointed to by v but instantiates a new value and then replaces 
 errors occur.
 
 For details, see the [json.Unmarshal](https://pkg.go.dev/encoding/json#Unmarshal) function of the Go standard library.
+
+### unmarshalYAML
+
+```go
+func unmarshalYAML(data string, v interface{}) error {
+```
+
+Parses the YAML-encoded data and stores the result in a new value pointed to by v. If v is nil or not a pointer,
+unmarshalYAML returns an error.
+
+Unlike [yaml.Unmarshal](https://pkg.go.dev/gopkg.in/yaml.v3#Unmarshal) of the yaml package, unmarshalYAML does not
+accept a map value, use a pointer to a map value instead. unmarshalYAML does not change the value pointed to by v but
+instantiates a new value and then replaces the value pointed to by v, if no errors occur.
+
+For example, given a file named "receipt.yaml", in the current template directory, with content:
+
+```
+---
+receipt:     Oz-Ware Purchase Invoice
+date:        2012-08-06
+customer:
+  first_name:   Doroth
+  family_name:  Gale
+```
+
+the following code reads and decodes the "example.yaml" file:
+
+```scriggo
+{% var v map[string]any %}
+{{ unmarshalYAML(render "receipt.yaml", &v) }}
+{{ v.customer.first_name }} {{ v.customer.family_name }}
+```
+
+For details, see the [yaml.Unmarshal](https://pkg.go.dev/gopkg.in/yaml.v3#Unmarshal) function of the yaml package.
 
 ## html
 

@@ -102,8 +102,10 @@ templates. Some of these builtins are types with methods, so you can call method
 <li><a href="#hex">hex</a></li>
 <li><a href="#marshaljson">marshalJSON</a></li>
 <li><a href="#marshaljsonindent">marshalJSONIndent</a></li>
+<li><a href="#marshalyaml">marshalYAML</a></li>
 <li><a href="#md5">md5</a></li>
 <li><a href="#unmarshaljson">unmarshalJSON</a></li>
+<li><a href="#unmarshalyaml">unmarshalYAML</a></li>
 </ul>
 <h3 id="html">html</h3>
 <ul>
@@ -231,6 +233,11 @@ of the Go standard library.</p>
 <p>Is like <a href="#marshaljson">marshalJSON</a> but indents the output. Each JSON element in the output will begin on a new line
 beginning with prefix followed by one or more copies of indent according to the indentation nesting. prefix and
 indent can only contain whitespace: ' ', '\t', '\n' and '\r'.</p>
+<h3 id="marshalyaml">marshalYAML</h3>
+<pre><code class="language-go">func marshalYAML(v interface{}) (string, error) {
+</code></pre>
+<p>Returns the YAML encoding of v. For details, see the <a href="https://pkg.go.dev/gopkg.in/yaml.v3#Marshal">yaml.Marshal</a>
+function of the yaml package.</p>
 <h3 id="md5">md5</h3>
 <pre><code class="language-go">func md5(s string) string
 </code></pre>
@@ -238,12 +245,34 @@ indent can only contain whitespace: ' ', '\t', '\n' and '\r'.</p>
 <h3 id="unmarshaljson">unmarshalJSON</h3>
 <pre><code class="language-go">func unmarshalJSON(data string, v interface{}) error {
 </code></pre>
-<p>Parses the JSON-encoded data and stores the result in a new value pointed to by v. If v is nil or not a pointer
+<p>Parses the JSON-encoded data and stores the result in a new value pointed to by v. If v is nil or not a pointer,
 unmarshalJSON returns an error.</p>
 <p>Unlike <a href="https://pkg.go.dev/encoding/json#Unmarshal">json.Unmarshal</a> of the Go standard library, unmarshalJSON does not
 change the value pointed to by v but instantiates a new value and then replaces the value pointed to by v, if no
 errors occur.</p>
 <p>For details, see the <a href="https://pkg.go.dev/encoding/json#Unmarshal">json.Unmarshal</a> function of the Go standard library.</p>
+<h3 id="unmarshalyaml">unmarshalYAML</h3>
+<pre><code class="language-go">func unmarshalYAML(data string, v interface{}) error {
+</code></pre>
+<p>Parses the YAML-encoded data and stores the result in a new value pointed to by v. If v is nil or not a pointer,
+unmarshalYAML returns an error.</p>
+<p>Unlike <a href="https://pkg.go.dev/gopkg.in/yaml.v3#Unmarshal">yaml.Unmarshal</a> of the yaml package, unmarshalYAML does not
+accept a map value, use a pointer to a map value instead. unmarshalYAML does not change the value pointed to by v but
+instantiates a new value and then replaces the value pointed to by v, if no errors occur.</p>
+<p>For example, given a file named &quot;receipt.yaml&quot;, in the current template directory, with content:</p>
+<pre><code>---
+receipt:     Oz-Ware Purchase Invoice
+date:        2012-08-06
+customer:
+  first_name:   Doroth
+  family_name:  Gale
+</code></pre>
+<p>the following code reads and decodes the &quot;example.yaml&quot; file:</p>
+<pre><code class="language-scriggo">{% var v map[string]any %}
+{{ unmarshalYAML(render &quot;receipt.yaml&quot;, &amp;v) }}
+{{ v.customer.first_name }} {{ v.customer.family_name }}
+</code></pre>
+<p>For details, see the <a href="https://pkg.go.dev/gopkg.in/yaml.v3#Unmarshal">yaml.Unmarshal</a> function of the yaml package.</p>
 <h2 id="html-1">html</h2>
 <h3 id="htmlescape">htmlEscape</h3>
 <pre><code class="language-go">func htmlEscape(s string) html
