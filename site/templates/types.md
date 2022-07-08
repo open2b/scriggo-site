@@ -204,4 +204,37 @@ longer slice. The append operation is done with the `append` built-in function:
 5
 </pre>
 
+## map
+
+A map associates keys with values. Associations have no order. For example the following code defines a map from strings
+to string values and iterates over the elements of the map using the `for range` statement:
+
+```scriggo
+{%%
+   var letters = map[string]string{
+       "a": "the letter 'a'",
+       "b": "the letter 'b'",
+   }
+   for key, value := range letters {
+        show key, ": ", value, "\n"   
+   }   
+%%}
+```
+
+If you want a map with string keys and values of any type, use a `map[string]any` map.
+
+As in Go, the map values can be read with the expression:
+
+```scriggo
+{{ letters["a"] }}
+```
+
+In Scriggo, but not Go, you can use dot notation:
+
+```scriggo
+{{ letters.a }}
+```
+
+See [map selector expressions specification](specification#map-selector-expressions) for more details.
+
 {% end raw doc %}

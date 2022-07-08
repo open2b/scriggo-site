@@ -223,6 +223,27 @@ longer slice. The append operation is done with the <code>append</code> built-in
 4
 5
 </pre>
+<h2 id="map">map</h2>
+<p>A map associates keys with values. Associations have no order. For example the following code defines a map from strings
+to string values and iterates over the elements of the map using the <code>for range</code> statement:</p>
+<pre><code class="language-scriggo">{%%
+   var letters = map[string]string{
+       &quot;a&quot;: &quot;the letter 'a'&quot;,
+       &quot;b&quot;: &quot;the letter 'b'&quot;,
+   }
+   for key, value := range letters {
+        show key, &quot;: &quot;, value, &quot;\n&quot;   
+   }   
+%%}
+</code></pre>
+<p>If you want a map with string keys and values of any type, use a <code>map[string]any</code> map.</p>
+<p>As in Go, the map values can be read with the expression:</p>
+<pre><code class="language-scriggo">{{ letters[&quot;a&quot;] }}
+</code></pre>
+<p>In Scriggo, but not Go, you can use dot notation:</p>
+<pre><code class="language-scriggo">{{ letters.a }}
+</code></pre>
+<p>See <a href="specification#map-selector-expressions">map selector expressions specification</a> for more details.</p>
 
 <div id="edit-on-github">
   <a href="https://github.com/open2b/scriggo-site/blob/main/site/templates/types.md" target="_blank">
