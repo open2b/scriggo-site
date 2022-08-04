@@ -6,10 +6,14 @@
 
 Scriggo has a command line interface, the `scriggo` command, that allows to:
 
-* [run a template file](#run-a-template-file)
-* [serve templates with support for Markdown](#serve-a-template)
-* [initialize an interpreter for Go programs](#initialize-an-interpreter)
-* [generate the code for package importers](#generate-a-package-importer)
+- [Run a template file](#run-a-template-file)
+  - [Complete syntax](#complete-syntax)
+  - [Examples](#examples)
+- [Serve a template](#serve-a-template)
+  - [Complete syntax](#complete-syntax-1)
+- [Initialize an interpreter](#initialize-an-interpreter)
+- [Generate a package importer](#generate-a-package-importer)
+  - [Complete syntax](#complete-syntax-2)
 
 ### Get the `scriggo` command
 
@@ -29,7 +33,7 @@ then test if `scriggo` can be executed:
 
 ```shell
 $ scriggo version
-scriggo version v0.55.0 (go1.18)
+scriggo version v0.56.0 (go1.18)
 ```
 
 If the `scriggo` command is not found, you should add the directory where the command has been installed to your `PATH`.

@@ -4,6 +4,15 @@
 
 # News
 
+## Released Scriggo v0.56.0
+August 4, 2022
+
+### Changes
+
+* [scriggo: require Go 1.18 as the minimum supported version](https://github.com/open2b/scriggo/commit/4cbb9b98f3e798dbfe872353e22a7341cd23f59e) (breaking change)
+
+**This version breaks the compatibility with previous versions.**
+
 ## Released Scriggo v0.55.0
 July 8, 2022
 

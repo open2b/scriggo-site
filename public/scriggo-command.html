@@ -22,7 +22,7 @@
 <body>
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
-    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.55.0</a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.56.0</a>
     <ul>
         <li><a href="/news">News</a></li>
         <li><a href="/what-is-scriggo" class="selected">Documentation</a></li>
@@ -86,10 +86,23 @@
             <h1 id="scriggo-command">Scriggo command</h1>
 <p>Scriggo has a command line interface, the <code>scriggo</code> command, that allows to:</p>
 <ul>
-<li><a href="#run-a-template-file">run a template file</a></li>
-<li><a href="#serve-a-template">serve templates with support for Markdown</a></li>
-<li><a href="#initialize-an-interpreter">initialize an interpreter for Go programs</a></li>
-<li><a href="#generate-a-package-importer">generate the code for package importers</a></li>
+<li><a href="#run-a-template-file">Run a template file</a>
+<ul>
+<li><a href="#complete-syntax">Complete syntax</a></li>
+<li><a href="#examples">Examples</a></li>
+</ul>
+</li>
+<li><a href="#serve-a-template">Serve a template</a>
+<ul>
+<li><a href="#complete-syntax-1">Complete syntax</a></li>
+</ul>
+</li>
+<li><a href="#initialize-an-interpreter">Initialize an interpreter</a></li>
+<li><a href="#generate-a-package-importer">Generate a package importer</a>
+<ul>
+<li><a href="#complete-syntax-2">Complete syntax</a></li>
+</ul>
+</li>
 </ul>
 <h3 id="get-the-scriggo-command">Get the <code>scriggo</code> command</h3>
 <p>You can get the binary of the scriggo command from the <a href="https://github.com/open2b/scriggo/releases/">releases</a> page.</p>
@@ -100,7 +113,7 @@
 </code></pre>
 <p>then test if <code>scriggo</code> can be executed:</p>
 <pre><code class="language-shell">$ scriggo version
-scriggo version v0.55.0 (go1.18)
+scriggo version v0.56.0 (go1.18)
 </code></pre>
 <p>If the <code>scriggo</code> command is not found, you should add the directory where the command has been installed to your <code>PATH</code>.</p>
 <p><code>go</code> installs the <code>scriggo</code> command in the directory named by the <code>GOBIN</code> environment variable. If it is not set it
