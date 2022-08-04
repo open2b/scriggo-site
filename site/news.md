@@ -4,6 +4,15 @@
 
 # News
 
+## Released Scriggo v0.56.1
+August 4, 2022
+
+This is a bug-fix release.
+
+#### Changes
+
+* [builtin: fix invalid behavior of function 'HasSuffix'](https://github.com/open2b/scriggo/commit/7038b90584b0fbd5a026188d8920aa2040bd0bc4)
+
 ## Released Scriggo v0.56.0
 August 4, 2022
 
