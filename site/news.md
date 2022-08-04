@@ -7,6 +7,9 @@
 ## Released Scriggo v0.56.0
 August 4, 2022
 
+### Support Go 1.19
+
+This release officially supports [Go 1.19](https://go.dev/doc/go1.19).
 ### Changes
 
 * [scriggo: require Go 1.18 as the minimum supported version](https://github.com/open2b/scriggo/commit/4cbb9b98f3e798dbfe872353e22a7341cd23f59e) (breaking change)
