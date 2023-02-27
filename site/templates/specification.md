@@ -294,7 +294,7 @@ var filters []Filter = filters default nil
 ```
 
 ```
-{% show Head() default this using %} ... {% end %}
+{% show Head() default itea ; using %} ... {% end %}
 ```
 
 ```
