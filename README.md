@@ -13,7 +13,7 @@ Gopher logos are based on an original work by Renée French.
 
 ## Contributing
 
-Contributions to the scriggo.com site are greatly appreciated, as new documentation, bug reports, any king of suggestion:
+Contributions to the scriggo.com site are greatly appreciated, as new documentation, bug reports, any kind of suggestion:
 
 * if you find an issue on the site, [open an issue](https://github.com/open2b/scriggo/issues/new) on Scriggo.
 * if you want to write new documentation, as "Switch from X to Scriggo", [discuss with us](https://github.com/open2b/scriggo/discussions) and after it is approved open a PR on this repository.
