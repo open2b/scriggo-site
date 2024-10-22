@@ -4,6 +4,11 @@
 
 # News
 
+## Released Scriggo v0.57.1
+October 22, 2024
+
+This release only updates the GitHub Action files and the GoReleaser configuration for the release of Scriggo binaries.
+
 ## Released Scriggo v0.57.0
 October 22, 2024
 
