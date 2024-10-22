@@ -4,6 +4,24 @@
 
 # News
 
+## Released Scriggo v0.57.0
+October 22, 2024
+
+### Support for Go Compiler Versions 1.22 or Higher
+
+This release adds support for Go compiler versions 1.22 or later.
+
+Note that support for Go versions 1.21 or earlier is therefore removed, as functionality of Scriggo is no longer guaranteed for these compiler versions.
+
+### Fixes
+
+* [compiler/parser: fix panic on invalid default left expression](https://github.com/open2b/scriggo/commit/ce873dfde1e73cffd4dc7c5dce05b30229c46bd2)
+
+### Dependency Updates
+
+* [scriggo: update goldmark from v1.4.13 to v1.7.4](https://github.com/open2b/scriggo/commit/134381acd8708d4c6437c1cf33c0dc2ac1d2c347)
+* [scriggo: update fsnotify from v1.5.4 to v1.7.0](https://github.com/open2b/scriggo/commit/caf8a0d4470d8e11347e13f60281861199c75692)
+
 ## Released Scriggo v0.56.1
 August 4, 2022
 
