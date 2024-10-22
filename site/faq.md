@@ -98,8 +98,8 @@ file when it is read by Scriggo.
 
 ### What versions of Go does Scriggo support?
 
-Scriggo supports the latest two stable versions of Go. Therefore, it currently supports versions 1.16 and 1.17. When
-version 1.18 is released, the next stable version of Scriggo will support versions 1.17 and 1.18.
+Scriggo supports the latest two stable versions of Go. Therefore, it currently supports versions 1.22 and 1.23. When
+version 1.24 is released, the next stable version of Scriggo will support versions 1.23 and 1.24.
 
 ## Safety
 
