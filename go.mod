@@ -1,6 +1,6 @@
 module open2b/scriggo-site/cmd
 
-go 1.16
+go 1.23
 
 require (
 	github.com/open2b/scriggo v0.52.1
