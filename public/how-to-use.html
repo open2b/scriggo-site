@@ -22,7 +22,7 @@
 <body>
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
-    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.57.1</a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.58.0</a>
     <ul>
         <li><a href="/news">News</a></li>
         <li><a href="/what-is-scriggo" class="selected">Documentation</a></li>
@@ -125,7 +125,7 @@ use any file system. For example, you can read the files from a directory, using
 </tr>
 <tr>
 <td>Markdown</td>
-<td>.md .mkd .mkdn .mdown .markdown</td>
+<td>.md .mdx .mkd .mkdn .mdown .markdown</td>
 </tr>
 <tr>
 <td>CSS</td>
@@ -390,7 +390,8 @@ func main() {
 <pre><code class="language-go">goldmark.New(
     goldmark.WithRendererOptions(html.WithUnsafe()),        // do not remove any HTML code
     goldmark.WithParserOptions(parser.WithAutoHeadingID()), // add ids to the headings
-    goldmark.WithExtensions(extension.GFM))                 // allow GitHub Flavored Markdown
+    goldmark.WithExtensions(extension.GFM),                 // allow GitHub Flavored Markdown
+    goldmark.WithExtensions(extension.Footnote))            // enables support for footnotes
 </code></pre>
 <h3 id="import-packages">Import packages</h3>
 <p>You have already seen how to <a href="#use-other-types-of-globals">pass a package as global</a> to a template. A package passes as

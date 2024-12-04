@@ -22,7 +22,7 @@
 <body>
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
-    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.57.1</a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.58.0</a>
     <ul>
         <li><a href="/news">News</a></li>
         <li><a href="/what-is-scriggo" class="selected">Documentation</a></li>
@@ -136,7 +136,7 @@ one or the other indifferently.</p>
 </pre>
 <h2 id="render">Render</h2>
 <p>The <em>render</em> operator, when used with a <em>show</em> statement, for example between <code>{{</code> and <code>}}</code>:</p>
-<pre><code class="language-scriggo">{{ render path }}
+<pre><code class="language-scriggo">{{ render &quot;sidebar.html&quot; }}
 </code></pre>
 <p>renders the template file with the named path and shows its content. A file rendered with render is called <em>partial</em>
 because contains only a part of the content that will be rendered:</p>

@@ -18,7 +18,7 @@
 <body>
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
-    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.57.1</a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.58.0</a>
     <ul>
         <li><a href="/news" class="selected">News</a></li>
         <li><a href="/what-is-scriggo">Documentation</a></li>
@@ -31,6 +31,25 @@
     <div class="wrap">
         <div class="content">
             <h1 id="news">News</h1>
+<h2 id="released-scriggo-v0580">Released Scriggo v0.58.0</h2>
+<p>December 04, 2024</p>
+<p>This release fixes the following issues:</p>
+<ul>
+<li><strong>Fixed a panic</strong> in the Scriggo command when trying to import or extend a non-existent file.</li>
+<li><strong>Fixed rendering</strong> issues when a non-Markdown file is rendered inside a Markdown context.</li>
+</ul>
+<p>Additionally, files with the &quot;.mdx&quot; extension are now treated as Markdown files by default.</p>
+<p>We’ve added the <strong>MarkdownConverter</strong> method to <code>native.Env</code>. A function or method, whether passed globally or imported into a template, can now use this method to retrieve the Markdown converter passed when building the template.</p>
+<p>Finally, the <code>scriggo serve</code> command now enables support for footnotes in Markdown parsing.</p>
+<h3 id="changes">Changes</h3>
+<ul>
+<li><a href="https://github.com/open2b/scriggo/commit/0fc1e83760a0110682347854a276d4bed984cc12">cmd/scriggo: fix panic when importing or extending a non-existent file</a></li>
+<li><a href="https://github.com/open2b/scriggo/commit/b8a4eedf047d51752f7c13d366378db104fe3b48">cmd/scriggo: add extension.Footnote to goldmark</a> <strong>(breaking change)</strong></li>
+<li><a href="https://github.com/open2b/scriggo/commit/3894f61234f4412bffc2085e9f5bd57d69181286">internal/runtime: refactor macro calls and renderer implementation</a></li>
+<li><a href="https://github.com/open2b/scriggo/commit/0025e57955f322bb700fd85a1db71101937dc15c">internal/compiler: add .mdx as default Markdown file extension</a> <strong>(breaking change)</strong></li>
+<li><a href="https://github.com/open2b/scriggo/commit/2c05377e66c0db077bc9ab9578e8fd750ed086e7">native,internal/runtime: introduce the Env.MarkdownConverter method</a></li>
+</ul>
+<p><strong>This version breaks the compatibility with previous versions.</strong></p>
 <h2 id="released-scriggo-v0571">Released Scriggo v0.57.1</h2>
 <p>October 22, 2024</p>
 <p>This release only updates the GitHub Action files and the GoReleaser configuration for the release of Scriggo binaries.</p>
@@ -51,7 +70,7 @@
 <h2 id="released-scriggo-v0561">Released Scriggo v0.56.1</h2>
 <p>August 4, 2022</p>
 <p>This is a bug-fix release.</p>
-<h4 id="changes">Changes</h4>
+<h4 id="changes-1">Changes</h4>
 <ul>
 <li><a href="https://github.com/open2b/scriggo/commit/7038b90584b0fbd5a026188d8920aa2040bd0bc4">builtin: fix invalid behavior of function 'HasSuffix'</a></li>
 </ul>
@@ -59,7 +78,7 @@
 <p>August 4, 2022</p>
 <h3 id="support-go-119">Support Go 1.19</h3>
 <p>This release officially supports <a href="https://go.dev/doc/go1.19">Go 1.19</a>.</p>
-<h3 id="changes-1">Changes</h3>
+<h3 id="changes-2">Changes</h3>
 <ul>
 <li><a href="https://github.com/open2b/scriggo/commit/4cbb9b98f3e798dbfe872353e22a7341cd23f59e">scriggo: require Go 1.18 as the minimum supported version</a> (breaking change)</li>
 </ul>
@@ -71,7 +90,7 @@ templates, the addition of builtins for YAML as well as the removal of some depr
 <p>Also, <code>any</code> is now an alias for <code>interface{}</code>.</p>
 <p>For more details and binary releases see <a href="https://github.com/open2b/scriggo/releases/tag/v0.55.0">https://github.com/open2b/scriggo/releases/tag/v0.55.0</a></p>
 <p><strong>This version breaks the compatibility with previous versions.</strong></p>
-<h3 id="changes-2">Changes</h3>
+<h3 id="changes-3">Changes</h3>
 <ul>
 <li>
 <p><a href="https://github.com/open2b/scriggo/commit/18f1e95da9504884319c94c99996cf51971d6359">scriggo: use Go 1.18 to compile the scriggo command</a></p>
@@ -102,7 +121,7 @@ templates, the addition of builtins for YAML as well as the removal of some depr
 <p>June 28, 2022</p>
 <p>For more details and binary releases see <a href="https://github.com/open2b/scriggo/releases/tag/v0.54.0">https://github.com/open2b/scriggo/releases/tag/v0.54.0</a></p>
 <p><strong>This version breaks the compatibility with previous versions.</strong></p>
-<h3 id="changes-3">Changes</h3>
+<h3 id="changes-4">Changes</h3>
 <ul>
 <li>
 <p>compiler/checker: don't consider 'make(...)' a constant function call <strong>(breaking change)</strong></p>

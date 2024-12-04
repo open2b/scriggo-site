@@ -22,7 +22,7 @@
 <body>
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
-    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.57.1</a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.58.0</a>
     <ul>
         <li><a href="/news">News</a></li>
         <li><a href="/what-is-scriggo" class="selected">Documentation</a></li>
@@ -113,7 +113,7 @@
 </code></pre>
 <p>then test if <code>scriggo</code> can be executed:</p>
 <pre><code class="language-shell">$ scriggo version
-scriggo version v0.57.0 (go1.23)
+scriggo version v0.58.0 (go1.23)
 </code></pre>
 <p>If the <code>scriggo</code> command is not found, you should add the directory where the command has been installed to your <code>PATH</code>.</p>
 <p><code>go</code> installs the <code>scriggo</code> command in the directory named by the <code>GOBIN</code> environment variable. If it is not set it
@@ -134,8 +134,8 @@ available in the template file.</p>
 <p>runs the file &quot;article.html&quot; as HTML and prints the result to the standard output. Extended, imported and rendered file
 paths are relative to the directory of the executed file.</p>
 <p>The <code>-o</code> flag writes the result to the named output file or directory, instead to the standard output.</p>
-<p>Markdown is converted to HTML with the Goldmark parser with the options <code>html.WithUnsafe</code>, <code>parser.WithAutoHeadingID</code>
-and <code>extension.GFM</code>.</p>
+<p>Markdown is converted to HTML with the Goldmark parser with the options <code>html.WithUnsafe</code>, <code>parser.WithAutoHeadingID</code>,
+<code>extension.GFM</code>, and <code>extension.Footnote</code>.</p>
 <h3 id="complete-syntax">Complete syntax</h3>
 <p>The complete <code>scriggo run</code> command takes this form:</p>
 <pre><code class="language-shell">$ scriggo run [-o output] [-root dir] [-const name=value] [-format format] [-metrics] [-S n] file 
@@ -180,7 +180,7 @@ All Scriggo builtins are available in template files. It is useful to learn <a h
 </code></pre>
 <p>it renders &quot;blog/index.html&quot; or &quot;blog/index.md&quot;.</p>
 <p>Markdown is converted to HTML with the <a href="https://github.com/yuin/goldmark">Goldmark</a> parser with the options
-<code>html.WithUnsafe</code>, <code>parser.WithAutoHeadingID</code> and <code>extension.GFM</code>.</p>
+<code>html.WithUnsafe</code>, <code>parser.WithAutoHeadingID</code>, <code>extension.GFM</code>, and <code>extension.Footnote</code>.</p>
 <p>Templates are automatically rebuilt when a file changes.</p>
 <h3 id="complete-syntax-1">Complete syntax</h3>
 <p>The complete <code>scriggo serve</code> command takes this form:</p>
