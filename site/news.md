@@ -24,7 +24,7 @@ Finally, the `scriggo serve` command now enables support for footnotes in Markdo
 * [cmd/scriggo: add extension.Footnote to goldmark](https://github.com/open2b/scriggo/commit/b8a4eedf047d51752f7c13d366378db104fe3b48) **(breaking change)**
 * [internal/runtime: refactor macro calls and renderer implementation](https://github.com/open2b/scriggo/commit/3894f61234f4412bffc2085e9f5bd57d69181286)
 * [internal/compiler: add .mdx as default Markdown file extension](https://github.com/open2b/scriggo/commit/0025e57955f322bb700fd85a1db71101937dc15c) **(breaking change)**
-* [native,internal/runtime: introduce the Env.MarkdownConverter method](https://github.com/open2b/scriggo/commit/2c05377e66c0db077bc9ab9578e8fd750ed086e7)
+* [native,internal/runtime: introduce the Env.MarkdownConverter method](https://github.com/open2b/scriggo/commit/2c05377e66c0db077bc9ab9578e8fd750ed086e7) **(breaking change)**
 
 **This version breaks the compatibility with previous versions.**
 
