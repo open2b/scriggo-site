@@ -6,9 +6,9 @@
 //
 // For example, the source in a template file named "articles.html":
 //
-//    {% for article in articles %}
-//    <div>{{ article.Title }}</div>
-//    {% end %}
+//	{% for article in articles %}
+//	<div>{{ article.Title }}</div>
+//	{% end %}
 //
 // is represented with the tree:
 //
@@ -32,7 +32,6 @@
 //			},
 //		),
 //	}, ast.FormatHTML)
-//
 package ast
 
 import (
@@ -49,6 +48,7 @@ var expandedPrint = false
 // OperatorType represents an operator type in a unary and binary expression.
 type OperatorType int
 
+// Operators.
 const (
 	OperatorEqual          OperatorType = iota // ==
 	OperatorNotEqual                           // !=
@@ -113,6 +113,7 @@ const (
 // A Format represents a content format.
 type Format int
 
+// Formats.
 const (
 	FormatText Format = iota
 	FormatHTML
@@ -312,6 +313,14 @@ func (e *expression) SetParenthesis(n int) {
 	e.parenthesis = n
 }
 
+// StringWithParenthesis returns the string representation of the given
+// expression, surrounding it by parenthesis if necessary.
+func StringWithParenthesis(expr Expression) string {
+	s := expr.String()
+	n := expr.Parenthesis()
+	return strings.Repeat("(", n) + s + strings.Repeat(")", n)
+}
+
 // Cut indicates, in a Text node, how many bytes should be cut from the left
 // and the right of the text before rendering the Text node.
 type Cut struct {
@@ -481,6 +490,11 @@ type Block struct {
 // NewBlock returns a new block statement.
 func NewBlock(pos *Position, nodes []Node) *Block {
 	return &Block{pos, nodes}
+}
+
+// String returns the string representation of n.
+func (n *Block) String() string {
+	return "block statement"
 }
 
 // Break node represents a "break" statement.
@@ -684,27 +698,6 @@ func (n *Defer) String() string {
 	return "defer " + n.Call.String()
 }
 
-// DollarIdentifier node represents a dollar identifier in the form  $id.
-type DollarIdentifier struct {
-	*expression
-	*Position             // position in the source.
-	Ident     *Identifier // identifier.
-
-	IR struct {
-		Ident Expression
-	}
-}
-
-// NewDollarIdentifier returns a new DollarIdentifier node.
-func NewDollarIdentifier(pos *Position, ident *Identifier) *DollarIdentifier {
-	return &DollarIdentifier{&expression{}, pos, ident, struct{ Ident Expression }{}}
-}
-
-// String returns the string representation of n.
-func (n *DollarIdentifier) String() string {
-	return "$" + n.Ident.String()
-}
-
 // Extends node represents an "extends" declaration.
 type Extends struct {
 	*Position        // position in the source.
@@ -787,14 +780,15 @@ type ForIn struct {
 	Ident     *Identifier // identifier.
 	Expr      Expression  // range expression.
 	Body      []Node      // nodes of the body.
+	Else      *Block      // nodes to run if the body is not executed.
 }
 
 // NewForIn represents a new ForIn node.
-func NewForIn(pos *Position, ident *Identifier, expr Expression, body []Node) *ForIn {
+func NewForIn(pos *Position, ident *Identifier, expr Expression, body []Node, els *Block) *ForIn {
 	if body == nil {
 		body = []Node{}
 	}
-	return &ForIn{pos, ident, expr, body}
+	return &ForIn{pos, ident, expr, body, els}
 }
 
 // ForRange node represents the "for range" statement.
@@ -802,14 +796,15 @@ type ForRange struct {
 	*Position              // position in the source.
 	Assignment *Assignment // assignment.
 	Body       []Node      // nodes of the body.
+	Else       *Block      // nodes to run if the body is not executed.
 }
 
 // NewForRange returns a new ForRange node.
-func NewForRange(pos *Position, assignment *Assignment, body []Node) *ForRange {
+func NewForRange(pos *Position, assignment *Assignment, body []Node, els *Block) *ForRange {
 	if body == nil {
 		body = []Node{}
 	}
-	return &ForRange{pos, assignment, body}
+	return &ForRange{pos, assignment, body, els}
 }
 
 // Func node represents a function declaration or literal.

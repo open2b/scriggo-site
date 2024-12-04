@@ -38,14 +38,14 @@ For the examples of this documentation we use a simple file system,
 
 By default, Scriggo gets the format of a file from the filename extension:
 
-| Format   | Extension                        |
-|----------|----------------------------------|
-| HTML     | .html                            |
-| Markdown | .md .mkd .mkdn .mdown .markdown  |
-| CSS      | .css                             |
-| JS       | .js                              |
-| JSON     | .json                            |
-| Text     | all other extensions             |
+| Format   | Extension                            |
+|----------|--------------------------------------|
+| HTML     | .html                                |
+| Markdown | .md .mdx .mkd .mkdn .mdown .markdown |
+| CSS      | .css                                 |
+| JS       | .js                                  |
+| JSON     | .json                                |
+| Text     | all other extensions                 |
 
 If the file system implements the [FormatFS](https://pkg.go.dev/github.com/open2b/scriggo#FormatFS) interface:
 
@@ -359,7 +359,8 @@ There are several options you can use with Goldmark, for example the _scriggo se
 goldmark.New(
     goldmark.WithRendererOptions(html.WithUnsafe()),        // do not remove any HTML code
     goldmark.WithParserOptions(parser.WithAutoHeadingID()), // add ids to the headings
-    goldmark.WithExtensions(extension.GFM))                 // allow GitHub Flavored Markdown
+    goldmark.WithExtensions(extension.GFM),                 // allow GitHub Flavored Markdown
+    goldmark.WithExtensions(extension.Footnote))            // enables support for footnotes
 ```
 
 ### Import packages

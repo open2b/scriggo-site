@@ -43,7 +43,8 @@ func main() {
 	md := goldmark.New(
 		goldmark.WithRendererOptions(html.WithUnsafe()),
 		goldmark.WithParserOptions(parser.WithAutoHeadingID()),
-		goldmark.WithExtensions(extension.GFM))
+		goldmark.WithExtensions(extension.GFM),
+		goldmark.WithExtensions(extension.Footnote))
 
 	buildOptions := &scriggo.BuildOptions{
 		Globals: make(native.Declarations, len(globals)+1),

@@ -95,8 +95,8 @@ func (tc *typechecker) checkIdentifier(ident *ast.Identifier, used bool) *typeIn
 		}
 	}
 
-	// Handle predeclared variables in templates and scripts.
-	if tc.opts.mod == templateMod || tc.opts.mod == scriptMod {
+	// Handle predeclared variables in templates.
+	if tc.opts.mod == templateMod {
 		// The identifier refers to a native value that is an up value for
 		// the current function.
 		if isUpVar && ti.IsNative() {
@@ -455,9 +455,6 @@ func (tc *typechecker) typeof(expr ast.Expression, typeExpected bool) *typeInfo 
 		}
 		return t
 
-	case *ast.DollarIdentifier:
-		return tc.checkDollarIdentifier(expr)
-
 	case *ast.Identifier:
 		return tc.checkIdentifier(expr, true)
 
@@ -752,6 +749,10 @@ func (tc *typechecker) typeof(expr ast.Expression, typeExpected bool) *typeInfo 
 		if mv, ok := tc.checkMethodValue(t, expr); ok {
 			return mv
 		}
+		// Key selector.
+		if ti, ok := tc.checkKeySelector(t, expr); ok {
+			return ti
+		}
 		// Field selector.
 		return tc.checkFieldSelector(t, expr)
 
@@ -968,7 +969,7 @@ func (tc *typechecker) binaryOp(expr1 ast.Expression, op ast.OperatorType, expr2
 		typ := t1.Type
 		if evalToBoolOperators[op] {
 			typ = boolType
-		} else if t1.Untyped() && t1.Type.Kind() < t2.Type.Kind() {
+		} else if !isShift && t1.Untyped() && t1.Type.Kind() < t2.Type.Kind() {
 			typ = t2.Type
 		}
 		ti := &typeInfo{Type: typ, Constant: c}
@@ -1263,9 +1264,9 @@ func (tc *typechecker) checkBuiltinCall(expr *ast.Call) []*typeInfo {
 		}
 		re := tc.checkExpr(expr.Args[0])
 		im := tc.checkExpr(expr.Args[1])
-		reKind := re.Type.Kind()
-		imKind := im.Type.Kind()
 		if re.IsUntypedConstant() && im.IsUntypedConstant() {
+			reKind := re.Type.Kind()
+			imKind := im.Type.Kind()
 			if !isNumeric(reKind) || !isNumeric(imKind) {
 				if reKind == imKind {
 					panic(tc.errorf(expr, "invalid operation: %s (arguments have type %s, expected floating-point)", expr, re))
@@ -1299,7 +1300,7 @@ func (tc *typechecker) checkBuiltinCall(expr *ast.Call) []*typeInfo {
 			}
 			im.setValue(re.Type)
 			im = &typeInfo{Type: re.Type, Constant: c}
-		} else if reKind != imKind {
+		} else if re.Type != im.Type {
 			panic(tc.errorf(expr, "invalid operation: %s (mismatched types %s and %s)", expr, re, im))
 		}
 		ti := &typeInfo{}
@@ -1872,13 +1873,13 @@ func (tc *typechecker) maxIndex(node *ast.CompositeLiteral) int {
 // typ is the type of the composite literal, and it is taken in account only
 // when node does not have a type. For example, given the following expression:
 //
-//     []T{{}, {}, {}}
+//	[]T{{}, {}, {}}
 //
 // when checking the elements of the slice the typ argument passed to
 // checkCompositeLiteral is 'T', and it is considered because the elements do
 // not have an explicit type. In this other situation:
 //
-//     []T{T{}, T{}, T{}}
+//	[]T{T{}, T{}, T{}}
 //
 // every element specifies the type, so the argument 'typ' is simply ignored.
 //
@@ -2182,15 +2183,6 @@ func (tc *typechecker) isCompileConstant(expr ast.Expression) bool {
 		switch tc.builtinCallName(expr) {
 		case "len", "cap":
 			return tc.isCompileConstant(expr.Args[0])
-		case "make":
-			switch len(expr.Args) {
-			case 1:
-				return true
-			case 2:
-				return tc.isCompileConstant(expr.Args[0])
-			case 3:
-				return tc.isCompileConstant(expr.Args[0]) && tc.isCompileConstant(expr.Args[1])
-			}
 		}
 		return false
 	case *ast.CompositeLiteral:
@@ -2215,51 +2207,6 @@ func (tc *typechecker) isCompileConstant(expr ast.Expression) bool {
 		return expr.Op != ast.OperatorReceive && tc.isCompileConstant(expr.Expr)
 	}
 	return true
-}
-
-// checkDollarIdentifier type checks a dollar identifier $x.
-func (tc *typechecker) checkDollarIdentifier(expr *ast.DollarIdentifier) *typeInfo {
-
-	// Check that x is a valid identifier.
-	if ti, _, ok := tc.scopes.Lookup(expr.Ident.Name); ok {
-		// Check that x is not a builtin function.
-		if ti.IsBuiltinFunction() {
-			panic(tc.errorf(expr.Ident, "use of builtin %s not in function call", expr.Ident))
-		}
-		// Check that x is not a type.
-		if ti.IsType() {
-			panic(tc.errorf(expr.Ident, "unexpected type in dollar identifier"))
-		}
-		// Check that x is not a local identifier.
-		if _, _, ok := tc.scopes.LookupInFunc(expr.Ident.Name); ok {
-			panic(tc.errorf(expr, "use of local identifier within dollar identifier"))
-		}
-		// Check that x is not declared in the file/package block, that
-		// contains, for example, the variable declarations at the top level of
-		// an imported or extending file.
-		if _, ok := tc.scopes.FilePackage(expr.Ident.Name); ok {
-			panic(tc.errorf(expr, "use of top-level identifier within dollar identifier"))
-		}
-	}
-
-	// Set the IR of the expression.
-	var arg *ast.Identifier
-	var pos = expr.Pos()
-	if _, ok := tc.scopes.Global(expr.Ident.Name); ok {
-		arg = expr.Ident // "x"
-	} else {
-		arg = ast.NewIdentifier(pos, "nil") // "nil"
-	}
-	// expr.IR.Ident is set to "interface{}(x)" or "interface{}(nil)".
-	expr.IR.Ident = ast.NewCall(
-		pos,
-		ast.NewInterface(pos), // "interface{}"
-		[]ast.Expression{arg}, // "x" or "nil"
-		false,
-	)
-
-	// Type check the IR of the expression and return its type info.
-	return tc.checkExpr(expr.IR.Ident)
 }
 
 // checkDefault type checks a default expression. show indicates if the
@@ -2607,6 +2554,30 @@ func (tc *typechecker) checkMethodValue(t *typeInfo, expr *ast.Selector) (*typeI
 	}, true
 }
 
+// checkKeySelector checks a key selector.
+func (tc *typechecker) checkKeySelector(t *typeInfo, expr *ast.Selector) (*typeInfo, bool) {
+
+	if tc.opts.mod != templateMod {
+		return nil, false
+	}
+
+	switch {
+	case t.Type.Kind() == reflect.Map:
+		// Type must be 'map[K]E' where K is a string type or the 'interface{}' type and E is any type.
+		if k := t.Type.Key(); t.Type.Name() != "" || k.Kind() != reflect.String && k != emptyInterfaceType {
+			panic(tc.errorf(expr, "invalid operation: cannot select %s (type %s does not support key selection)", expr, t.Type))
+		}
+		// Remember to replace 'm.x' with 'm["x"]'.
+		replacement := ast.NewIndex(expr.Pos(), expr.Expr, ast.NewBasicLiteral(expr.Pos(), ast.StringLiteral, "`"+expr.Ident+"`"))
+		tc.checkExpr(replacement)
+		return &typeInfo{Type: t.Type.Elem(), Properties: propertyMapSelector, replacement: replacement}, true
+	case t.IsMapSelector() && t.Type == emptyInterfaceType:
+		return &typeInfo{Type: t.Type, Properties: t.Properties}, true
+	}
+
+	return nil, false
+}
+
 // checkFieldSelector checks a field selector.
 func (tc *typechecker) checkFieldSelector(t *typeInfo, expr *ast.Selector) *typeInfo {
 
@@ -2718,7 +2689,6 @@ func (tc *typechecker) findStructField(s reflect.Type, expr *ast.Selector) (typ 
 // For the struct{ _ int } type, the package identifier is not necessary
 // because blank identifiers are not considered for comparison. In its place a
 // number, different for each blank identifier in the struct, is used.
-//
 func (tc *typechecker) encodeFieldName(name string, blank *int) string {
 	if name == "_" {
 		name = "𝗽" + strconv.Itoa(*blank)

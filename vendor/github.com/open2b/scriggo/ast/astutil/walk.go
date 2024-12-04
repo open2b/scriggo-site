@@ -108,9 +108,6 @@ func Walk(v Visitor, node ast.Node) {
 		Walk(v, n.Expr1)
 		Walk(v, n.Expr2)
 
-	case *ast.DollarIdentifier:
-		Walk(v, n.Ident)
-
 	case *ast.For:
 		if n.Init != nil {
 			Walk(v, n.Init)
@@ -134,6 +131,9 @@ func Walk(v Visitor, node ast.Node) {
 		for _, n := range n.Body {
 			Walk(v, n)
 		}
+		if n.Else != nil {
+			Walk(v, n.Else)
+		}
 
 	case *ast.ForRange:
 		if n.Assignment != nil {
@@ -141,6 +141,9 @@ func Walk(v Visitor, node ast.Node) {
 		}
 		for _, n := range n.Body {
 			Walk(v, n)
+		}
+		if n.Else != nil {
+			Walk(v, n.Else)
 		}
 
 	case *ast.Func:

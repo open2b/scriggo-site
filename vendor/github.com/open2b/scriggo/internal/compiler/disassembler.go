@@ -52,10 +52,9 @@ func packageName(pkg string) string {
 // n determines the maximum length, in runes, of the disassembled text in a
 // Text instruction:
 //
-//   n > 0: at most n runes; leading and trailing white space are removed
-//   n == 0: no text
-//   n < 0: all text
-//
+//	n > 0: at most n runes; leading and trailing white space are removed
+//	n == 0: no text
+//	n < 0: all text
 func Disassemble(main *runtime.Function, globals []Global, n int) map[string][]byte {
 
 	functionsByPkg := map[string]map[*runtime.Function]int{}
@@ -169,10 +168,9 @@ func Disassemble(main *runtime.Function, globals []Global, n int) map[string][]b
 // n determines the maximum length, in runes, of the disassembled text in a
 // Text instruction:
 //
-//   n > 0: at most n runes; leading and trailing white space are removed
-//   n == 0: no text
-//   n < 0: all text
-//
+//	n > 0: at most n runes; leading and trailing white space are removed
+//	n == 0: no text
+//	n < 0: all text
 func DisassembleFunction(fn *runtime.Function, globals []Global, n int) []byte {
 	var b bytes.Buffer
 	if fn.Macro {
@@ -294,17 +292,17 @@ func disassembleFunction(b *bytes.Buffer, globals []Global, fn *runtime.Function
 // the operands have not been added by the emitter/builder, then the
 // reflect.Invalid kind is returned.
 func getKind(operand rune, fn *runtime.Function, addr runtime.Addr) reflect.Kind {
-	debugInfo, ok := fn.DebugInfo[addr]
+	info, ok := fn.InstructionInfo[addr]
 	if !ok {
 		return reflect.Invalid
 	}
 	switch operand {
 	case 'a':
-		return debugInfo.OperandKind[0]
+		return info.OperandKind[0]
 	case 'b':
-		return debugInfo.OperandKind[1]
+		return info.OperandKind[1]
 	case 'c':
-		return debugInfo.OperandKind[2]
+		return info.OperandKind[2]
 	default:
 		panic(internalError("invalid operand %v", operand))
 	}
@@ -591,6 +589,14 @@ func disassembleInstruction(fn *runtime.Function, globals []Global, addr runtime
 			s += " 0 0"
 		}
 		s += " " + disassembleOperand(fn, c, reflect.Interface, false)
+	case runtime.OpMapIndex:
+		s += " " + disassembleOperand(fn, a, reflect.Interface, false)
+		s += " " + disassembleOperand(fn, b, getKind('b', fn, addr), k)
+		s += " " + disassembleOperand(fn, c, getKind('c', fn, addr), false)
+	case runtime.OpMapIndexAny:
+		s += " " + disassembleOperand(fn, a, reflect.Interface, false)
+		s += " " + disassembleOperand(fn, b, reflect.String, k)
+		s += " " + disassembleOperand(fn, c, reflect.Interface, false)
 	case runtime.OpMethodValue:
 		s += " " + disassembleOperand(fn, a, reflect.Interface, false)
 		s += " " + disassembleOperand(fn, b, reflect.String, true)
@@ -742,7 +748,7 @@ func funcNameType(fn *runtime.Function, index int8, addr runtime.Addr, op runtim
 		typ := reflect.TypeOf(fn.NativeFunctions[index].Func())
 		return false, name, typ
 	case runtime.OpCallIndirect, runtime.OpDefer:
-		return false, "", fn.DebugInfo[addr].FuncType
+		return false, "", fn.InstructionInfo[addr].FuncType
 	case runtime.OpTailCall:
 		panic(internalError("tail call optimization not implemented"))
 	default:
@@ -1063,7 +1069,8 @@ var operationName = [...]string{
 
 	runtime.OpMakeStruct: "MakeStruct",
 
-	runtime.OpMapIndex: "MapIndex",
+	runtime.OpMapIndex:    "MapIndex",
+	runtime.OpMapIndexAny: "MapIndex",
 
 	runtime.OpMethodValue: "MethodValue",
 

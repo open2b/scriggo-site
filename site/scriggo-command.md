@@ -33,7 +33,7 @@ then test if `scriggo` can be executed:
 
 ```shell
 $ scriggo version
-scriggo version v0.57.0 (go1.23)
+scriggo version v0.58.0 (go1.23)
 ```
 
 If the `scriggo` command is not found, you should add the directory where the command has been installed to your `PATH`.
@@ -72,8 +72,8 @@ paths are relative to the directory of the executed file.
 
 The `-o` flag writes the result to the named output file or directory, instead to the standard output.
 
-Markdown is converted to HTML with the Goldmark parser with the options `html.WithUnsafe`, `parser.WithAutoHeadingID`
-and `extension.GFM`.
+Markdown is converted to HTML with the Goldmark parser with the options `html.WithUnsafe`, `parser.WithAutoHeadingID`,
+`extension.GFM`, and `extension.Footnote`.
 
 ### Complete syntax
 
@@ -150,7 +150,7 @@ Serving a URL terminating with a slash:
 it renders "blog/index.html" or "blog/index.md". 
 
 Markdown is converted to HTML with the [Goldmark](https://github.com/yuin/goldmark) parser with the options
-`html.WithUnsafe`, `parser.WithAutoHeadingID` and `extension.GFM`.
+`html.WithUnsafe`, `parser.WithAutoHeadingID`, `extension.GFM`, and `extension.Footnote`.
 
 Templates are automatically rebuilt when a file changes.
 

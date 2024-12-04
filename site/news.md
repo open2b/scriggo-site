@@ -4,6 +4,30 @@
 
 # News
 
+## Released Scriggo v0.58.0
+December 04, 2024
+
+This release fixes the following issues:
+
+* **Fixed a panic** in the Scriggo command when trying to import or extend a non-existent file.
+* **Fixed rendering** issues when a non-Markdown file is rendered inside a Markdown context.
+
+Additionally, files with the ".mdx" extension are now treated as Markdown files by default.
+
+We’ve added the **MarkdownConverter** method to `native.Env`. A function or method, whether passed globally or imported into a template, can now use this method to retrieve the Markdown converter passed when building the template.
+
+Finally, the `scriggo serve` command now enables support for footnotes in Markdown parsing.
+
+### Changes
+
+* [cmd/scriggo: fix panic when importing or extending a non-existent file](https://github.com/open2b/scriggo/commit/0fc1e83760a0110682347854a276d4bed984cc12)
+* [cmd/scriggo: add extension.Footnote to goldmark](https://github.com/open2b/scriggo/commit/b8a4eedf047d51752f7c13d366378db104fe3b48) **(breaking change)**
+* [internal/runtime: refactor macro calls and renderer implementation](https://github.com/open2b/scriggo/commit/3894f61234f4412bffc2085e9f5bd57d69181286)
+* [internal/compiler: add .mdx as default Markdown file extension](https://github.com/open2b/scriggo/commit/0025e57955f322bb700fd85a1db71101937dc15c) **(breaking change)**
+* [native,internal/runtime: introduce the Env.MarkdownConverter method](https://github.com/open2b/scriggo/commit/2c05377e66c0db077bc9ab9578e8fd750ed086e7)
+
+**This version breaks the compatibility with previous versions.**
+
 ## Released Scriggo v0.57.1
 October 22, 2024
 

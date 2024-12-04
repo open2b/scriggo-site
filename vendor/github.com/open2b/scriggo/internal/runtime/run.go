@@ -6,6 +6,7 @@ package runtime
 
 import (
 	"bytes"
+	"errors"
 	"reflect"
 	"strings"
 	"sync/atomic"
@@ -291,9 +292,16 @@ func (vm *VM) run() (Addr, bool) {
 				if fn.Macro {
 					call.renderer = vm.renderer
 					if b == ReturnString {
-						vm.renderer = vm.renderer.WithOut(&macroOutBuffer{})
+						vm.renderer = newRenderer(&strings.Builder{})
 					} else if ast.Format(b) != fn.Format {
-						vm.renderer = vm.renderer.WithConversion(fn.Format, ast.Format(b))
+						if fn.Format == ast.FormatMarkdown && ast.Format(b) == ast.FormatHTML {
+							if vm.env.conv == nil {
+								panic(&fatalError{env: vm.env, msg: errors.New("no Markdown convert available")})
+							}
+							vm.renderer = newRenderer(&bytes.Buffer{})
+						} else {
+							vm.renderer = newRenderer(vm.renderer.out)
+						}
 					}
 				}
 				vm.fn = fn
@@ -322,9 +330,16 @@ func (vm *VM) run() (Addr, bool) {
 				vm.moreGeneralStack()
 			}
 			if b == ReturnString {
-				vm.renderer = vm.renderer.WithOut(&macroOutBuffer{})
+				vm.renderer = newRenderer(&strings.Builder{})
 			} else if ast.Format(b) != fn.Format {
-				vm.renderer = vm.renderer.WithConversion(fn.Format, ast.Format(b))
+				if fn.Format == ast.FormatMarkdown && ast.Format(b) == ast.FormatHTML {
+					if vm.env.conv == nil {
+						panic(&fatalError{env: vm.env, msg: errors.New("no Markdown convert available")})
+					}
+					vm.renderer = newRenderer(&bytes.Buffer{})
+				} else {
+					vm.renderer = newRenderer(vm.renderer.out)
+				}
 			}
 			vm.fn = fn
 			vm.vars = vm.env.globals
@@ -512,13 +527,11 @@ func (vm *VM) run() (Addr, bool) {
 			if t.Kind() == reflect.Slice {
 				vm.setGeneral(c, v.Convert(t))
 			} else {
-				var b bytes.Buffer
-				r1 := vm.renderer.WithOut(&b)
-				r2 := r1.WithConversion(ast.FormatMarkdown, ast.FormatHTML)
-				_, _ = r2.Out().Write([]byte(v.String()))
-				_ = r2.Close()
-				_ = r1.Close()
-				vm.setString(c, b.String())
+				if vm.env.conv != nil {
+					var b strings.Builder
+					_ = vm.env.conv([]byte(v.String()), &b)
+					vm.setString(c, b.String())
+				}
 			}
 
 		// Concat
@@ -549,7 +562,10 @@ func (vm *VM) run() (Addr, bool) {
 
 		// Delete
 		case OpDelete:
-			vm.general(a).SetMapIndex(vm.general(b), reflect.Value{})
+			m := vm.general(a)
+			k := reflect.New(m.Type().Key()).Elem()
+			vm.getIntoReflectValue(b, k, false)
+			m.SetMapIndex(k, reflect.Value{})
 
 		// Div
 		case OpDiv, -OpDiv:
@@ -595,6 +611,17 @@ func (vm *VM) run() (Addr, bool) {
 		// GetVar
 		case OpGetVar:
 			v := vm.vars[decodeInt16(a, b)]
+			k := v.Kind()
+			switch {
+			case reflect.Bool <= k && k <= reflect.Float64:
+			case k == reflect.String:
+			case k == reflect.Func:
+			case k == reflect.Interface:
+			default:
+				v2 := reflect.New(v.Type()).Elem()
+				v2.Set(v)
+				v = v2
+			}
 			vm.setFromReflectValue(c, v)
 
 		// GetVarAddr
@@ -1042,6 +1069,21 @@ func (vm *VM) run() (Addr, bool) {
 				elem.Set(index)
 			}
 			vm.setFromReflectValue(c, elem)
+		case OpMapIndexAny, -OpMapIndexAny:
+			m := vm.general(a)
+			t := m.Type()
+			// Type must be 'map[K]E' where K is a string type or the 'interface{}' type and E is any type.
+			if k := t.Key(); t.Name() != "" || k.Kind() != reflect.String && k != emptyInterfaceType {
+				panic(runtimeError("invalid operation: type " + t.String() + " does not support key indexing"))
+			}
+			k := reflect.ValueOf(vm.stringk(b, op < 0))
+			index := m.MapIndex(k)
+			elem := reflect.New(emptyInterfaceType).Elem()
+			vm.ok = index.IsValid()
+			if vm.ok {
+				elem.Set(index)
+			}
+			vm.setFromReflectValue(c, elem)
 
 		// MethodValue
 		case OpMethodValue:
@@ -1162,10 +1204,9 @@ func (vm *VM) run() (Addr, bool) {
 
 		// Range
 		case OpRange:
-			var addr Addr
-			var breakOut bool
-			rangeAddress := vm.pc - 1
-			bodyAddress := vm.pc + 1
+			endAddress := vm.pc
+			rangeAddress := endAddress - 1
+			bodyAddress := endAddress + 1
 			v := vm.general(a)
 			switch s := v.Interface().(type) {
 			case []int:
@@ -1177,7 +1218,7 @@ func (vm *VM) run() (Addr, bool) {
 						vm.setInt(c, int64(v))
 					}
 					vm.pc = bodyAddress
-					addr, breakOut = vm.run()
+					addr, breakOut := vm.run()
 					if addr != rangeAddress {
 						return addr, breakOut
 					}
@@ -1194,7 +1235,7 @@ func (vm *VM) run() (Addr, bool) {
 						vm.setInt(c, int64(v))
 					}
 					vm.pc = bodyAddress
-					addr, breakOut = vm.run()
+					addr, breakOut := vm.run()
 					if addr != rangeAddress {
 						return addr, breakOut
 					}
@@ -1211,7 +1252,7 @@ func (vm *VM) run() (Addr, bool) {
 						vm.setInt(c, int64(v))
 					}
 					vm.pc = bodyAddress
-					addr, breakOut = vm.run()
+					addr, breakOut := vm.run()
 					if addr != rangeAddress {
 						return addr, breakOut
 					}
@@ -1228,7 +1269,7 @@ func (vm *VM) run() (Addr, bool) {
 						vm.setFloat(c, v)
 					}
 					vm.pc = bodyAddress
-					addr, breakOut = vm.run()
+					addr, breakOut := vm.run()
 					if addr != rangeAddress {
 						return addr, breakOut
 					}
@@ -1245,7 +1286,7 @@ func (vm *VM) run() (Addr, bool) {
 						vm.setString(c, v)
 					}
 					vm.pc = bodyAddress
-					addr, breakOut = vm.run()
+					addr, breakOut := vm.run()
 					if addr != rangeAddress {
 						return addr, breakOut
 					}
@@ -1262,7 +1303,7 @@ func (vm *VM) run() (Addr, bool) {
 						vm.setGeneral(c, reflect.ValueOf(v))
 					}
 					vm.pc = bodyAddress
-					addr, breakOut = vm.run()
+					addr, breakOut := vm.run()
 					if addr != rangeAddress {
 						return addr, breakOut
 					}
@@ -1279,7 +1320,7 @@ func (vm *VM) run() (Addr, bool) {
 						vm.setInt(c, int64(v))
 					}
 					vm.pc = bodyAddress
-					addr, breakOut = vm.run()
+					addr, breakOut := vm.run()
 					if addr != rangeAddress {
 						return addr, breakOut
 					}
@@ -1296,7 +1337,7 @@ func (vm *VM) run() (Addr, bool) {
 						vm.setBool(c, v)
 					}
 					vm.pc = bodyAddress
-					addr, breakOut = vm.run()
+					addr, breakOut := vm.run()
 					if addr != rangeAddress {
 						return addr, breakOut
 					}
@@ -1313,7 +1354,7 @@ func (vm *VM) run() (Addr, bool) {
 						vm.setString(c, v)
 					}
 					vm.pc = bodyAddress
-					addr, breakOut = vm.run()
+					addr, breakOut := vm.run()
 					if addr != rangeAddress {
 						return addr, breakOut
 					}
@@ -1330,7 +1371,7 @@ func (vm *VM) run() (Addr, bool) {
 						vm.setGeneral(c, reflect.ValueOf(v))
 					}
 					vm.pc = bodyAddress
-					addr, breakOut = vm.run()
+					addr, breakOut := vm.run()
 					if addr != rangeAddress {
 						return addr, breakOut
 					}
@@ -1339,8 +1380,8 @@ func (vm *VM) run() (Addr, bool) {
 					}
 				}
 			default:
-				kind := v.Kind()
-				if kind == reflect.Map {
+				switch kind := v.Kind(); kind {
+				case reflect.Map:
 					iter := v.MapRange()
 					for iter.Next() {
 						if b != 0 {
@@ -1350,7 +1391,7 @@ func (vm *VM) run() (Addr, bool) {
 							vm.setFromReflectValue(c, iter.Value())
 						}
 						vm.pc = bodyAddress
-						addr, breakOut = vm.run()
+						addr, breakOut := vm.run()
 						if addr != rangeAddress {
 							return addr, breakOut
 						}
@@ -1358,7 +1399,38 @@ func (vm *VM) run() (Addr, bool) {
 							break
 						}
 					}
-				} else {
+				case reflect.Chan:
+					var u reflect.Value
+					var ok bool
+					for {
+						if done == nil {
+							u, ok = v.Recv()
+						} else {
+							var chosen int
+							cas := reflect.SelectCase{Dir: reflect.SelectRecv, Chan: v}
+							vm.cases = append(vm.cases, cas, vm.env.doneCase)
+							chosen, u, ok = reflect.Select(vm.cases)
+							if chosen == 1 {
+								return vm.stop()
+							}
+							vm.cases = vm.cases[:0]
+						}
+						if !ok {
+							break
+						}
+						if b != 0 {
+							vm.setFromReflectValue(b, u)
+						}
+						vm.pc = bodyAddress
+						addr, breakOut := vm.run()
+						if addr != rangeAddress {
+							return addr, breakOut
+						}
+						if breakOut {
+							break
+						}
+					}
+				default:
 					if kind == reflect.Ptr {
 						v = v.Elem()
 					}
@@ -1371,7 +1443,7 @@ func (vm *VM) run() (Addr, bool) {
 							vm.setFromReflectValue(c, v.Index(i))
 						}
 						vm.pc = bodyAddress
-						addr, breakOut = vm.run()
+						addr, breakOut := vm.run()
 						if addr != rangeAddress {
 							return addr, breakOut
 						}
@@ -1381,16 +1453,14 @@ func (vm *VM) run() (Addr, bool) {
 					}
 				}
 			}
-			if !breakOut {
-				vm.pc = rangeAddress + 1
-			}
+			vm.ok = vm.pc != endAddress
+			vm.pc = endAddress
 
 		// RangeString
 		case OpRangeString, -OpRangeString:
-			var addr Addr
-			var breakOut bool
-			rangeAddress := vm.pc - 1
-			bodyAddress := vm.pc + 1
+			endAddress := vm.pc
+			rangeAddress := endAddress - 1
+			bodyAddress := endAddress + 1
 			s := vm.stringk(a, op < 0)
 			for i, e := range s {
 				if b != 0 {
@@ -1400,7 +1470,7 @@ func (vm *VM) run() (Addr, bool) {
 					vm.setInt(c, int64(e))
 				}
 				vm.pc = bodyAddress
-				addr, breakOut = vm.run()
+				addr, breakOut := vm.run()
 				if addr != rangeAddress {
 					return addr, breakOut
 				}
@@ -1408,9 +1478,8 @@ func (vm *VM) run() (Addr, bool) {
 					break
 				}
 			}
-			if !breakOut {
-				vm.pc = rangeAddress + 1
-			}
+			vm.ok = vm.pc != endAddress
+			vm.pc = endAddress
 
 		// RealImag
 		case OpRealImag, -OpRealImag:
@@ -1508,16 +1577,20 @@ func (vm *VM) run() (Addr, bool) {
 				return maxUint32, false
 			}
 			call := vm.calls[i]
+			fn := call.cl.fn
 			if call.status == started {
 				if vm.fn.Macro {
 					if call.renderer != vm.renderer {
-						out := vm.renderer.Out()
-						if b, ok := out.(*macroOutBuffer); ok {
-							vm.setString(1, b.String())
-						}
-						err := vm.renderer.Close()
-						if err != nil {
-							panic(&fatalError{env: vm.env, msg: err})
+						b := fn.Body[call.pc-2].B
+						if b == ReturnString {
+							out := vm.renderer.Out().(*strings.Builder)
+							vm.setString(1, out.String())
+						} else if fn.Format == ast.FormatMarkdown && ast.Format(b) == ast.FormatHTML {
+							out := vm.renderer.Out().(*bytes.Buffer)
+							err := vm.env.conv(out.Bytes(), call.renderer.out)
+							if err != nil {
+								panic(&fatalError{env: vm.env, msg: err})
+							}
 						}
 					}
 					vm.renderer = call.renderer
@@ -1526,7 +1599,7 @@ func (vm *VM) run() (Addr, bool) {
 				}
 				vm.calls = vm.calls[:i]
 				vm.fp = call.fp
-				vm.fn = call.cl.fn
+				vm.fn = fn
 				vm.vars = call.cl.vars
 				vm.pc = call.pc
 			} else if !vm.nextCall() {
@@ -1730,7 +1803,7 @@ func (vm *VM) run() (Addr, bool) {
 			if rv.IsValid() {
 				v = rv.Interface()
 			}
-			err := vm.renderer.Show(v, Context(c))
+			err := vm.renderer.Show(vm.env, v, Context(c))
 			if err != nil {
 				panic(outError{err})
 			}

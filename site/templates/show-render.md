@@ -76,7 +76,7 @@ The show statement shows a value based on its type and the current context:
 The _render_ operator, when used with a _show_ statement, for example between `{{` and `}}`:
 
 ```scriggo
-{{ render path }}
+{{ render "sidebar.html" }}
 ```
 
 renders the template file with the named path and shows its content. A file rendered with render is called _partial_

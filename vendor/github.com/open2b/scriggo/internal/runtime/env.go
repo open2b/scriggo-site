@@ -21,6 +21,7 @@ type env struct {
 	globals []reflect.Value // global variables.
 	print   PrintFunc       // custom print builtin.
 	typeof  TypeOfFunc      // typeof function.
+	conv    Converter       // Markdown converter
 
 	done     int32
 	doneChan <-chan struct{}
@@ -45,6 +46,10 @@ func (env *env) Context() context.Context {
 
 func (env *env) Fatal(v interface{}) {
 	panic(&fatalError{env: env, msg: v})
+}
+
+func (env *env) MarkdownConverter() Converter {
+	return env.conv
 }
 
 func (env *env) Print(args ...interface{}) {

@@ -66,12 +66,12 @@ func (d *Delimiter) Dump(source []byte, level int) {
 
 var kindDelimiter = ast.NewNodeKind("Delimiter")
 
-// Kind implements Node.Kind
+// Kind implements Node.Kind.
 func (d *Delimiter) Kind() ast.NodeKind {
 	return kindDelimiter
 }
 
-// Text implements Node.Text
+// Text implements Node.Text.
 func (d *Delimiter) Text(source []byte) []byte {
 	return d.Segment.Value(source)
 }
@@ -126,7 +126,7 @@ func ScanDelimiter(line []byte, before rune, min int, processor DelimiterProcess
 			after = util.ToRune(line, j)
 		}
 
-		canOpen, canClose := false, false
+		var canOpen, canClose bool
 		beforeIsPunctuation := util.IsPunctRune(before)
 		beforeIsWhitespace := util.IsSpaceRune(before)
 		afterIsPunctuation := util.IsPunctRune(after)
@@ -162,15 +162,11 @@ func ProcessDelimiters(bottom ast.Node, pc Context) {
 	var closer *Delimiter
 	if bottom != nil {
 		if bottom != lastDelimiter {
-			for c := lastDelimiter.PreviousSibling(); c != nil; {
+			for c := lastDelimiter.PreviousSibling(); c != nil && c != bottom; {
 				if d, ok := c.(*Delimiter); ok {
 					closer = d
 				}
-				prev := c.PreviousSibling()
-				if prev == bottom {
-					break
-				}
-				c = prev
+				c = c.PreviousSibling()
 			}
 		}
 	} else {
@@ -189,7 +185,7 @@ func ProcessDelimiters(bottom ast.Node, pc Context) {
 		found := false
 		maybeOpener := false
 		var opener *Delimiter
-		for opener = closer.PreviousDelimiter; opener != nil; opener = opener.PreviousDelimiter {
+		for opener = closer.PreviousDelimiter; opener != nil && opener != bottom; opener = opener.PreviousDelimiter {
 			if opener.CanOpen && opener.Processor.CanOpenCloser(opener, closer) {
 				maybeOpener = true
 				consume = opener.CalcComsumption(closer)

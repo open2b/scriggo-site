@@ -31,7 +31,7 @@ type FormatFS interface {
 //
 // ParseTemplate expands the nodes Extends, Import and Render parsing the
 // relative trees.
-func ParseTemplate(fsys fs.FS, name string, noParseShow, dollarIdentifier bool) (*ast.Tree, error) {
+func ParseTemplate(fsys fs.FS, name string, noParseShow bool) (*ast.Tree, error) {
 
 	if name == "." || strings.HasSuffix(name, "/") {
 		return nil, os.ErrInvalid
@@ -43,12 +43,11 @@ func ParseTemplate(fsys fs.FS, name string, noParseShow, dollarIdentifier bool) 
 	}
 
 	pp := &templateExpansion{
-		fsys:             fsys,
-		trees:            map[string]parsedTree{},
-		paths:            []string{},
-		canExtend:        true,
-		noParseShow:      noParseShow,
-		dollarIdentifier: dollarIdentifier,
+		fsys:        fsys,
+		trees:       map[string]parsedTree{},
+		paths:       []string{},
+		canExtend:   true,
+		noParseShow: noParseShow,
 	}
 
 	tree, err := pp.parseSource(src, name, format, false)
@@ -66,12 +65,11 @@ func ParseTemplate(fsys fs.FS, name string, noParseShow, dollarIdentifier bool) 
 
 // templateExpansion represents the state of a template expansion.
 type templateExpansion struct {
-	fsys             fs.FS
-	trees            map[string]parsedTree
-	paths            []string
-	canExtend        bool
-	noParseShow      bool
-	dollarIdentifier bool
+	fsys        fs.FS
+	trees       map[string]parsedTree
+	paths       []string
+	canExtend   bool
+	noParseShow bool
 }
 
 // parsedTree represents a parsed tree. parent is the file path and node that
@@ -89,18 +87,17 @@ type parsedTree struct {
 //
 // Supposing that a/b/c is the parent path
 //
-//   if name is /d/e, the rooted path name is d/e
-//   if name is d/e, the rooted path name is a/b/d/e
-//   if name is ../d/e, the rooted path name is a/d/e
-//   if name is ../../d/e, the rooted path name is d/e
-//
+//	if name is /d/e, the rooted path name is d/e
+//	if name is d/e, the rooted path name is a/b/d/e
+//	if name is ../d/e, the rooted path name is a/d/e
+//	if name is ../../d/e, the rooted path name is d/e
 func rooted(parent, name string) (string, error) {
 	if path.IsAbs(name) {
 		return name[1:], nil
 	}
 	r := path.Join(path.Dir(parent), name)
 	if strings.HasPrefix(r, "..") {
-		return "", os.ErrInvalid
+		return "", os.ErrNotExist
 	}
 	return r, nil
 }
@@ -179,11 +176,12 @@ func (pp *templateExpansion) parseNodeFile(node ast.Node) (*ast.Tree, error) {
 }
 
 // parseSource parses src expanding Extends, Import and Render nodes.
-// path is the path of the file, format is its content format and imported
-// indicates whether the file is imported. path must be absolute and cleared.
+// path is the path of the file, format is its content format, parseShebang
+// indicates whether the shebang line is parsed and imported indicates whether
+// the file is imported. path must be absolute and cleared.
 func (pp *templateExpansion) parseSource(src []byte, path string, format ast.Format, imported bool) (*ast.Tree, error) {
 
-	tree, unexpanded, err := ParseTemplateSource(src, format, imported, pp.noParseShow, pp.dollarIdentifier)
+	tree, unexpanded, err := ParseTemplateSource(src, format, imported, pp.noParseShow)
 	if err != nil {
 		if se, ok := err.(*SyntaxError); ok {
 			se.path = path
@@ -328,7 +326,7 @@ func readFileAndFormat(fsys fs.FS, name string) ([]byte, ast.Format, error) {
 			format = ast.FormatJS
 		case ".json":
 			format = ast.FormatJSON
-		case ".md", ".mkd", ".mkdn", ".mdown", ".markdown":
+		case ".md", ".mdx", ".mkd", ".mkdn", ".mdown", ".markdown":
 			format = ast.FormatMarkdown
 		}
 	}

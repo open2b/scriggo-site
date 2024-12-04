@@ -32,36 +32,18 @@ func scanProgram(text []byte) *lexer {
 	return lex
 }
 
-// scanScript scans a script file and returns a lexer.
-func scanScript(text []byte) *lexer {
+// scanTemplate scans a template file and returns a lexer.
+func scanTemplate(text []byte, format ast.Format, noParseShow bool) *lexer {
 	tokens := make(chan token, 20)
 	lex := &lexer{
 		text:           text,
 		src:            text,
 		line:           1,
 		column:         1,
-		ctx:            ast.ContextText,
+		ctx:            ast.Context(format),
 		tokens:         tokens,
-		extendedSyntax: true,
-	}
-	go lex.scan()
-	return lex
-}
-
-// scanTemplate scans a template file and returns a lexer.
-func scanTemplate(text []byte, format ast.Format, noParseShow, dollarIdentifier bool) *lexer {
-	tokens := make(chan token, 20)
-	lex := &lexer{
-		text:             text,
-		src:              text,
-		line:             1,
-		column:           1,
-		ctx:              ast.Context(format),
-		tokens:           tokens,
-		templateSyntax:   true,
-		extendedSyntax:   true,
-		dollarIdentifier: dollarIdentifier,
-		noParseShow:      noParseShow,
+		templateSyntax: true,
+		noParseShow:    noParseShow,
 	}
 	lex.tag.ctx = ast.ContextHTML
 	if lex.ctx == ast.ContextMarkdown {
@@ -106,22 +88,23 @@ type lexer struct {
 		index int         // index of first byte of the current attribute value in src
 		ctx   ast.Context // context of the tag's content
 	}
-	rawMarker        []byte     // raw marker, not nil when a raw statement has been lexed
-	tokens           chan token // tokens, is closed at the end of the scan
-	lastTokenType    tokenTyp   // type of the last non-empty emitted token
-	totals           int        // total number of emitted tokens, excluding automatically inserted semicolons
-	err              error      // error, reports whether there was an error
-	templateSyntax   bool       // support template syntax with tokens 'end', 'extends', 'in', 'macro', 'raw', 'render' and 'show'
-	extendedSyntax   bool       // support extended syntax with tokens 'and', 'or', 'not' and 'contains' (also support 'dollar' but only if 'dollarIdentifier' is true)
-	dollarIdentifier bool       // support the dollar identifier, only if 'extendedSyntax' is true
-	noParseShow      bool       // do not parse the short show statement.
+	rawMarker      []byte     // raw marker, not nil when a raw statement has been lexed
+	tokens         chan token // tokens, is closed at the end of the scan
+	lastTokenType  tokenTyp   // type of the last non-empty emitted token
+	totals         int        // total number of emitted tokens, excluding automatically inserted semicolons
+	err            error      // error, reports whether there was an error
+	templateSyntax bool       // support template syntax.
+	noParseShow    bool       // do not parse the short show statement.
 }
 
+// newline is called when the lexer encounters a new line.
 func (l *lexer) newline() {
 	l.line++
 	l.column = 1
 }
 
+// errorf returns a syntax error at the current lexer position with a message
+// formatted according to the format specifier.
 func (l *lexer) errorf(format string, a ...interface{}) *SyntaxError {
 	pos := ast.Position{
 		Line:   l.line,
@@ -201,6 +184,18 @@ var moduleType = []byte("module")
 // scan scans the text by placing the tokens on the tokens channel. If an
 // error occurs, it puts the error in err, closes the channel and returns.
 func (l *lexer) scan() {
+
+	if l.templateSyntax && len(l.src) > 1 {
+		// Parse shebang line.
+		if l.src[0] == '#' && l.src[1] == '!' {
+			t := bytes.IndexByte(l.src, '\n')
+			if t == -1 {
+				t = len(l.src) - 1
+			}
+			l.emit(tokenShebangLine, t+1)
+			l.line++
+		}
+	}
 
 	if l.templateSyntax {
 
@@ -590,18 +585,6 @@ func (l *lexer) scan() {
 
 	} else {
 
-		if len(l.src) > 1 {
-			// Parse shebang line.
-			if l.src[0] == '#' && l.src[1] == '!' {
-				t := bytes.IndexByte(l.src, '\n')
-				if t == -1 {
-					t = len(l.src) - 1
-				}
-				l.emit(tokenShebangLine, t+1)
-				l.line++
-			}
-		}
-
 		err := l.lexCode(tokenEOF)
 		if err != nil {
 			l.err = err
@@ -728,11 +711,11 @@ func (l *lexer) scanTag(p int) (string, int) {
 // returns the attribute name and the next position to scan.
 //
 // For example, if l.src[p:] is
-//    - `src="a"` it returns "src" and p+4
-//    - `src=a` it returns "src" and p+4
-//    - `src>` it returns "" and p+3
-//    - `src img` it returns "" and p+4.
-//    - `,` it returns "" and p.
+//   - `src="a"` it returns "src" and p+4
+//   - `src=a` it returns "src" and p+4
+//   - `src>` it returns "" and p+3
+//   - `src img` it returns "" and p+4.
+//   - `,` it returns "" and p.
 func (l *lexer) scanAttribute(p int) (string, int) {
 	// Reads the attribute name.
 	s := p
@@ -918,14 +901,13 @@ func (l *lexer) lexComment() error {
 // lexCode emits code tokens returning as soon as encounters a token based on
 // the given end parameter.
 //
-//   if end is tokenEOF, it returns when encounters tokenEOF
+//	if end is tokenEOF, it returns when encounters tokenEOF
 //
-//   if end is tokenEndStatement or tokenEndStatements, it returns when
-//   encounters tokenEOF, tokenEndStatement or tokenEndStatements
+//	if end is tokenEndStatement or tokenEndStatements, it returns when
+//	encounters tokenEOF, tokenEndStatement or tokenEndStatements
 //
-//   if end is tokenRightBraces, it returns when encounters tokenEOF,
-//   tokenEndStatement, tokenEndStatements or tokenRightBraces
-//
+//	if end is tokenRightBraces, it returns when encounters tokenEOF,
+//	tokenEndStatement, tokenEndStatements or tokenRightBraces
 func (l *lexer) lexCode(end tokenTyp) error {
 	if len(l.src) == 0 {
 		if end != tokenEOF {
@@ -969,16 +951,13 @@ LOOP:
 			}
 			endLineAsSemicolon = true
 		case '.':
-			if len(l.src) == 1 {
-				return l.errorf("unexpected EOF")
-			}
-			if '0' <= l.src[1] && l.src[1] <= '9' {
+			if len(l.src) > 1 && '0' <= l.src[1] && l.src[1] <= '9' {
 				err := l.lexNumber()
 				if err != nil {
 					return err
 				}
 				endLineAsSemicolon = true
-			} else if l.src[1] == '.' && len(l.src) > 2 && l.src[2] == '.' {
+			} else if len(l.src) > 1 && l.src[1] == '.' && len(l.src) > 2 && l.src[2] == '.' {
 				l.emit(tokenEllipsis, 3)
 				l.column += 3
 				endLineAsSemicolon = false
@@ -1222,14 +1201,6 @@ LOOP:
 				l.column++
 			}
 			endLineAsSemicolon = false
-		case '$':
-			if l.extendedSyntax && l.dollarIdentifier {
-				l.emit(tokenDollar, 1)
-				l.column++
-				endLineAsSemicolon = false
-			} else {
-				return l.errorf("invalid character U+0024 '$'")
-			}
 		case '(':
 			l.emit(tokenLeftParenthesis, 1)
 			l.column++
@@ -1396,18 +1367,22 @@ func isAlpha(s byte) bool {
 	return 'a' <= s && s <= 'z' || 'A' <= s && s <= 'Z'
 }
 
+// isBinDigit reports whether c is a binary digit.
 func isBinDigit(c byte) bool {
 	return c == '0' || c == '1'
 }
 
+// isOctDigit reports whether c is an octal digit.
 func isOctDigit(c byte) bool {
 	return '0' <= c && c <= '7'
 }
 
+// isDecDigit reports whether c is a decimal digit.
 func isDecDigit(c byte) bool {
 	return '0' <= c && c <= '9'
 }
 
+// isHexDigit reports whether c is a hexadecimal digit.
 func isHexDigit(c byte) bool {
 	return '0' <= c && c <= '9' || 'a' <= c && c <= 'f' || 'A' <= c && c <= 'F'
 }
@@ -1484,14 +1459,22 @@ func (l *lexer) lexIdentifierOrKeyword(s int) (tokenTyp, string) {
 	}
 	if l.templateSyntax && typ == tokenIdentifier {
 		switch id {
+		case "and":
+			typ = tokenExtendedAnd
 		case "end":
 			typ = tokenEnd
+		case "contains":
+			typ = tokenContains
 		case "extends":
 			typ = tokenExtends
 		case "in":
 			typ = tokenIn
 		case "macro":
 			typ = tokenMacro
+		case "not":
+			typ = tokenExtendedNot
+		case "or":
+			typ = tokenExtendedOr
 		case "raw":
 			typ = tokenRaw
 		case "render":
@@ -1500,18 +1483,6 @@ func (l *lexer) lexIdentifierOrKeyword(s int) (tokenTyp, string) {
 			typ = tokenShow
 		case "using":
 			typ = tokenUsing
-		}
-	}
-	if l.extendedSyntax && typ == tokenIdentifier {
-		switch id {
-		case "and":
-			typ = tokenExtendedAnd
-		case "contains":
-			typ = tokenContains
-		case "or":
-			typ = tokenExtendedOr
-		case "not":
-			typ = tokenExtendedNot
 		}
 	}
 	l.emit(typ, p)
@@ -1530,16 +1501,17 @@ var numberBaseName = map[int]string{
 func (l *lexer) lexNumber() error {
 	// Stops only if a character can not be part of the number.
 	var dot bool
-	var exponent bool
+	var exponent rune
+	var is0o bool
 	p := 0
 	base := 10
 	if c := l.src[0]; c == '0' && len(l.src) > 1 {
 		switch l.src[1] {
-		case '.':
 		case 'x', 'X':
 			base = 16
 			p = 2
 		case 'o', 'O':
+			is0o = true
 			base = 8
 			p = 2
 		case '_', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
@@ -1550,11 +1522,21 @@ func (l *lexer) lexNumber() error {
 			p = 2
 		}
 		if p < len(l.src) && l.src[p] == '_' {
+			if p+1 < len(l.src) && !isHexDigit(l.src[p+1]) {
+				return l.errorf("'_' must separate successive digits")
+			}
 			p++
 		}
-	} else if c == '.' {
+	}
+	if p < len(l.src) && l.src[p] == '.' {
+		if base == 8 && !is0o {
+			base = 10
+		}
+		if base < 10 {
+			return l.errorf("invalid radix point in " + numberBaseName[base] + " literal")
+		}
 		dot = true
-		p = 1
+		p++
 	}
 DIGITS:
 	for p < len(l.src) {
@@ -1565,27 +1547,27 @@ DIGITS:
 				break DIGITS
 			}
 		case 16:
-			if exponent && !isDecDigit(c) || !exponent && !isHexDigit(c) {
-				if dot && !exponent {
+			if exponent == 0 && !isHexDigit(c) || exponent != 0 && !isDecDigit(c) {
+				if dot && exponent == 0 {
 					return l.errorf("hexadecimal mantissa requires a 'p' exponent")
 				}
 				break DIGITS
 			}
 		case 8:
 			if !isOctDigit(c) {
-				if (c == '8' || c == '9') && l.src[0] == '0' && l.src[1] != 'o' && l.src[1] != 'O' {
+				if (c == '8' || c == '9') && !is0o {
 					// It could be an imaginary literal.
 					base = 10
-				} else if isHexDigit(c) {
-					return l.errorf("invalid digit '%d' in octal literal", c)
+				} else if isDecDigit(c) {
+					return l.errorf("invalid digit '%c' in octal literal", c)
 				} else {
 					break DIGITS
 				}
 			}
 		case 2:
 			if !isBinDigit(c) {
-				if isHexDigit(c) {
-					return l.errorf("invalid digit '%d' in binary literal", c)
+				if isDecDigit(c) {
+					return l.errorf("invalid digit '%c' in binary literal", c)
 				}
 				break DIGITS
 			}
@@ -1595,10 +1577,16 @@ DIGITS:
 			switch l.src[p] {
 			case '_':
 				p++
+				if p < len(l.src) && !isHexDigit(l.src[p]) {
+					break DIGITS
+				}
 				continue DIGITS
 			case '.':
-				if dot || exponent {
+				if dot || exponent != 0 {
 					break DIGITS
+				}
+				if base == 8 && !is0o {
+					base = 10
 				}
 				if base < 10 {
 					return l.errorf("invalid radix point in " + numberBaseName[base] + " literal")
@@ -1611,19 +1599,34 @@ DIGITS:
 			}
 			switch l.src[p] {
 			case 'e', 'E':
-				if exponent || base != 10 {
+				if base == 16 {
+					if dot {
+						return l.errorf("hexadecimal mantissa requires a 'p' exponent")
+					}
 					break
 				}
-				exponent = true
+				if base == 8 && !is0o {
+					base = 10
+				}
+				if base != 10 {
+					return l.errorf("'%c' exponent requires decimal mantissa", l.src[p])
+				}
+				if exponent != 0 {
+					break
+				}
+				exponent = 'e'
 				p++
 				if p < len(l.src) && (l.src[p] == '+' || l.src[p] == '-') {
 					p++
 				}
 			case 'p', 'P':
-				if exponent || base != 16 {
+				if base != 16 {
+					return l.errorf("'%c' exponent requires hexadecimal mantissa", l.src[p])
+				}
+				if exponent != 0 {
 					break
 				}
-				exponent = true
+				exponent = 'p'
 				p++
 				if p < len(l.src) && (l.src[p] == '+' || l.src[p] == '-') {
 					p++
@@ -1631,10 +1634,17 @@ DIGITS:
 			}
 		}
 	}
+	if p < len(l.src) && l.src[p] == '_' {
+		return l.errorf("'_' must separate successive digits")
+	}
 	switch l.src[p-1] {
 	case 'x', 'X', 'o', 'O', 'b', 'B':
 		if p == 2 {
 			return l.errorf(numberBaseName[base] + " literal has no digits")
+		}
+	case '.':
+		if p == 3 && base == 16 {
+			return l.errorf("hexadecimal literal has no digits")
 		}
 	case '_':
 		return l.errorf("'_' must separate successive digits")
@@ -1645,19 +1655,22 @@ DIGITS:
 	case 'p', 'P', '+', '-':
 		return l.errorf("exponent has no digits")
 	}
+	if base == 16 && dot && exponent != 'p' {
+		return l.errorf("hexadecimal mantissa requires a 'p' exponent")
+	}
 	imaginary := p < len(l.src) && l.src[p] == 'i'
 	if imaginary {
 		p++
-	} else if p > 0 && base == 10 && l.src[0] == '0' && !dot && !exponent {
+	} else if p > 0 && base == 10 && l.src[0] == '0' && !dot && exponent == 0 {
 		for _, c := range l.src[1:p] {
 			if c == '8' || c == '9' {
-				return l.errorf("invalid digit '%d' in octal literal", c)
+				return l.errorf("invalid digit '%c' in octal literal", c)
 			}
 		}
 	}
 	if imaginary {
 		l.emit(tokenImaginary, p)
-	} else if dot || exponent {
+	} else if dot || exponent != 0 {
 		l.emit(tokenFloat, p)
 	} else {
 		l.emit(tokenInt, p)

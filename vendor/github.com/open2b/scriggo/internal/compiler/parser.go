@@ -116,8 +116,9 @@ type parsing struct {
 	// Tree content format.
 	format ast.Format
 
-	// Report whether it is a script.
-	isScript bool
+	// If true, it does not expect a package statement.
+	// It is used only in tests.
+	noPackage bool
 
 	// Report whether it is imported.
 	imported bool
@@ -174,20 +175,16 @@ func (p *parsing) next() token {
 	return tok
 }
 
-// parseSource parses a program or a script and returns its tree.
-// script reports whether it is a script.
-func parseSource(src []byte, script bool) (tree *ast.Tree, err error) {
+// parseSource parses a program and returns its tree.
+// If noPackage is true, it does not expect a package statement.
+func parseSource(src []byte, noPackage bool) (tree *ast.Tree, err error) {
 
 	tree = ast.NewTree("", nil, ast.FormatText)
 
 	var p = &parsing{
-		isScript:  script,
+		noPackage: noPackage,
 		ancestors: []ast.Node{tree},
-	}
-	if script {
-		p.lex = scanScript(src)
-	} else {
-		p.lex = scanProgram(src)
+		lex:       scanProgram(src),
 	}
 
 	defer func() {
@@ -204,9 +201,6 @@ func parseSource(src []byte, script bool) (tree *ast.Tree, err error) {
 
 	tok := p.next()
 	if tok.typ == tokenShebangLine {
-		if !script {
-			return nil, syntaxError(tok.pos, "invalid character U+0023 '#'")
-		}
 		tok = p.next()
 	}
 
@@ -215,7 +209,7 @@ func parseSource(src []byte, script bool) (tree *ast.Tree, err error) {
 	}
 
 	if len(p.ancestors) == 1 {
-		if !script && len(tree.Nodes) == 0 {
+		if !noPackage && len(tree.Nodes) == 0 {
 			panic(syntaxError(tok.pos, "expected 'package', found 'EOF'"))
 		}
 	} else {
@@ -237,11 +231,12 @@ func parseSource(src []byte, script bool) (tree *ast.Tree, err error) {
 // and returns its tree and the unexpanded Extends, Import, Render and
 // Assignment nodes.
 //
+// If parseShebang is true, the shebang line is parsed.
 // If noParseShow is true, short show statements are not parsed.
 //
-// format can be Text, HTML, CSS, JavaScript, JSON and Markdown. imported
-// indicates whether it is imported.
-func ParseTemplateSource(src []byte, format ast.Format, imported, noParseShow, dollarIdentifier bool) (tree *ast.Tree, unexpanded []ast.Node, err error) {
+// format can be Text, HTML, CSS, JS, JSON and Markdown. imported indicates
+// whether it is imported.
+func ParseTemplateSource(src []byte, format ast.Format, imported, noParseShow bool) (tree *ast.Tree, unexpanded []ast.Node, err error) {
 
 	if format < ast.FormatText || format > ast.FormatMarkdown {
 		return nil, nil, errors.New("scriggo: invalid format")
@@ -250,7 +245,7 @@ func ParseTemplateSource(src []byte, format ast.Format, imported, noParseShow, d
 	tree = ast.NewTree("", nil, format)
 
 	var p = &parsing{
-		lex:        scanTemplate(src, format, noParseShow, dollarIdentifier),
+		lex:        scanTemplate(src, format, noParseShow),
 		format:     format,
 		imported:   imported,
 		ancestors:  []ast.Node{tree},
@@ -282,6 +277,9 @@ func ParseTemplateSource(src []byte, format ast.Format, imported, noParseShow, d
 	var lastIndex = len(src) - 1
 
 	tok := p.next()
+	if tok.typ == tokenShebangLine {
+		tok = p.next()
+	}
 
 	for tok.typ != tokenEOF {
 
@@ -462,9 +460,9 @@ func ParseTemplateSource(src []byte, format ast.Format, imported, noParseShow, d
 
 // parse parses code.
 //
-// For a package, a script or a function body, tok is the first token of a
-// declaration or statement and end is EOF. The returned token is the first
-// token of the next statement or declaration, or it is EOF.
+// For a package or a function body, tok is the first token of a declaration
+// or statement and end is EOF. The returned token is the first token of the
+// next statement or declaration, or it is EOF.
 //
 // For templates, it parses the code between {% and %} or between {%% and %%}.
 // tok is the first token after {% or {%%, end is %} or %%} and the returned
@@ -485,7 +483,7 @@ LABEL:
 			default:
 				return p.parseDistFreeMacro(tok, end)
 			}
-		} else if p.isScript || end != tokenEOF {
+		} else if p.noPackage || end != tokenEOF {
 			if tok.typ == tokenReturn {
 				panic(syntaxError(tok.pos, "return statement outside function body"))
 			}
@@ -543,7 +541,7 @@ LABEL:
 	// package
 	case tokenPackage:
 		pos := tok.pos
-		if tree, ok := p.parent().(*ast.Tree); !ok || end != tokenEOF || p.isScript || len(tree.Nodes) > 0 {
+		if tree, ok := p.parent().(*ast.Tree); !ok || end != tokenEOF || p.noPackage || len(tree.Nodes) > 0 {
 			panic(syntaxError(tok.pos, "unexpected package, expecting statement"))
 		}
 		tok = p.next()
@@ -627,7 +625,7 @@ LABEL:
 			assignment.Rhs = []ast.Expression{expr}
 			assignment.End = expr.Pos().End
 			pos.End = tok.pos.End
-			node = ast.NewForRange(pos, assignment, nil)
+			node = ast.NewForRange(pos, assignment, nil, nil)
 		case tokenIn:
 			// Parse: {% for id in expr %}
 			if init == nil {
@@ -642,7 +640,7 @@ LABEL:
 			if expr == nil {
 				panic(syntaxError(tok.pos, "unexpected %s, expecting expression", tok))
 			}
-			node = ast.NewForIn(pos, ident, expr, nil)
+			node = ast.NewForIn(pos, ident, expr, nil, nil)
 		default:
 			panic(syntaxError(tok.pos, "unexpected %s, expecting expression", tok))
 		}
@@ -795,7 +793,7 @@ LABEL:
 		var unexpected bool
 		switch end {
 		case tokenEOF:
-			unexpected = p.isScript && len(p.ancestors) == 1
+			unexpected = p.noPackage && len(p.ancestors) == 1
 		case tokenEndStatement:
 			unexpected = true
 		case tokenEndStatements:
@@ -811,41 +809,88 @@ LABEL:
 		}
 		bracesEnd := tok.pos.End
 		p.parent().Pos().End = bracesEnd
-		p.removeLastAncestor()
 		tok = p.next()
-		switch tok.typ {
-		case tokenElse:
-		case tokenSemicolon:
-			tok = p.next()
-			fallthrough
-		case tokenRightBrace:
-			for {
-				if n, ok := p.parent().(*ast.If); ok {
-					n.Pos().End = bracesEnd
-					p.removeLastAncestor()
-				} else {
-					return tok
+		if tok.typ != tokenElse {
+			n := p.parent()
+			p.removeLastAncestor()
+			switch tok.typ {
+			case tokenSemicolon:
+				tok = p.next()
+				fallthrough
+			case tokenRightBrace:
+				switch nn := p.parent().(type) {
+				case *ast.ForIn:
+					if nn.Else == n {
+						n.Pos().End = bracesEnd
+						p.removeLastAncestor()
+					}
+				case *ast.ForRange:
+					if nn.Else == n {
+						n.Pos().End = bracesEnd
+						p.removeLastAncestor()
+					}
+				case *ast.If:
+					for {
+						if nn, ok := p.parent().(*ast.If); ok {
+							nn.Pos().End = bracesEnd
+							p.removeLastAncestor()
+						} else {
+							break
+						}
+					}
 				}
+			case tokenRightBraces, tokenEndStatement:
+			case tokenEOF:
+				// TODO(marco): check if it is correct.
+				tok = p.next()
+			default:
+				panic(syntaxError(tok.pos, "unexpected %s at end of statement", tok))
 			}
-		case tokenRightBraces, tokenEndStatement:
 			return tok
-		case tokenEOF:
-			// TODO(marco): check if it is correct.
-			return p.next()
-		default:
-			panic(syntaxError(tok.pos, "unexpected %s at end of statement", tok))
 		}
 		fallthrough
 
 	// else
 	case tokenElse:
-		if end == tokenEndStatement {
-			// Close the "then" block.
-			if _, ok := p.parent().(*ast.Block); !ok {
-				panic(syntaxError(tok.pos, "unexpected else"))
+		if n, ok := p.parent().(*ast.ForIn); ok {
+			if end == tokenEOF {
+				panic(syntaxError(tok.pos, "unexpected else at end of statement"))
 			}
-			p.removeLastAncestor()
+			p.cutSpacesToken = true
+			tok = p.next()
+			if end == tokenEndStatement && tok.typ != tokenEndStatement || end != tokenEndStatement && tok.typ != tokenLeftBrace {
+				panic(syntaxError(tok.pos, "unexpected %s, expecting %s", tok.typ, end))
+			}
+			var blockPos *ast.Position
+			if end != tokenEndStatement {
+				blockPos = tok.pos
+			}
+			n.Else = ast.NewBlock(blockPos, nil)
+			p.addToAncestors(n.Else)
+			return p.next()
 		}
+		if n, ok := p.parent().(*ast.ForRange); ok {
+			if end == tokenEOF {
+				panic(syntaxError(tok.pos, "unexpected else at end of statement"))
+			}
+			p.cutSpacesToken = true
+			tok = p.next()
+			if end == tokenEndStatement && tok.typ != tokenEndStatement || end != tokenEndStatement && tok.typ != tokenLeftBrace {
+				panic(syntaxError(tok.pos, "unexpected %s, expecting %s", tok.typ, end))
+			}
+			var blockPos *ast.Position
+			if end != tokenEndStatement {
+				blockPos = tok.pos
+			}
+			n.Else = ast.NewBlock(blockPos, nil)
+			p.addToAncestors(n.Else)
+			return p.next()
+		}
+		// Close the "then" block.
+		if _, ok := p.parent().(*ast.Block); !ok {
+			panic(syntaxError(tok.pos, "unexpected else"))
+		}
+		p.removeLastAncestor()
 		if _, ok := p.parent().(*ast.If); !ok {
 			panic(syntaxError(tok.pos, "unexpected else at end of statement"))
 		}

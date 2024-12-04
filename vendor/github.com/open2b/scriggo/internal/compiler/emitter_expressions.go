@@ -43,7 +43,6 @@ func (em *emitter) emitExprR(expr ast.Expression, dstType reflect.Type, reg int8
 //
 // _emitExpr is an internal support method, and should be called by emitExpr,
 // emitExprK and emitExprR exclusively.
-//
 func (em *emitter) _emitExpr(expr ast.Expression, dstType reflect.Type, reg int8, useGivenReg bool, allowK bool) (int8, bool) {
 
 	// Take the type info of the expression.
@@ -149,16 +148,6 @@ func (em *emitter) _emitExpr(expr ast.Expression, dstType reflect.Type, reg int8
 	case *ast.CompositeLiteral:
 
 		return em.emitCompositeLiteral(expr, reg, dstType)
-
-	case *ast.DollarIdentifier:
-
-		// The field expr.IR.Ident has been set by the type checker; it may be
-		// interface{}(x) if x is an existing global identifier, or
-		// interface{}(nil) otherwise.
-		//
-		// So, the emission of a dollar identifier can be done simply by
-		// emitting expr.IR.Ident.
-		return em._emitExpr(expr.IR.Ident, dstType, reg, useGivenReg, allowK)
 
 	case *ast.Default:
 		ex := expr.Expr1
@@ -273,31 +262,7 @@ func (em *emitter) _emitExpr(expr ast.Expression, dstType reflect.Type, reg int8
 
 	case *ast.Index:
 
-		exprType := em.typ(expr.Expr)
-		exprReg := em.emitExpr(expr.Expr, exprType)
-		var indexType reflect.Type
-		if exprType.Kind() == reflect.Map {
-			indexType = exprType.Key()
-		} else {
-			indexType = intType
-		}
-		index, kindex := em.emitExprK(expr.Index, indexType)
-		var elemType reflect.Type
-		if exprType.Kind() == reflect.String {
-			elemType = uint8Type
-		} else {
-			elemType = exprType.Elem()
-		}
-		pos := expr.Pos()
-		if canEmitDirectly(elemType.Kind(), dstType.Kind()) {
-			em.fb.emitIndex(kindex, exprReg, index, reg, exprType, pos, true)
-			return reg, false
-		}
-		em.fb.enterStack()
-		tmp := em.fb.newRegister(elemType.Kind())
-		em.fb.emitIndex(kindex, exprReg, index, tmp, exprType, pos, true)
-		em.changeRegister(false, tmp, reg, elemType, dstType)
-		em.fb.exitStack()
+		em.emitIndex(expr, reg, dstType)
 
 	case *ast.Render:
 
@@ -714,10 +679,58 @@ func (em *emitter) emitCompositeLiteral(expr *ast.CompositeLiteral, reg int8, ds
 	return reg, false
 }
 
+// emitIndex emits an index in register reg.
+func (em *emitter) emitIndex(v *ast.Index, reg int8, dstType reflect.Type) {
+	exprType := em.typ(v.Expr)
+	exprReg := em.emitExpr(v.Expr, exprType)
+	var indexType reflect.Type
+	if exprType.Kind() == reflect.Map {
+		indexType = exprType.Key()
+	} else {
+		indexType = intType
+	}
+	index, kindex := em.emitExprK(v.Index, indexType)
+	var elemType reflect.Type
+	if exprType.Kind() == reflect.String {
+		elemType = uint8Type
+	} else {
+		elemType = exprType.Elem()
+	}
+	pos := v.Pos()
+	if canEmitDirectly(elemType.Kind(), dstType.Kind()) {
+		em.fb.emitIndex(kindex, exprReg, index, reg, exprType, pos, true)
+		return
+	}
+	em.fb.enterStack()
+	tmp := em.fb.newRegister(elemType.Kind())
+	em.fb.emitIndex(kindex, exprReg, index, tmp, exprType, pos, true)
+	em.changeRegister(false, tmp, reg, elemType, dstType)
+	em.fb.exitStack()
+}
+
 // emitSelector emits selector in register reg.
 func (em *emitter) emitSelector(v *ast.Selector, reg int8, dstType reflect.Type) {
 
 	ti := em.ti(v)
+
+	// Map selector expression.
+	if ti.IsMapSelector() {
+		// Key selector on the empty interface type.
+		if typ := em.typ(v.Expr); typ == emptyInterfaceType {
+			exprReg := em.emitExpr(v.Expr, typ)
+			keyReg := em.fb.makeStringValue(v.Ident)
+			pos := v.Pos()
+			em.fb.enterStack()
+			dst := em.fb.newRegister(reflect.Interface)
+			em.fb.emitIndex(true, exprReg, keyReg, dst, typ, pos, false)
+			em.changeRegister(false, dst, reg, typ, dstType)
+			em.fb.exitStack()
+			return
+		}
+		// Key selector on a map type.
+		em.emitIndex(ti.replacement.(*ast.Index), reg, dstType)
+		return
+	}
 
 	// Method value on concrete and interface values.
 	if ti.MethodType == methodValueConcrete || ti.MethodType == methodValueInterface {

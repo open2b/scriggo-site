@@ -53,7 +53,7 @@ func (tc *typechecker) checkAssignment(node *ast.Assignment) {
 		} else {
 			lh = tc.checkExpr(lhExpr)
 		}
-		tc.checkAssignTo(lh, lhExpr)
+		node.Lhs[i] = tc.checkAssignTo(lh, lhExpr)
 		lhs[i] = lh
 	}
 
@@ -89,15 +89,15 @@ func (tc *typechecker) checkAssignment(node *ast.Assignment) {
 		if ti.Nil() {
 			tc.compilation.typeInfos[nodeRhs[i]] = tc.nilOf(lhs[i].Type)
 		} else {
-			ti.setValue(nil)
+			ti.setValue(lhs[i].Type)
 		}
 	}
 
 }
 
 // checkAssignmentOperation type checks an assignment operation x op= y.
-// See https://golang.org/ref/spec#assign_op and
-// https://golang.org/ref/spec#Assignments.
+// See https://go.dev/ref/spec#assign_op and
+// https://go.dev/ref/spec#Assignments.
 func (tc *typechecker) checkAssignmentOperation(node *ast.Assignment) {
 
 	if !(ast.AssignmentAddition <= node.Type && node.Type <= ast.AssignmentRightShift) {
@@ -107,7 +107,7 @@ func (tc *typechecker) checkAssignmentOperation(node *ast.Assignment) {
 	lh := tc.checkExpr(node.Lhs[0])
 	rh := tc.checkExpr(node.Rhs[0])
 
-	tc.checkAssignTo(lh, node.Lhs[0])
+	node.Lhs[0] = tc.checkAssignTo(lh, node.Lhs[0])
 
 	op := operatorFromAssignmentType(node.Type)
 	_, err := tc.binaryOp(node.Lhs[0], op, node.Rhs[0])
@@ -254,7 +254,7 @@ func (tc *typechecker) checkIncDecStatement(node *ast.Assignment) {
 	}
 
 	lh := tc.checkExpr(node.Lhs[0])
-	tc.checkAssignTo(lh, node.Lhs[0])
+	node.Lhs[0] = tc.checkAssignTo(lh, node.Lhs[0])
 
 	if !isNumeric(lh.Type.Kind()) {
 		panic(tc.errorf(node, "invalid operation: %s (non-numeric type %s)", node, lh))
@@ -290,8 +290,8 @@ func (tc *typechecker) checkShortVariableDeclaration(node *ast.Assignment) {
 	// Check that every operand on the left is an identifier.
 	for _, lhExpr := range node.Lhs {
 		_, isIdent := lhExpr.(*ast.Identifier)
-		if !isIdent {
-			panic(tc.errorf(node, "non-name %s on left side of :=", lhExpr))
+		if !isIdent || lhExpr.Parenthesis() > 0 {
+			panic(tc.errorf(node, "non-name %s on left side of :=", ast.StringWithParenthesis(lhExpr)))
 		}
 	}
 
@@ -466,14 +466,29 @@ func (tc *typechecker) declareVariable(lh *ast.Identifier, typ reflect.Type) {
 }
 
 // checkAssignTo checks that it is possible to assign to the expression expr.
-func (tc *typechecker) checkAssignTo(ti *typeInfo, expr ast.Expression) {
-	if ti.Addressable() && !ti.IsMacroDeclaration() || tc.isMapIndexing(expr) {
-		return
+// The caller must replace expr in the AST with the returned expression.
+func (tc *typechecker) checkAssignTo(ti *typeInfo, expr ast.Expression) ast.Expression {
+	if ti.IsMapSelector() {
+		if ti.replacement != nil {
+			expr = ti.replacement.(ast.Expression)
+			return expr
+		}
+	} else if ti.Addressable() && !ti.IsMacroDeclaration() || tc.isMapIndexing(expr) {
+		return expr
 	}
 	format := "cannot assign to %s"
 	switch e := expr.(type) {
 	case *ast.Selector:
-		if tc.isMapIndexing(e.Expr) {
+		if ti.IsMapSelector() {
+			for {
+				if t := tc.compilation.typeInfos[e.Expr]; t.replacement != nil {
+					break
+				}
+				e = e.Expr.(*ast.Selector)
+			}
+			expr = e.Expr
+			format = "cannot index %s (map index expression of type interface{})"
+		} else if tc.isMapIndexing(e.Expr) {
 			format = "cannot assign to struct field %s in map"
 		}
 	case *ast.Index:
@@ -592,6 +607,14 @@ func (tc *typechecker) rebalancedRightSide(node ast.Node) []ast.Expression {
 			tc.compilation.typeInfos[v1] = &typeInfo{Type: ti.Type}
 			tc.compilation.typeInfos[v2] = untypedBoolTypeInfo
 			return []ast.Expression{v1, v2}
+		case *ast.Selector:
+			if ti := tc.checkExpr(rhExpr); ti.IsMapSelector() {
+				v1 := ast.NewSelector(v.Pos(), v.Expr, v.Ident)
+				v2 := ast.NewSelector(v.Pos(), v.Expr, v.Ident)
+				tc.compilation.typeInfos[v1] = &typeInfo{Type: ti.Type, Properties: ti.Properties, replacement: ti.replacement}
+				tc.compilation.typeInfos[v2] = untypedBoolTypeInfo
+				return []ast.Expression{v1, v2}
+			}
 		case *ast.Index:
 			v1 := ast.NewIndex(v.Pos(), v.Expr, v.Index)
 			v2 := ast.NewIndex(v.Pos(), v.Expr, v.Index)

@@ -12,126 +12,127 @@
 // For example, to use the Min and Max functions as global min and max
 // functions
 //
-//    globals := native.Declarations{
-//        "min": builtin.Min,
-//        "max": builtin.Max,
-//    }
-//    opts := &scriggo.BuildOptions{
-//        Globals: globals,
-//    }
-//    template, err := scriggo.BuildTemplate(fsys, file, opts)
+//	globals := native.Declarations{
+//	    "min": builtin.Min,
+//	    "max": builtin.Max,
+//	}
+//	opts := &scriggo.BuildOptions{
+//	    Globals: globals,
+//	}
+//	template, err := scriggo.BuildTemplate(fsys, file, opts)
 //
 // And to use them in a template
 //
-//    {{ min(x, y) }}
-//    {{ max(x, y) }}
+//	{{ min(x, y) }}
+//	{{ max(x, y) }}
 //
 // Use the regexp function and the returned Regex value in this way
 //
-//    {% var re = regexp(`(scrig)go`) %}
-//    {{ re.Match("go") }}
-//    {{ re.Match("scriggo") }}
+//	{% var re = regexp(`(scrig)go`) %}
+//	{{ re.Match("go") }}
+//	{{ re.Match("scriggo") }}
 //
 // Use this Declarations value to use all the builtin of this package in a
 // template or choose the most appropriate
 //
-//  native.Declarations{
-//  	// crypto
-//  	"hmacSHA1":   builtin.HmacSHA1,
-//  	"hmacSHA256": builtin.HmacSHA256,
-//  	"sha1":       builtin.Sha1,
-//  	"sha256":     builtin.Sha256,
+//	native.Declarations{
+//		// crypto
+//		"hmacSHA1":   builtin.HmacSHA1,
+//		"hmacSHA256": builtin.HmacSHA256,
+//		"sha1":       builtin.Sha1,
+//		"sha256":     builtin.Sha256,
 //
-//  	// encoding
-//  	"base64":            builtin.Base64,
-//  	"hex":               builtin.Hex,
-//  	"marshalJSON":       builtin.MarshalJSON,
-//  	"marshalJSONIndent": builtin.MarshalJSONIndent,
-//  	"md5":               builtin.Md5,
-//  	"unmarshalJSON":     builtin.UnmarshalJSON,
+//		// encoding
+//		"base64":            builtin.Base64,
+//		"hex":               builtin.Hex,
+//		"marshalJSON":       builtin.MarshalJSON,
+//		"marshalJSONIndent": builtin.MarshalJSONIndent,
+//		"marshalYAML":       builtin.MarshalYAML,
+//		"md5":               builtin.Md5,
+//		"unmarshalJSON":     builtin.UnmarshalJSON,
+//		"unmarshalYAML":     builtin.UnmarshalYAML,
 //
-//  	// html
-//  	"htmlEscape": builtin.HtmlEscape,
+//		// html
+//		"htmlEscape": builtin.HtmlEscape,
 //
-//  	// math
-//  	"abs": builtin.Abs,
-//  	"max": builtin.Max,
-//  	"min": builtin.Min,
-//      "pow": builtin.Pow,
+//		// math
+//		"abs": builtin.Abs,
+//		"max": builtin.Max,
+//		"min": builtin.Min,
+//	    "pow": builtin.Pow,
 //
-//  	// net
-//  	"File":        reflect.TypeOf((*builtin.File)(nil)).Elem(),
-//  	"FormData":    reflect.TypeOf(builtin.FormData{}),
-//  	"form":        (*builtin.FormData)(nil),
-//  	"queryEscape": builtin.QueryEscape,
+//		// net
+//		"File":        reflect.TypeOf((*builtin.File)(nil)).Elem(),
+//		"FormData":    reflect.TypeOf(builtin.FormData{}),
+//		"form":        (*builtin.FormData)(nil),
+//		"queryEscape": builtin.QueryEscape,
 //
-//  	// regexp
-//  	"Regexp": reflect.TypeOf(builtin.Regexp{}),
-//  	"regexp": builtin.RegExp,
+//		// regexp
+//		"Regexp": reflect.TypeOf(builtin.Regexp{}),
+//		"regexp": builtin.RegExp,
 //
-//  	// sort
-//  	"reverse": builtin.Reverse,
-//  	"sort":    builtin.Sort,
+//		// sort
+//		"reverse": builtin.Reverse,
+//		"sort":    builtin.Sort,
 //
-//  	// strconv
-//  	"formatFloat": builtin.FormatFloat,
-//  	"formatInt":   builtin.FormatInt,
-//  	"parseFloat":  builtin.ParseFloat,
-//  	"parseInt":    builtin.ParseInt,
+//		// strconv
+//		"formatFloat": builtin.FormatFloat,
+//		"formatInt":   builtin.FormatInt,
+//		"parseFloat":  builtin.ParseFloat,
+//		"parseInt":    builtin.ParseInt,
 //
-//  	// strings
-//  	"abbreviate":    builtin.Abbreviate,
-//  	"capitalize":    builtin.Capitalize,
-//  	"capitalizeAll": builtin.CapitalizeAll,
-//  	"hasPrefix":     builtin.HasPrefix,
-//  	"hasSuffix":     builtin.HasSuffix,
-//  	"index":         builtin.Index,
-//  	"indexAny":      builtin.IndexAny,
-//  	"join":          builtin.Join,
-//  	"lastIndex":     builtin.LastIndex,
-//  	"replace":       builtin.Replace,
-//  	"replaceAll":    builtin.ReplaceAll,
-//  	"runeCount":     builtin.RuneCount,
-//  	"split":         builtin.Split,
-//  	"splitAfter":    builtin.SplitAfter,
-//  	"splitAfterN":   builtin.SplitAfterN,
-//  	"splitN":        builtin.SplitN,
-//  	"sprint":        builtin.Sprint,
-//  	"sprintf":       builtin.Sprintf,
-//  	"toKebab":       builtin.ToKebab,
-//  	"toLower":       builtin.ToLower,
-//  	"toUpper":       builtin.ToUpper,
-//  	"trim":          builtin.Trim,
-//  	"trimLeft":      builtin.TrimLeft,
-//  	"trimPrefix":    builtin.TrimPrefix,
-//  	"trimRight":     builtin.TrimRight,
-//  	"trimSuffix":    builtin.TrimSuffix,
+//		// strings
+//		"abbreviate":    builtin.Abbreviate,
+//		"capitalize":    builtin.Capitalize,
+//		"capitalizeAll": builtin.CapitalizeAll,
+//		"hasPrefix":     builtin.HasPrefix,
+//		"hasSuffix":     builtin.HasSuffix,
+//		"index":         builtin.Index,
+//		"indexAny":      builtin.IndexAny,
+//		"join":          builtin.Join,
+//		"lastIndex":     builtin.LastIndex,
+//		"replace":       builtin.Replace,
+//		"replaceAll":    builtin.ReplaceAll,
+//		"runeCount":     builtin.RuneCount,
+//		"split":         builtin.Split,
+//		"splitAfter":    builtin.SplitAfter,
+//		"splitAfterN":   builtin.SplitAfterN,
+//		"splitN":        builtin.SplitN,
+//		"sprint":        builtin.Sprint,
+//		"sprintf":       builtin.Sprintf,
+//		"toKebab":       builtin.ToKebab,
+//		"toLower":       builtin.ToLower,
+//		"toUpper":       builtin.ToUpper,
+//		"trim":          builtin.Trim,
+//		"trimLeft":      builtin.TrimLeft,
+//		"trimPrefix":    builtin.TrimPrefix,
+//		"trimRight":     builtin.TrimRight,
+//		"trimSuffix":    builtin.TrimSuffix,
 //
-//  	// time
-//  	"Duration":      reflect.TypeOf(builtin.Duration(0)),
-//  	"Hour":          time.Hour,
-//  	"Microsecond":   time.Microsecond,
-//  	"Millisecond":   time.Millisecond,
-//  	"Minute":        time.Minute,
-//  	"Nanosecond":    time.Nanosecond,
-//  	"Second":        time.Second,
-//  	"Time":          reflect.TypeOf(builtin.Time{}),
-//  	"date":          builtin.Date,
-//  	"now":           builtin.Now,
-//  	"parseDuration": builtin.ParseDuration,
-//  	"parseTime":     builtin.ParseTime,
-//  	"unixTime":      builtin.UnixTime,
+//		// time
+//		"Duration":      reflect.TypeOf(builtin.Duration(0)),
+//		"Hour":          time.Hour,
+//		"Microsecond":   time.Microsecond,
+//		"Millisecond":   time.Millisecond,
+//		"Minute":        time.Minute,
+//		"Nanosecond":    time.Nanosecond,
+//		"Second":        time.Second,
+//		"Time":          reflect.TypeOf(builtin.Time{}),
+//		"date":          builtin.Date,
+//		"now":           builtin.Now,
+//		"parseDuration": builtin.ParseDuration,
+//		"parseTime":     builtin.ParseTime,
+//		"unixTime":      builtin.UnixTime,
 //
-//  	// unsafeconv, uncomment the declaration below to allow to use unsafe conversions between string and native types
-//  	// "unsafeconv": builtin.Unsafeconv,
+//		// unsafeconv, uncomment the declaration below to allow to use unsafe conversions between string and native types
+//		// "unsafeconv": builtin.Unsafeconv,
 //
-//  }
+//	}
 //
 // To initialize the form builtin value, with data read from the request r,
 // use this map as vars argument to Run
 //
-//    map[string]interface{}{"form": builtin.NewFormData(r, 10)}
-//
+//	map[string]interface{}{"form": builtin.NewFormData(r, 10)}
 package builtin
 
 import (
@@ -158,6 +159,8 @@ import (
 	"github.com/open2b/scriggo"
 	"github.com/open2b/scriggo/internal/thirdparties"
 	"github.com/open2b/scriggo/native"
+
+	"gopkg.in/yaml.v3"
 )
 
 // Abbreviate abbreviates s to almost n runes. If s is longer than n runes,
@@ -196,7 +199,8 @@ func Abbreviate(s string, n int) string {
 	return s + "..."
 }
 
-// Abs returns the absolute value of x.
+// Abs returns the absolute value of x. As a special case, if x is the
+// smallest negative integer, Abs returns x.
 func Abs(x int) int {
 	if x < 0 {
 		return -x
@@ -252,7 +256,8 @@ func CapitalizeAll(s string) string {
 //
 // For example, the following call returns March 27, 2021 11:21:14.964553705
 // CET.
-//   Date(2021, 3, 27, 11, 21, 14, 964553705, "Europe/Rome")
+//
+//	Date(2021, 3, 27, 11, 21, 14, 964553705, "Europe/Rome")
 //
 // For UTC use "" or "UTC" as location. For the system's local time zone use
 // "Local" as location.
@@ -260,7 +265,6 @@ func CapitalizeAll(s string) string {
 // The month, day, hour, min, sec and nsec values may be outside their usual
 // ranges and will be normalized during the conversion. For example, October
 // 32 converts to November 1.
-//
 func Date(year, month, day, hour, min, sec, nsec int, location string) (Time, error) {
 	loc, err := time.LoadLocation(location)
 	if err != nil {
@@ -273,9 +277,10 @@ func Date(year, month, day, hour, min, sec, nsec int, location string) (Time, er
 // the given format and precision. It can round the result.
 //
 // The format is one of "e", "f" or "g"
-//  "e": -d.dddde±dd, a decimal exponent
-//  "f": -ddd.dddd, no exponent
-//  "g": "e" for large exponents, "f" otherwise
+//
+//	"e": -d.dddde±dd, a decimal exponent
+//	"f": -ddd.dddd, no exponent
+//	"g": "e" for large exponents, "f" otherwise
 //
 // The precision, for -1 <= precision <= 1000, controls the number of digits
 // (excluding the exponent). The special precision -1 uses the smallest number
@@ -315,7 +320,7 @@ func HasPrefix(s, prefix string) bool {
 
 // HasSuffix tests whether the string s ends with suffix.
 func HasSuffix(s, suffix string) bool {
-	return strings.HasPrefix(s, suffix)
+	return strings.HasSuffix(s, suffix)
 }
 
 // Hex returns the hexadecimal encoding of s.
@@ -383,7 +388,7 @@ func LastIndex(s, substr string) int {
 
 // MarshalJSON returns the JSON encoding of v.
 //
-// See https://golang.org/pkg/encoding/json/#Marshal for details.
+// See https://pkg.go.dev/encoding/json#Marshal for details.
 func MarshalJSON(v interface{}) (native.JSON, error) {
 	b, err := json.Marshal(v)
 	if err != nil {
@@ -409,6 +414,27 @@ func MarshalJSONIndent(v interface{}, prefix, indent string) (native.JSON, error
 		return "", errors.New(err.Error())
 	}
 	return native.JSON(b), nil
+}
+
+// MarshalYAML returns the YAML encoding of v.
+//
+// See https://pkg.go.dev/gopkg.in/yaml.v3#Marshal for details.
+func MarshalYAML(v interface{}) (_ string, err error) {
+	defer func() {
+		msg := recover()
+		if msg != nil {
+			if s, ok := msg.(string); ok {
+				err = errors.New("marshalYAML: " + s)
+			} else {
+				err = errors.New("marshalYAML: unknown error")
+			}
+		}
+	}()
+	b, err := yaml.Marshal(v)
+	if err != nil {
+		return "", errors.New("marshalYAML: " + err.Error())
+	}
+	return string(b), nil
 }
 
 // Max returns the larger of x or y.
@@ -491,12 +517,14 @@ func ParseInt(s string, base int) (int, error) {
 // ParseTime parses a formatted string and returns the time value it
 // represents. The layout defines the format by showing how the reference
 // time
+//
 //	Mon Jan 2 15:04:05 -0700 MST 2006
+//
 // would be interpreted if it were the value; it serves as an example of
 // the input format. The same interpretation will then be made to the
 // input string.
 //
-// See https://golang.org/pkg/time/#Parse for more details.
+// See https://pkg.go.dev/time#Parse for more details.
 //
 // As a special case, if layout is an empty string, ParseTime parses a time
 // representation using a predefined list of layouts.
@@ -718,9 +746,10 @@ func SplitAfter(s, sep string) []string {
 // returns a slice of those substrings.
 //
 // The count determines the number of substrings to return:
-//   n > 0: at most n substrings; the last substring will be the unsplit remainder.
-//   n == 0: the result is nil (zero substrings)
-//   n < 0: all substrings
+//
+//	n > 0: at most n substrings; the last substring will be the unsplit remainder.
+//	n == 0: the result is nil (zero substrings)
+//	n < 0: all substrings
 //
 // Edge cases for s and sep (for example, empty strings) are handled
 // as described in the documentation for SplitAfter.
@@ -732,9 +761,10 @@ func SplitAfterN(s, sep string, n int) []string {
 // the substrings between those separators.
 //
 // The count determines the number of substrings to return:
-//   n > 0: at most n substrings; the last substring will be the unsplit remainder.
-//   n == 0: the result is nil (zero substrings)
-//   n < 0: all substrings
+//
+//	n > 0: at most n substrings; the last substring will be the unsplit remainder.
+//	n == 0: the result is nil (zero substrings)
+//	n < 0: all substrings
 //
 // Edge cases for s and sep (for example, empty strings) are handled
 // as described in the documentation for Split.
@@ -843,7 +873,7 @@ func UnixTime(sec int64, nsec int64) Time {
 // change the value pointed to by v but instantiates a new value and then
 // replaces the value pointed to by v, if no errors occur.
 //
-// See https://golang.org/pkg/encoding/json/#Unmarshal for details.
+// See https://pkg.go.dev/encoding/json#Unmarshal for details.
 func UnmarshalJSON(data string, v interface{}) error {
 	if v == nil {
 		return errors.New("unmarshalJSON: cannot unmarshal into nil")
@@ -866,6 +896,53 @@ func UnmarshalJSON(data string, v interface{}) error {
 			return errors.New("unmarshalJSON: cannot unmarshal " + e.Value + " into value of type " + e.Type.String())
 		}
 		return replacePrefix(err, "json", "unmarshalJSON")
+	}
+	rv.Elem().Set(vp.Elem())
+	return nil
+}
+
+// UnmarshalYAML parses the YAML-encoded data and stores the result in a new
+// value pointed to by v. If v is nil or not a pointer, UnmarshalYAML returns
+// an error.
+//
+// Unlike yaml.Unmarshal of the yaml package, UnmarshalYAML does not accept a
+// map value, use a pointer to a map value instead. UnmarshalYAM does not
+// change the value pointed to by v but instantiates a new value and then
+// replaces the value pointed to by v, if no errors occur.
+//
+// See https://pkg.go.dev/gopkg.in/yaml.v3#Unmarshal for details.
+func UnmarshalYAML(data string, v interface{}) (err error) {
+	if v == nil {
+		return errors.New("unmarshalYAML: cannot unmarshal into nil")
+	}
+	rv := reflect.ValueOf(v)
+	rt := rv.Type()
+	if rv.Kind() != reflect.Ptr {
+		return fmt.Errorf("unmarshalYAML: cannot unmarshal into non-pointer value of type " + rt.String())
+	}
+	if rv.IsZero() {
+		return errors.New("unmarshalYAML: cannot unmarshal into a nil pointer of type " + rt.String())
+	}
+	vp := reflect.New(rt.Elem())
+	defer func() {
+		msg := recover()
+		if msg != nil {
+			if s, ok := msg.(string); ok {
+				err = errors.New("unmarshalYAML: " + s)
+			} else {
+				err = errors.New("unmarshalYAML: unknown error")
+			}
+		}
+	}()
+	err = yaml.Unmarshal([]byte(data), vp.Interface())
+	if err != nil {
+		if e, ok := err.(*yaml.TypeError); ok {
+			if len(e.Errors) == 0 {
+				return errors.New("unmarshalYAML: unknown error")
+			}
+			return errors.New("unmarshalYAML: " + e.Errors[0])
+		}
+		return errors.New("unmarshalYAML: " + err.Error())
 	}
 	rv.Elem().Set(vp.Elem())
 	return nil

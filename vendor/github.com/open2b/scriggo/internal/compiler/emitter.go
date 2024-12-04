@@ -36,10 +36,8 @@ type emitter struct {
 	// isTemplate reports whether the emitter is currently emitting a template.
 	isTemplate bool
 
-	// rangeLabels is a list of current active Ranges. First element is the
-	// Range address, second refers to the first instruction outside Range's
-	// body.
-	rangeLabels [][2]label
+	// rangeLabels contains the addresses of the current active Range instructions.
+	rangeLabels []label
 
 	// breakable is true if emitting a "breakable" statement (except ForRange,
 	// which implements his own "breaking" system).
@@ -808,7 +806,7 @@ func (em *emitter) emitBuiltin(call *ast.Call, reg int8, dstType reflect.Type) {
 		em.fb.exitStack()
 	case "delete":
 		mapp := em.emitExpr(args[0], em.typ(args[0]))
-		key := em.emitExpr(args[1], emptyInterfaceType)
+		key := em.emitExpr(args[1], em.typ(args[1]))
 		em.fb.emitDelete(mapp, key)
 	case "len":
 		typ := em.typ(args[0])

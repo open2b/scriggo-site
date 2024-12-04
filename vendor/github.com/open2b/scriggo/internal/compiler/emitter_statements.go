@@ -37,8 +37,7 @@ func (em *emitter) emitNodes(nodes []ast.Node) {
 				if node.Label != nil {
 					panic(internalError("not implemented"))
 				}
-				em.fb.emitBreak(em.rangeLabels[len(em.rangeLabels)-1][0])
-				em.fb.emitGoto(em.rangeLabels[len(em.rangeLabels)-1][1])
+				em.fb.emitBreak(em.rangeLabels[len(em.rangeLabels)-1])
 			}
 
 		case *ast.Comment:
@@ -51,7 +50,7 @@ func (em *emitter) emitNodes(nodes []ast.Node) {
 			if node.Label != nil {
 				panic(internalError("not implemented"))
 			}
-			forHead := em.rangeLabels[len(em.rangeLabels)-1][0]
+			forHead := em.rangeLabels[len(em.rangeLabels)-1]
 			if em.inForRange {
 				em.fb.emitContinue(forHead)
 			} else {
@@ -119,7 +118,7 @@ func (em *emitter) emitNodes(nodes []ast.Node) {
 				em.emitCondition(node.Condition)
 				endForLabel := em.fb.newLabel()
 				em.fb.emitGoto(endForLabel)
-				em.rangeLabels = append(em.rangeLabels, [2]label{forPost, endForLabel})
+				em.rangeLabels = append(em.rangeLabels, forPost)
 				em.emitNodes(node.Body)
 				em.rangeLabels = em.rangeLabels[:len(em.rangeLabels)-1]
 				em.fb.setLabelAddr(forPost)
@@ -132,7 +131,7 @@ func (em *emitter) emitNodes(nodes []ast.Node) {
 				forLabel := em.fb.newLabel()
 				em.fb.setLabelAddr(forLabel)
 				endForLabel := em.fb.newLabel()
-				em.rangeLabels = append(em.rangeLabels, [2]label{forLabel, endForLabel})
+				em.rangeLabels = append(em.rangeLabels, forLabel)
 				em.emitNodes(node.Body)
 				if node.Post != nil {
 					em.emitNodes([]ast.Node{node.Post})
@@ -299,10 +298,18 @@ func (em *emitter) emitNodes(nodes []ast.Node) {
 					em.fb.enterStack()
 					em.emitCallNode(expr.(*ast.Call), false, false, ast.Format(ctx))
 					em.fb.exitStack()
+				} else if render, ok := expr.(*ast.Render); ok {
+					// Optimize {{ render "path" }}
+					em.fb.enterStack()
+					em.emitNodes([]ast.Node{render.IR.Import})
+					em.emitCallNode(render.IR.Call, false, false, ast.Format(ctx))
+					em.fb.exitStack()
 				} else {
 					ti := em.ti(expr)
+					em.fb.enterStack()
 					r := em.emitExpr(expr, ti.Type)
 					em.fb.emitShow(ti.Type, r, ctx, em.inURL, em.isURLSet)
+					em.fb.exitStack()
 				}
 			}
 
@@ -480,7 +487,7 @@ func (em *emitter) emitAssignmentNode(node *ast.Assignment) {
 			}
 			// Package/closure/imported variable.
 			if index, ok := em.varStore.nonLocalVarIndex(v); ok {
-				addresses[i] = em.addressNonLocalVar(int16(index), varType, pos, node.Type)
+				addresses[i] = em.addressNonLocalVar(index, varType, pos, node.Type)
 				break
 			}
 			panic(internalError("unexpected"))
@@ -493,14 +500,23 @@ func (em *emitter) emitAssignmentNode(node *ast.Assignment) {
 				indexType = exprType.Key()
 			}
 			index := em.emitExpr(v.Index, indexType)
-			if exprType.Kind() == reflect.Map {
-				addresses[i] = em.addressMapIndex(expr, index, exprType, pos, node.Type)
-			} else {
-				addresses[i] = em.addressSliceIndex(expr, index, exprType, pos, node.Type)
+			switch exprType.Kind() {
+			case reflect.Map:
+				if nonLocalMap, ok := em.varStore.nonLocalVarIndex(v.Expr); ok {
+					addresses[i] = em.addressNonLocalMapIndex(nonLocalMap, expr, index, exprType, pos, node.Type)
+				} else {
+					addresses[i] = em.addressLocalMapIndex(expr, index, exprType, pos, node.Type)
+				}
+			case reflect.Slice, reflect.Array:
+				if nonLocalSlice, ok := em.varStore.nonLocalVarIndex(v.Expr); ok {
+					addresses[i] = em.addressGlobalSliceIndex(nonLocalSlice, expr, index, exprType, pos, node.Type)
+				} else {
+					addresses[i] = em.addressSliceIndex(expr, index, exprType, pos, node.Type)
+				}
 			}
 		case *ast.Selector:
 			if index, ok := em.varStore.nonLocalVarIndex(v); ok {
-				addresses[i] = em.addressNonLocalVar(int16(index), em.typ(v), pos, node.Type)
+				addresses[i] = em.addressNonLocalVar(index, em.typ(v), pos, node.Type)
 				break
 			}
 			expr := v.Expr
@@ -516,8 +532,11 @@ func (em *emitter) emitAssignmentNode(node *ast.Assignment) {
 				field, _ = typ.FieldByName(v.Ident)
 			}
 			index := em.fb.makeFieldIndex(field.Index)
-			addresses[i] = em.addressStructSelector(reg, index, typ, pos, node.Type)
-			break
+			if nonLocalStruct, ok := em.varStore.nonLocalVarIndex(expr); ok {
+				addresses[i] = em.addressNonLocalStructSelector(nonLocalStruct, reg, index, typ, pos, node.Type)
+			} else {
+				addresses[i] = em.addressLocalStructSelector(reg, index, typ, pos, node.Type)
+			}
 		case *ast.UnaryOperator:
 			if v.Operator() != ast.OperatorPointer {
 				panic(internalError("unexpected operator %s", v.Operator()))
@@ -540,7 +559,6 @@ func (em *emitter) emitAssignmentNode(node *ast.Assignment) {
 //
 // TODO: this function works correctly but its code looks very ugly and hard
 // to understand. Review and improve the code.
-//
 func (em *emitter) emitImport(node *ast.Import, isTemplate bool) []*runtime.Function {
 
 	// If the imported package is predefined the emitter does not have to do
@@ -641,7 +659,6 @@ func (em *emitter) emitImport(node *ast.Import, isTemplate bool) []*runtime.Func
 //
 // 4) Emission of the assignment node, in case of a case with assignment, and of
 // the body for every case.
-//
 func (em *emitter) emitSelect(selectNode *ast.Select) {
 
 	if len(selectNode.Cases) > maxSelectCasesCount {
@@ -1056,7 +1073,7 @@ func (em *emitter) emitForRange(node *ast.ForRange) {
 	rangeLabel := em.fb.newLabel()
 	em.fb.setLabelAddr(rangeLabel)
 	endRange := em.fb.newLabel()
-	em.rangeLabels = append(em.rangeLabels, [2]label{rangeLabel, endRange})
+	em.rangeLabels = append(em.rangeLabels, rangeLabel)
 	em.fb.emitRange(kExpr, exprReg, index, elem, exprType.Kind())
 	em.fb.emitGoto(endRange)
 	em.fb.enterScope()
@@ -1075,5 +1092,15 @@ func (em *emitter) emitForRange(node *ast.ForRange) {
 	em.fb.exitScope()
 	em.fb.exitScope()
 	em.inForRange = inForRange
+
+	if node.Else != nil {
+		endForLabel := em.fb.newLabel()
+		em.fb.emitIf(false, 0, runtime.ConditionNotOK, 0, reflect.Interface, nil)
+		em.fb.emitGoto(endForLabel)
+		em.fb.enterScope()
+		em.emitNodes(node.Else.Nodes)
+		em.fb.exitScope()
+		em.fb.setLabelAddr(endForLabel)
+	}
 
 }

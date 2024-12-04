@@ -6,6 +6,9 @@ package compiler
 
 import (
 	"reflect"
+
+	"github.com/open2b/scriggo/ast"
+	"github.com/open2b/scriggo/internal/runtime"
 )
 
 type properties uint16
@@ -22,6 +25,7 @@ const (
 	propertyHasValue                                              // has a value
 	propertyIsMacroDeclaration                                    // is macro declaration
 	propertyMacroDeclaredInFileWithExtends                        // is macro declared in file with extends
+	propertyMapSelector                                           // is a map selector expression
 )
 
 // A typeInfo holds the type checking information. For example, every expression
@@ -37,6 +41,7 @@ type typeInfo struct {
 	MethodType        methodType   // Method type.
 	value             interface{}  // value; for packages has type *Package.
 	valueType         reflect.Type // When value is a native type holds the original type of value.
+	replacement       ast.Node     // Replacement node.
 }
 
 // methodType represents the type of a method, intended as a combination of a
@@ -127,6 +132,11 @@ func (ti *typeInfo) Itea() bool {
 // with extends.
 func (ti *typeInfo) MacroDeclaredInExtendingFile() bool {
 	return ti.Properties&propertyMacroDeclaredInFileWithExtends != 0
+}
+
+// IsMapSelector reports whether it is a map selector expression.
+func (ti *typeInfo) IsMapSelector() bool {
+	return ti.Properties&propertyMapSelector != 0
 }
 
 // TypeName returns the name of the type. If it is an alias, it returns the
@@ -229,10 +239,9 @@ func (ti *typeInfo) HasValue() bool {
 // non-constant expression or in a statement. The following examples clarify
 // the use of this method:
 //
-//   var i int64 = 20     call setValue on '20'    ctxType = int
-//   x + 3                call setValue on '3'     ctxType = typeof(x)
-//   x + y                no need to call setValue
-//
+//	var i int64 = 20     call setValue on '20'    ctxType = int
+//	x + 3                call setValue on '3'     ctxType = typeof(x)
+//	x + y                no need to call setValue
 func (ti *typeInfo) setValue(typ reflect.Type) {
 	if ti.Nil() {
 		panic("setValue called on the predeclared nil")
@@ -266,7 +275,11 @@ func (ti *typeInfo) setValue(typ reflect.Type) {
 		case complex128Type:
 			ti.value = c
 		default:
-			rv := reflect.New(ti.valueType).Elem()
+			typ := ti.valueType
+			if st, ok := typ.(runtime.ScriggoType); ok {
+				typ = st.GoType()
+			}
+			rv := reflect.New(typ).Elem()
 			rv.SetComplex(c)
 			ti.value = rv.Interface()
 		}

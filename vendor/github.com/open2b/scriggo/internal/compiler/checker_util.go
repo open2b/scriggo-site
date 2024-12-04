@@ -311,7 +311,7 @@ func newInvalidTypeInAssignment(x *typeInfo, expr ast.Expression, t reflect.Type
 }
 
 // isAssignableTo reports whether x is assignable to type t.
-// See https://golang.org/ref/spec#Assignability for details.
+// See https://go.dev/ref/spec#Assignability for details.
 func (tc *typechecker) isAssignableTo(x *typeInfo, expr ast.Expression, t reflect.Type) error {
 	if x.Untyped() {
 		_, err := tc.convert(x, expr, t)
@@ -378,7 +378,7 @@ func isOrdered(t *typeInfo) bool {
 
 // isMapIndexing reports whether the given expression has the form
 //
-//		m[key]
+//	m[key]
 //
 // where m is a map.
 func (tc *typechecker) isMapIndexing(node ast.Node) bool {
