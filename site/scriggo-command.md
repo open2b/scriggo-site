@@ -6,9 +6,11 @@
 
 Scriggo has a command line interface, the `scriggo` command, that allows to:
 
+- [Build a template directory](#build-a-template-directory)
+  - [Examples](#examples)
 - [Run a template file](#run-a-template-file)
   - [Complete syntax](#complete-syntax)
-  - [Examples](#examples)
+  - [Examples](#examples-1)
 - [Serve a template](#serve-a-template)
   - [Complete syntax](#complete-syntax-1)
 - [Initialize an interpreter](#initialize-an-interpreter)
@@ -33,7 +35,7 @@ then test if `scriggo` can be executed:
 
 ```shell
 $ scriggo version
-scriggo version v0.58.0 (go1.23)
+scriggo version v0.58.1 (go1.23)
 ```
 
 If the `scriggo` command is not found, you should add the directory where the command has been installed to your `PATH`.
@@ -41,13 +43,57 @@ If the `scriggo` command is not found, you should add the directory where the co
 `go` installs the `scriggo` command in the directory named by the `GOBIN` environment variable. If it is not set it
 defaults to `$GOPATH/bin` or, if the `GOPATH` environment variable is not set, to `$HOME/go/bin`.
 
-
 ### Get help from command line
 
 To get help from the command line run the following command:
 
 ```shell
 $ scriggo help
+```
+
+## Build a template directory
+
+The Scriggo `build` command builds the template rooted at the current directory and writes the generated files to a
+directory named `public` by default. If the `public` directory already exists, it is deleted along with all its
+content before writing the new files.
+
+The `build` command takes the following form:
+
+```shell
+$ scriggo build [-o output] [dir]
+```
+
+For example:
+
+```shell
+scriggo build
+```
+
+builds the template rooted at the current directory and writes the resulting files to a directory named `public`.
+
+The `-o` flag writes the result to the specified output directory instead of the default `public`.
+
+If the `dir` parameter is specified, it builds the template located in that directory instead of the current directory.
+
+Markdown is converted to HTML using the Goldmark parser with the options `html.WithUnsafe`, `parser.WithAutoHeadingID`,
+`extension.GFM`, and `extension.Footnote`. Non-template files, such as CSS and JavaScript, are copied as-is.
+
+### Examples
+
+```shell
+$ scriggo build
+```
+
+```shell
+$ scriggo build docs
+```
+
+```shell
+$ scriggo build -o /var/www
+```
+
+```shell
+$ scriggo build -o ../public site
 ```
 
 ## Run a template file

@@ -18,21 +18,24 @@ Contributions to the scriggo.com site are greatly appreciated, as new documentat
 * if you find an issue on the site, [open an issue](https://github.com/open2b/scriggo/issues/new) on Scriggo.
 * if you want to write new documentation, as "Switch from X to Scriggo", [discuss with us](https://github.com/open2b/scriggo/discussions) and after it is approved open a PR on this repository.
 * if you use Scriggo at work, let us know.
+
 ### Running the website
 
 The scriggo.com site is a Scriggo template. You can use the [scriggo command](https://scriggo.com/scriggo-command) to run it locally:
 
 ```
-cd site
+cd src
 scriggo serve
 ```
 
 ### Build the website
 
-To build the pages of the website, execute the following command in the root directory of the repository:
+To build the pages of the website, execute the following commands:
 
 ```
-go run .
+cd src
+scriggo build -o ../public
 ```
 
-It will create a new directory named "public" with the compiled site pages. If the directory already exists, it will be deleted first.
+It will create a new directory named "public" in the root directory to contain the compiled site pages. If a directory
+named "public" already exists, it will first be deleted.

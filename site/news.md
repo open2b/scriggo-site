@@ -4,6 +4,15 @@
 
 # News
 
+## Released Scriggo v0.58.1
+December 05, 2024
+
+This release adds the `build` command to Scriggo, allowing you to build an entire template from the command line.
+
+### Changes
+
+* [cmd/scriggo: add the build command to build a template](** TODO **)  **TODO **
+
 ## Released Scriggo v0.58.0
 December 04, 2024
 
