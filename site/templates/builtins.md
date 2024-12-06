@@ -208,7 +208,7 @@ Returns the MD5 hash of the string s.
 ### unmarshalJSON
 
 ```go
-func unmarshalJSON(data string, v any) error {
+func unmarshalJSON(data string, v any) error
 ```
 
 Parses the JSON-encoded data and stores the result in a new value pointed to by v. If v is nil or not a pointer,
@@ -223,7 +223,7 @@ For details, see the [json.Unmarshal](https://pkg.go.dev/encoding/json#Unmarshal
 ### unmarshalYAML
 
 ```go
-func unmarshalYAML(data string, v any) error {
+func unmarshalYAML(data string, v any) error
 ```
 
 Parses the YAML-encoded data and stores the result in a new value pointed to by v. If v is nil or not a pointer,

@@ -243,7 +243,7 @@ function of the yaml package.</p>
 </code></pre>
 <p>Returns the MD5 hash of the string s.</p>
 <h3 id="unmarshaljson">unmarshalJSON</h3>
-<pre><code class="language-go">func unmarshalJSON(data string, v any) error {
+<pre><code class="language-go">func unmarshalJSON(data string, v any) error
 </code></pre>
 <p>Parses the JSON-encoded data and stores the result in a new value pointed to by v. If v is nil or not a pointer,
 unmarshalJSON returns an error.</p>
@@ -252,7 +252,7 @@ change the value pointed to by v but instantiates a new value and then replaces 
 errors occur.</p>
 <p>For details, see the <a href="https://pkg.go.dev/encoding/json#Unmarshal">json.Unmarshal</a> function of the Go standard library.</p>
 <h3 id="unmarshalyaml">unmarshalYAML</h3>
-<pre><code class="language-go">func unmarshalYAML(data string, v any) error {
+<pre><code class="language-go">func unmarshalYAML(data string, v any) error
 </code></pre>
 <p>Parses the YAML-encoded data and stores the result in a new value pointed to by v. If v is nil or not a pointer,
 unmarshalYAML returns an error.</p>
