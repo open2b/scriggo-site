@@ -223,18 +223,18 @@ templates. Some of these builtins are types with methods, so you can call method
 </code></pre>
 <p>Returns the hexadecimal encoding of s.</p>
 <h3 id="marshaljson">marshalJSON</h3>
-<pre><code class="language-go">func marshalJSON(v any) (json, error) {
+<pre><code class="language-go">func marshalJSON(v any) (json, error)
 </code></pre>
 <p>Returns the JSON encoding of v. For details, see the <a href="https://pkg.go.dev/encoding/json#Marshal">json.Marshal</a> function
 of the Go standard library.</p>
 <h3 id="marshaljsonindent">marshalJSONIndent</h3>
-<pre><code class="language-go">func marshalJSONIndent(v any, prefix, indent string) (json, error) {
+<pre><code class="language-go">func marshalJSONIndent(v any, prefix, indent string) (json, error)
 </code></pre>
 <p>Is like <a href="#marshaljson">marshalJSON</a> but indents the output. Each JSON element in the output will begin on a new line
 beginning with prefix followed by one or more copies of indent according to the indentation nesting. prefix and
 indent can only contain whitespace: ' ', '\t', '\n' and '\r'.</p>
 <h3 id="marshalyaml">marshalYAML</h3>
-<pre><code class="language-go">func marshalYAML(v any) (string, error) {
+<pre><code class="language-go">func marshalYAML(v any) (string, error)
 </code></pre>
 <p>Returns the YAML encoding of v. For details, see the <a href="https://pkg.go.dev/gopkg.in/yaml.v3#Marshal">yaml.Marshal</a>
 function of the yaml package.</p>

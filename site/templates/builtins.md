@@ -172,7 +172,7 @@ Returns the hexadecimal encoding of s.
 ### marshalJSON
 
 ```go
-func marshalJSON(v any) (json, error) {
+func marshalJSON(v any) (json, error)
 ```
 
 Returns the JSON encoding of v. For details, see the [json.Marshal](https://pkg.go.dev/encoding/json#Marshal) function
@@ -181,7 +181,7 @@ of the Go standard library.
 ### marshalJSONIndent
 
 ```go
-func marshalJSONIndent(v any, prefix, indent string) (json, error) {
+func marshalJSONIndent(v any, prefix, indent string) (json, error)
 ```
 
 Is like [marshalJSON](#marshaljson) but indents the output. Each JSON element in the output will begin on a new line
@@ -191,7 +191,7 @@ indent can only contain whitespace: ' ', '\t', '\n' and '\r'.
 ### marshalYAML
 
 ```go
-func marshalYAML(v any) (string, error) {
+func marshalYAML(v any) (string, error)
 ```
 
 Returns the YAML encoding of v. For details, see the [yaml.Marshal](https://pkg.go.dev/gopkg.in/yaml.v3#Marshal)
