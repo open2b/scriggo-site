@@ -18,7 +18,7 @@
 <body>
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
-    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.58.0</a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.58.1</a>
     <ul>
         <li><a href="/news" class="selected">News</a></li>
         <li><a href="/what-is-scriggo">Documentation</a></li>
@@ -31,6 +31,14 @@
     <div class="wrap">
         <div class="content">
             <h1 id="news">News</h1>
+<h2 id="released-scriggo-v0581">Released Scriggo v0.58.1</h2>
+<p>December 16, 2024</p>
+<p>This release focuses on bug fixes and updates dependencies. It addresses the following issues:</p>
+<ul>
+<li><strong>Resolved a race condition</strong> occurring when a function or macro was called indirectly.</li>
+<li><strong>Fixed issues causing empty output</strong> when invoking a macro, especially in cases of recursive calls.</li>
+<li><strong>Addressed template recompilation errors</strong> in the Scriggo <code>serve</code> command when a render operator was indirectly used within a <code>show</code> statement.</li>
+</ul>
 <h2 id="released-scriggo-v0580">Released Scriggo v0.58.0</h2>
 <p>December 04, 2024</p>
 <p>This release fixes the following issues:</p>

@@ -4,6 +4,15 @@
 
 # News
 
+## Released Scriggo v0.58.1
+December 16, 2024
+
+This release focuses on bug fixes and updates dependencies. It addresses the following issues:
+
+* **Resolved a race condition** occurring when a function or macro was called indirectly.
+* **Fixed issues causing empty output** when invoking a macro, especially in cases of recursive calls.
+* **Addressed template recompilation errors** in the Scriggo `serve` command when a render operator was indirectly used within a `show` statement.
+
 ## Released Scriggo v0.58.0
 December 04, 2024
 
