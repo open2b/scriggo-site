@@ -1,5 +1,5 @@
-github.com/open2b/scriggo v0.58.1 h1:Hp6jPFmhCdJOKoXpNbPgEy1PH1ZpBDeD4sS04td4d6Y=
-github.com/open2b/scriggo v0.58.1/go.mod h1:XYnYHkW9EdAT1lDNRM3nFv7zISbywe0+xnZHjf5GjZg=
+github.com/open2b/scriggo v0.59.0 h1:0QWBkJEYkhPq9nVskk9ooVhM2ZMn8v7wPwtmGkU/tUU=
+github.com/open2b/scriggo v0.59.0/go.mod h1:XYnYHkW9EdAT1lDNRM3nFv7zISbywe0+xnZHjf5GjZg=
 github.com/yuin/goldmark v1.7.8 h1:iERMLn0/QJeHFhxSt3p6PeN9mGnvIKSpG9YYorDMnic=
 github.com/yuin/goldmark v1.7.8/go.mod h1:uzxRWxtg69N339t3louHJ7+O03ezfj6PlliRlaOzY1E=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=

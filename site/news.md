@@ -4,6 +4,13 @@
 
 # News
 
+## Released Scriggo v0.59.0
+December 22, 2024
+
+This release introduces LiveReload functionality to the [Scriggo Serve](/scriggo-command#serve-a-template) command, enabling automatic page reloads in the browser whenever the page’s template files are modified.
+
+With LiveReload and the automatic template rebuild, changes are instantly reflected in the browser as soon as you save the files.
+
 ## Released Scriggo v0.58.1
 December 16, 2024
 

@@ -22,7 +22,7 @@
 <body>
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
-    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.58.1</a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.59.0</a>
     <ul>
         <li><a href="/news">News</a></li>
         <li><a href="/what-is-scriggo" class="selected">Documentation</a></li>
@@ -113,7 +113,7 @@
 </code></pre>
 <p>then test if <code>scriggo</code> can be executed:</p>
 <pre><code class="language-shell">$ scriggo version
-scriggo version v0.58.1 (go1.23)
+scriggo version v0.59.0 (go1.23)
 </code></pre>
 <p>If the <code>scriggo</code> command is not found, you should add the directory where the command has been installed to your <code>PATH</code>.</p>
 <p><code>go</code> installs the <code>scriggo</code> command in the directory named by the <code>GOBIN</code> environment variable. If it is not set it
@@ -181,10 +181,14 @@ All Scriggo builtins are available in template files. It is useful to learn <a h
 <p>it renders &quot;blog/index.html&quot; or &quot;blog/index.md&quot;.</p>
 <p>Markdown is converted to HTML with the <a href="https://github.com/yuin/goldmark">Goldmark</a> parser with the options
 <code>html.WithUnsafe</code>, <code>parser.WithAutoHeadingID</code>, <code>extension.GFM</code>, and <code>extension.Footnote</code>.</p>
-<p>Templates are automatically rebuilt when a file changes.</p>
+<p>When a template file changes, the templates are automatically rebuilt, and with LiveReload, the page
+in the browser is automatically reloaded.</p>
+<p>To disable LiveReload, use the <code>--disable-livereload</code> flag:</p>
+<pre><code class="language-shell">$ scriggo serve --disable-livereload
+</code></pre>
 <h3 id="complete-syntax-1">Complete syntax</h3>
 <p>The complete <code>scriggo serve</code> command takes this form:</p>
-<pre><code class="language-shell">$ scriggo serve [-S n] [--metrics] 
+<pre><code class="language-shell">$ scriggo serve [-S n] [--metrics] [--disable-livereload]
 </code></pre>
 <p>The <code>-S</code> flag prints the assembly code of the served file and n determines the maximum length, in runes, of
 disassembled <code>Text</code> instructions</p>
@@ -193,6 +197,8 @@ n == 0: no text
 n &lt; 0: all text
 </code></pre>
 <p>The <code>--metrics</code> flags prints metrics about execution time.</p>
+<p>The <code>--disable-livereload</code> flag disables LiveReload, preventing automatic page
+reloads in the browser.</p>
 <h2 id="initialize-an-interpreter">Initialize an interpreter</h2>
 <p>The Scriggo Init command initializes an interpreter for Go programs. It creates the following files:</p>
 <ul>

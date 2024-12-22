@@ -33,7 +33,7 @@ then test if `scriggo` can be executed:
 
 ```shell
 $ scriggo version
-scriggo version v0.58.1 (go1.23)
+scriggo version v0.59.0 (go1.23)
 ```
 
 If the `scriggo` command is not found, you should add the directory where the command has been installed to your `PATH`.
@@ -152,14 +152,21 @@ it renders "blog/index.html" or "blog/index.md".
 Markdown is converted to HTML with the [Goldmark](https://github.com/yuin/goldmark) parser with the options
 `html.WithUnsafe`, `parser.WithAutoHeadingID`, `extension.GFM`, and `extension.Footnote`.
 
-Templates are automatically rebuilt when a file changes.
+When a template file changes, the templates are automatically rebuilt, and with LiveReload, the page
+in the browser is automatically reloaded.
+
+To disable LiveReload, use the `--disable-livereload` flag:
+
+```shell
+$ scriggo serve --disable-livereload
+```
 
 ### Complete syntax
 
 The complete `scriggo serve` command takes this form:
 
 ```shell
-$ scriggo serve [-S n] [--metrics] 
+$ scriggo serve [-S n] [--metrics] [--disable-livereload]
 ```
 
 The `-S` flag prints the assembly code of the served file and n determines the maximum length, in runes, of
@@ -170,6 +177,9 @@ disassembled `Text` instructions
     n < 0: all text
 
 The `--metrics` flags prints metrics about execution time.
+
+The `--disable-livereload` flag disables LiveReload, preventing automatic page
+reloads in the browser.
 
 ## Initialize an interpreter
 
