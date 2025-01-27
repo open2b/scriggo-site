@@ -702,7 +702,11 @@ Syntax:  MapIndex m k v ; description: v = m[k]
 
 ### MethodValue
 
-TODO
+The instruction `MethodValue` retrieves the method of the value addressed by `s`, named `n`, and stores the corresponding function value into `d`. The function value stored in `d` will always use the value addressed by `s` as the receiver. A call to this function does not require the receiver as an argument.
+
+```go
+Syntax:  MethodValue s n d ; description: d = s.n
+```
 
 ### Move
 

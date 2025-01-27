@@ -537,7 +537,9 @@ Call Serve i2 _ s1 _
 <pre><code class="language-go">Syntax:  MapIndex m k v ; description: v = m[k]
 </code></pre>
 <h3 id="methodvalue">MethodValue</h3>
-<p>TODO</p>
+<p>The instruction <code>MethodValue</code> retrieves the method of the value addressed by <code>s</code>, named <code>n</code>, and stores the corresponding function value into <code>d</code>. The function value stored in <code>d</code> will always use the value addressed by <code>s</code> as the receiver. A call to this function does not require the receiver as an argument.</p>
+<pre><code class="language-go">Syntax:  MethodValue s n d ; description: d = s.n
+</code></pre>
 <h3 id="move">Move</h3>
 <p>The instruction <code>Move</code> copies the value addressed by <code>s</code> to <code>d</code>.</p>
 <pre><code class="language-go">Syntax:  Move s d ; description: d = s
