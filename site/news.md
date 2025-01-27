@@ -4,6 +4,11 @@
 
 # News
 
+## Released Scriggo v0.59.1
+January 27, 2025
+
+This is a bug-fix release that addresses an [issue related to the call of method values](https://github.com/open2b/scriggo/issues/967).
+
 ## Released Scriggo v0.59.0
 December 22, 2024
 
