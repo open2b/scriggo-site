@@ -4,6 +4,11 @@
 
 # News
 
+## Released Scriggo v0.60.0
+February 17, 2025
+
+This release follows the release of Go 1.24 and introduces updates to ensure compatibility. The minimum supported Go version is now 1.23, while the Scriggo command is compiled with Go 1.24.
+
 ## Released Scriggo v0.59.1
 January 27, 2025
 
