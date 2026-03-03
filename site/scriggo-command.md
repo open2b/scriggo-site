@@ -11,9 +11,10 @@ Scriggo has a command line interface, the `scriggo` command, that allows to:
   - [Examples](#examples)
 - [Serve a template](#serve-a-template)
   - [Complete syntax](#complete-syntax-1)
+  - [Examples](#examples-1)
 - [Build a template](#build-a-template)
   - [Complete syntax](#complete-syntax-2)
-  - [Examples](#examples-1)
+  - [Examples](#examples-2)
 - [Initialize an interpreter](#initialize-an-interpreter)
 - [Generate a package importer](#generate-a-package-importer)
   - [Complete syntax](#complete-syntax-3)
@@ -169,7 +170,7 @@ $ scriggo serve --disable-livereload
 The complete `scriggo serve` command takes this form:
 
 ```shell
-$ scriggo serve [-S n] [--metrics] [--disable-livereload]
+$ scriggo serve [-S n] [--metrics] [--disable-livereload] [-const name=value] [-http [host][:port]]
 ```
 
 The `-S` flag prints the assembly code of the served file and n determines the maximum length, in runes, of
@@ -179,10 +180,32 @@ disassembled `Text` instructions
     n == 0: no text
     n < 0: all text
 
-The `--metrics` flags prints metrics about execution time.
+The `--metrics` flag prints metrics about execution time.
 
 The `--disable-livereload` flag disables LiveReload, preventing automatic page
 reloads in the browser.
+
+The `-http` flag configures the address the server listens on. At least one of the host and port must be provided:
+
+    -http [host][:port]   listen address (default "localhost:8080")
+
+The `-const` flag serves the template with a global constant with the given name and value. `name` should be a Go
+identifier and `value` should be a string literal, a number literal, `true` or `false`. There can be multiple
+`name=value` pairs.
+
+### Examples
+
+```shell
+$ scriggo serve
+```
+
+```shell
+$ scriggo serve -http example.com:80
+```
+
+```shell
+$ scriggo serve -const 'version=1.12 title="The ancient art of tea"' -http example.com
+```
 
 ## Build a template
 
