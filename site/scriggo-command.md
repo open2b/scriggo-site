@@ -212,9 +212,9 @@ $ scriggo serve -const 'version=1.12 title="The ancient art of tea"' -http examp
 The Scriggo Build command processes the template rooted at the current directory and writes the generated files to the
 `public` directory by default. If the `public` directory already exists, it does nothing and returns an error.
 
-Only files with extension `.html` and `.md` are processed as templates; other files, such as CSS and JavaScript files,
-are copied as-is. Directories whose names start with an underscore (`_`), and files or directories whose names start
-with a dot (`.`), are skipped but can still be referenced in template files.
+Directories whose names start with an underscore (`_`), and files or directories whose names start with a dot (`.`),
+are skipped but can still be referenced in template files. Only files with extension `.md` and `.html` are built;
+non-template files, such as CSS and JavaScript files, are copied as-is.
 
 The basic Build command takes this form:
 
@@ -227,30 +227,40 @@ If a directory `dir` is specified, the template rooted at that directory is buil
 For example:
 
 ```shell
-$ scriggo build src
+$ scriggo build -o dist src
 ```
 
-processes the template rooted at the `src` directory and writes the generated files to the `public` directory. HTML
-and Markdown files are processed as templates; all other files are copied unchanged, resulting in a complete static
-site ready for deployment.
+generates a static version of the template rooted at the `src` directory, processing Markdown and HTML files and
+generating their final output in the `dist` directory. Non-template files from the source directory are copied without
+modification, resulting in a complete static site ready for deployment. If `dist` already exists, the command returns
+an error.
 
-The `-o` flag specifies an alternative output directory instead of the default `public`.
+Markdown is converted to HTML with the Goldmark parser with the options `html.WithUnsafe`, `parser.WithAutoHeadingID`,
+`extension.GFM` and `extension.Footnote`.
+
+The `-llms` flag generates two outputs for each template file: an HTML version and a Markdown version. Both share the
+same path but use different file extensions. The Markdown output is intended for consumption by LLMs.
+
+This behavior applies only to Markdown template files that extend an HTML layout. For example, if the file `page.md`
+extends `layout.html`, the build process generates `page.html` by extending `layout.html`, and also `page.md` by
+extending `layout.md`. The file `layout.md` must exist in the same directory as `layout.html`.
+
+The `-llms` flag requires a base URL as its argument. This URL is used to rewrite link destinations in the generated
+Markdown by prefixing them with the provided base URL. Link destinations that are absolute, or consist only of a query
+string or a fragment, are left unchanged. For example:
+
+```shell
+$ scriggo build -llms https://example.com src
+```
+
+builds the template and also generates the Markdown files. In these files, relative link destinations are rewritten as
+absolute ones; for example, the URL `api/authentication.html` becomes `https://example.com/api/authentication.html`.
 
 The `-const` flag builds the template with a global constant with the given name and value. `name` should be a Go
 identifier and `value` should be a string literal, a number literal, `true` or `false`. There can be multiple
 `name=value` pairs.
 
-The `-llms` flag generates two outputs for each Markdown template file that extends an HTML layout: an HTML version
-and a Markdown version. Both share the same path but use different file extensions. The Markdown output is intended
-for consumption by LLMs.
-
-For example, if the file `page.md` extends `layout.html`, the build process generates `page.html` by extending
-`layout.html`, and also `page.md` by extending `layout.md`. The file `layout.md` must exist in the same directory
-as `layout.html`.
-
-The `-llms` flag requires a base URL as its argument, used to rewrite relative link destinations in the generated
-Markdown files by prefixing them with the provided base URL. Link destinations that are absolute, or consist only
-of a query string or a fragment, are left unchanged.
+The `-o` flag allows specifying an alternative output directory instead of the default `public`.
 
 ### Complete syntax
 
@@ -262,10 +272,6 @@ $ scriggo build [-llms url] [-const name=value] [-o output] [dir]
 
 ```shell
 $ scriggo build src
-```
-
-```shell
-$ scriggo build -o dist src
 ```
 
 ```shell
