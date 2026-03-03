@@ -24,6 +24,7 @@ Part of the documentation on this page is copyright of
 
 * [base64](#base64)
 * [hex](#hex)
+* [indentJSON](#indentjson)
 * [marshalJSON](#marshaljson)
 * [marshalJSONIndent](#marshaljsonindent)
 * [marshalYAML](#marshalyaml)
@@ -168,6 +169,21 @@ func hex(s string) string
 ```
 
 Returns the hexadecimal encoding of s.
+
+### indentJSON
+
+```go
+func indentJSON(data json, prefix, indent string) json
+```
+
+Returns the JSON data indented, while preserving the existing object key order. Each JSON element in the output
+begins on a new line starting with prefix followed by one or more copies of indent according to the indentation
+nesting. prefix and indent can only contain whitespace characters: `' '` or `'\t'`.
+
+It panics if data is not valid JSON, or if prefix or indent contain characters other than `' '` or `'\t'`.
+
+Unlike [marshalJSONIndent](#marshaljsonindent), which encodes a Go value to JSON, `indentJSON` takes an already
+encoded `json` value and reformats it without altering the order of the object keys.
 
 ### marshalJSON
 
