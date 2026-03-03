@@ -97,7 +97,7 @@ INSTRUCTION arguments
 uppercase (the syntax recalls that used by Dockerfile).</p>
 <p>A Scriggofile must be encoded as UTF-8, and it should be named <code>Scriggofile</code> or with the extension <code>.Scriggofile</code> as
 for <code>example.Scriggofile</code>.</p>
-<h2 id="intructions">Intructions</h2>
+<h2 id="instructions">Instructions</h2>
 <p>The instructions are:</p>
 <h3 id="import-standard-library">IMPORT STANDARD LIBRARY</h3>
 <p>Makes almost all the packages in the Go standard library importable in a program or template executed by the
@@ -113,7 +113,7 @@ application.</p>
 <p>As for <code>IMPORT &lt;package&gt;</code> but the exported names <code>A</code>, <code>B</code> and <code>C</code> are not imported.</p>
 <h3 id="import-ltpackagegt-as-ltasgt">IMPORT &lt;package&gt; AS &lt;as&gt;</h3>
 <p>As for <code>IMPORT &lt;package&gt;</code> but the path by which it can be imported is named <code>as</code>. <code>INCLUDING</code> and <code>EXCLUDING</code> can be
-used as for the other forms of <code>IMPORT</code> at the end of the instruction. Is not possible to use a path <code>as</code> that would
+used as for the other forms of <code>IMPORT</code> at the end of the instruction. It is not possible to use a path <code>as</code> that would
 conflict with a Go standard library package path, even if this latter is not imported in the Scriggofile.</p>
 <h3 id="set-variable-ltnamegt">SET VARIABLE &lt;name&gt;</h3>
 <p>Sets the name of the variable to which the value of type <code>native.Packages</code> is assigned with the packages to import.

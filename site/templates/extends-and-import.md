@@ -57,14 +57,14 @@ These three macros are not declared in the file itself, but they will be declare
 &lt;/head&gt;
 </pre>
 
-The extends declaration should be at the beginning of the file, before others declarations, and the file declares macros
+The extends declaration should be at the beginning of the file, before other declarations, and the file declares macros
 called but not declared in the layout file. These macros should have the first letter in uppercase to be visible and
 callable in the extended file.
 
 The page can have other declarations, such as variables and macros, used in the same file, but it cannot have any content
 other than the one contained within the macros.
 
-The previous example used only macro with no parameters, but there is nothing preventing the use of macro with
+The previous example used only macro with no parameters, but there is nothing preventing the use of macros with
 parameters.
 
 ## Import

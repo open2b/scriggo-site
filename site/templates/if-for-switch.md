@@ -12,7 +12,7 @@ variable to be tested for equality against a list of values.
 
 ## If
 
-The `if` statement executes its body if the condition, that can have any type, is valuated to true. For example the
+The `if` statement executes its body if the condition, that can have any type, evaluates to true. For example the
 following statement:
 
 ```scriggo

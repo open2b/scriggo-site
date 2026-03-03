@@ -43,7 +43,7 @@ application, nothing else. It does not require any Go installation to build and 
 * Easy integration with your Go application.
 * Written in pure Go and no dependencies beyond the Go standard library.
 
-## Where run Scriggo applications
+## Where to run Scriggo applications
 
 Scriggo can run on servers, desktops, mobile devices and on serverless platforms like
 <a href="https://aws.amazon.com/lambda/">Amazon Lambda</a>,

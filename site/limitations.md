@@ -23,7 +23,7 @@ GitHub issues linked in the list below.
 For a comprehensive list of not-yet-implemented features
 see the list of [missing features on Github](https://github.com/open2b/scriggo/labels/missing-feature).
 
-## Limitations due to maintain the interoperability with Go official compiler `gc`
+## Limitations due to maintaining the interoperability with Go official compiler `gc`
 
 * types defined in Scriggo are not correctly seen by the `reflect` package.
     This manifests itself, for example, when calling the function
@@ -34,7 +34,7 @@ see the list of [missing features on Github](https://github.com/open2b/scriggo/l
 
 * unexported fields of struct types defined in Scriggo are still accessible
     from native packages with the reflect methods. This is caused by the
-    reflect methods that does not allow, by design, to change the value of an
+    reflect methods that do not allow, by design, to change the value of an
     unexported field, so they are created with an empty package path. By the
     way, such fields (that should be unexported) can not be changed without
     the reflect and have a particular prefix to avoid accidental accessing.
@@ -55,7 +55,7 @@ see the list of [missing features on Github](https://github.com/open2b/scriggo/l
 ## Arbitrary limitations
 
 These limitations have been arbitrarily added to Scriggo to enhance
-performances:
+performance:
 
 * 127 registers of a given type (integer, floating point, string or general) per function
 * 256 function literal declarations plus unique functions calls per function

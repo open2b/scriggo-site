@@ -8,7 +8,7 @@
 This page is targeted to users who are already familiar with designing templates in
 Python/Jinja but have a limited/no experience with Go/Scriggo.
 
-Here is provided a overview of the similarities and the differences between the two
+Here is provided an overview of the similarities and the differences between the two
 templating languages.
 
 > Some examples on this page are taken from [the Jinja
@@ -88,7 +88,7 @@ One of the biggest differences between Jinja and Scriggo is the type system.
 Jinja is based on Python, thus it offers a dynamically-typed template system, while
 Scriggo (which is based on Go) is statically typed.
 
-This means that, when writing templates in Scriggo, most of the errors will be catch
+This means that, when writing templates in Scriggo, most of the errors will be caught
 at compile time.
 
 For example, writing this code in Scriggo:
@@ -263,7 +263,7 @@ In Scriggo you can use an _if statement_ to assign to a variable conditionally:
 
 ### Math and comparisons
 
-Scriggo and Jinja shares a big part of their operators.
+Scriggo and Jinja share a big part of their operators.
 
 For example this template code is valid both in Jinja and Scriggo:
 
@@ -310,7 +310,7 @@ While Jinja has the _in_ operator:
 ```
 
 Scriggo has the _contains_ and _not contains_ operators (note that the operands are
-reverted respect to the _in_ operator):
+reversed with respect to the _in_ operator):
 
 ```scriggo
 {{ []int{1, 2, 3} contains 1 }}
@@ -480,7 +480,7 @@ For example this code in Jinja:
 {% endcall %}
 ```
 
-can be reproduce in Scriggo as:
+can be reproduced in Scriggo as:
 
 ```scriggo
 {% macro render_dialog(title string, contents macro() html) %}
@@ -537,7 +537,7 @@ So the example above becomes:
 
 Just like Jinja, Scriggo provides a mechanism to implement the template inheritance.
 
-The _extends_ declaration can be used in Scriggo to extend another file, just like in Jijnja:
+The _extends_ declaration can be used in Scriggo to extend another file, just like in Jinja:
 
 ```
 {% extends "layout/default.html" %}
@@ -698,7 +698,7 @@ Scriggo has the built-in function `abs`:
 
 ### `attr`
 
-Jijna
+Jinja
 
 ```jinja
 {{  foo|attr("bar") }}
@@ -718,7 +718,7 @@ Note that if `foo` has no attribute `bar`, it results in a compilation error.
 
 ### `length`
 
-Scriggo offer the built-in function `runeCount` that returns the number of characters
+Scriggo offers the built-in function `runeCount` that returns the number of characters
 of a string.
 
 ```scriggo
@@ -812,7 +812,7 @@ different algorithms:
 
 Now you can check out these resources:
 
-- [Templates](/templates), which provides a more depth overview of the Scriggo
+- [Templates](/templates), which provides a more in-depth overview of the Scriggo
   template.
 - [Get started with templates](/get-started-2#execute-templates-in-your-application),
   which provides a tutorial on embedding Scriggo templates in your Go application.

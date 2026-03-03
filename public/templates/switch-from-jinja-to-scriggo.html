@@ -86,7 +86,7 @@
             <h1 id="switch-from-jinja-to-scriggo">Switch from Jinja to Scriggo</h1>
 <p>This page is targeted to users who are already familiar with designing templates in
 Python/Jinja but have a limited/no experience with Go/Scriggo.</p>
-<p>Here is provided a overview of the similarities and the differences between the two
+<p>Here is provided an overview of the similarities and the differences between the two
 templating languages.</p>
 <blockquote>
 <p>Some examples on this page are taken from <a href="https://jinja.palletsprojects.com/en/3.0.x/templates/">the Jinja
@@ -174,7 +174,7 @@ it must be separated by the <code>end</code> keyword:</p>
 <p>One of the biggest differences between Jinja and Scriggo is the type system.</p>
 <p>Jinja is based on Python, thus it offers a dynamically-typed template system, while
 Scriggo (which is based on Go) is statically typed.</p>
-<p>This means that, when writing templates in Scriggo, most of the errors will be catch
+<p>This means that, when writing templates in Scriggo, most of the errors will be caught
 at compile time.</p>
 <p>For example, writing this code in Scriggo:</p>
 <pre><code class="language-scriggo">{% var name string = &quot;hello&quot; %}
@@ -276,7 +276,7 @@ sorted values, and maps or structs for values with an associated key.</p>
 &lt;h1&gt;{{ title }}&lt;/h1&gt;
 </code></pre>
 <h3 id="math-and-comparisons">Math and comparisons</h3>
-<p>Scriggo and Jinja shares a big part of their operators.</p>
+<p>Scriggo and Jinja share a big part of their operators.</p>
 <p>For example this template code is valid both in Jinja and Scriggo:</p>
 <pre><code>{{ 3 + 10 }} {{ 32 - 2 }} {{ 5 / 2.5 }} {{ 11 % 2 }}
 {{ 24 == (2 + 5) }} {{ 1 &lt; 4 }}
@@ -303,7 +303,7 @@ evaluates to a boolean.</p>
 {{ 3 not in [1, 2, 3] }}
 </code></pre>
 <p>Scriggo has the <em>contains</em> and <em>not contains</em> operators (note that the operands are
-reverted respect to the <em>in</em> operator):</p>
+reversed with respect to the <em>in</em> operator):</p>
 <pre><code class="language-scriggo">{{ []int{1, 2, 3} contains 1 }}
 {{ []int{1, 2, 3} not contains 3 }}
 </code></pre>
@@ -416,7 +416,7 @@ the <code>itea</code> built-in identifier.</p>
     a call block.
 {% endcall %}
 </code></pre>
-<p>can be reproduce in Scriggo as:</p>
+<p>can be reproduced in Scriggo as:</p>
 <pre><code class="language-scriggo">{% macro render_dialog(title string, contents macro() html) %}
     &lt;div&gt;
         &lt;h2&gt;{{ title }}&lt;/h2&gt;
@@ -460,7 +460,7 @@ is not covered in this document.</p>
 </blockquote>
 <h2 id="template-inheritance">Template inheritance</h2>
 <p>Just like Jinja, Scriggo provides a mechanism to implement the template inheritance.</p>
-<p>The <em>extends</em> declaration can be used in Scriggo to extend another file, just like in Jijnja:</p>
+<p>The <em>extends</em> declaration can be used in Scriggo to extend another file, just like in Jinja:</p>
 <pre><code>{% extends &quot;layout/default.html&quot; %}
 </code></pre>
 <h2 id="blocks-and-macros">Blocks and macros</h2>
@@ -568,7 +568,7 @@ File is {{ len(content) }} bytes long.
 <pre><code class="language-scriggo">{{ abs(-3) }}
 </code></pre>
 <h3 id="attr"><code>attr</code></h3>
-<p>Jijna</p>
+<p>Jinja</p>
 <pre><code class="language-jinja">{{  foo|attr(&quot;bar&quot;) }}
 </code></pre>
 <p>In Scriggo you can access to attributes using a selector, just like in Jinja:</p>
@@ -581,7 +581,7 @@ that such field is exported. In Scriggo, just like in Go, only exported fields c
 be accessed by other packages from the one that declared such type.</p>
 </blockquote>
 <h3 id="length"><code>length</code></h3>
-<p>Scriggo offer the built-in function <code>runeCount</code> that returns the number of characters
+<p>Scriggo offers the built-in function <code>runeCount</code> that returns the number of characters
 of a string.</p>
 <pre><code class="language-scriggo">{{ runeCount(&quot;hellò&quot;) }}
 </code></pre>
@@ -638,7 +638,7 @@ parser, it is escaped as <code>%3c is more</code>.</li>
 <h2 id="continue-to-learn">Continue to learn</h2>
 <p>Now you can check out these resources:</p>
 <ul>
-<li><a href="/templates">Templates</a>, which provides a more depth overview of the Scriggo
+<li><a href="/templates">Templates</a>, which provides a more in-depth overview of the Scriggo
 template.</li>
 <li><a href="/get-started-2#execute-templates-in-your-application">Get started with templates</a>,
 which provides a tutorial on embedding Scriggo templates in your Go application.</li>

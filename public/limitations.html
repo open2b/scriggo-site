@@ -99,7 +99,7 @@ GitHub issues linked in the list below.</p>
 </ul>
 <p>For a comprehensive list of not-yet-implemented features
 see the list of <a href="https://github.com/open2b/scriggo/labels/missing-feature">missing features on Github</a>.</p>
-<h2 id="limitations-due-to-maintain-the-interoperability-with-go-official-compiler-gc">Limitations due to maintain the interoperability with Go official compiler <code>gc</code></h2>
+<h2 id="limitations-due-to-maintaining-the-interoperability-with-go-official-compiler-gc">Limitations due to maintaining the interoperability with Go official compiler <code>gc</code></h2>
 <ul>
 <li>
 <p>types defined in Scriggo are not correctly seen by the <code>reflect</code> package.
@@ -112,7 +112,7 @@ the value in <code>v</code> before passing it to gc.</p>
 <li>
 <p>unexported fields of struct types defined in Scriggo are still accessible
 from native packages with the reflect methods. This is caused by the
-reflect methods that does not allow, by design, to change the value of an
+reflect methods that do not allow, by design, to change the value of an
 unexported field, so they are created with an empty package path. By the
 way, such fields (that should be unexported) can not be changed without
 the reflect and have a particular prefix to avoid accidental accessing.</p>
@@ -137,7 +137,7 @@ Also see the commands <code>scriggo import</code> and <code>scriggo init</code>.
 </ul>
 <h2 id="arbitrary-limitations">Arbitrary limitations</h2>
 <p>These limitations have been arbitrarily added to Scriggo to enhance
-performances:</p>
+performance:</p>
 <ul>
 <li>127 registers of a given type (integer, floating point, string or general) per function</li>
 <li>256 function literal declarations plus unique functions calls per function</li>

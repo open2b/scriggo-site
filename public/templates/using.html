@@ -143,7 +143,7 @@ the philosophy, history and culture of tea in China.&lt;/p&gt;
 {% end %}
 </code></pre>
 <p>The body is evaluated and the result is passed to the <code>Header</code> macro. If <code>Header</code> doesn't use its argument, Scriggo still executes the body and calls the <code>socials</code> function.</p>
-<p>To avoid this, you can change <code>Header</code> by passing them a macro instead of a string. <code>Header</code> will only call the macro if it wants to render it. Now you can write <code>using macro</code> instead of <code>using</code> only:</p>
+<p>To avoid this, you can change <code>Header</code> by passing it a macro instead of a string. <code>Header</code> will only call the macro if it wants to render it. Now you can write <code>using macro</code> instead of <code>using</code> only:</p>
 <pre><code class="language-scriggo">{% show Header(itea); using macro %}
   &lt;title&gt;My Site&lt;/title&gt;
   {{ socials() }}
@@ -152,7 +152,7 @@ the philosophy, history and culture of tea in China.&lt;/p&gt;
 <p>In this case <em>itea</em> represents a macro with body the body of the <em>using</em> statement. The body is evaluated and the
 <code>socials</code> macro is called only when <code>Header</code> calls the macro.</p>
 <h3 id="parameters">Parameters</h3>
-<p>The following <code>Users</code> macro shows the users that have been passed to them. To show each user, it calls the macro
+<p>The following <code>Users</code> macro shows the users that have been passed to it. To show each user, it calls the macro
 <code>getUser</code>, also passed as an argument:</p>
 <pre><code class="language-scriggo">{% macro Users(users []User, getUser macro(user User) html) %}
 &lt;div class=&quot;users&quot;&gt;
@@ -168,7 +168,7 @@ the philosophy, history and culture of tea in China.&lt;/p&gt;
 &lt;dl&gt;
   &lt;dt&gt;First name&lt;/dt&gt;
   &lt;dd&gt;{{ user.FirstName }}&lt;/dd&gt;
-  &lt;dt&gt;Lat name&lt;/dt&gt;
+  &lt;dt&gt;Last name&lt;/dt&gt;
   &lt;dd&gt;{{ user.LastName }}&lt;/dd&gt;
 &lt;/dl&gt;
 {% end %}

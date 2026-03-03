@@ -6,7 +6,7 @@
 
 # Scriggo templates
 
-Scriggo templates supports inheritance, macros, partials, imports and contextual autoescaping but most of all it uses
+Scriggo templates support inheritance, macros, partials, imports and contextual autoescaping but most of all it uses
 the Go language as the template scripting language.
 
 ## Syntax
@@ -96,7 +96,7 @@ articles. There is also the [switch](/templates/if-for-switch#switch) statement.
 The var keyword allows you to declare new [variables](/templates/variables) and the
 [assignment](/templates/variables#assignment) operators, as =, allow you to change their value.
 
-## How learn more about templates
+## How to learn more about templates
 
 To learn more about templates continue to read the documentation and refer to the [specification](/templates/specification) for more details.  
 

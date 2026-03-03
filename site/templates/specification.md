@@ -91,7 +91,7 @@ end          macro        raw          using
 
 ### Format types
 
-A format type represents a sets of string values that can have a special treatment when used with `show` statement. The `string` type is a format type.
+A format type represents a set of string values that can have a special treatment when used with `show` statement. The `string` type is a format type.
 
 ```
 FormatType = "string" | "html" | "css" | "js" | "json" | "markdown" .
@@ -162,7 +162,7 @@ A constant, type and variable declaration can also be written between _{%_ and _
 
 In addition there are macro declarations. A macro declaration binds an identifier to a macro.
 
-At part of the different declaration syntax, macros are functions. A macro declaration can only be written using _{%_ and _%}_.
+Apart from the different declaration syntax, macros are functions. A macro declaration can only be written using _{%_ and _%}_.
 
 ```
 MacroDecl   =
@@ -196,8 +196,8 @@ Macro declarations are only allowed in the previous template contexts.
 {% end macro %}
 ```
 
-A distraction free declaration is a macro declaration where the body of the macro end at the end of the file.
-A distraction free declaration does not have the `macro` keyword, does not have parameters and have an implicit
+A distraction free declaration is a macro declaration where the body of the macro ends at the end of the file.
+A distraction free declaration does not have the `macro` keyword, does not have parameters and has an implicit
 return value. The name of the macro in a distraction free declaration is an exported identifier.
 
 ```
@@ -303,7 +303,7 @@ var filters []Filter = filters default nil
 
 ### Map selector expressions
 
-Given the expression `m` with type `map[K]E`, where `K` is a string type or the `interface{}` type and `E` is any type, and given an idenfier `x`, `m.x` is a map selector expression with type `E`, that denotes the key `"x"` of `m`.  Writing `m.x` is the same as writing `m["x"]`.
+Given the expression `m` with type `map[K]E`, where `K` is a string type or the `interface{}` type and `E` is any type, and given an identifier `x`, `m.x` is a map selector expression with type `E`, that denotes the key `"x"` of `m`.  Writing `m.x` is the same as writing `m["x"]`.
 
 As a special case, if `s` is a map selector expression with type `interface{}`, `s.y` is also a selector expression with type `interface{}` and the following rules apply:
 
@@ -367,15 +367,15 @@ renders the template file with path s, and it's evaluated to a string value with
 
 Scriggo templates have <code>contains</code> and <code>not contains</code> operators. The following rules applies:
 
-* For a value `v` of type `[]T` or `[n]T` and a value `x`, the expression `v contains x` yield an untyped boolean; `true` if an element of `v` is equals to `x`. `x` must be assignable to `T` and comparable to the values of `T`.
+* For a value `v` of type `[]T` or `[n]T` and a value `x`, the expression `v contains x` yields an untyped boolean; `true` if an element of `v` is equals to `x`. `x` must be assignable to `T` and comparable to the values of `T`.
 
-* For a map `v` with key values of type `T` and a value `x` of type `T`, the expression `v contains x` yield an untyped boolean; `true` if `v` has `x` as key.
+* For a map `v` with key values of type `T` and a value `x` of type `T`, the expression `v contains x` yields an untyped boolean; `true` if `v` has `x` as key.
 
-* For string values `v` and `x`, the expression `v contains x` yield an untyped boolean; `true` if `x` is within `v`.
+* For string values `v` and `x`, the expression `v contains x` yields an untyped boolean; `true` if `x` is within `v`.
 
-* For a string value `v` and a value `x` of type `rune`, the expression `v contains x` yield an untyped boolean; `true` if the Unicode code point `x` is within `v`.
+* For a string value `v` and a value `x` of type `rune`, the expression `v contains x` yields an untyped boolean; `true` if the Unicode code point `x` is within `v`.
 
-* For a value `v` of type `[]byte` and a value `x` of type `rune`, the expression `v contains x` yield an untyped boolean; `true` if the Unicode code point `x` is within `v`.
+* For a value `v` of type `[]byte` and a value `x` of type `rune`, the expression `v contains x` yields an untyped boolean; `true` if the Unicode code point `x` is within `v`.
 
 If `!(v contains y)` is a valid expression evaluated to the value `b`, also `v not contains y` is a valid expression and it is evaluated to the value `!b`.
 
@@ -413,7 +413,7 @@ of `x`.
 
 ### Extended logical operators
 
-Extended logical operators applies to any value and yield an untyped boolean value or an untyped boolean constant if both the operands are constants. The right operand is evaluated conditionally.
+Extended logical operators apply to any value and yields an untyped boolean value or an untyped boolean constant if both the operands are constants. The right operand is evaluated conditionally.
 
 ```
 and    conditional AND    p and q  is  "if p is truthful then q is truthful else false"
@@ -449,7 +449,7 @@ a compile-time error occurs if used.
 ### If statement
 
 The expression of the "if" statement is not limited to boolean types but can have any type.
-If the expression evaluate to truthful value, the "if" branch is executed, otherwise, if present,
+If the expression evaluates to a truthful value, the "if" branch is executed, otherwise, if present,
 the "else" branch is executed.
 
 ### For statement
@@ -461,7 +461,7 @@ ForStmt  = "for" ( [ Condition | ForClause ] Block | [ RangeClause | InClause ] 
 InClause = Identifier "in" Expression .
 ```
 
-A "for" statement with an "in" clause is the same of a "for" statement with a "range" clause with the first identifier only and the short assignment.
+A "for" statement with an "in" clause is the same as a "for" statement with a "range" clause with the first identifier only and the short assignment.
 
 ```
 for i in s { }
@@ -471,7 +471,7 @@ for i in s { }
 for i := range s { } 
 ```
 
-A "for" statement with an "else" block, the "else" block is executed if the "for" block is not executed.
+In a "for" statement with an "else" block, the "else" block is executed if the "for" block is not executed.
 
 ### Show statement
 
@@ -579,7 +579,7 @@ is rendered as
    {% end if %}
 ```
 
-Marked raw statements ends at the first occurrence of `{% end raw marker %}` where `marker` is its marker. For example,
+Marked raw statements end at the first occurrence of `{% end raw marker %}` where `marker` is its marker. For example,
 the following code
 
 ```
@@ -607,7 +607,7 @@ A _raw_ statement can have a string literal _tag_. As for struct tags, an empty 
 ```
 {% raw `lang:"javascript"` %} var a = 5; console.log(a); {% end %}
 
-{# an empty tag is equilavent to an absent tag #}
+{# an empty tag is equivalent to an absent tag #}
 {% raw "" %} <b! data {% end %}
 ```
 
@@ -639,12 +639,12 @@ For a file containing an extends declaration, the following rules applies:
 The `ImportPath` of an import declaration is first interpreted as the path of a template file. If a template file with
 this path does not exist, it is interpreted as a package path.
 
-If `ImportPath` is interpreted as a template file, the Go form without a package name is the same of the form with the
+If `ImportPath` is interpreted as a template file, the Go form without a package name is the same as the form with the
 explicit period.
 
 ```
 // if "header.html" resolves to a template file,
-// the following import declarations are equivament.
+// the following import declarations are equivalent.
 
 import "header.html"
 import . "header.html"

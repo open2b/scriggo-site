@@ -151,7 +151,7 @@ end          macro        raw          using
 </code></pre>
 <h2 id="types">Types</h2>
 <h3 id="format-types">Format types</h3>
-<p>A format type represents a sets of string values that can have a special treatment when used with <code>show</code> statement. The <code>string</code> type is a format type.</p>
+<p>A format type represents a set of string values that can have a special treatment when used with <code>show</code> statement. The <code>string</code> type is a format type.</p>
 <pre><code>FormatType = &quot;string&quot; | &quot;html&quot; | &quot;css&quot; | &quot;js&quot; | &quot;json&quot; | &quot;markdown&quot; .
 </code></pre>
 <pre><code>string    The string type. The strings in this set are not escaped in a Text context.
@@ -198,7 +198,7 @@ macro() (string, css)    // not valid, has too many return parameters
 </code></pre>
 <h3 id="macro-declarations">Macro declarations</h3>
 <p>In addition there are macro declarations. A macro declaration binds an identifier to a macro.</p>
-<p>At part of the different declaration syntax, macros are functions. A macro declaration can only be written using <em>{%</em> and <em>%}</em>.</p>
+<p>Apart from the different declaration syntax, macros are functions. A macro declaration can only be written using <em>{%</em> and <em>%}</em>.</p>
 <pre><code>MacroDecl   =
     &quot;{%&quot; &quot;macro&quot; MacroName [ Parameters ] [ MacroResult ] &quot;%}&quot;
     Content
@@ -223,8 +223,8 @@ Markdown          markdown
   &lt;a href=&quot;{{ src }}&quot; with=&quot;{{ width }}&quot; height=&quot;{{ height }}&quot;&gt;
 {% end macro %}
 </code></pre>
-<p>A distraction free declaration is a macro declaration where the body of the macro end at the end of the file.
-A distraction free declaration does not have the <code>macro</code> keyword, does not have parameters and have an implicit
+<p>A distraction free declaration is a macro declaration where the body of the macro ends at the end of the file.
+A distraction free declaration does not have the <code>macro</code> keyword, does not have parameters and has an implicit
 return value. The name of the macro in a distraction free declaration is an exported identifier.</p>
 <pre><code>DistractionFreeMacroDecl = &quot;{%&quot; DistractionFreeMacroName &quot;%}&quot; Content EOF .
 DistractionFreeMacroName = exported_identifier .
@@ -294,7 +294,7 @@ DefaultExpr = ( identifier | identifier Arguments | Render ) &quot;default&quot;
 <pre><code>{{ render &quot;specials.html&quot; default &quot;no specials&quot; }}
 </code></pre>
 <h3 id="map-selector-expressions">Map selector expressions</h3>
-<p>Given the expression <code>m</code> with type <code>map[K]E</code>, where <code>K</code> is a string type or the <code>interface{}</code> type and <code>E</code> is any type, and given an idenfier <code>x</code>, <code>m.x</code> is a map selector expression with type <code>E</code>, that denotes the key <code>&quot;x&quot;</code> of <code>m</code>.  Writing <code>m.x</code> is the same as writing <code>m[&quot;x&quot;]</code>.</p>
+<p>Given the expression <code>m</code> with type <code>map[K]E</code>, where <code>K</code> is a string type or the <code>interface{}</code> type and <code>E</code> is any type, and given an identifier <code>x</code>, <code>m.x</code> is a map selector expression with type <code>E</code>, that denotes the key <code>&quot;x&quot;</code> of <code>m</code>.  Writing <code>m.x</code> is the same as writing <code>m[&quot;x&quot;]</code>.</p>
 <p>As a special case, if <code>s</code> is a map selector expression with type <code>interface{}</code>, <code>s.y</code> is also a selector expression with type <code>interface{}</code> and the following rules apply:</p>
 <ul>
 <li>If <code>s</code> is <code>nil</code>, <code>s.y</code> is <code>nil</code>.</li>
@@ -340,19 +340,19 @@ p.x.y      // p[&quot;x&quot;][&quot;y&quot;] with type int
 <p>Scriggo templates have <code>contains</code> and <code>not contains</code> operators. The following rules applies:</p>
 <ul>
 <li>
-<p>For a value <code>v</code> of type <code>[]T</code> or <code>[n]T</code> and a value <code>x</code>, the expression <code>v contains x</code> yield an untyped boolean; <code>true</code> if an element of <code>v</code> is equals to <code>x</code>. <code>x</code> must be assignable to <code>T</code> and comparable to the values of <code>T</code>.</p>
+<p>For a value <code>v</code> of type <code>[]T</code> or <code>[n]T</code> and a value <code>x</code>, the expression <code>v contains x</code> yields an untyped boolean; <code>true</code> if an element of <code>v</code> is equals to <code>x</code>. <code>x</code> must be assignable to <code>T</code> and comparable to the values of <code>T</code>.</p>
 </li>
 <li>
-<p>For a map <code>v</code> with key values of type <code>T</code> and a value <code>x</code> of type <code>T</code>, the expression <code>v contains x</code> yield an untyped boolean; <code>true</code> if <code>v</code> has <code>x</code> as key.</p>
+<p>For a map <code>v</code> with key values of type <code>T</code> and a value <code>x</code> of type <code>T</code>, the expression <code>v contains x</code> yields an untyped boolean; <code>true</code> if <code>v</code> has <code>x</code> as key.</p>
 </li>
 <li>
-<p>For string values <code>v</code> and <code>x</code>, the expression <code>v contains x</code> yield an untyped boolean; <code>true</code> if <code>x</code> is within <code>v</code>.</p>
+<p>For string values <code>v</code> and <code>x</code>, the expression <code>v contains x</code> yields an untyped boolean; <code>true</code> if <code>x</code> is within <code>v</code>.</p>
 </li>
 <li>
-<p>For a string value <code>v</code> and a value <code>x</code> of type <code>rune</code>, the expression <code>v contains x</code> yield an untyped boolean; <code>true</code> if the Unicode code point <code>x</code> is within <code>v</code>.</p>
+<p>For a string value <code>v</code> and a value <code>x</code> of type <code>rune</code>, the expression <code>v contains x</code> yields an untyped boolean; <code>true</code> if the Unicode code point <code>x</code> is within <code>v</code>.</p>
 </li>
 <li>
-<p>For a value <code>v</code> of type <code>[]byte</code> and a value <code>x</code> of type <code>rune</code>, the expression <code>v contains x</code> yield an untyped boolean; <code>true</code> if the Unicode code point <code>x</code> is within <code>v</code>.</p>
+<p>For a value <code>v</code> of type <code>[]byte</code> and a value <code>x</code> of type <code>rune</code>, the expression <code>v contains x</code> yields an untyped boolean; <code>true</code> if the Unicode code point <code>x</code> is within <code>v</code>.</p>
 </li>
 </ul>
 <p>If <code>!(v contains y)</code> is a valid expression evaluated to the value <code>b</code>, also <code>v not contains y</code> is a valid expression and it is evaluated to the value <code>!b</code>.</p>
@@ -380,7 +380,7 @@ unary_op   = &quot;+&quot; | &quot;-&quot; | &quot;!&quot; | &quot;^&quot; | &qu
 <p>Implementation restriction: A compiler can not assume that <code>x.IsTrue()</code> evaluates to the same value for the same value
 of <code>x</code>.</p>
 <h3 id="extended-logical-operators">Extended logical operators</h3>
-<p>Extended logical operators applies to any value and yield an untyped boolean value or an untyped boolean constant if both the operands are constants. The right operand is evaluated conditionally.</p>
+<p>Extended logical operators apply to any value and yields an untyped boolean value or an untyped boolean constant if both the operands are constants. The right operand is evaluated conditionally.</p>
 <pre><code>and    conditional AND    p and q  is  &quot;if p is truthful then q is truthful else false&quot;
 or     conditional OR     p or q   is  &quot;if p is truthful then true else q is truthful&quot;
 not    NOT                not p    is  &quot;if p is not truthful&quot;
@@ -406,21 +406,21 @@ json(c4)    // a untyped constant value can be converted to json
 a compile-time error occurs if used.</p>
 <h3 id="if-statement">If statement</h3>
 <p>The expression of the &quot;if&quot; statement is not limited to boolean types but can have any type.
-If the expression evaluate to truthful value, the &quot;if&quot; branch is executed, otherwise, if present,
+If the expression evaluates to a truthful value, the &quot;if&quot; branch is executed, otherwise, if present,
 the &quot;else&quot; branch is executed.</p>
 <h3 id="for-statement">For statement</h3>
 <p>The &quot;for&quot; statement is extended with a fourth form and an &quot;else&quot; block.</p>
 <pre><code>ForStmt  = &quot;for&quot; ( [ Condition | ForClause ] Block | [ RangeClause | InClause ] Block [ &quot;else&quot; Block ] ) .
 InClause = Identifier &quot;in&quot; Expression .
 </code></pre>
-<p>A &quot;for&quot; statement with an &quot;in&quot; clause is the same of a &quot;for&quot; statement with a &quot;range&quot; clause with the first identifier only and the short assignment.</p>
+<p>A &quot;for&quot; statement with an &quot;in&quot; clause is the same as a &quot;for&quot; statement with a &quot;range&quot; clause with the first identifier only and the short assignment.</p>
 <pre><code>for i in s { }
 
 // is the same of
 
 for i := range s { } 
 </code></pre>
-<p>A &quot;for&quot; statement with an &quot;else&quot; block, the &quot;else&quot; block is executed if the &quot;for&quot; block is not executed.</p>
+<p>In a &quot;for&quot; statement with an &quot;else&quot; block, the &quot;else&quot; block is executed if the &quot;for&quot; block is not executed.</p>
 <h3 id="show-statement">Show statement</h3>
 <p>The <em>show</em> statement formats the expressions, according to the expression type and the context. If <em>show</em> is used
 in a macro, the formatted values are appended to the macro response value, otherwise the formatted values are printed
@@ -495,7 +495,7 @@ Tag             = string_lit .
      promotion
    {% end if %}
 </code></pre>
-<p>Marked raw statements ends at the first occurrence of <code>{% end raw marker %}</code> where <code>marker</code> is its marker. For example,
+<p>Marked raw statements end at the first occurrence of <code>{% end raw marker %}</code> where <code>marker</code> is its marker. For example,
 the following code</p>
 <pre><code>{% raw doc %}
    Use a raw statement to render unparsed text as
@@ -515,7 +515,7 @@ the following code</p>
 <p>A <em>raw</em> statement can have a string literal <em>tag</em>. As for struct tags, an empty tag string is equivalent to an absent tag.</p>
 <pre><code>{% raw `lang:&quot;javascript&quot;` %} var a = 5; console.log(a); {% end %}
 
-{# an empty tag is equilavent to an absent tag #}
+{# an empty tag is equivalent to an absent tag #}
 {% raw &quot;&quot; %} &lt;b! data {% end %}
 </code></pre>
 <h2 id="template-files">Template files</h2>
@@ -537,10 +537,10 @@ ExtendsPath = string_lit .
 <h2 id="import-declarations">Import declarations</h2>
 <p>The <code>ImportPath</code> of an import declaration is first interpreted as the path of a template file. If a template file with
 this path does not exist, it is interpreted as a package path.</p>
-<p>If <code>ImportPath</code> is interpreted as a template file, the Go form without a package name is the same of the form with the
+<p>If <code>ImportPath</code> is interpreted as a template file, the Go form without a package name is the same as the form with the
 explicit period.</p>
 <pre><code>// if &quot;header.html&quot; resolves to a template file,
-// the following import declarations are equivament.
+// the following import declarations are equivalent.
 
 import &quot;header.html&quot;
 import . &quot;header.html&quot;

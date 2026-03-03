@@ -84,7 +84,7 @@ The global variables are visible in all template files and in any part of the co
 variables declared in the code depends on where they are declared:
 
 * if a variable is declared in a file with an extends statement or in an imported file, and not in a block (like the
-    body of a macro, function or statement), it is visible in all file.
+    body of a macro, function or statement), it is visible in the whole file.
 
 * if a variable is declared in a block (like the body of a macro, function or statement), it is visible from its
     declaration up to the end of the block.
@@ -145,13 +145,13 @@ is equivalent to this one:
 The short assignment is a bit more complex, therefore read the
 [Go language documentation](https://go.dev/doc/effective_go#redeclaration) before using it with multiple variables.
 
-Multiple assignment is useful for example for swap the values of two variables:
+Multiple assignment is useful for example to swap the values of two variables:
 
 ```scriggo
 {% a, b = b, a %}
 ```
 
-and multiple declaration and assignment are useful for assigning the return values of a function call that return two or
+and multiple declaration and assignment are useful for assigning the return values of a function call that returns two or
 more values:
 
 ```scriggo

@@ -84,7 +84,7 @@
         </aside>
         <div class="content">
             <h1 id="disassembler">Disassembler</h1>
-<p>When Scriggo runs a program or template, first compiles it into a bytecode and then runs it on the Scriggo Virtual Machine.</p>
+<p>When Scriggo runs a program or template, it first compiles it into bytecode and then runs it on the Scriggo Virtual Machine.</p>
 <h2 id="how-to-disassemble">How to disassemble</h2>
 <p>To disassemble a program or a template you can:</p>
 <ul>
@@ -110,7 +110,7 @@
 <li>125 string registers: <code>s1</code>, <code>s2</code>, ..., <code>s125</code></li>
 <li>125 general registers: <code>g1</code>, <code>g2</code>, ..., <code>g125</code></li>
 </ul>
-<p>Local variables with basic type an integer or boolean type are stored in the int registers:</p>
+<p>Local variables with a basic integer or boolean type are stored in the int registers:</p>
 <pre><code class="language-go">var a int
 var b uint32
 var c rune
@@ -253,7 +253,7 @@ var e *S
 <h3 id="addr">Addr</h3>
 <p>The instruction <code>Addr</code> takes the address of a slice element or struct pointer field and stores it in <code>p</code>. For slices, the slice is addressed by <code>s</code> and the index of the element is addressed by <code>i</code>. For struct pointers, the struct pointer is addressed by <code>s</code> and the field index is addressed by <code>i</code>.</p>
 <pre><code class="language-go">Syntax:  Addr s i p ; description: p = &amp;s[i]
-         Addr s i p ;              p = &amp;s.f // where f if the field of s at index i
+         Addr s i p ;              p = &amp;s.f // where f is the field of s at index i
 </code></pre>
 <h3 id="and">And</h3>
 <p>The instruction <code>And</code> computes the bitwise AND of the operands addressed by <code>a</code> and <code>b</code> and stores the result in <code>c</code>.</p>
@@ -264,7 +264,7 @@ var e *S
 <pre><code class="language-go">Syntax:  AndNot a b c ; description: c = a &amp;^ b
 </code></pre>
 <h3 id="append">Append</h3>
-<p>The instruction <code>Append</code> appends values to the slice addressed by <code>s</code> and store the resulting slice in <code>s</code>. The appended values are the values in the registers starting from the register <code>start</code> and ending to the register <code>end</code>. The registers with the values to append are consecutive and their type depends on the type of the slice's element.</p>
+<p>The instruction <code>Append</code> appends values to the slice addressed by <code>s</code> and stores the resulting slice in <code>s</code>. The appended values are the values in the registers starting from the register <code>start</code> and ending to the register <code>end</code>. The registers with the values to append are consecutive and their type depends on the type of the slice's element.</p>
 <pre><code class="language-go">Syntax:  Append start end s ; description: s = append(s, start, ..., end)
 </code></pre>
 <pre><code class="language-go">Example:  Append s3 s5 g2 ; append the values in the s3, s4 and s5 registers 
@@ -326,7 +326,7 @@ Call strings.SplitN i3 _ s5 g2  ; call strings.SplitN
 Len g2 i2                       ; get the length of the returned slice
 </code></pre>
 <h3 id="cap">Cap</h3>
-<p>The instruction <code>Cap</code> gets the cap of the slice or channel addresses by <code>s</code> and stores it in <code>c</code>.</p>
+<p>The instruction <code>Cap</code> gets the cap of the slice or channel addressed by <code>s</code> and stores it in <code>c</code>.</p>
 <pre><code class="language-go">Syntax:  Cap s c ; description: c = cap(s)
 </code></pre>
 <h3 id="case">Case</h3>
@@ -605,14 +605,14 @@ the instruction <code>NotZero</code> evaluates its dynamic value.</p>
 <li>For a channel, the iteration is on the values received on the channel addressed by <code>ch</code> and the instruction <code>Range</code> stores the value in <code>v</code>.</li>
 </ol>
 <p>If there are no elements to iterate over, it sets the <code>vm.ok</code> flag to <code>false</code>, otherwise it sets the flag to <code>true</code>.</p>
-<p>The instruction that follow <code>Range</code> is executed only when there are no more values to iterate over, during the iteration this instruction is skipped.</p>
+<p>The instruction that follows <code>Range</code> is executed only when there are no more values to iterate over, during the iteration this instruction is skipped.</p>
 <p>The second and third operands can be the blank identifier.</p>
 <pre><code class="language-go">Syntax:  Range s i e ; description: for i, e = range s // for a slice
          Range s i r ; description: for i, r = range s // for a string 
          Range m k v ; description: for k, v = range m // for a map 
          Range ch v  ; description: for v = range ch   // for a channel
 </code></pre>
-<p>The instruction <code>Range</code> is used in combination to the instructions <code>Goto</code>, <code>Continue</code> and <code>Break</code> to implement a <code>for range</code> statement.</p>
+<p>The instruction <code>Range</code> is used in combination with the instructions <code>Goto</code>, <code>Continue</code> and <code>Break</code> to implement a <code>for range</code> statement.</p>
 <p>For example a range over the first five elements of a slice:</p>
 <pre><code class="language-go">for i, e := range s {
     if i == 5 {
@@ -668,7 +668,7 @@ return
 <p>The instruction <code>Select</code> selects a case from one of the cases defined by previously executed <code>Case</code> instructions, executes a send or receive depending on the case, clears all the cases previously defined and jumps to the instruction that follows the selected <code>Case</code> instruction.</p>
 <pre><code class="language-go">Syntax:  Select ; description: select
 </code></pre>
-<p>The instruction <code>Select</code> is used in combination to the instruction <a href="#case">Case</a> to implement a <code>select</code> statement.</p>
+<p>The instruction <code>Select</code> is used in combination with the instruction <a href="#case">Case</a> to implement a <code>select</code> statement.</p>
 <p>For example the select statement:</p>
 <pre><code class="language-go">select {
 case a &lt;-tick:
