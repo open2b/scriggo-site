@@ -136,8 +136,8 @@ func main() {
 ### Pass variables to templates
 
 You can pass a variable as a global to the template, as you previously passed the Scriggo builtins, but variables are 
-passed by reference. Scriggo supports several use cases for passing a variable to a template, but let's start with 
-simpler case. Look at this example:
+passed by reference. Scriggo supports several use cases for passing a variable to a template, but let's start with
+the simpler case. Look at this example:
 
 ```go
 package main
@@ -176,7 +176,7 @@ Hello World
 who is "Scriggo"
 ```
 
-How you can see, the value assigned to the _who_ variable, in the Go code, has been modified by the template code. If
+As you can see, the value assigned to the _who_ variable, in the Go code, has been modified by the template code. If
 you run the template concurrently, the goroutines that execute the template could access to the _same variable_ at the
 same time, so it may be necessary to use a synchronization mechanism.
 
@@ -224,7 +224,7 @@ Hello World
 who is "Scriggo"
 ```
 
-The printed value is not changed because the variable is still "shared" between the Go code and template code. But no
+The printed value is not changed because the variable is still "shared" between the Go code and template code. But not
 between different executions, if a different variable was passed for each of them.
 
 If you don't need to "share" the variable at all, pass the variable's value to the Run method instead of the pointer:
@@ -239,7 +239,7 @@ slice and map elements and the pointed value.
 
 #### How to pass a pointer type
 
-Passing a pointer type is the same as passing any other type, there is no special cases. To pass a variable `v` with
+Passing a pointer type is the same as passing any other type, there are no special cases. To pass a variable `v` with
 type `*T`, write:
 
 ```go
@@ -248,7 +248,7 @@ opts := &scriggo.BuildOptions{
 }
 ```
 
-To "share" the variable with the Go code, pass a pointer to the variable: 
+To "share" the variable with the Go code, pass a pointer to the variable:
 
 ```go
 v := &T{}
@@ -365,7 +365,7 @@ goldmark.New(
 
 ### Import packages
 
-You have already seen how to [pass a package as global](#use-other-types-of-globals) to a template. A package passes as
+You have already seen how to [pass a package as global](#use-other-types-of-globals) to a template. A package passed as
 a global can be used without importing it.
 
 You can also allow the template code to import other packages by passing an importer to the BuildTemplate function. You
@@ -578,7 +578,7 @@ she can write:
 {% end if %}
 ```
 
-To do this, add the IsTrue method to the Slide (or *Slice) type:  
+To do this, add the IsTrue method to the Slide (or *Slide) type:
 
 ```go
 func (s Slide) IsTrue() bool {
@@ -614,7 +614,7 @@ Builtin functions and methods can stop the execution, regardless of context canc
 
 ### Handle errors
 
-How handle errors depends on the context in which templates are compiled and executed. Therefore, the way in which
+How to handle errors depends on the context in which templates are compiled and executed. Therefore, the way in which
 errors are handled may vary from application to application.
 
 #### Build errors

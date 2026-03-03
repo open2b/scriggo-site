@@ -94,7 +94,7 @@ Look at this example:
 
 The body is evaluated and the result is passed to the `Header` macro. If `Header` doesn't use its argument, Scriggo still executes the body and calls the `socials` function.
 
-To avoid this, you can change `Header` by passing them a macro instead of a string. `Header` will only call the macro if it wants to render it. Now you can write `using macro` instead of `using` only: 
+To avoid this, you can change `Header` by passing it a macro instead of a string. `Header` will only call the macro if it wants to render it. Now you can write `using macro` instead of `using` only: 
 
 ```scriggo
 {% show Header(itea); using macro %}
@@ -108,7 +108,7 @@ In this case _itea_ represents a macro with body the body of the _using_ stateme
 
 ### Parameters
 
-The following `Users` macro shows the users that have been passed to them. To show each user, it calls the macro
+The following `Users` macro shows the users that have been passed to it. To show each user, it calls the macro
 `getUser`, also passed as an argument:
 
 ```scriggo
@@ -129,7 +129,7 @@ You can put together the call to `Users` with the macro showing a user, as follo
 <dl>
   <dt>First name</dt>
   <dd>{{ user.FirstName }}</dd>
-  <dt>Lat name</dt>
+  <dt>Last name</dt>
   <dd>{{ user.LastName }}</dd>
 </dl>
 {% end %}

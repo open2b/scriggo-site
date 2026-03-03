@@ -117,7 +117,7 @@ The `len` built-in function is used to read the length of a slice, ie the number
 ```
 <pre class="result">3</pre>
 
-### Accessing to an element of a slice
+### Accessing an element of a slice
 
 To access an element of a slice use square brackets `[` and `]` with its index starting from 0. For example:
 
@@ -128,13 +128,13 @@ To access an element of a slice use square brackets `[` and `]` with its index s
 ```
 <pre class="result">a e c</pre>
 
-To access to the last element of a slice `s` you can write `s[len(s)-1]`.
+To access the last element of a slice `s` you can write `s[len(s)-1]`.
 
-Accessing a nil slice or accessing a index that does not exist is an error.
+Accessing a nil slice or accessing an index that does not exist is an error.
 
 ### Iterate over the elements of a slice
 
-To iterate over the elements of an slice use the _for_ statement. For example:
+To iterate over the elements of a slice use the _for_ statement. For example:
 
 ```scriggo
 {% var greetings = []string{"Hello", "Ciao", "你好"} %}

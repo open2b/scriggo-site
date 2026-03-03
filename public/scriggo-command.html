@@ -133,7 +133,7 @@ available in the template file.</p>
 </code></pre>
 <p>runs the file &quot;article.html&quot; as HTML and prints the result to the standard output. Extended, imported and rendered file
 paths are relative to the directory of the executed file.</p>
-<p>The <code>-o</code> flag writes the result to the named output file or directory, instead to the standard output.</p>
+<p>The <code>-o</code> flag writes the result to the named output file or directory, instead of the standard output.</p>
 <p>Markdown is converted to HTML with the Goldmark parser with the options <code>html.WithUnsafe</code>, <code>parser.WithAutoHeadingID</code>,
 <code>extension.GFM</code>, and <code>extension.Footnote</code>.</p>
 <h3 id="complete-syntax">Complete syntax</h3>
@@ -216,7 +216,7 @@ If the directory already contains &quot;.go&quot; files or a &quot;vendor&quot; 
 <p>The command creates a Scriggofile with the instruction to create an importer for the Go standard library.</p>
 <p>If the directory does not contain a <code>go.mod</code> file, the command creates it and as module path uses the directory name.</p>
 <h2 id="generate-a-package-importer">Generate a package importer</h2>
-<p>The Scriggo Import command generate the code for a package importer. An importer is used by Scriggo to import a package
+<p>The Scriggo Import command generates the code for a package importer. An importer is used by Scriggo to import a package
 when an &quot;import&quot; declaration is executed.</p>
 <p>The code for the importer is generated from the instructions in a Scriggofile. The Scriggofile should be in a Go module.</p>
 <p>The basic Import command takes this form:</p>
@@ -235,7 +235,7 @@ and writes it into the file &quot;packages.go&quot;.</p>
 root directory. Import looks for a Scriggofile named &quot;Scriggofile&quot; in that directory.</p>
 <p>If no argument is given, the action applies to the current directory.</p>
 <p>The <code>-f</code> flag forces import to read the given Scriggofile instead of the Scriggofile of the module.</p>
-<p>The importer in the generated Go file have type <code>native.Importer</code> and it is assigned to a variable named &quot;packages&quot;.
+<p>The importer in the generated Go file has type <code>native.Importer</code> and it is assigned to a variable named &quot;packages&quot;.
 The variable can be used as an argument to the <code>Build</code> and <code>BuildTemplate</code> functions in the <code>scriggo</code> package.</p>
 <p>To give a different name to the variable use the instruction <code>SET VARIABLE</code> in the Scriggofile:</p>
 <pre><code>SET VARIABLE foo
@@ -246,7 +246,7 @@ instruction <code>SET PACKAGE</code> in the Scriggofile:</p>
 </code></pre>
 <p>The <code>-v</code> flag prints the imported packages as defined in the Scriggofile.</p>
 <p>The <code>-x</code> flag prints the executed commands.</p>
-<p>The <code>-o</code> flag writes the generated Go file to the named output file, instead to the standard output.</p>
+<p>The <code>-o</code> flag writes the generated Go file to the named output file, instead of the standard output.</p>
 
 <div id="edit-on-github">
   <a href="https://github.com/open2b/scriggo-site/blob/main/site/scriggo-command.md" target="_blank">

@@ -45,7 +45,7 @@ For example:
 {% end %}
 ```
 
-There are other operator, but they are not discussed in this documentation (see the
+There are other operators, but they are not discussed in this documentation (see the
 [Go specification](https://go.dev/ref/spec#Operators)). 
 
 The following table shows which operators can be used with which type:
@@ -105,7 +105,7 @@ See the [Scriggo template specification](/templates/specification#truthful-value
 
 ## Contains
 
-The _contains_ and _not contains_ boolean operators indicates if a slice contains or not contains an element, if a map
+The _contains_ and _not contains_ boolean operators indicate if a slice contains or not contains an element, if a map
 contains or not contains a key, if a string contains or not contains a substring or a rune (character).
 
 These operators have the following form:

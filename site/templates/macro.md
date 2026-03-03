@@ -20,7 +20,7 @@ declares a macro named _title_. A macro is a function and as such parenthesis ar
 ```
 <pre class="result">An awesome book</pre>
 
-In the body of the macro, you can access to, other than global variables, variables and macros declared in the same
+In the body of the macro, you can access, other than global variables, variables and macros declared in the same
 file before the macro declaration. For example:
 
 ```scriggo

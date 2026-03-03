@@ -159,17 +159,17 @@ an empty slice.</p>
 {{ len(s) }}
 </code></pre>
 <pre class="result">3</pre>
-<h3 id="accessing-to-an-element-of-a-slice">Accessing to an element of a slice</h3>
+<h3 id="accessing-an-element-of-a-slice">Accessing an element of a slice</h3>
 <p>To access an element of a slice use square brackets <code>[</code> and <code>]</code> with its index starting from 0. For example:</p>
 <pre><code class="language-scriggo">{% var s = []string{&quot;a&quot;, &quot;b&quot;, &quot;c&quot;} %}
 {% s[1] = &quot;e&quot; %}
 {{ s[0] }} {{ s[1] }} {{ s[2] }}
 </code></pre>
 <pre class="result">a e c</pre>
-<p>To access to the last element of a slice <code>s</code> you can write <code>s[len(s)-1]</code>.</p>
-<p>Accessing a nil slice or accessing a index that does not exist is an error.</p>
+<p>To access the last element of a slice <code>s</code> you can write <code>s[len(s)-1]</code>.</p>
+<p>Accessing a nil slice or accessing an index that does not exist is an error.</p>
 <h3 id="iterate-over-the-elements-of-a-slice">Iterate over the elements of a slice</h3>
-<p>To iterate over the elements of an slice use the <em>for</em> statement. For example:</p>
+<p>To iterate over the elements of a slice use the <em>for</em> statement. For example:</p>
 <pre><code class="language-scriggo">{% var greetings = []string{&quot;Hello&quot;, &quot;Ciao&quot;, &quot;你好&quot;} %}
 
 {% for greeting in greetings %}

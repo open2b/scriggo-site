@@ -23,7 +23,7 @@ $ mkdir hello
 $ cd hello
 ```
 
-Initialize a Go module in the previous created directory:
+Initialize a Go module in the previously created directory:
 
 ```shell
 $ go mod init hello

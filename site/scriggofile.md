@@ -25,7 +25,7 @@ uppercase (the syntax recalls that used by Dockerfile).
 A Scriggofile must be encoded as UTF-8, and it should be named `Scriggofile` or with the extension `.Scriggofile` as
 for `example.Scriggofile`.
 
-## Intructions
+## Instructions
 
 The instructions are:
 
@@ -55,7 +55,7 @@ As for `IMPORT <package>` but the exported names `A`, `B` and `C` are not import
 ### IMPORT &lt;package&gt; AS &lt;as&gt;
 
 As for `IMPORT <package>` but the path by which it can be imported is named `as`. `INCLUDING` and `EXCLUDING` can be
-used as for the other forms of `IMPORT` at the end of the instruction. Is not possible to use a path `as` that would
+used as for the other forms of `IMPORT` at the end of the instruction. It is not possible to use a path `as` that would
 conflict with a Go standard library package path, even if this latter is not imported in the Scriggofile.
 
 {# TO BE IMPLEMENTED

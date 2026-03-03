@@ -219,7 +219,7 @@ func main() {
 <h3 id="pass-variables-to-templates">Pass variables to templates</h3>
 <p>You can pass a variable as a global to the template, as you previously passed the Scriggo builtins, but variables are
 passed by reference. Scriggo supports several use cases for passing a variable to a template, but let's start with
-simpler case. Look at this example:</p>
+the simpler case. Look at this example:</p>
 <pre><code class="language-go">package main
 
 import (
@@ -252,7 +252,7 @@ func main() {
 <pre><code class="language-text">Hello World
 who is &quot;Scriggo&quot;
 </code></pre>
-<p>How you can see, the value assigned to the <em>who</em> variable, in the Go code, has been modified by the template code. If
+<p>As you can see, the value assigned to the <em>who</em> variable, in the Go code, has been modified by the template code. If
 you run the template concurrently, the goroutines that execute the template could access to the <em>same variable</em> at the
 same time, so it may be necessary to use a synchronization mechanism.</p>
 <p>We use the term &quot;same variable&quot; in this documentation, but to be precise we should use &quot;same storage location&quot;.</p>
@@ -292,7 +292,7 @@ Then we passed the variable pointer to the Run method. If you execute the progra
 <pre><code class="language-text">Hello World
 who is &quot;Scriggo&quot;
 </code></pre>
-<p>The printed value is not changed because the variable is still &quot;shared&quot; between the Go code and template code. But no
+<p>The printed value is not changed because the variable is still &quot;shared&quot; between the Go code and template code. But not
 between different executions, if a different variable was passed for each of them.</p>
 <p>If you don't need to &quot;share&quot; the variable at all, pass the variable's value to the Run method instead of the pointer:</p>
 <pre><code class="language-go">err = template.Run(os.Stdout, map[string]any{&quot;who&quot;: &quot;World&quot;}, nil)
@@ -301,7 +301,7 @@ between different executions, if a different variable was passed for each of the
 aware that if the variable is for example a slice, a map or a pointer value, the template code can still change the
 slice and map elements and the pointed value.</p>
 <h4 id="how-to-pass-a-pointer-type">How to pass a pointer type</h4>
-<p>Passing a pointer type is the same as passing any other type, there is no special cases. To pass a variable <code>v</code> with
+<p>Passing a pointer type is the same as passing any other type, there are no special cases. To pass a variable <code>v</code> with
 type <code>*T</code>, write:</p>
 <pre><code class="language-go">opts := &amp;scriggo.BuildOptions{
     Globals: native.Declarations{&quot;v&quot;: (**T)(nil)},
@@ -394,7 +394,7 @@ func main() {
     goldmark.WithExtensions(extension.Footnote))            // enables support for footnotes
 </code></pre>
 <h3 id="import-packages">Import packages</h3>
-<p>You have already seen how to <a href="#use-other-types-of-globals">pass a package as global</a> to a template. A package passes as
+<p>You have already seen how to <a href="#use-other-types-of-globals">pass a package as global</a> to a template. A package passed as
 a global can be used without importing it.</p>
 <p>You can also allow the template code to import other packages by passing an importer to the BuildTemplate function. You
 can write the importer and the packages it imports, or you can use the
@@ -567,7 +567,7 @@ she can write:</p>
 &lt;/div&gt;
 {% end if %}
 </code></pre>
-<p>To do this, add the IsTrue method to the Slide (or *Slice) type:</p>
+<p>To do this, add the IsTrue method to the Slide (or *Slide) type:</p>
 <pre><code class="language-go">func (s Slide) IsTrue() bool {
     return len(s.Images) &gt; 0
 }
@@ -590,7 +590,7 @@ an <a href="#execution-environment-env">execution environment</a> as first argum
 <p>Builtin functions and methods can stop the execution, regardless of context cancelation, calling the Stop method of the
 <a href="#execution-environment-env">execution environment</a>. The Run method returns the error passed to the Stop method.</p>
 <h3 id="handle-errors">Handle errors</h3>
-<p>How handle errors depends on the context in which templates are compiled and executed. Therefore, the way in which
+<p>How to handle errors depends on the context in which templates are compiled and executed. Therefore, the way in which
 errors are handled may vary from application to application.</p>
 <h4 id="build-errors">Build errors</h4>
 <p>The <a href="https://pkg.go.dev/github.com/open2b/scriggo#BuildTemplate">BuildTemplate</a> function:</p>

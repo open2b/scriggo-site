@@ -6,7 +6,7 @@
 
 # Disassembler
 
-When Scriggo runs a program or template, first compiles it into a bytecode and then runs it on the Scriggo Virtual Machine.
+When Scriggo runs a program or template, it first compiles it into bytecode and then runs it on the Scriggo Virtual Machine.
 
 ## How to disassemble
 
@@ -35,7 +35,7 @@ The Scriggo Virtual Machine has 500 registers for each called function to store 
 * 125 string registers: `s1`, `s2`, ..., `s125`
 * 125 general registers: `g1`, `g2`, ..., `g125`
 
-Local variables with basic type an integer or boolean type are stored in the int registers:
+Local variables with a basic integer or boolean type are stored in the int registers:
 ```go
 var a int
 var b uint32
@@ -221,7 +221,7 @@ The instruction `Addr` takes the address of a slice element or struct pointer fi
 
 ```go
 Syntax:  Addr s i p ; description: p = &s[i]
-         Addr s i p ;              p = &s.f // where f if the field of s at index i
+         Addr s i p ;              p = &s.f // where f is the field of s at index i
 ```
 
 ### And
@@ -242,7 +242,7 @@ Syntax:  AndNot a b c ; description: c = a &^ b
 
 ### Append
 
-The instruction `Append` appends values to the slice addressed by `s` and store the resulting slice in `s`. The appended values are the values in the registers starting from the register `start` and ending to the register `end`. The registers with the values to append are consecutive and their type depends on the type of the slice's element.
+The instruction `Append` appends values to the slice addressed by `s` and stores the resulting slice in `s`. The appended values are the values in the registers starting from the register `start` and ending to the register `end`. The registers with the values to append are consecutive and their type depends on the type of the slice's element.
 
 ```go
 Syntax:  Append start end s ; description: s = append(s, start, ..., end)
@@ -340,7 +340,7 @@ Len g2 i2                       ; get the length of the returned slice
 
 ### Cap
 
-The instruction `Cap` gets the cap of the slice or channel addresses by `s` and stores it in `c`. 
+The instruction `Cap` gets the cap of the slice or channel addressed by `s` and stores it in `c`. 
 
 ```go
 Syntax:  Cap s c ; description: c = cap(s)
@@ -819,7 +819,7 @@ The instruction `Range` does an iteration through the entries of a slice, string
 
 If there are no elements to iterate over, it sets the `vm.ok` flag to `false`, otherwise it sets the flag to `true`.
 
-The instruction that follow `Range` is executed only when there are no more values to iterate over, during the iteration this instruction is skipped. 
+The instruction that follows `Range` is executed only when there are no more values to iterate over, during the iteration this instruction is skipped. 
 
 The second and third operands can be the blank identifier.
 
@@ -830,7 +830,7 @@ Syntax:  Range s i e ; description: for i, e = range s // for a slice
          Range ch v  ; description: for v = range ch   // for a channel
 ```
 
-The instruction `Range` is used in combination to the instructions `Goto`, `Continue` and `Break` to implement a `for range` statement.
+The instruction `Range` is used in combination with the instructions `Goto`, `Continue` and `Break` to implement a `for range` statement.
 
 For example a range over the first five elements of a slice:
 
@@ -925,7 +925,7 @@ The instruction `Select` selects a case from one of the cases defined by previou
 Syntax:  Select ; description: select
 ```
 
-The instruction `Select` is used in combination to the instruction [Case](#case) to implement a `select` statement.
+The instruction `Select` is used in combination with the instruction [Case](#case) to implement a `select` statement.
 
 For example the select statement:
 

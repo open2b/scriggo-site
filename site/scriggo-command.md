@@ -70,7 +70,7 @@ scriggo run article.html
 runs the file "article.html" as HTML and prints the result to the standard output. Extended, imported and rendered file
 paths are relative to the directory of the executed file.
 
-The `-o` flag writes the result to the named output file or directory, instead to the standard output.
+The `-o` flag writes the result to the named output file or directory, instead of the standard output.
 
 Markdown is converted to HTML with the Goldmark parser with the options `html.WithUnsafe`, `parser.WithAutoHeadingID`,
 `extension.GFM`, and `extension.Footnote`.
@@ -206,7 +206,7 @@ If the directory does not contain a `go.mod` file, the command creates it and as
 
 ## Generate a package importer
 
-The Scriggo Import command generate the code for a package importer. An importer is used by Scriggo to import a package
+The Scriggo Import command generates the code for a package importer. An importer is used by Scriggo to import a package
 when an "import" declaration is executed.
 
 The code for the importer is generated from the instructions in a Scriggofile. The Scriggofile should be in a Go module.
@@ -241,7 +241,7 @@ If no argument is given, the action applies to the current directory.
 
 The `-f` flag forces import to read the given Scriggofile instead of the Scriggofile of the module.
 
-The importer in the generated Go file have type `native.Importer` and it is assigned to a variable named "packages".
+The importer in the generated Go file has type `native.Importer` and it is assigned to a variable named "packages".
 The variable can be used as an argument to the `Build` and `BuildTemplate` functions in the `scriggo` package.
 
 To give a different name to the variable use the instruction `SET VARIABLE` in the Scriggofile:
@@ -257,5 +257,5 @@ The `-v` flag prints the imported packages as defined in the Scriggofile.
 
 The `-x` flag prints the executed commands.
 
-The `-o` flag writes the generated Go file to the named output file, instead to the standard output.
+The `-o` flag writes the generated Go file to the named output file, instead of the standard output.
 
