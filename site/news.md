@@ -25,8 +25,7 @@ This release brings improvements and new features across several parts of Scrigg
 ### Other fixes and improvements
 
 * Fixed the handling of `panic(nil)`.
-* Various improvements and fixes to the template. Full list of changes is available [here](https://github.com/open2b/scriggo/compare/v0.60.0...main).
-* Various other bug fixes. Full list of changes and fixes is available [here](https://github.com/open2b/scriggo/compare/v0.60.0...main).
+* Various improvements and fixes to the template and the rest of Scriggo. See the [full list of changes](https://github.com/open2b/scriggo/compare/v0.60.0...main).
 
 ### Go version
 
