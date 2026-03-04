@@ -102,7 +102,8 @@ nav.top .github-logo svg path { fill: #fff; }
 .article aside ul a:hover, .article aside ul a.expanded { background: #f8f6f0; border-radius: 3px; }
 .article aside ul a.selected { background: #f3ad20; border-radius: 3px; color: #fff6ed; }
 .article .content { flex-grow: 1; margin: 0 0 4em 0; min-width: 0; }
-.article .content a, .article .content a:visited { color: #5f943d; }
+.article .content a, .article .content a:visited,
+.article .content a code, .article .content a:visited code { color: #5f943d; }
 .article h1 { color: #0a1922; font-size: 2.6rem; }
 .article p + h1 { font-size: 2.2rem; margin-top: -.7em; }
 .article h2 { color: #0a1922; font-size: 1.8rem; }

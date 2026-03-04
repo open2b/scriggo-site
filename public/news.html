@@ -18,7 +18,7 @@
 <body>
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
-    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.60.0</a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.61.0</a>
     <ul>
         <li><a href="/news" class="selected">News</a></li>
         <li><a href="/what-is-scriggo">Documentation</a></li>
@@ -31,6 +31,33 @@
     <div class="wrap">
         <div class="content">
             <h1 id="news">News</h1>
+<h2 id="released-scriggo-v0610">Released Scriggo v0.61.0</h2>
+<p>March 4, 2026</p>
+<p>This release brings improvements and new features across several parts of Scriggo: the command-line tool gains new commands and flags, the template engine adds new builtins and API, and several bugs have been fixed.</p>
+<h3 id="scriggo-command">Scriggo command</h3>
+<ul>
+<li>New <a href="/scriggo-command#build-a-template"><code>build</code> command</a> that compiles a template and writes the output to files. This makes it easy to deploy a site by uploading the generated files to a static file hosting platform — a simple and fast way to bring a website to production. The <code>build</code> command also accepts a <code>-llms</code> flag to generate LLM-friendly Markdown output.</li>
+<li>New <code>-http</code> flag for <code>scriggo serve</code> to specify the address to listen on.</li>
+<li>The <code>serve</code> command now has the  <code>-conts</code> flag, aligning its behavior with the existing <code>run</code> command.</li>
+<li>The <code>serve</code> command now also checks for <code>path/index.html</code> or <code>path/index.md</code> when neither <code>path.html</code> nor <code>path.md</code> is found.</li>
+</ul>
+<h3 id="builtins-and-api">Builtins and API</h3>
+<ul>
+<li>New <a href="/templates/builtins#indentjson"><code>indentJSON</code> builtin</a> that indents a <code>json</code> value while preserving the existing object key order.</li>
+<li>New <a href="https://pkg.go.dev/github.com/open2b/scriggo@main#Template.Format"><code>Template.Format</code></a> method.</li>
+<li>New <a href="https://pkg.go.dev/github.com/open2b/scriggo@main#BuildOptions">tree transformation APIs</a>: the transformations methods of the tree now allow transforming the syntax tree at different stages of the compilation pipeline — one before the expansion of imported and extended files, and one after. This gives greater flexibility and control over how the AST tree is transformed.</li>
+</ul>
+<h3 id="other-fixes-and-improvements">Other fixes and improvements</h3>
+<ul>
+<li>Fixed the handling of <code>panic(nil)</code>.</li>
+<li>Various improvements and fixes to the template and the rest of Scriggo. See the <a href="https://github.com/open2b/scriggo/compare/v0.60.0...main">full list of changes</a>.</li>
+</ul>
+<h3 id="breaking-changes">Breaking changes</h3>
+<ul>
+<li><code>BuildOptions.TreeTransformer</code> has been renamed to <code>ExpandedTransformer</code> to better reflect when it is executed.</li>
+</ul>
+<h3 id="go-version">Go version</h3>
+<p>The minimum required Go version is now <strong>Go 1.25</strong>, while the Scriggo command is compiled with <strong>Go 1.26</strong>.</p>
 <h2 id="released-scriggo-v0600">Released Scriggo v0.60.0</h2>
 <p>February 17, 2025</p>
 <p>This release follows the release of Go 1.24 and introduces updates to ensure compatibility. The minimum supported Go version is now 1.23, while the Scriggo command is compiled with Go 1.24.</p>
@@ -311,7 +338,7 @@ env.Exit(2)
 env.Stop(scriggo.NewExitError(2, nil))
 </code></pre>
 <h3 id="add-the-unsafeconv-package-as-built-in-in-templates">Add the unsafeconv package as built-in in templates.</h3>
-<h3 id="other-fixes-and-improvements">Other fixes and improvements.</h3>
+<h3 id="other-fixes-and-improvements-1">Other fixes and improvements.</h3>
 
         </div>
     </div>
