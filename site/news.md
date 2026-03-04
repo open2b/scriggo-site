@@ -5,7 +5,7 @@
 # News
 
 ## Released Scriggo v0.61.0
-March 3, 2026
+March 4, 2026
 
 This release brings improvements and new features across several parts of Scriggo: the command-line tool gains new commands and flags, the template engine adds new builtins and API, and several bugs have been fixed.
 
