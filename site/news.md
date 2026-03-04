@@ -11,21 +11,25 @@ This release brings improvements and new features across several parts of Scrigg
 
 ### Scriggo command
 
-* New [`build` command](/scriggo-command#build-a-template) that compiles a template and writes the output to disk. This makes it easy to deploy a site by uploading the generated files to a static file hosting platform — a simple and fast way to bring a website to production. The `build` command also implements a `-llms` flag to generate LLM-friendly Markdown output.
-* New `-http` flag for scriggo Serve to specify the address to listen on.
+* New [`build` command](/scriggo-command#build-a-template) that compiles a template and writes the output to files. This makes it easy to deploy a site by uploading the generated files to a static file hosting platform — a simple and fast way to bring a website to production. The `build` command also accepts a `-llms` flag to generate LLM-friendly Markdown output.
+* New `-http` flag for `scriggo serve` to specify the address to listen on.
 * The `serve` command now has the  `-conts` flag, aligning its behavior with the existing `run` command.
 * The `serve` command now also checks for `path/index.html` or `path/index.md` when neither `path.html` nor `path.md` is found.
 
 ### Builtins and API
 
 * New [`indentJSON` builtin](/templates/builtins#indentjson) that indents a `json` value while preserving the existing object key order.
-* New [`Format` method](https://pkg.go.dev/github.com/open2b/scriggo@main#Template.Format) on `Template`.
-* [New tree transformation APIs](https://pkg.go.dev/github.com/open2b/scriggo@main#BuildOptions): the transformations methods of the tree now allow transforming the syntax tree at different stages of the compilation pipeline — one before the expansion of imported and extended files, and one after. This gives greater flexibility and control over how the AST tree is transformed.
+* New [`Template.Format`](https://pkg.go.dev/github.com/open2b/scriggo@main#Template.Format) method.
+* New [tree transformation APIs](https://pkg.go.dev/github.com/open2b/scriggo@main#BuildOptions): the transformations methods of the tree now allow transforming the syntax tree at different stages of the compilation pipeline — one before the expansion of imported and extended files, and one after. This gives greater flexibility and control over how the AST tree is transformed.
 
 ### Other fixes and improvements
 
 * Fixed the handling of `panic(nil)`.
 * Various improvements and fixes to the template and the rest of Scriggo. See the [full list of changes](https://github.com/open2b/scriggo/compare/v0.60.0...main).
+
+### Breaking changes
+
+* `BuildOptions.TreeTransformer` has been renamed to `ExpandedTransformer` to better reflect when it is executed.
 
 ### Go version
 
