@@ -23,16 +23,15 @@ This release brings improvements and new features across several parts of Scrigg
 * **New `Format` method** on `Template`. See its [documentation here](https://pkg.go.dev/github.com/open2b/scriggo@main#Template.Format).
 * **New tree transformation APIs**: two new hooks allow transforming the syntax tree at different stages of the compilation pipeline — one before the expansion of imported and extended files, and one after. This gives greater flexibility and control over how the tree is transformed. Check the documentation of the [BuildOptions](https://pkg.go.dev/github.com/open2b/scriggo@main#BuildOptions).
 
-### Fixes and improvements
+### Other fixes and improvements
 
 * Fixed the handling of `panic(nil)`.
-* Improved the output of `scriggo help` command.
 * Various improvements and fixes to the template. Full list of changes is available [here](https://github.com/open2b/scriggo/compare/v0.60.0...main).
 * Various other bug fixes. Full list of changes and fixes is available [here](https://github.com/open2b/scriggo/compare/v0.60.0...main).
 
 ### Go version
 
-The minimum required Go version is now **Go 1.25**.
+The minimum required Go version is now **Go 1.25**, while the Scriggo command is compiled with **Go 1.26**.
 
 ## Released Scriggo v0.60.0
 February 17, 2025
