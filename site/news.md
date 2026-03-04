@@ -19,13 +19,13 @@ This release brings improvements and new features across several parts of Scrigg
 ### Builtins and API
 
 * New [`indentJSON` builtin](/templates/builtins#indentjson) that indents a `json` value while preserving the existing object key order.
-* New [`Template.Format`](https://pkg.go.dev/github.com/open2b/scriggo@main#Template.Format) method.
-* New [tree transformation APIs](https://pkg.go.dev/github.com/open2b/scriggo@main#BuildOptions): the transformations methods of the tree now allow transforming the syntax tree at different stages of the compilation pipeline — one before the expansion of imported and extended files, and one after. This gives greater flexibility and control over how the AST tree is transformed.
+* New [`Template.Format`](https://pkg.go.dev/github.com/open2b/scriggo@v0.61.0#Template.Format) method.
+* New [tree transformation APIs](https://pkg.go.dev/github.com/open2b/scriggo@v0.61.0#BuildOptions): the transformations methods of the tree now allow transforming the syntax tree at different stages of the compilation pipeline — one before the expansion of imported and extended files, and one after. This gives greater flexibility and control over how the AST tree is transformed.
 
 ### Other fixes and improvements
 
 * Fixed the handling of `panic(nil)`.
-* Various improvements and fixes to the template and the rest of Scriggo. See the [full list of changes](https://github.com/open2b/scriggo/compare/v0.60.0...main).
+* Various improvements and fixes to the template and the rest of Scriggo. See the [full list of changes](https://github.com/open2b/scriggo/compare/v0.60.0...v0.61.0).
 
 ### Breaking changes
 
