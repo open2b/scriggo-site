@@ -22,7 +22,7 @@
 <body>
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
-    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.60.0</a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.61.0</a>
     <ul>
         <li><a href="/news">News</a></li>
         <li><a href="/what-is-scriggo" class="selected">Documentation</a></li>
@@ -100,6 +100,7 @@ templates. Some of these builtins are types with methods, so you can call method
 <ul>
 <li><a href="#base64">base64</a></li>
 <li><a href="#hex">hex</a></li>
+<li><a href="#indentjson">indentJSON</a></li>
 <li><a href="#marshaljson">marshalJSON</a></li>
 <li><a href="#marshaljsonindent">marshalJSONIndent</a></li>
 <li><a href="#marshalyaml">marshalYAML</a></li>
@@ -222,6 +223,15 @@ templates. Some of these builtins are types with methods, so you can call method
 <pre><code class="language-go">func hex(s string) string
 </code></pre>
 <p>Returns the hexadecimal encoding of s.</p>
+<h3 id="indentjson">indentJSON</h3>
+<pre><code class="language-go">func indentJSON(data json, prefix, indent string) json
+</code></pre>
+<p>Returns the JSON data indented, while preserving the existing object key order. Each JSON element in the output
+begins on a new line starting with prefix followed by one or more copies of indent according to the indentation
+nesting. prefix and indent can only contain whitespace characters: <code>' '</code> or <code>'\t'</code>.</p>
+<p>It panics if data is not valid JSON, or if prefix or indent contain characters other than <code>' '</code> or <code>'\t'</code>.</p>
+<p>Unlike <a href="#marshaljsonindent">marshalJSONIndent</a>, which encodes a Go value to JSON, <code>indentJSON</code> takes an already
+encoded <code>json</code> value and reformats it without altering the order of the object keys.</p>
 <h3 id="marshaljson">marshalJSON</h3>
 <pre><code class="language-go">func marshalJSON(v any) (json, error)
 </code></pre>

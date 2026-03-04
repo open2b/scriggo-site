@@ -134,7 +134,7 @@ Once version 1.0.0 is released, patches for the current and previous minor will 
 
 ### Can Scriggo be used in production?
 
-Scriggo v0.45.0 is currently used in production and the latest version will be soon. It is not yet in version 1.0 as
+Scriggo v0.61.0 is currently used in production and the latest version will be soon. It is not yet in version 1.0 as
 there are some parts of the Go specification to implement, and we still want to be free to make small and limited
 changes to the template specification and packages after receiving feedback from the community.
 

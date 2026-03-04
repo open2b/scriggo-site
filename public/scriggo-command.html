@@ -22,7 +22,7 @@
 <body>
 <nav class="top">
     <a class="logo" href="/"><img src="/images/scriggo.svg" width="107" alt="Scriggo" title="Scriggo"></a>
-    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.60.0</a>
+    <a class="version" href="https://github.com/open2b/scriggo/releases">v0.61.0</a>
     <ul>
         <li><a href="/news">News</a></li>
         <li><a href="/what-is-scriggo" class="selected">Documentation</a></li>
@@ -95,12 +95,19 @@
 <li><a href="#serve-a-template">Serve a template</a>
 <ul>
 <li><a href="#complete-syntax-1">Complete syntax</a></li>
+<li><a href="#examples-1">Examples</a></li>
+</ul>
+</li>
+<li><a href="#build-a-template">Build a template</a>
+<ul>
+<li><a href="#complete-syntax-2">Complete syntax</a></li>
+<li><a href="#examples-2">Examples</a></li>
 </ul>
 </li>
 <li><a href="#initialize-an-interpreter">Initialize an interpreter</a></li>
 <li><a href="#generate-a-package-importer">Generate a package importer</a>
 <ul>
-<li><a href="#complete-syntax-2">Complete syntax</a></li>
+<li><a href="#complete-syntax-3">Complete syntax</a></li>
 </ul>
 </li>
 </ul>
@@ -113,7 +120,7 @@
 </code></pre>
 <p>then test if <code>scriggo</code> can be executed:</p>
 <pre><code class="language-shell">$ scriggo version
-scriggo version v0.60.0 (go1.24)
+scriggo version v0.61.0 (go1.24)
 </code></pre>
 <p>If the <code>scriggo</code> command is not found, you should add the directory where the command has been installed to your <code>PATH</code>.</p>
 <p><code>go</code> installs the <code>scriggo</code> command in the directory named by the <code>GOBIN</code> environment variable. If it is not set it
@@ -188,7 +195,7 @@ in the browser is automatically reloaded.</p>
 </code></pre>
 <h3 id="complete-syntax-1">Complete syntax</h3>
 <p>The complete <code>scriggo serve</code> command takes this form:</p>
-<pre><code class="language-shell">$ scriggo serve [-S n] [--metrics] [--disable-livereload]
+<pre><code class="language-shell">$ scriggo serve [-S n] [--metrics] [--disable-livereload] [-const name=value] [-http [host][:port]]
 </code></pre>
 <p>The <code>-S</code> flag prints the assembly code of the served file and n determines the maximum length, in runes, of
 disassembled <code>Text</code> instructions</p>
@@ -196,9 +203,71 @@ disassembled <code>Text</code> instructions</p>
 n == 0: no text
 n &lt; 0: all text
 </code></pre>
-<p>The <code>--metrics</code> flags prints metrics about execution time.</p>
+<p>The <code>--metrics</code> flag prints metrics about execution time.</p>
 <p>The <code>--disable-livereload</code> flag disables LiveReload, preventing automatic page
 reloads in the browser.</p>
+<p>The <code>-http</code> flag configures the address the server listens on. At least one of the host and port must be provided:</p>
+<pre><code>-http [host][:port]   listen address (default &quot;localhost:8080&quot;)
+</code></pre>
+<p>The <code>-const</code> flag serves the template with a global constant with the given name and value. <code>name</code> should be a Go
+identifier and <code>value</code> should be a string literal, a number literal, <code>true</code> or <code>false</code>. There can be multiple
+<code>name=value</code> pairs.</p>
+<h3 id="examples-1">Examples</h3>
+<pre><code class="language-shell">$ scriggo serve
+</code></pre>
+<pre><code class="language-shell">$ scriggo serve -http example.com:80
+</code></pre>
+<pre><code class="language-shell">$ scriggo serve -const 'version=1.12 title=&quot;The ancient art of tea&quot;' -http example.com
+</code></pre>
+<h2 id="build-a-template">Build a template</h2>
+<p>The Scriggo Build command processes the template rooted at the current directory and writes the generated files to the
+<code>public</code> directory by default. If the <code>public</code> directory already exists, it does nothing and returns an error.</p>
+<p>Directories whose names start with an underscore (<code>_</code>), and files or directories whose names start with a dot (<code>.</code>),
+are skipped but can still be referenced in template files. Only files with extension <code>.md</code> and <code>.html</code> are built;
+non-template files, such as CSS and JavaScript files, are copied as-is.</p>
+<p>The basic Build command takes this form:</p>
+<pre><code class="language-shell">$ scriggo build [dir]
+</code></pre>
+<p>If a directory <code>dir</code> is specified, the template rooted at that directory is built instead of the current directory.</p>
+<p>For example:</p>
+<pre><code class="language-shell">$ scriggo build -o dist src
+</code></pre>
+<p>generates a static version of the template rooted at the <code>src</code> directory, processing Markdown and HTML files and
+generating their final output in the <code>dist</code> directory. Non-template files from the source directory are copied without
+modification, resulting in a complete static site ready for deployment. If <code>dist</code> already exists, the command returns
+an error.</p>
+<p>Markdown is converted to HTML with the Goldmark parser with the options <code>html.WithUnsafe</code>, <code>parser.WithAutoHeadingID</code>,
+<code>extension.GFM</code> and <code>extension.Footnote</code>.</p>
+<p>The <code>-llms</code> flag generates two outputs for each template file: an HTML version and a Markdown version. Both share the
+same path but use different file extensions. The Markdown output is intended for consumption by LLMs.</p>
+<p>This behavior applies only to Markdown template files that extend an HTML layout. For example, if the file <code>page.md</code>
+extends <code>layout.html</code>, the build process generates <code>page.html</code> by extending <code>layout.html</code>, and also <code>page.md</code> by
+extending <code>layout.md</code>. The file <code>layout.md</code> must exist in the same directory as <code>layout.html</code>.</p>
+<p>The <code>-llms</code> flag requires a base URL as its argument. This URL is used to rewrite link destinations in the generated
+Markdown by prefixing them with the provided base URL. Link destinations that are absolute, or consist only of a query
+string or a fragment, are left unchanged. For example:</p>
+<pre><code class="language-shell">$ scriggo build -llms https://example.com src
+</code></pre>
+<p>builds the template and also generates the Markdown files. In these files, relative link destinations are rewritten as
+absolute ones; for example, the URL <code>api/authentication.html</code> becomes <code>https://example.com/api/authentication.html</code>.</p>
+<p>The <code>-const</code> flag builds the template with a global constant with the given name and value. <code>name</code> should be a Go
+identifier and <code>value</code> should be a string literal, a number literal, <code>true</code> or <code>false</code>. There can be multiple
+<code>name=value</code> pairs.</p>
+<p>The <code>-o</code> flag allows specifying an alternative output directory instead of the default <code>public</code>.</p>
+<h3 id="complete-syntax-2">Complete syntax</h3>
+<pre><code class="language-shell">$ scriggo build [-llms url] [-const name=value] [-o output] [dir]
+</code></pre>
+<h3 id="examples-2">Examples</h3>
+<pre><code class="language-shell">$ scriggo build src
+</code></pre>
+<pre><code class="language-shell">$ scriggo build -llms https://docs.example.com/ src
+</code></pre>
+<pre><code class="language-shell">$ scriggo build -const 'version=1.12 title=&quot;The ancient art of tea&quot;'
+</code></pre>
+<pre><code class="language-shell">$ scriggo build -o ../public
+</code></pre>
+<pre><code class="language-shell">$ scriggo build -o /var/www site
+</code></pre>
 <h2 id="initialize-an-interpreter">Initialize an interpreter</h2>
 <p>The Scriggo Init command initializes an interpreter for Go programs. It creates the following files:</p>
 <ul>
@@ -227,7 +296,7 @@ when an &quot;import&quot; declaration is executed.</p>
 </code></pre>
 <p>generates the code for an importer, with instructions in a Scriggofile called &quot;Scriggofile&quot; in the current directory
 and writes it into the file &quot;packages.go&quot;.</p>
-<h3 id="complete-syntax-2">Complete syntax</h3>
+<h3 id="complete-syntax-3">Complete syntax</h3>
 <p>The complete <code>scriggo import</code> command takes this form:</p>
 <pre><code class="language-shell">$ scriggo import [-f Scriggofile] [-v] [-x] [-o output] [module]
 </code></pre>
