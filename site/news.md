@@ -26,6 +26,7 @@ This release brings improvements and new features across several parts of Scrigg
 ### Fixes and improvements
 
 * Fixed the handling of `panic(nil)`.
+* Improved the output of `scriggo help` command.
 * Various improvements and fixes to the template. Full list of changes is available [here](https://github.com/open2b/scriggo/compare/v0.60.0...main).
 * Various other bug fixes. Full list of changes and fixes is available [here](https://github.com/open2b/scriggo/compare/v0.60.0...main).
 
