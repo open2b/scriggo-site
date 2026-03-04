@@ -11,22 +11,23 @@ This release brings improvements and new features across several parts of Scrigg
 
 ### Scriggo command
 
-* **New `build` command** that compiles a template and writes the output to disk. This makes it easy to deploy a site by uploading the generated files to a static file hosting platform — a simple and fast way to bring a website to production.
+* **New `build` command** that compiles a template and writes the output to disk. This makes it easy to deploy a site by uploading the generated files to a static file hosting platform — a simple and fast way to bring a website to production. See its [documentation here](/scriggo-command#build-a-template).
 * **New `-http` flag** for `scriggo serve` to specify the address to listen on.
-* **New `-llms` flag** for `scriggo build` to generate LLM-friendly Markdown output.
+* **New `-llms` flag** for `scriggo build` to [generate LLM-friendly Markdown output](/scriggo-command#build-a-template).
 * **New `-conts` flag** for the `build` and `serve` commands, aligning their behavior with the existing `run` command.
 * The `serve` command now also checks for `path/index.html` or `path/index.md` when neither `path.html` nor `path.md` is found.
 
 ### Builtins and API
 
-* **New `indentJSON` builtin** that indents a `json` value while preserving the existing object key order.
-* **New `Format` method** on `Template`.
-* **New tree transformation APIs**: two new hooks allow transforming the syntax tree at different stages of the compilation pipeline — one before the expansion of imported and extended files, and one after. This gives greater flexibility and control over how the tree is transformed.
+* **New `indentJSON` builtin** (documented [here](/templates/builtins#indentjson)) that indents a `json` value while preserving the existing object key order.
+* **New `Format` method** on `Template`. See its [documentation here](https://pkg.go.dev/github.com/open2b/scriggo@main#Template.Format).
+* **New tree transformation APIs**: two new hooks allow transforming the syntax tree at different stages of the compilation pipeline — one before the expansion of imported and extended files, and one after. This gives greater flexibility and control over how the tree is transformed. Check the documentation of the [BuildOptions](https://pkg.go.dev/github.com/open2b/scriggo@main#BuildOptions).
 
-### Fixes
+### Fixes and improvements
 
 * Fixed the handling of `panic(nil)`.
-* Various other bug fixes.
+* Various improvements and fixes to the template. Full list of changes is available [here](https://github.com/open2b/scriggo/compare/v0.60.0...main).
+* Various other bug fixes. Full list of changes and fixes is available [here](https://github.com/open2b/scriggo/compare/v0.60.0...main).
 
 ### Go version
 
