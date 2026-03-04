@@ -186,7 +186,7 @@ func (tc *typechecker) checkConstantDeclaration(node *ast.Const) {
 		typ = tc.checkType(node.Type)
 		switch typ.Type.Kind() {
 		case reflect.Array, reflect.Chan, reflect.Func,
-			reflect.Interface, reflect.Map, reflect.Ptr, reflect.Slice,
+			reflect.Interface, reflect.Map, reflect.Pointer, reflect.Slice,
 			reflect.Struct, reflect.UnsafePointer:
 			panic(tc.errorf(node.Lhs[0], "invalid constant type %s", typ))
 		}
@@ -520,7 +520,7 @@ func (tc *typechecker) mustBeAssignableTo(rh *typeInfo, rhExpr ast.Expression, t
 			panic(tc.errorf(rhExpr, "cannot assign %s to %s (type %s) in multiple assignment", rh.Type, unbalancedLh, typ))
 		}
 		if strings.HasPrefix(err.Error(), "constant ") {
-			panic(tc.errorf(rhExpr, err.Error()))
+			panic(tc.errorf(rhExpr, "%s", err))
 		}
 		if nilErr, ok := err.(nilConversionError); ok {
 			panic(tc.errorf(rhExpr, "cannot use nil as type %s in assignment", nilErr.typ))

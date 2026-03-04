@@ -8,6 +8,8 @@ import (
 	"bytes"
 	"errors"
 	"reflect"
+	"runtime"
+	"slices"
 	"strings"
 	"sync/atomic"
 	"unicode"
@@ -141,7 +143,7 @@ func (vm *VM) run() (Addr, bool) {
 			case reflect.Slice, reflect.Array:
 				i := int(vm.int(b))
 				vm.setGeneral(c, v.Index(i).Addr())
-			case reflect.Struct, reflect.Ptr:
+			case reflect.Struct, reflect.Pointer:
 				vm.setGeneral(c, vm.fieldByIndex(v, uint8(b)).Addr())
 			}
 
@@ -665,7 +667,7 @@ func (vm *VM) run() (Addr, bool) {
 				n := x.Len()
 				k := x.Type().Elem().Kind()
 				if k == reflect.Interface {
-					for i := 0; i < n; i++ {
+					for i := range n {
 						if vm.equals(x.Index(i).Elem(), y) {
 							cond = true
 							break
@@ -673,7 +675,7 @@ func (vm *VM) run() (Addr, bool) {
 					}
 				} else {
 					e := y.Interface()
-					for i := 0; i < n; i++ {
+					for i := range n {
 						if x.Index(i).Interface() == e {
 							cond = true
 							break
@@ -691,7 +693,7 @@ func (vm *VM) run() (Addr, bool) {
 					cond = x.MapIndex(zero).IsValid()
 				} else {
 					n := x.Len()
-					for i := 0; i < n; i++ {
+					for i := range n {
 						if x.Index(i).IsZero() {
 							cond = true
 							break
@@ -733,11 +735,8 @@ func (vm *VM) run() (Addr, bool) {
 				x := vm.general(a)
 				if s, ok := x.Interface().([]int); ok {
 					y := int(vm.intk(c, op < 0))
-					for _, e := range s {
-						if e == y {
-							cond = true
-							break
-						}
+					if slices.Contains(s, y) {
+						cond = true
 					}
 				} else {
 					n := x.Len()
@@ -745,21 +744,21 @@ func (vm *VM) run() (Addr, bool) {
 					switch {
 					case k == reflect.Bool:
 						y := vm.boolk(c, op < 0)
-						for i := 0; i < n; i++ {
+						for i := range n {
 							if cond = x.Index(i).Bool() == y; cond {
 								break
 							}
 						}
 					case reflect.Int <= k && k <= reflect.Int64:
 						y := vm.intk(c, op < 0)
-						for i := 0; i < n; i++ {
+						for i := range n {
 							if cond = x.Index(i).Int() == y; cond {
 								break
 							}
 						}
 					default:
 						y := uint64(vm.intk(c, op < 0))
-						for i := 0; i < n; i++ {
+						for i := range n {
 							if cond = x.Index(i).Uint() == y; cond {
 								break
 							}
@@ -816,15 +815,12 @@ func (vm *VM) run() (Addr, bool) {
 				x := vm.general(a)
 				y := vm.floatk(c, op < 0)
 				if s, ok := x.Interface().([]float64); ok {
-					for _, e := range s {
-						if e == y {
-							cond = true
-							break
-						}
+					if slices.Contains(s, y) {
+						cond = true
 					}
 				} else {
 					n := x.Len()
-					for i := 0; i < n; i++ {
+					for i := range n {
 						if x.Index(i).Float() == y {
 							cond = true
 							break
@@ -914,7 +910,7 @@ func (vm *VM) run() (Addr, bool) {
 				n := x.Len()
 				if n > 0 {
 					y := vm.stringk(c, op < 0)
-					for i := 0; i < n; i++ {
+					for i := range n {
 						if x.Index(i).String() == y {
 							cond = true
 							break
@@ -1190,7 +1186,7 @@ func (vm *VM) run() (Addr, bool) {
 			if rv.IsValid() {
 				panic(rv.Interface())
 			} else {
-				panic(nil)
+				panic(new(runtime.PanicNilError))
 			}
 
 		// Print
@@ -1294,7 +1290,7 @@ func (vm *VM) run() (Addr, bool) {
 						break
 					}
 				}
-			case []interface{}:
+			case []any:
 				for i, v := range s {
 					if b != 0 {
 						vm.setInt(b, int64(i))
@@ -1362,7 +1358,7 @@ func (vm *VM) run() (Addr, bool) {
 						break
 					}
 				}
-			case map[string]interface{}:
+			case map[string]any:
 				for i, v := range s {
 					if b != 0 {
 						vm.setString(b, i)
@@ -1431,11 +1427,11 @@ func (vm *VM) run() (Addr, bool) {
 						}
 					}
 				default:
-					if kind == reflect.Ptr {
+					if kind == reflect.Pointer {
 						v = v.Elem()
 					}
 					length := v.Len()
-					for i := 0; i < length; i++ {
+					for i := range length {
 						if b != 0 {
 							vm.setInt(b, int64(i))
 						}
@@ -1585,7 +1581,7 @@ func (vm *VM) run() (Addr, bool) {
 						if b == ReturnString {
 							out := vm.renderer.Out().(*strings.Builder)
 							vm.setString(1, out.String())
-						} else if fn.Format == ast.FormatMarkdown && ast.Format(b) == ast.FormatHTML {
+						} else if vm.fn.Format == ast.FormatMarkdown && ast.Format(b) == ast.FormatHTML {
 							out := vm.renderer.Out().(*bytes.Buffer)
 							err := vm.env.conv(out.Bytes(), call.renderer.out)
 							if err != nil {
@@ -1687,7 +1683,7 @@ func (vm *VM) run() (Addr, bool) {
 				m[k] = v
 			case map[string]struct{}:
 				m[vm.string(c)] = struct{}{}
-			case map[string]interface{}:
+			case map[string]any:
 				k := vm.string(c)
 				rv := vm.generalk(a, op < 0)
 				if rv.IsValid() {
@@ -1733,7 +1729,7 @@ func (vm *VM) run() (Addr, bool) {
 				s[i] = vm.floatk(a, op < 0)
 			case []string:
 				s[i] = vm.stringk(a, op < 0)
-			case []interface{}:
+			case []any:
 				rv := vm.generalk(a, op < 0)
 				if rv.IsValid() {
 					s[i] = rv.Interface()
@@ -1799,7 +1795,7 @@ func (vm *VM) run() (Addr, bool) {
 			if st != nil {
 				rv = st.Wrap(rv)
 			}
-			var v interface{}
+			var v any
 			if rv.IsValid() {
 				v = rv.Interface()
 			}
@@ -1984,7 +1980,7 @@ func (vm *VM) run() (Addr, bool) {
 				switch rv.Kind() {
 				case reflect.Slice, reflect.Map:
 					zero = rv.Len() == 0
-				case reflect.Ptr:
+				case reflect.Pointer:
 					if rv.Elem().Kind() != reflect.Struct {
 						break
 					}

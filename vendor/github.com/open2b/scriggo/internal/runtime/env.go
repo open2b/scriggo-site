@@ -10,7 +10,7 @@ import (
 	"sync"
 )
 
-type PrintFunc func(interface{})
+type PrintFunc func(any)
 
 // Context represents a context in Show and Text instructions.
 type Context byte
@@ -44,7 +44,7 @@ func (env *env) Context() context.Context {
 	return env.ctx
 }
 
-func (env *env) Fatal(v interface{}) {
+func (env *env) Fatal(v any) {
 	panic(&fatalError{env: env, msg: v})
 }
 
@@ -52,13 +52,13 @@ func (env *env) MarkdownConverter() Converter {
 	return env.conv
 }
 
-func (env *env) Print(args ...interface{}) {
+func (env *env) Print(args ...any) {
 	for _, arg := range args {
 		env.doPrint(arg)
 	}
 }
 
-func (env *env) Println(args ...interface{}) {
+func (env *env) Println(args ...any) {
 	for i, arg := range args {
 		if i > 0 {
 			env.doPrint(" ")
@@ -80,7 +80,7 @@ func typeOfFunc(v reflect.Value) reflect.Type {
 	return v.Type()
 }
 
-func (env *env) doPrint(arg interface{}) {
+func (env *env) doPrint(arg any) {
 	if env.print != nil {
 		env.print(arg)
 		return
@@ -101,7 +101,7 @@ func (env *env) doPrint(arg interface{}) {
 		print(r.Complex())
 	case reflect.Chan, reflect.Map, reflect.UnsafePointer:
 		print(hex(r.Pointer()))
-	case reflect.Interface, reflect.Ptr:
+	case reflect.Interface, reflect.Pointer:
 		print(arg)
 	case reflect.Slice:
 		print("[", r.Len(), "/", r.Cap(), "]", hex(r.Pointer()))

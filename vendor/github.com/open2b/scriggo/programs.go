@@ -26,11 +26,17 @@ type BuildOptions struct {
 	// in programs and templates through the import statement.
 	Packages native.Importer
 
-	// TreeTransformer is a function that transforms a tree. If it is not nil,
-	// it is called before the type checking.
+	// UnexpandedTransformer transforms an unexpanded AST.
+	// If non-nil, it is invoked on each parsed file before expansion.
 	//
 	// Used for templates only.
-	TreeTransformer func(tree *ast.Tree) error
+	UnexpandedTransformer func(tree *ast.Tree) error
+
+	// ExpandedTransformer transforms the expanded AST.
+	// If non-nil, it is invoked on the expanded tree before type checking.
+	//
+	// Used for templates only.
+	ExpandedTransformer func(tree *ast.Tree) error
 
 	// NoParseShortShowStmt, when true, don't parse the short show statements.
 	//
@@ -51,7 +57,7 @@ type BuildOptions struct {
 
 // PrintFunc represents a function that prints the arguments of the print and
 // println builtins.
-type PrintFunc func(interface{})
+type PrintFunc func(any)
 
 // RunOptions are the run options.
 type RunOptions struct {

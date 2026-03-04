@@ -136,6 +136,7 @@
 package builtin
 
 import (
+	"bytes"
 	"crypto/hmac"
 	"crypto/md5"
 	"crypto/sha1"
@@ -149,6 +150,7 @@ import (
 	"math"
 	"reflect"
 	"regexp"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -355,6 +357,24 @@ func HtmlEscape(s string) native.HTML {
 	return scriggo.HTMLEscape(s)
 }
 
+// IndentJSON returns the JSON data indented while preserving object key order.
+// It panics if data is not valid JSON or if prefix or indent contain characters
+// other than ' ' or '\t'.
+func IndentJSON(data native.JSON, prefix, indent string) native.JSON {
+	if !onlyJSONWhitespace(prefix) {
+		panic("indentJSON: prefix does not contain only whitespace")
+	}
+	if !onlyJSONWhitespace(indent) {
+		panic("indentJSON: indent does not contain only whitespace")
+	}
+	var b bytes.Buffer
+	err := json.Indent(&b, []byte(trimJSONSpace(data)), prefix, indent)
+	if err != nil {
+		panic(replacePrefix(err, "json", "indentJSON"))
+	}
+	return native.JSON(b.String())
+}
+
 // Index returns the index of the first instance of substr in s, or -1 if
 // substr is not present in s.
 //
@@ -389,7 +409,7 @@ func LastIndex(s, substr string) int {
 // MarshalJSON returns the JSON encoding of v.
 //
 // See https://pkg.go.dev/encoding/json#Marshal for details.
-func MarshalJSON(v interface{}) (native.JSON, error) {
+func MarshalJSON(v any) (native.JSON, error) {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return "", replacePrefix(err, "json", "marshalJSON")
@@ -402,7 +422,7 @@ func MarshalJSON(v interface{}) (native.JSON, error) {
 // followed by one or more copies of indent according to the indentation
 // nesting. prefix and indent can only contain whitespace: ' ', '\t', '\n' and
 // '\r'.
-func MarshalJSONIndent(v interface{}, prefix, indent string) (native.JSON, error) {
+func MarshalJSONIndent(v any, prefix, indent string) (native.JSON, error) {
 	if !onlyJSONWhitespace(prefix) {
 		return "", errors.New("marshalJSONIndent: prefix does not contain only whitespace")
 	}
@@ -411,7 +431,7 @@ func MarshalJSONIndent(v interface{}, prefix, indent string) (native.JSON, error
 	}
 	b, err := json.MarshalIndent(v, prefix, indent)
 	if err != nil {
-		return "", errors.New(err.Error())
+		return "", fmt.Errorf("%s", err)
 	}
 	return native.JSON(b), nil
 }
@@ -419,12 +439,12 @@ func MarshalJSONIndent(v interface{}, prefix, indent string) (native.JSON, error
 // MarshalYAML returns the YAML encoding of v.
 //
 // See https://pkg.go.dev/gopkg.in/yaml.v3#Marshal for details.
-func MarshalYAML(v interface{}) (_ string, err error) {
+func MarshalYAML(v any) (_ string, err error) {
 	defer func() {
 		msg := recover()
 		if msg != nil {
 			if s, ok := msg.(string); ok {
-				err = errors.New("marshalYAML: " + s)
+				err = fmt.Errorf("marshalYAML: %s", s)
 			} else {
 				err = errors.New("marshalYAML: unknown error")
 			}
@@ -432,7 +452,7 @@ func MarshalYAML(v interface{}) (_ string, err error) {
 	}()
 	b, err := yaml.Marshal(v)
 	if err != nil {
-		return "", errors.New("marshalYAML: " + err.Error())
+		return "", fmt.Errorf("marshalYAML: %s", err)
 	}
 	return string(b), nil
 }
@@ -485,15 +505,15 @@ func ParseDuration(s string) (Duration, error) {
 // rounding.
 func ParseFloat(s string) (float64, error) {
 	if strings.HasPrefix(s, "0x") {
-		return 0, errors.New("parseFloat: parsing " + strconv.Quote(s) + ": invalid syntax")
+		return 0, fmt.Errorf("parseFloat: parsing %q: invalid syntax", s)
 	}
 	f, err := strconv.ParseFloat(s, 64)
 	if err != nil {
 		e := err.(*strconv.NumError)
-		return 0, errors.New("parseFloat: parsing " + strconv.Quote(s) + ": " + e.Err.Error())
+		return 0, fmt.Errorf("parseFloat: parsing %q: %s", s, e.Err)
 	}
 	if math.IsNaN(f) || math.IsInf(f, 0) {
-		return 0, errors.New("parseFloat: parsing " + strconv.Quote(s) + ": invalid syntax")
+		return 0, fmt.Errorf("parseFloat: parsing %q: invalid syntax", s)
 	}
 	return f, nil
 }
@@ -504,12 +524,12 @@ func ParseFloat(s string) (float64, error) {
 // represented by an int value.
 func ParseInt(s string, base int) (int, error) {
 	if base == 0 {
-		return 0, errors.New("parseInt: parsing " + strconv.Quote(s) + ": invalid base 0")
+		return 0, fmt.Errorf("parseInt: parsing %q: invalid base 0", s)
 	}
 	i, err := strconv.ParseInt(s, base, 0)
 	if err != nil {
 		e := err.(*strconv.NumError)
-		return 0, errors.New("parseInt: parsing " + strconv.Quote(s) + ": " + e.Err.Error())
+		return 0, fmt.Errorf("parseInt: parsing %q: %s", s, e.Err)
 	}
 	return int(i), nil
 }
@@ -621,7 +641,7 @@ func ReplaceAll(s, old, new string) string {
 
 // Reverse reverses the order of the elements of slice.
 // If slice is not a slice, it panics.
-func Reverse(slice interface{}) {
+func Reverse(slice any) {
 	if slice == nil {
 		return
 	}
@@ -668,7 +688,7 @@ func Sha256(s string) string {
 // on their type.
 //
 // The natural order can differ between different versions of Scriggo.
-func Sort(slice interface{}, less func(i, j int) bool) {
+func Sort(slice any, less func(i, j int) bool) {
 	if slice == nil {
 		return
 	}
@@ -676,7 +696,7 @@ func Sort(slice interface{}, less func(i, j int) bool) {
 		panic("sort: cannot sort non-slice value of type " + t.String())
 	}
 	if less != nil {
-		if t := reflect.TypeOf(less); t.Kind() != reflect.Func {
+		if t := reflect.TypeFor[func(i int, j int) bool](); t.Kind() != reflect.Func {
 			panic("sort: cannot sort using a non-function value of type " + t.String())
 		}
 		sort.Slice(slice, less)
@@ -687,9 +707,9 @@ func Sort(slice interface{}, less func(i, j int) bool) {
 	case []string:
 		sort.Strings(s)
 	case []rune:
-		sort.Slice(s, func(i, j int) bool { return s[i] < s[j] })
+		slices.Sort(s)
 	case []byte:
-		sort.Slice(s, func(i, j int) bool { return s[i] < s[j] })
+		slices.Sort(s)
 	case []int:
 		sort.Ints(s)
 	case []float64:
@@ -708,7 +728,7 @@ func Sort(slice interface{}, less func(i, j int) bool) {
 		v := reflect.ValueOf(slice)
 		l := v.Len()
 		sv := make([]reflect.Value, l)
-		for i := 0; i < l; i++ {
+		for i := range l {
 			sv[i] = v.Index(i)
 		}
 		sort.SliceStable(slice, func(i, j int) bool {
@@ -774,12 +794,12 @@ func SplitN(s, sep string, n int) []string {
 
 // Sprint formats using the default formats for its operands and returns the resulting string.
 // Spaces are added between operands when neither is a string.
-func Sprint(a ...interface{}) string {
+func Sprint(a ...any) string {
 	return fmt.Sprint(a...)
 }
 
 // Sprintf formats according to a format specifier and returns the resulting string.
-func Sprintf(format string, a ...interface{}) string {
+func Sprintf(format string, a ...any) string {
 	return fmt.Sprintf(format, a...)
 }
 
@@ -790,7 +810,7 @@ func ToKebab(s string) string {
 	noDash := false    // true if the last written rune is not a dash.
 	runes := []rune(s)
 	n := len(runes)
-	for i := 0; i < n; i++ {
+	for i := range n {
 		r := runes[i]
 		switch {
 		case unicode.IsLower(r) || unicode.IsDigit(r):
@@ -874,26 +894,26 @@ func UnixTime(sec int64, nsec int64) Time {
 // replaces the value pointed to by v, if no errors occur.
 //
 // See https://pkg.go.dev/encoding/json#Unmarshal for details.
-func UnmarshalJSON(data string, v interface{}) error {
+func UnmarshalJSON(data string, v any) error {
 	if v == nil {
 		return errors.New("unmarshalJSON: cannot unmarshal into nil")
 	}
 	rv := reflect.ValueOf(v)
 	rt := rv.Type()
-	if rv.Kind() != reflect.Ptr {
-		return fmt.Errorf("unmarshalJSON: cannot unmarshal into non-pointer value of type " + rt.String())
+	if rv.Kind() != reflect.Pointer {
+		return fmt.Errorf("unmarshalJSON: cannot unmarshal into non-pointer value of type %s", rt)
 	}
 	if rv.IsZero() {
-		return errors.New("unmarshalJSON: cannot unmarshal into a nil pointer of type " + rt.String())
+		return fmt.Errorf("unmarshalJSON: cannot unmarshal into a nil pointer of type %s", rt)
 	}
 	vp := reflect.New(rt.Elem())
 	err := json.Unmarshal([]byte(data), vp.Interface())
 	if err != nil {
 		if e, ok := err.(*json.UnmarshalTypeError); ok {
 			if e.Struct != "" || e.Field != "" {
-				return errors.New("unmarshalJSON: cannot unmarshal " + e.Value + " into struct field " + e.Struct + "." + e.Field + " of type " + e.Type.String())
+				return fmt.Errorf("unmarshalJSON: cannot unmarshal %s into struct field %s.%s of type %s", e.Value, e.Struct, e.Field, e.Type)
 			}
-			return errors.New("unmarshalJSON: cannot unmarshal " + e.Value + " into value of type " + e.Type.String())
+			return fmt.Errorf("unmarshalJSON: cannot unmarshal %s into value of type %s", e.Value, e.Type)
 		}
 		return replacePrefix(err, "json", "unmarshalJSON")
 	}
@@ -911,24 +931,24 @@ func UnmarshalJSON(data string, v interface{}) error {
 // replaces the value pointed to by v, if no errors occur.
 //
 // See https://pkg.go.dev/gopkg.in/yaml.v3#Unmarshal for details.
-func UnmarshalYAML(data string, v interface{}) (err error) {
+func UnmarshalYAML(data string, v any) (err error) {
 	if v == nil {
 		return errors.New("unmarshalYAML: cannot unmarshal into nil")
 	}
 	rv := reflect.ValueOf(v)
 	rt := rv.Type()
-	if rv.Kind() != reflect.Ptr {
-		return fmt.Errorf("unmarshalYAML: cannot unmarshal into non-pointer value of type " + rt.String())
+	if rv.Kind() != reflect.Pointer {
+		return fmt.Errorf("unmarshalYAML: cannot unmarshal into non-pointer value of type %s", rt)
 	}
 	if rv.IsZero() {
-		return errors.New("unmarshalYAML: cannot unmarshal into a nil pointer of type " + rt.String())
+		return fmt.Errorf("unmarshalYAML: cannot unmarshal into a nil pointer of type %s", rt)
 	}
 	vp := reflect.New(rt.Elem())
 	defer func() {
 		msg := recover()
 		if msg != nil {
 			if s, ok := msg.(string); ok {
-				err = errors.New("unmarshalYAML: " + s)
+				err = fmt.Errorf("unmarshalYAML: %s", s)
 			} else {
 				err = errors.New("unmarshalYAML: unknown error")
 			}
@@ -940,9 +960,9 @@ func UnmarshalYAML(data string, v interface{}) (err error) {
 			if len(e.Errors) == 0 {
 				return errors.New("unmarshalYAML: unknown error")
 			}
-			return errors.New("unmarshalYAML: " + e.Errors[0])
+			return fmt.Errorf("unmarshalYAML: %s", e.Errors[0])
 		}
-		return errors.New("unmarshalYAML: " + err.Error())
+		return fmt.Errorf("unmarshalYAML: %s", err)
 	}
 	rv.Elem().Set(vp.Elem())
 	return nil
@@ -977,12 +997,14 @@ func isSeparator(r rune) bool {
 	return unicode.IsSpace(r)
 }
 
+// lookupJSONSpace is used by the onlyJSONWhitespace and trimJSONSpace
+// functions.
+var lookupJSONSpace = [255]uint8{'\t': 1, '\n': 1, '\r': 1, ' ': 1}
+
 // onlyJSONWhitespace reports if s contains only JSON whitespace.
 func onlyJSONWhitespace(s string) bool {
-	for _, c := range s {
-		switch c {
-		case ' ', '\t', '\n', '\r':
-		default:
+	for i := 0; i < len(s); i++ {
+		if lookupJSONSpace[s[i]] == 0 {
 			return false
 		}
 	}
@@ -991,5 +1013,19 @@ func onlyJSONWhitespace(s string) bool {
 
 // replacePrefix returns err with the prefix old replaced with new.
 func replacePrefix(err error, old, new string) error {
-	return errors.New(new + ": " + strings.TrimPrefix(err.Error(), old+": "))
+	return fmt.Errorf("%s: %s", new, strings.TrimPrefix(err.Error(), old+": "))
+}
+
+// trimJSONSpace returns a subslice of data with all leading and trailing
+// whitespace removed.
+func trimJSONSpace(data native.JSON) native.JSON {
+	if len(data) == 0 {
+		return data
+	}
+	i, j := 0, len(data)-1
+	for ; lookupJSONSpace[data[i]] == 1; i++ {
+	}
+	for ; lookupJSONSpace[data[j]] == 1; j-- {
+	}
+	return data[i : j+1]
 }

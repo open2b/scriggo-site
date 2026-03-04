@@ -44,7 +44,7 @@ func (e *SyntaxError) Position() ast.Position {
 
 // syntaxError returns a SyntaxError error with position pos and message
 // formatted according the given format.
-func syntaxError(pos *ast.Position, format string, a ...interface{}) *SyntaxError {
+func syntaxError(pos *ast.Position, format string, a ...any) *SyntaxError {
 	return &SyntaxError{"", *pos, fmt.Sprintf(format, a...)}
 }
 
@@ -1663,13 +1663,7 @@ func (p *parsing) parseVarOrConst(tok token, pos *ast.Position, decType tokenTyp
 	if typ != nil {
 		typEndPos = typ.Pos().End
 	}
-	endPos := exprPosEnd
-	if identPosEnd > endPos {
-		endPos = identPosEnd
-	}
-	if typEndPos > endPos {
-		endPos = typEndPos
-	}
+	endPos := max(typEndPos, max(identPosEnd, exprPosEnd))
 	pos.End = endPos
 	if decType == tokenVar {
 		node := ast.NewVar(pos, idents, typ, exprs)
@@ -1956,7 +1950,7 @@ func cutSpaces(first, last *ast.Text) {
 		// or before the first '\n' must only contain '', '\t' and '\r'.
 		txt := last.Text
 		var lastCut = len(txt)
-		for i := 0; i < len(txt); i++ {
+		for i := range txt {
 			c := txt[i]
 			if c == '\n' {
 				lastCut = i + 1

@@ -16,6 +16,7 @@ package compiler
 import (
 	"fmt"
 	"io/fs"
+	"maps"
 	"reflect"
 	"unicode"
 	"unicode/utf8"
@@ -69,7 +70,9 @@ type Options struct {
 	// MDConverter converts a Markdown source code to HTML.
 	MDConverter Converter
 
-	TreeTransformer func(*ast.Tree) error
+	UnexpandedTransformer func(*ast.Tree) error
+
+	ExpandedTransformer func(*ast.Tree) error
 }
 
 // GoModError represents an error in a go.mod file.
@@ -114,8 +117,8 @@ func BuildProgram(fsys fs.FS, opts Options) (*Code, error) {
 	}
 
 	// Transform the tree.
-	if opts.TreeTransformer != nil {
-		err := opts.TreeTransformer(tree)
+	if opts.ExpandedTransformer != nil {
+		err := opts.ExpandedTransformer(tree)
 		if err != nil {
 			return nil, err
 		}
@@ -133,9 +136,7 @@ func BuildProgram(fsys fs.FS, opts Options) (*Code, error) {
 	}
 	typeInfos := map[ast.Node]*typeInfo{}
 	for _, pkgInfos := range tci {
-		for node, ti := range pkgInfos.TypeInfos {
-			typeInfos[node] = ti
-		}
+		maps.Copy(typeInfos, pkgInfos.TypeInfos)
 	}
 
 	// Emit the code.
@@ -157,14 +158,14 @@ func BuildTemplate(fsys fs.FS, name string, opts Options) (*Code, error) {
 
 	// Parse the source code.
 	var err error
-	tree, err = ParseTemplate(fsys, name, opts.NoParseShortShowStmt)
+	tree, err = ParseTemplate(fsys, name, opts.NoParseShortShowStmt, opts.UnexpandedTransformer)
 	if err != nil {
 		return nil, err
 	}
 
 	// Transform the tree.
-	if opts.TreeTransformer != nil {
-		err := opts.TreeTransformer(tree)
+	if opts.ExpandedTransformer != nil {
+		err := opts.ExpandedTransformer(tree)
 		if err != nil {
 			return nil, err
 		}
@@ -184,9 +185,7 @@ func BuildTemplate(fsys fs.FS, name string, opts Options) (*Code, error) {
 	}
 	typeInfos := map[ast.Node]*typeInfo{}
 	for _, pkgInfos := range tci {
-		for node, ti := range pkgInfos.TypeInfos {
-			typeInfos[node] = ti
-		}
+		maps.Copy(typeInfos, pkgInfos.TypeInfos)
 	}
 
 	// Emit the code.
@@ -342,6 +341,6 @@ func getExtends(nodes []ast.Node) (*ast.Extends, bool) {
 //	panic(internalError(format, a...))
 //
 // Keep in sync with types.internalError.
-func internalError(format string, a ...interface{}) string {
+func internalError(format string, a ...any) string {
 	return fmt.Sprintf("scriggo: internal error: "+format, a...)
 }

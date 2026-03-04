@@ -133,7 +133,7 @@ func ConvertibleTo(x, y reflect.Type) bool {
 	}
 
 	// x is a slice, y is a pointer to array type, and the slice and array have the same element types.
-	if xk == reflect.Slice && yk == reflect.Ptr {
+	if xk == reflect.Slice && yk == reflect.Pointer {
 		if e := y.Elem(); e.Kind() == reflect.Array && e.Elem() == x.Elem() {
 			return true
 		}
@@ -150,7 +150,7 @@ func ConvertibleTo(x, y reflect.Type) bool {
 	}
 
 	// x and y are not defined pointer types, and have identical underlying types, ignoring struct tags.
-	if xk == reflect.Ptr && yk == reflect.Ptr &&
+	if xk == reflect.Pointer && yk == reflect.Pointer &&
 		x.Name() == "" && y.Name() == "" && identical(x.Elem(), y.Elem(), true, true) {
 		return true
 	}
@@ -202,14 +202,14 @@ func identical(x, y reflect.Type, underlying, ignoreTags bool) bool {
 	switch k {
 	case reflect.Array:
 		return x.Len() == y.Len() && identical(x.Elem(), y.Elem(), false, ignoreTags)
-	case reflect.Slice, reflect.Ptr:
+	case reflect.Slice, reflect.Pointer:
 		return identical(x.Elem(), y.Elem(), false, ignoreTags)
 	case reflect.Struct:
 		n := x.NumField()
 		if n != y.NumField() {
 			return false
 		}
-		for i := 0; i < n; i++ {
+		for i := range n {
 			f1 := x.Field(i)
 			f2 := y.Field(i)
 			// Same name.
@@ -242,12 +242,12 @@ func identical(x, y reflect.Type, underlying, ignoreTags bool) bool {
 		if in != y.NumIn() || out != y.NumOut() || x.IsVariadic() != y.IsVariadic() {
 			return false
 		}
-		for i := 0; i < in; i++ {
+		for i := range in {
 			if !identical(x.In(i), y.In(i), false, ignoreTags) {
 				return false
 			}
 		}
-		for i := 0; i < out; i++ {
+		for i := range out {
 			if !identical(x.Out(i), y.Out(i), false, ignoreTags) {
 				return false
 			}
@@ -258,7 +258,7 @@ func identical(x, y reflect.Type, underlying, ignoreTags bool) bool {
 		if xn != yn {
 			return false
 		}
-		for i := 0; i < xn; i++ {
+		for i := range xn {
 			xm := x.Method(i)
 			ym := y.Method(i)
 			// Same name.
@@ -313,6 +313,6 @@ func assertNotScriggoType(t reflect.Type) {
 //	panic(internalError(format, a...))
 //
 // Keep in sync with compiler.internalError.
-func internalError(format string, a ...interface{}) string {
+func internalError(format string, a ...any) string {
 	return fmt.Sprintf("scriggo: internal error: "+format, a...)
 }

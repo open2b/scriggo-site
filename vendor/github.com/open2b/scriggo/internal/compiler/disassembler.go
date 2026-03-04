@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"fmt"
 	"reflect"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -92,13 +93,7 @@ func Disassemble(main *runtime.Function, globals []Global, n int) map[string][]b
 					importsByPkg[fn.Pkg] = map[string]struct{}{sf.Pkg: {}}
 				}
 			}
-			added := false
-			for _, f := range allFunctions {
-				if f == sf {
-					added = true
-					break
-				}
-			}
+			added := slices.Contains(allFunctions, sf)
 			if !added {
 				allFunctions = append(allFunctions, sf)
 			}
@@ -127,7 +122,7 @@ func Disassemble(main *runtime.Function, globals []Global, n int) map[string][]b
 			for pkg := range imports {
 				packages = append(packages, pkg)
 			}
-			sort.Slice(packages, func(i, j int) bool { return packages[i] < packages[j] })
+			slices.Sort(packages)
 			for _, pkg := range packages {
 				b.WriteString("\nImport ")
 				b.WriteString(strconv.Quote(pkg))
@@ -217,7 +212,7 @@ func disassembleFunction(b *bytes.Buffer, globals []Global, fn *runtime.Function
 				out[kindToType(fn.Type.Out(i).Kind())]++
 			}
 			in := map[registerType]int{intRegister: 0, floatRegister: 0, stringRegister: 0, generalRegister: 0}
-			for i := 0; i < nIn; i++ {
+			for i := range nIn {
 				if i > 0 {
 					b.WriteString(", ")
 				}
@@ -383,7 +378,7 @@ func disassembleInstruction(fn *runtime.Function, globals []Global, addr runtime
 			s += " ..." + strconv.Itoa(int(c))
 		}
 		_, _, typ := funcNameType(fn, a, addr, op)
-		for i := 0; i < 4; i++ {
+		for i := range 4 {
 			s += " "
 			if typ == nil || !funcHasParameterInRegister(typ, registerType(i)) {
 				s += "_"
@@ -801,43 +796,45 @@ func disassembleFunctionCall(fn *runtime.Function, index int8, addr runtime.Addr
 		}
 		return str
 	}
-	var sout string
+	var sout strings.Builder
 	if nout := typ.NumOut(); nout > 0 {
-		sout += " ("
-		for i := 0; i < nout; i++ {
+		sout.WriteString(" (")
+		for i := range nout {
 			if i > 0 {
-				sout += ", "
+				sout.WriteString(", ")
 			}
-			sout += print(typ.Out(i))
+			sout.WriteString(print(typ.Out(i)))
 		}
-		sout += ")"
+		sout.WriteString(")")
 	}
-	s := "func("
+	var s strings.Builder
 	if macro {
 		if typ.NumIn() == 0 {
 			return "macro"
 		}
-		s = "macro("
+		s.WriteString("macro(")
+	} else {
+		s.WriteString("func(")
 	}
 	lastIn := typ.NumIn() - 1
-	for i := 0; i < lastIn; i++ {
-		s += print(typ.In(i)) + ", "
+	for i := range lastIn {
+		s.WriteString(print(typ.In(i)) + ", ")
 	}
 	if lastIn >= 0 {
 		if variadic == runtime.NoVariadicArgs || variadic == 0 {
-			s += print(typ.In(lastIn))
+			s.WriteString(print(typ.In(lastIn)))
 		} else {
 			varType := typ.In(lastIn).Elem()
-			for i := int8(0); i < variadic; i++ {
-				s += print(varType)
+			for i := range variadic {
+				s.WriteString(print(varType))
 				if i < variadic-1 {
-					s += ", "
+					s.WriteString(", ")
 				}
 			}
 		}
 	}
-	s += ")" + sout
-	return s
+	s.WriteString(")" + sout.String())
+	return s.String()
 }
 
 func disassembleVarRef(fn *runtime.Function, globals []Global, ref int16) string {

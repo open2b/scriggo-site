@@ -7,6 +7,7 @@ package compiler
 import (
 	"fmt"
 	"reflect"
+	"slices"
 
 	"github.com/open2b/scriggo/ast"
 	"github.com/open2b/scriggo/internal/runtime"
@@ -926,14 +927,7 @@ func (fb *functionBuilder) emitText(txt []byte, inURL, isURLSet bool) {
 	if len(fb.text.txt) > 0 {
 		addr := fb.currentAddr()
 		if addr == fb.text.addr+1 && inURL == fb.text.inURL {
-			var hasLabel bool
-			for _, la := range fb.labelAddrs {
-				if addr == la {
-					hasLabel = true
-					break
-				}
-			}
-			if !hasLabel {
+			if !slices.Contains(fb.labelAddrs, addr) {
 				fb.text.txt = append(fb.text.txt, txt)
 				return
 			}

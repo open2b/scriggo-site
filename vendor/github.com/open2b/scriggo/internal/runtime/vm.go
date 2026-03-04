@@ -26,9 +26,9 @@ const maxUint32 = 1<<31 - 1
 
 const stackSize = 512
 
-var envType = reflect.TypeOf((*native.Env)(nil)).Elem()
-var emptyInterfaceType = reflect.TypeOf(&[]interface{}{nil}[0]).Elem()
-var emptyInterfaceNil = reflect.ValueOf(&[]interface{}{nil}[0]).Elem()
+var envType = reflect.TypeFor[native.Env]()
+var emptyInterfaceType = reflect.TypeFor[any]()
+var emptyInterfaceNil = reflect.ValueOf(&[]any{nil}[0]).Elem()
 
 // Converter is implemented by format converters.
 type Converter = func(src []byte, out io.Writer) error
@@ -333,7 +333,7 @@ func (vm *VM) callNative(fn *NativeFunction, numVariadic int8, shift StackShift,
 		if variadic && numVariadic != NoVariadicArgs {
 			lastNonVariadic--
 		}
-		for i := 0; i < nunIn; i++ {
+		for i := range nunIn {
 			if i < lastNonVariadic {
 				if i < 2 && typ.In(i) == envType {
 					// Set the path of the file that contains the call.
@@ -476,7 +476,7 @@ func (vm *VM) equals(x, y reflect.Value) bool {
 func (vm *VM) fieldByIndex(s reflect.Value, i uint8) reflect.Value {
 	v := s
 	for _, x := range vm.fn.FieldIndexes[i] {
-		if v.Kind() == reflect.Ptr {
+		if v.Kind() == reflect.Pointer {
 			if v.IsNil() {
 				panic(errNilPointer)
 			}
@@ -737,7 +737,7 @@ type Registers struct {
 type NativeFunction struct {
 	pkg         string        // package.
 	name        string        // name.
-	function    interface{}   // value.
+	function    any           // value.
 	outOff      [4]int8       // offset of out arguments.
 	value       reflect.Value // reflect value.
 	reflectCall bool          // reports whether it can be called only with reflect.
@@ -747,7 +747,7 @@ type NativeFunction struct {
 // NewNativeFunction returns a new native function given its package and name
 // and the function value or its reflect value. pkg and name can be empty
 // strings.
-func NewNativeFunction(pkg, name string, function interface{}) *NativeFunction {
+func NewNativeFunction(pkg, name string, function any) *NativeFunction {
 	fn := &NativeFunction{
 		pkg:  pkg,
 		name: name,
@@ -761,7 +761,7 @@ func NewNativeFunction(pkg, name string, function interface{}) *NativeFunction {
 	}
 	typ := fn.value.Type()
 	nOut := typ.NumOut()
-	for i := 0; i < nOut; i++ {
+	for i := range nOut {
 		k := typ.Out(i).Kind()
 		fn.outOff[kindToType[k]]++
 	}
@@ -775,9 +775,9 @@ func NewNativeFunction(pkg, name string, function interface{}) *NativeFunction {
 		fn.reflectCall = true
 		if numIn := typ.NumIn(); numIn > 0 {
 			fn.argsPool = &sync.Pool{
-				New: func() interface{} {
+				New: func() any {
 					args := make([]reflect.Value, numIn)
-					for i := 0; i < numIn; i++ {
+					for i := range numIn {
 						t := typ.In(i)
 						args[i] = reflect.New(t).Elem()
 					}
@@ -797,7 +797,7 @@ func (fn *NativeFunction) Name() string {
 	return fn.name
 }
 
-func (fn *NativeFunction) Func() interface{} {
+func (fn *NativeFunction) Func() any {
 	return fn.function
 }
 
@@ -921,7 +921,7 @@ func (c *callable) Value(env *env) reflect.Value {
 		nOut := fn.Type.NumOut()
 		results := make([]reflect.Value, nOut)
 		var r = [4]int8{1, 1, 1, 1}
-		for i := 0; i < nOut; i++ {
+		for i := range nOut {
 			typ := fn.Type.Out(i)
 			results[i] = reflect.New(typ).Elem()
 			t := kindToType[typ.Kind()]
@@ -994,7 +994,7 @@ var kindToType = [...]registerType{
 	reflect.Func:          generalRegister,
 	reflect.Interface:     generalRegister,
 	reflect.Map:           generalRegister,
-	reflect.Ptr:           generalRegister,
+	reflect.Pointer:       generalRegister,
 	reflect.Slice:         generalRegister,
 	reflect.String:        stringRegister,
 	reflect.Struct:        generalRegister,

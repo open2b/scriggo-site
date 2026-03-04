@@ -7,6 +7,7 @@ package compiler
 import (
 	"fmt"
 	"reflect"
+	"slices"
 	"strconv"
 	"time"
 
@@ -16,23 +17,23 @@ import (
 )
 
 var (
-	stringerType    = reflect.TypeOf((*fmt.Stringer)(nil)).Elem()
-	envStringerType = reflect.TypeOf((*native.EnvStringer)(nil)).Elem()
+	stringerType    = reflect.TypeFor[fmt.Stringer]()
+	envStringerType = reflect.TypeFor[native.EnvStringer]()
 
-	htmlStringerType    = reflect.TypeOf((*native.HTMLStringer)(nil)).Elem()
-	htmlEnvStringerType = reflect.TypeOf((*native.HTMLEnvStringer)(nil)).Elem()
+	htmlStringerType    = reflect.TypeFor[native.HTMLStringer]()
+	htmlEnvStringerType = reflect.TypeFor[native.HTMLEnvStringer]()
 
-	cssStringerType    = reflect.TypeOf((*native.CSSStringer)(nil)).Elem()
-	cssEnvStringerType = reflect.TypeOf((*native.CSSEnvStringer)(nil)).Elem()
+	cssStringerType    = reflect.TypeFor[native.CSSStringer]()
+	cssEnvStringerType = reflect.TypeFor[native.CSSEnvStringer]()
 
-	jsStringerType    = reflect.TypeOf((*native.JSStringer)(nil)).Elem()
-	jsEnvStringerType = reflect.TypeOf((*native.JSEnvStringer)(nil)).Elem()
+	jsStringerType    = reflect.TypeFor[native.JSStringer]()
+	jsEnvStringerType = reflect.TypeFor[native.JSEnvStringer]()
 
-	jsonStringerType    = reflect.TypeOf((*native.JSONStringer)(nil)).Elem()
-	jsonEnvStringerType = reflect.TypeOf((*native.JSONEnvStringer)(nil)).Elem()
+	jsonStringerType    = reflect.TypeFor[native.JSONStringer]()
+	jsonEnvStringerType = reflect.TypeFor[native.JSONEnvStringer]()
 
-	mdStringerType    = reflect.TypeOf((*native.MarkdownStringer)(nil)).Elem()
-	mdEnvStringerType = reflect.TypeOf((*native.MarkdownEnvStringer)(nil)).Elem()
+	mdStringerType    = reflect.TypeFor[native.MarkdownStringer]()
+	mdEnvStringerType = reflect.TypeFor[native.MarkdownEnvStringer]()
 )
 
 // templateFileToPackage transforms a tree of a declarations file to a package
@@ -307,7 +308,7 @@ nodesLoop:
 			case reflect.String:
 				typ1 = intType
 				typ2 = runeType
-			case reflect.Ptr:
+			case reflect.Pointer:
 				if typ.Elem().Kind() != reflect.Array {
 					panic(tc.errorf(expr, "cannot range over %s (type %s)", expr, ti))
 				}
@@ -481,7 +482,7 @@ nodesLoop:
 			}
 			// Check the cases.
 			terminating := len(node.Cases) > 0
-			positionOf := map[interface{}]*ast.Position{}
+			positionOf := map[any]*ast.Position{}
 			var positionOfDefault *ast.Position
 			for _, cas := range node.Cases {
 				if cas.Expressions == nil {
@@ -1280,7 +1281,7 @@ func (tc *typechecker) checkReturn(node *ast.Return) ast.Node {
 			}
 		}
 		msg += ")"
-		panic(tc.errorf(node, msg))
+		panic(tc.errorf(node, "%s", msg))
 	}
 
 	for i, typ := range expectedTypes {
@@ -1395,8 +1396,8 @@ func (tc *typechecker) explodeUsingStatement(using *ast.Using, iteaIdent string)
 	return iteaDeclaration, using.Statement
 }
 
-var byteSliceType = reflect.TypeOf([]byte(nil))
-var timeType = reflect.TypeOf(time.Time{})
+var byteSliceType = reflect.TypeFor[[]byte]()
+var timeType = reflect.TypeFor[time.Time]()
 
 // checkShow type checks the show of a value of type t in context ctx.
 func checkShow(t reflect.Type, ctx ast.Context) error {
@@ -1477,10 +1478,8 @@ func checkShow(t reflect.Type, ctx ast.Context) error {
 // checkShowJS reports whether a type can be shown as JavaScript. It returns
 // an error if the type cannot be shown.
 func checkShowJS(t reflect.Type, types []reflect.Type) error {
-	for _, typ := range types {
-		if t == typ {
-			return nil
-		}
+	if slices.Contains(types, t) {
+		return nil
 	}
 	kind := t.Kind()
 	if reflect.Bool <= kind && kind <= reflect.Float64 || kind == reflect.String ||
@@ -1511,7 +1510,7 @@ func checkShowJS(t reflect.Type, types []reflect.Type) error {
 		if err != nil {
 			return fmt.Errorf("cannot show map with %s element as JavaScript", t.Elem())
 		}
-	case reflect.Ptr, reflect.UnsafePointer:
+	case reflect.Pointer, reflect.UnsafePointer:
 		return checkShowJS(t.Elem(), append(types, t))
 	case reflect.Slice:
 		if err := checkShowJS(t.Elem(), append(types, t)); err != nil {
@@ -1519,7 +1518,7 @@ func checkShowJS(t reflect.Type, types []reflect.Type) error {
 		}
 	case reflect.Struct:
 		n := t.NumField()
-		for i := 0; i < n; i++ {
+		for i := range n {
 			field := t.Field(i)
 			if field.PkgPath == "" {
 				if err := checkShowJS(field.Type, append(types, t)); err != nil {
@@ -1536,10 +1535,8 @@ func checkShowJS(t reflect.Type, types []reflect.Type) error {
 // checkShowJSON reports whether a type can be shown as JSON. It returns an
 // error if the type cannot be shown.
 func checkShowJSON(t reflect.Type, types []reflect.Type) error {
-	for _, typ := range types {
-		if t == typ {
-			return nil
-		}
+	if slices.Contains(types, t) {
+		return nil
 	}
 	kind := t.Kind()
 	if reflect.Bool <= kind && kind <= reflect.Float64 || kind == reflect.String ||
@@ -1569,7 +1566,7 @@ func checkShowJSON(t reflect.Type, types []reflect.Type) error {
 		if err != nil {
 			return fmt.Errorf("cannot show map with %s element as JSON", t.Elem())
 		}
-	case reflect.Ptr, reflect.UnsafePointer:
+	case reflect.Pointer, reflect.UnsafePointer:
 		return checkShowJSON(t.Elem(), append(types, t))
 	case reflect.Slice:
 		if err := checkShowJSON(t.Elem(), append(types, t)); err != nil {
@@ -1577,7 +1574,7 @@ func checkShowJSON(t reflect.Type, types []reflect.Type) error {
 		}
 	case reflect.Struct:
 		n := t.NumField()
-		for i := 0; i < n; i++ {
+		for i := range n {
 			field := t.Field(i)
 			if field.PkgPath == "" {
 				if err := checkShowJSON(field.Type, append(types, t)); err != nil {

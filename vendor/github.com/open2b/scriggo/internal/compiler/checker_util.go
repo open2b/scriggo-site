@@ -16,7 +16,7 @@ import (
 	"github.com/open2b/scriggo/native"
 )
 
-var envType = reflect.TypeOf((*native.Env)(nil)).Elem()
+var envType = reflect.TypeFor[native.Env]()
 var errTypeConversion = errors.New("failed type conversion")
 
 type nilConversionError struct {
@@ -165,7 +165,7 @@ func (tc *typechecker) convert(ti *typeInfo, expr ast.Expression, t2 reflect.Typ
 	case ti.Nil():
 		// predeclared nil.
 		switch k2 {
-		case reflect.Ptr, reflect.Func, reflect.Slice, reflect.Map, reflect.Chan, reflect.Interface:
+		case reflect.Pointer, reflect.Func, reflect.Slice, reflect.Map, reflect.Chan, reflect.Interface:
 			return nil, nil
 		}
 		return nil, nilConversionError{t2}
@@ -240,30 +240,30 @@ func (tc *typechecker) convert(ti *typeInfo, expr ast.Expression, t2 reflect.Typ
 // deferGoBuiltin returns a type info suitable to be embedded into the 'defer'
 // and 'go' statements with a builtin call as argument.
 func deferGoBuiltin(name string) *typeInfo {
-	var fun interface{}
+	var fun any
 	switch name {
 	case "close":
-		fun = func(ch interface{}) {
+		fun = func(ch any) {
 			reflect.ValueOf(ch).Close()
 		}
 	case "copy":
-		fun = func(dst, src interface{}) {
+		fun = func(dst, src any) {
 			reflect.Copy(reflect.ValueOf(dst), reflect.ValueOf(src))
 		}
 	case "delete":
-		fun = func(m interface{}, key interface{}) {
+		fun = func(m any, key any) {
 			reflect.ValueOf(m).SetMapIndex(reflect.ValueOf(key), reflect.Value{})
 		}
 	case "panic":
-		fun = func(env native.Env, v interface{}) {
+		fun = func(env native.Env, v any) {
 			panic(v)
 		}
 	case "print":
-		fun = func(env native.Env, args ...interface{}) {
+		fun = func(env native.Env, args ...any) {
 			env.Print(args...)
 		}
 	case "println":
-		fun = func(env native.Env, args ...interface{}) {
+		fun = func(env native.Env, args ...any) {
 			env.Println(args...)
 		}
 	case "recover":
@@ -477,7 +477,7 @@ func (tc *typechecker) nilOf(t reflect.Type) *typeInfo {
 
 // typedValue returns a constant type info value represented with a given
 // type.
-func (tc *typechecker) typedValue(ti *typeInfo, t reflect.Type) interface{} {
+func (tc *typechecker) typedValue(ti *typeInfo, t reflect.Type) any {
 	k := t.Kind()
 	if k == reflect.Interface {
 		t = ti.Type
@@ -549,7 +549,7 @@ func (tc *typechecker) typedValue(ti *typeInfo, t reflect.Type) interface{} {
 func (tc *typechecker) errTypeAssertion(typ reflect.Type, iface reflect.Type) error {
 	msg := fmt.Sprintf("impossible type assertion:\n\t%s does not implement %s", typ, iface)
 	num := iface.NumMethod()
-	for i := 0; i < num; i++ {
+	for i := range num {
 		mi := iface.Method(i)
 		mt, ok := typ.MethodByName(mi.Name)
 		if !ok {
@@ -565,7 +565,7 @@ func (tc *typechecker) errTypeAssertion(typ reflect.Type, iface reflect.Type) er
 		isVariadic := mt.Type.IsVariadic()
 		sameParameters := mi.Type.NumIn() == numIn && mi.Type.NumOut() == numOut && mi.Type.IsVariadic() == isVariadic
 		if sameParameters {
-			for j := 0; j < numIn; j++ {
+			for j := range numIn {
 				if mi.Type.In(j) != mt.Type.In(j+1) {
 					sameParameters = false
 					break
@@ -573,7 +573,7 @@ func (tc *typechecker) errTypeAssertion(typ reflect.Type, iface reflect.Type) er
 			}
 		}
 		if sameParameters {
-			for j := 0; j < numOut; j++ {
+			for j := range numOut {
 				if mi.Type.Out(j) != mt.Type.Out(j) {
 					sameParameters = false
 					break

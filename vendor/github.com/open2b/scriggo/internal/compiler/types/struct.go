@@ -6,6 +6,7 @@ package types
 
 import (
 	"reflect"
+	"strings"
 
 	"github.com/open2b/scriggo/internal/runtime"
 )
@@ -93,7 +94,7 @@ func (x structType) FieldByIndex(index []int) reflect.StructField {
 	for i, fi := range index {
 		if i > 0 {
 			t = field.Type
-			if t.Kind() == reflect.Ptr && t.Elem().Kind() == reflect.Struct {
+			if t.Kind() == reflect.Pointer && t.Elem().Kind() == reflect.Struct {
 				t = t.Elem()
 			}
 		}
@@ -128,21 +129,22 @@ func (x structType) NumField() int {
 }
 
 func (x structType) String() string {
-	s := "struct { "
+	var s strings.Builder
+	s.WriteString("struct { ")
 	for i := 0; i < x.NumField(); i++ {
 		if i > 0 {
-			s += "; "
+			s.WriteString("; ")
 		}
 		field := x.Field(i)
-		s += field.Name + " "
+		s.WriteString(field.Name + " ")
 		if scriggoField, ok := (*x.scriggoFields)[i]; ok {
-			s += scriggoField.Type.String()
+			s.WriteString(scriggoField.Type.String())
 		} else {
-			s += field.Type.Name()
+			s.WriteString(field.Type.Name())
 		}
 	}
-	s += " }"
-	return s
+	s.WriteString(" }")
+	return s.String()
 }
 
 // GoType implements the interface runtime.ScriggoType.
