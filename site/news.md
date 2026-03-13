@@ -4,6 +4,13 @@
 
 # News
 
+## Released Scriggo v0.61.1
+March 13, 2026
+
+This release includes bug fixes, minor improvements, and dependency updates.
+
+The [complete and detailed changelog](https://github.com/open2b/scriggo/compare/v0.61.0...main) is available on GitHub.
+
 ## Released Scriggo v0.61.0
 March 4, 2026
 
