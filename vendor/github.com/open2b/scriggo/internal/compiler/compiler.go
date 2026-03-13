@@ -116,14 +116,6 @@ func BuildProgram(fsys fs.FS, opts Options) (*Code, error) {
 		return nil, err
 	}
 
-	// Transform the tree.
-	if opts.ExpandedTransformer != nil {
-		err := opts.ExpandedTransformer(tree)
-		if err != nil {
-			return nil, err
-		}
-	}
-
 	// Type check the tree.
 	checkerOpts := checkerOptions{
 		mod:         programMod,
@@ -140,7 +132,7 @@ func BuildProgram(fsys fs.FS, opts Options) (*Code, error) {
 	}
 
 	// Emit the code.
-	code, err := emitProgram(tree.Nodes[0].(*ast.Package), typeInfos, tci["main"].IndirectVars)
+	code, err := emitProgram(tree.Nodes[0].(*ast.Package), typeInfos, tci[tree.Path].IndirectVars)
 	if err != nil {
 		return nil, err
 	}

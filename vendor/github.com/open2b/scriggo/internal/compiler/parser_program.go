@@ -6,6 +6,7 @@ package compiler
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"io/fs"
 	"strings"
@@ -53,12 +54,12 @@ func ParseProgram(fsys fs.FS) (*ast.Tree, error) {
 			return nil, err
 		}
 		if n.Tree == nil {
-			if n.Path == "main" {
+			if last == 0 {
 				return nil, errors.New("cannot find main package")
 			}
-			return nil, syntaxError(n.Position, "cannot find package %q", n.Path)
+			path := imports[last-1].Tree.Path
+			return nil, &SyntaxError{path, *n.Position, fmt.Sprintf("cannot find package %q", n.Path)}
 		}
-		n.Tree.Path = n.Path
 		trees[n.Path] = n.Tree
 
 		if modPath == "" {
@@ -117,11 +118,14 @@ func ParseProgram(fsys fs.FS) (*ast.Tree, error) {
 	return main.Tree, nil
 }
 
-// parsePackage parses a package at the given directory in fsys.
+// parsePackage parses the package located in dir within fsys and returns its
+// AST tree. If dir does not exist, it returns a nil tree and no error.
 func parsePackage(fsys fs.FS, dir string) (*ast.Tree, error) {
 	files, err := fs.ReadDir(fsys, dir)
 	if err != nil {
 		if errors.Is(err, fs.ErrNotExist) {
+			err = nil
+		} else if err2, ok := err.(*fs.PathError); ok && err2.Op == "readdir" {
 			err = nil
 		}
 		return nil, err
@@ -152,8 +156,12 @@ func parsePackage(fsys fs.FS, dir string) (*ast.Tree, error) {
 	}
 	tree, err := parseSource(src, false)
 	if err != nil {
+		if err, ok := err.(*SyntaxError); ok {
+			err.path = name
+		}
 		return nil, err
 	}
+	tree.Path = name
 	return tree, nil
 }
 
