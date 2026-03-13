@@ -37,7 +37,7 @@ then test if `scriggo` can be executed:
 
 ```shell
 $ scriggo version
-scriggo version v0.61.1 (go1.24)
+scriggo version v0.61.1 (go1.26.1)
 ```
 
 If the `scriggo` command is not found, you should add the directory where the command has been installed to your `PATH`.
